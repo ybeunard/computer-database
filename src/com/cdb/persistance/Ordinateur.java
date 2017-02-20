@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Ordinateur {
 
+	private int id;
 	private String name;
 	private Date dateIntroduit;
 	private Date dateInterrompu;
@@ -14,12 +15,21 @@ public class Ordinateur {
 		this.name = name;
 	}
 	
-	public Ordinateur(String name, Date dateIntroduit, Date dateInterrompu, Entreprise fabricant) {
+	public Ordinateur(int id, String name, Date dateIntroduit, Date dateInterrompu, Entreprise fabricant) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.dateIntroduit = dateIntroduit;
 		this.dateInterrompu = dateInterrompu;
 		this.fabricant = fabricant;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

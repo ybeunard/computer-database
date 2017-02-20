@@ -99,6 +99,7 @@ public final class OrdinateurDao {
             requete.setInt(1, index);
             ResultSet res = requete.executeQuery();
             if(res.next()){
+            	int id = res.getInt("id");
             	String name = res.getString("name");
 				Date dateIntroduit = null;
 				Date dateInterrompu = null;
@@ -111,10 +112,10 @@ public final class OrdinateurDao {
 				Integer fabricant = res.getInt("company_id");				
 				
 				if(fabricant == 0){
-					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, null);
+					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, null);
 				}
 				else{
-					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
+					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
 				}    
             }
         } catch (SQLException e) {
@@ -182,6 +183,7 @@ public final class OrdinateurDao {
 		
 		try {
 			while (rset.next()) {
+				int id = rset.getInt("id");
 				String name = rset.getString("name");
 				Date dateIntroduit = null;
 				Date dateInterrompu = null;
@@ -196,10 +198,10 @@ public final class OrdinateurDao {
 				Ordinateur ordinateur;
 				
 				if(fabricant == 0){
-					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, null);
+					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, null);
 				}
 				else{
-					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
+					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
 				}    
 			    
 			    ordinateurs.add(ordinateur);
