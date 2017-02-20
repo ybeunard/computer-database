@@ -97,41 +97,11 @@ public final class OrdinateurDao {
 				
 				Ordinateur ordinateur;
 				
-				if(dateIntroduit == null){
-					if(dateInterrompu == null){
-						if(fabricant == 0){
-							ordinateur = new Ordinateur(name);
-						}
-						else{
-							ordinateur = new Ordinateur(name, entrepriseDao.findEntrepriseByID(fabricant));
-						}
-					}
-					else{
-						if(fabricant == 0){
-							ordinateur = new Ordinateur(name, dateInterrompu, "interrompu");
-						}
-						else{
-							ordinateur = new Ordinateur(name, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant), "interrompu");
-						}
-					}
+				if(fabricant == 0){
+					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, null);
 				}
 				else{
-					if(dateInterrompu == null){
-						if(fabricant == 0){
-							ordinateur = new Ordinateur(name, dateInterrompu, "introduit");
-						}
-						else{
-							ordinateur = new Ordinateur(name, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant), "introduit");
-						}
-					}
-					else{
-						if(fabricant == 0){
-							ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu);
-						}
-						else{
-							ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
-						}
-					}
+					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
 				}
 			    
 			    

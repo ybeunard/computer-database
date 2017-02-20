@@ -14,42 +14,6 @@ public class Ordinateur {
 		this.name = name;
 	}
 	
-	public Ordinateur(String name, Date date, String typeDate) {
-		super();
-		this.name = name;
-		switch(typeDate){
-		case "introduit":
-			this.dateIntroduit = date;
-		case "interrompu":
-			this.dateInterrompu = date;
-		}
-	}
-	
-	public Ordinateur(String name, Entreprise fabricant) {
-		super();
-		this.name = name;
-		this.fabricant = fabricant;
-	}
-	
-	public Ordinateur(String name, Date dateIntroduit, Date dateInterrompu) {
-		super();
-		this.name = name;
-		this.dateIntroduit = dateIntroduit;
-		this.dateInterrompu = dateInterrompu;
-	}
-	
-	public Ordinateur(String name, Date date, Entreprise fabricant, String typeDate) {
-		super();
-		this.name = name;
-		switch(typeDate){
-		case "introduit":
-			this.dateIntroduit = date;
-		case "interrompu":
-			this.dateInterrompu = date;
-		}
-		this.fabricant = fabricant;
-	}
-	
 	public Ordinateur(String name, Date dateIntroduit, Date dateInterrompu, Entreprise fabricant) {
 		super();
 		this.name = name;
