@@ -13,8 +13,8 @@ import com.cdb.persistance.Ordinateur;
 public class OrdinateurDao {
 	
 	private static String URL = "jdbc:mysql://localhost:3306/computer-database-db";
-    private static String LOGIN = "root";
-    private static String PASSWORD = "";
+    private static String LOGIN = "admincdb";
+    private static String PASSWORD = "qwerty1234";
     private final static String QUERY_FIND_ORDINATEURS = "SELECT * FROM computer ";
 
     // Fonction qui recupere la liste de tous les ordinateurs
@@ -60,7 +60,7 @@ public class OrdinateurDao {
 	}
 	
 	// Fonction de recuperation de resultat de la requete en format List Ordinateur pour qu'elle soit traitable par l'application.
-	public List<Ordinateur> recuperationResultatRequete(ResultSet rset){
+	private List<Ordinateur> recuperationResultatRequete(ResultSet rset){
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
 		
 		try {
