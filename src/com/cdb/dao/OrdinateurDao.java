@@ -20,9 +20,16 @@ public class OrdinateurDao {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
 		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		Connection con = null; 
 		Statement stmt = null;
 		try {
+			
             con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery(QUERY_FIND_ELEVES);
