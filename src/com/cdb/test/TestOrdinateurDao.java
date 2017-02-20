@@ -45,7 +45,9 @@ public class TestOrdinateurDao {
         	System.out.println("suppression reussi");
         }
         
-        ordinateurDao.createOrdinateur(ordinateur2);;
+        ordinateur1.setFabricant(null);
+        ordinateurDao.createOrdinateur(ordinateur1);
+        ordinateurDao.createOrdinateur(ordinateur2);
         
         Ordinateur ordinateur3 = ordinateurDao.findOrdinateurByID(10);
         
