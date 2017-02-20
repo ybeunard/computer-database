@@ -43,5 +43,7 @@ public class TestOrdinateurDao {
         	System.out.println("suppression reussi");
         }
         
+        ordinateurDao.createOrdinateur(ordinateur2);;
+        
 	}
 }

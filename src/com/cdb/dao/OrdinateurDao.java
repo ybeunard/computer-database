@@ -18,6 +18,7 @@ public final class OrdinateurDao {
 	private static String URL = "jdbc:mysql://localhost:3306/computer-database-db";
     private static String LOGIN = "admincdb";
     private static String PASSWORD = "qwerty1234";
+    private final static String QUERY_INSERT_ORDINATEURS_BY_ID = "INSERT INTO computer (name,introduced,discontinued,company_id) values ( ?, ?, ?, ?);";
     private final static String QUERY_FIND_ORDINATEURS = "SELECT * FROM computer ";
     private final static String QUERY_FIND_ORDINATEURS_BY_ID = "SELECT * FROM computer where id=?";
     private final static String QUERY_DELETE_ORDINATEURS_BY_ID = "DELETE FROM computer where id=?";
@@ -37,6 +38,51 @@ public final class OrdinateurDao {
            }
         }
         return OrdinateurDao.instance;
+    }
+    
+    //fonction qui cree un ordinateur
+    public void createOrdinateur(Ordinateur ordinateur){
+    	try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Connection con = null; 
+		PreparedStatement requete = null;
+		
+		try {
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            requete = con.prepareStatement(QUERY_INSERT_ORDINATEURS_BY_ID);
+            requete.setString(1, ordinateur.getName());
+            requete.setDate(2, (java.sql.Date) ordinateur.getDateIntroduit());
+            requete.setDate(3, (java.sql.Date) ordinateur.getDateInterrompu());
+            if(ordinateur.getFabricant() != null){
+            	requete.setInt(4, ordinateur.getFabricant().getId());
+            }
+            else{
+            	requete.setString(5, null);
+            }
+            requete.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (requete != null) {
+                try {
+                    requete.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     
     // Fonction qui recupere la liste de tous les ordinateurs
@@ -81,6 +127,7 @@ public final class OrdinateurDao {
 		return ordinateurs;
 	}
 	
+	// Fonction qui recupere un ordinateur via son ID
 	public Ordinateur findOrdinateurByID(int index){
 		Ordinateur ordinateur = null;
 		
@@ -141,6 +188,7 @@ public final class OrdinateurDao {
 		return ordinateur;
 	}
 	
+	//fonction qui supprime un ordinateur
 	public void suppressionOrdinateur(int index){
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
