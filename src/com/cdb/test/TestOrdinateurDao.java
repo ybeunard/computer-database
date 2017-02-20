@@ -38,5 +38,10 @@ public class TestOrdinateurDao {
         	System.out.println("suppression reussi");
         }
         
+        ordinateurDao.suppressionOrdinateur(15);
+        if(ordinateurDao.findOrdinateurByID(4) == null){
+        	System.out.println("suppression reussi");
+        }
+        
 	}
 }

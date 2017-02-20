@@ -96,7 +96,7 @@ public final class EntrepriseDao {
             requete.setInt(1, index);
             ResultSet res = requete.executeQuery();
             if(res.next()){
-            	entreprise = new Entreprise(res.getString("name"));
+            	entreprise = new Entreprise(res.getInt("id"), res.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,8 +127,7 @@ public final class EntrepriseDao {
 		
 		try {
 			while (rset.next()) {
-				String name = rset.getString("name");
-				entreprises.add(new Entreprise(name));
+				entreprises.add(new Entreprise(rset.getInt("id"), rset.getString("name")));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
