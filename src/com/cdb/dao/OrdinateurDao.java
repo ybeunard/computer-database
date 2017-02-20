@@ -18,11 +18,12 @@ public final class OrdinateurDao {
 	private static String URL = "jdbc:mysql://localhost:3306/computer-database-db";
     private static String LOGIN = "admincdb";
     private static String PASSWORD = "qwerty1234";
-    private final static String QUERY_INSERT_ORDINATEURS_BY_ID = "INSERT INTO computer (name,introduced,discontinued,company_id) values ( ?, ?, ?, ?);";
+    private final static String QUERY_INSERT_ORDINATEUR = "INSERT INTO computer (name,introduced,discontinued,company_id) values ( ?, ?, ?, ?);";
     private final static String QUERY_FIND_ORDINATEURS = "SELECT * FROM computer ";
     private final static String QUERY_FIND_ORDINATEURS_BY_ID = "SELECT * FROM computer where id=?";
-    private final static String QUERY_DELETE_ORDINATEURS_BY_ID = "DELETE FROM computer where id=?";
-
+    private final static String QUERY_UPDATE_ORDINATEUR = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
+    private final static String QUERY_DELETE_ORDINATEUR = "DELETE FROM computer where id=?";
+    
     private static volatile OrdinateurDao instance = null;
     private OrdinateurDao() {
         super();
@@ -53,7 +54,7 @@ public final class OrdinateurDao {
 		
 		try {
             con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-            requete = con.prepareStatement(QUERY_INSERT_ORDINATEURS_BY_ID);
+            requete = con.prepareStatement(QUERY_INSERT_ORDINATEUR);
             requete.setString(1, ordinateur.getName());
             requete.setDate(2, (java.sql.Date) ordinateur.getDateIntroduit());
             requete.setDate(3, (java.sql.Date) ordinateur.getDateInterrompu());
@@ -61,7 +62,7 @@ public final class OrdinateurDao {
             	requete.setInt(4, ordinateur.getFabricant().getId());
             }
             else{
-            	requete.setString(5, null);
+            	requete.setString(4, null);
             }
             requete.executeUpdate();
         } catch (SQLException e) {
@@ -188,6 +189,51 @@ public final class OrdinateurDao {
 		return ordinateur;
 	}
 	
+	public void updateOrdinateur(Ordinateur ordinateur){
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Connection con = null; 
+		PreparedStatement requete = null;
+		try {
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            requete = con.prepareStatement(QUERY_UPDATE_ORDINATEUR);
+            requete.setString(1, ordinateur.getName());
+            requete.setDate(2, (java.sql.Date) ordinateur.getDateIntroduit());
+            requete.setDate(3, (java.sql.Date) ordinateur.getDateInterrompu());
+            if(ordinateur.getFabricant() != null){
+            	requete.setInt(4, ordinateur.getFabricant().getId());
+            }
+            else{
+            	requete.setString(4, null);
+            }
+            requete.setInt(5, ordinateur.getId());
+            requete.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+            if (requete != null) {
+                try {
+                    requete.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		
+	}
+	
 	//fonction qui supprime un ordinateur
 	public void suppressionOrdinateur(int index){
 		try {
@@ -200,7 +246,7 @@ public final class OrdinateurDao {
 		PreparedStatement requete = null;
 		try {
             con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-            requete = con.prepareStatement(QUERY_DELETE_ORDINATEURS_BY_ID);
+            requete = con.prepareStatement(QUERY_DELETE_ORDINATEUR);
             requete.setInt(1, index);
             requete.executeUpdate();
 		}catch(SQLException e){

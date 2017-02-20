@@ -2,12 +2,14 @@ package com.cdb.test;
 
 import java.util.List;
 
+import com.cdb.dao.EntrepriseDao;
 import com.cdb.dao.OrdinateurDao;
 import com.cdb.persistance.Ordinateur;
 
 public class TestOrdinateurDao {
 
 	public static void main(String args[]){
+		EntrepriseDao entrepriseDao = EntrepriseDao.getInstanceEntrepriseDao();
 		OrdinateurDao ordinateurDao = OrdinateurDao.getInstanceOrdinateurDao();
         List<Ordinateur> ordinateurs = ordinateurDao.findOrdinateur();
 
@@ -45,5 +47,23 @@ public class TestOrdinateurDao {
         
         ordinateurDao.createOrdinateur(ordinateur2);;
         
+        Ordinateur ordinateur3 = ordinateurDao.findOrdinateurByID(10);
+        
+        System.out.println("Ordinateur numero 10 :" +ordinateur3.getName() + "\t" + ordinateur3.getDateIntroduit() + "\t" + ordinateur3.getDateInterrompu());
+        if(ordinateur3.getFabricant() != null){
+        	System.out.println(ordinateur3.getFabricant().getName() + "\n");
+        }
+        
+        ordinateur3.setName("ASUS REPUBLIC OF GAMER");
+        ordinateur3.setFabricant(entrepriseDao.findEntrepriseByID(5));
+        
+        ordinateurDao.updateOrdinateur(ordinateur3);
+        
+        ordinateur3 = ordinateurDao.findOrdinateurByID(10);
+        
+        System.out.println("Ordinateur numero 10 :" +ordinateur3.getName() + "\t" + ordinateur3.getDateIntroduit() + "\t" + ordinateur3.getDateInterrompu());
+        if(ordinateur3.getFabricant() != null){
+        	System.out.println(ordinateur3.getFabricant().getName() + "\n");
+        }
 	}
 }
