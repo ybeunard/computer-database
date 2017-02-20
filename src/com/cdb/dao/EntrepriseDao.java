@@ -11,13 +11,13 @@ import java.util.List;
 
 import com.cdb.persistance.Entreprise;
 
-public class EntrepriseDao {
+public final class EntrepriseDao {
 
 	private static String URL = "jdbc:mysql://localhost:3306/computer-database-db";
     private static String LOGIN = "root";
     private static String PASSWORD = "";
     private final static String QUERY_FIND_ENTREPRISES = "SELECT * FROM company ";
-    private final static String QUERY_FIND_ENTREPRISES_BY_ID = "SELECT name FROM company where id=?";
+    private final static String QUERY_FIND_ENTREPRISES_BY_ID = "SELECT * FROM company where id=?";
 
     // Fonction qui recupere la liste de tous les entreprises
 	public List<Entreprise> findEntreprise(){
@@ -78,7 +78,10 @@ public class EntrepriseDao {
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             PreparedStatement requete = con.prepareStatement(QUERY_FIND_ENTREPRISES_BY_ID);
             requete.setInt(1, index);
-            entreprise = new Entreprise(requete.toString());
+            ResultSet res = requete.executeQuery();
+            if(res.next()){
+            	entreprise = new Entreprise(res.getString("name"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

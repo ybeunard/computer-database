@@ -10,13 +10,31 @@ import java.util.Date;
 import java.util.List;
 import com.cdb.persistance.Ordinateur;
 
-public class OrdinateurDao {
+public final class OrdinateurDao {
 	
+	private static EntrepriseDao entrepriseDao;
 	private static String URL = "jdbc:mysql://localhost:3306/computer-database-db";
     private static String LOGIN = "admincdb";
     private static String PASSWORD = "qwerty1234";
     private final static String QUERY_FIND_ORDINATEURS = "SELECT * FROM computer ";
 
+    private static volatile OrdinateurDao instance = null;
+    private OrdinateurDao() {
+        super();
+        entrepriseDao = new EntrepriseDao();
+    }
+  
+    public final static OrdinateurDao getInstanceOrdinateurDao() {
+        if (OrdinateurDao.instance == null) {
+           synchronized(OrdinateurDao.class) {
+             if (OrdinateurDao.instance == null) {
+            	 OrdinateurDao.instance = new OrdinateurDao();
+             }
+           }
+        }
+        return OrdinateurDao.instance;
+    }
+    
     // Fonction qui recupere la liste de tous les ordinateurs
 	public List<Ordinateur> findOrdinateur(){
 		
@@ -61,6 +79,7 @@ public class OrdinateurDao {
 	
 	// Fonction de recuperation de resultat de la requete en format List Ordinateur pour qu'elle soit traitable par l'application.
 	private List<Ordinateur> recuperationResultatRequete(ResultSet rset){
+		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
 		
 		try {
@@ -68,13 +87,13 @@ public class OrdinateurDao {
 				String name = rset.getString("name");
 				Date dateIntroduit = null;
 				Date dateInterrompu = null;
-				Integer fabricant = rset.getInt("company_id");
 				try {
 					dateIntroduit = rset.getDate("introduced");
 				}catch(SQLException e){}
 				try {
 					dateInterrompu = rset.getDate("discontinued");
 				}catch(SQLException e){}
+				Integer fabricant = rset.getInt("company_id");				
 				
 				Ordinateur ordinateur;
 				
@@ -84,8 +103,7 @@ public class OrdinateurDao {
 							ordinateur = new Ordinateur(name);
 						}
 						else{
-							// actuellement le fabricant n'est pas traiter
-							ordinateur = new Ordinateur(name);
+							ordinateur = new Ordinateur(name, entrepriseDao.findEntrepriseByID(fabricant));
 						}
 					}
 					else{
@@ -93,8 +111,7 @@ public class OrdinateurDao {
 							ordinateur = new Ordinateur(name, dateInterrompu, "interrompu");
 						}
 						else{
-							// actuellement le fabricant n'est pas traiter
-							ordinateur = new Ordinateur(name, dateInterrompu, "interrompu");
+							ordinateur = new Ordinateur(name, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant), "interrompu");
 						}
 					}
 				}
@@ -104,8 +121,7 @@ public class OrdinateurDao {
 							ordinateur = new Ordinateur(name, dateInterrompu, "introduit");
 						}
 						else{
-							// actuellement le fabricant n'est pas traiter
-							ordinateur = new Ordinateur(name, dateInterrompu, "introduit");
+							ordinateur = new Ordinateur(name, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant), "introduit");
 						}
 					}
 					else{
@@ -113,8 +129,7 @@ public class OrdinateurDao {
 							ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu);
 						}
 						else{
-							// actuellement le fabricant n'est pas traiter
-							ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu);
+							ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
 						}
 					}
 				}
