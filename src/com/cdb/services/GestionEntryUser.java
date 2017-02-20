@@ -7,7 +7,7 @@ import com.cdb.persistance.Ordinateur;
 
 public class GestionEntryUser {
 
-	public void lectureEntryUser(String arg){
+	public static void lectureEntryUser(String arg){
 		
 		String[] splitArray = arg.split(" ");
 		
@@ -18,7 +18,8 @@ public class GestionEntryUser {
 		case "afficher":
 			
 		case "create":
-			
+			createOrdinateur(splitArray);
+			break;
 		case "update":
 			
 		case "delete":
@@ -30,12 +31,12 @@ public class GestionEntryUser {
 		}
 	}
 	
-	public void createOrdinateur(String args[]){
+	public static void createOrdinateur(String args[]){
 		if(args.length < 2 && args.length%2 == 0){
 			System.out.println("Nombre d'argument incorecte");
 			return;
 		}
-		Ordinateur ordinateur = new Ordinateur(args[2]);
+		Ordinateur ordinateur = new Ordinateur(args[1]);
 		for(int i=2; i<args.length; i=i+2){
 			switch(args[i]){
 			
