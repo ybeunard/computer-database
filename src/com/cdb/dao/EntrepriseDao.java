@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cdb.persistance.Entreprise;
-import com.cdb.persistance.Ordinateur;
 
 public class EntrepriseDao {
 
@@ -57,6 +56,21 @@ public class EntrepriseDao {
                 }
             }
         }
+		return entreprises;
+	}
+
+	// Fonction de recuperation de resultat de la requete en format List Entreprise pour qu'elle soit traitable par l'application.
+	private List<Entreprise> recuperationResultatRequete(ResultSet rset) {
+		List<Entreprise> entreprises = new ArrayList<Entreprise>();
+		
+		try {
+			while (rset.next()) {
+				String name = rset.getString("name");
+				entreprises.add(new Entreprise(name));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 		return entreprises;
 	}
 }
