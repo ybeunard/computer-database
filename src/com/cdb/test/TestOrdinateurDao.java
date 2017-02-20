@@ -33,5 +33,10 @@ public class TestOrdinateurDao {
         	System.out.println(ordinateur2.getFabricant().getName() + "\n");
         }
         
+        ordinateurDao.suppressionOrdinateur(4);
+        if(ordinateurDao.findOrdinateurByID(4) == null){
+        	System.out.println("suppression reussi");
+        }
+        
 	}
 }
