@@ -2,12 +2,14 @@ package com.cdb.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import com.cdb.persistance.Ordinateur;
 
 public final class OrdinateurDao {
@@ -17,6 +19,7 @@ public final class OrdinateurDao {
     private static String LOGIN = "admincdb";
     private static String PASSWORD = "qwerty1234";
     private final static String QUERY_FIND_ORDINATEURS = "SELECT * FROM computer ";
+    private final static String QUERY_FIND_ORDINATEURS_BY_ID = "SELECT * FROM computer where id=?";
 
     private static volatile OrdinateurDao instance = null;
     private OrdinateurDao() {
@@ -77,6 +80,65 @@ public final class OrdinateurDao {
 		return ordinateurs;
 	}
 	
+	public Ordinateur findOrdinateurByID(int index){
+		Ordinateur ordinateur = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Connection con = null; 
+		Statement stmt = null;
+		try {
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement requete = con.prepareStatement(QUERY_FIND_ORDINATEURS_BY_ID);
+            requete.setInt(1, index);
+            ResultSet res = requete.executeQuery();
+            if(res.next()){
+            	String name = res.getString("name");
+				Date dateIntroduit = null;
+				Date dateInterrompu = null;
+				try {
+					dateIntroduit = res.getDate("introduced");
+				}catch(SQLException e){}
+				try {
+					dateInterrompu = res.getDate("discontinued");
+				}catch(SQLException e){}
+				Integer fabricant = res.getInt("company_id");				
+				
+				if(fabricant == 0){
+					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, null);
+				}
+				else{
+					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
+				}    
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		
+		return ordinateur;
+	}
+	
 	// Fonction de recuperation de resultat de la requete en format List Ordinateur pour qu'elle soit traitable par l'application.
 	private List<Ordinateur> recuperationResultatRequete(ResultSet rset){
 		
@@ -102,8 +164,7 @@ public final class OrdinateurDao {
 				}
 				else{
 					ordinateur = new Ordinateur(name, dateIntroduit, dateInterrompu, entrepriseDao.findEntrepriseByID(fabricant));
-				}
-			    
+				}    
 			    
 			    ordinateurs.add(ordinateur);
 			}
