@@ -13,7 +13,8 @@ public class TestOrdinateurDao {
 
         System.out.println("Liste des ordinateurs");
         for (Ordinateur ordinateur : ordinateurs) {
-            System.out.println(ordinateur);
+            System.out.println(ordinateur.getName() + " " + ordinateur.getDateIntroduit() + " " + ordinateur.getDateInterrompu());
         }
+        
 	}
 }
