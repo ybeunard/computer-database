@@ -19,5 +19,19 @@ public class TestOrdinateurDao {
             }
         }
         
+        Ordinateur ordinateur1 = ordinateurDao.findOrdinateurByID(4);
+        
+        System.out.println("Ordinateur numero 4 :" +ordinateur1.getName() + "\t" + ordinateur1.getDateIntroduit() + "\t" + ordinateur1.getDateInterrompu());
+        if(ordinateur1.getFabricant() != null){
+        	System.out.println(ordinateur1.getFabricant().getName() + "\n");
+        }
+        
+        Ordinateur ordinateur2 = ordinateurDao.findOrdinateurByID(15);
+        
+        System.out.println("Ordinateur numero 15 :" +ordinateur2.getName() + "\t" + ordinateur2.getDateIntroduit() + "\t" + ordinateur2.getDateInterrompu());
+        if(ordinateur2.getFabricant() != null){
+        	System.out.println(ordinateur2.getFabricant().getName() + "\n");
+        }
+        
 	}
 }
