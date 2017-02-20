@@ -21,7 +21,7 @@ public final class OrdinateurDao {
     private static volatile OrdinateurDao instance = null;
     private OrdinateurDao() {
         super();
-        entrepriseDao = new EntrepriseDao();
+        entrepriseDao = EntrepriseDao.getInstanceEntrepriseDao();
     }
   
     public final static OrdinateurDao getInstanceOrdinateurDao() {

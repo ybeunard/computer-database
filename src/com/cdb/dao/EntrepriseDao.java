@@ -19,6 +19,22 @@ public final class EntrepriseDao {
     private final static String QUERY_FIND_ENTREPRISES = "SELECT * FROM company ";
     private final static String QUERY_FIND_ENTREPRISES_BY_ID = "SELECT * FROM company where id=?";
 
+    private static volatile EntrepriseDao instance = null;
+    private EntrepriseDao() {
+        super();
+    }
+  
+    public final static EntrepriseDao getInstanceEntrepriseDao() {
+        if (EntrepriseDao.instance == null) {
+           synchronized(EntrepriseDao.class) {
+             if (EntrepriseDao.instance == null) {
+            	 EntrepriseDao.instance = new EntrepriseDao();
+             }
+           }
+        }
+        return EntrepriseDao.instance;
+    }
+    
     // Fonction qui recupere la liste de tous les entreprises
 	public List<Entreprise> findEntreprise(){
 		
