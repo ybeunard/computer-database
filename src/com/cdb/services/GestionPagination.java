@@ -75,7 +75,7 @@ public class GestionPagination {
 			break;
 		case 2:
 			for(Entreprise entreprise : pageEntreprise){
-				System.out.println(entreprise.getId() + "\t" + entreprise.getName());
+				System.out.println(entreprise);
 			}
 			break;
 		default:

@@ -18,4 +18,10 @@ public class Entreprise {
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+	public String toString(){
+		String chaine= this.id + "\t" + this.name;
+		return chaine;
+	}
 }
