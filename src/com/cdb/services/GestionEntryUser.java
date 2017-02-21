@@ -186,13 +186,7 @@ public class GestionEntryUser {
 			System.out.println("Veuillez donner un id d'ordinateur correct");
 			return;
 		}
-		System.out.print("Ordinateur numero "+ ordinateur.getId() + " : " + ordinateur.getName() + "\t" + ordinateur.getDateIntroduit() + "\t" + ordinateur.getDateInterrompu() + "\t");
-        if(ordinateur.getFabricant() != null){
-        	System.out.println(ordinateur.getFabricant().getName() + "\n");
-        }
-        else{
-        	System.out.println("NULL");
-        }
+		System.out.println(ordinateur);
 	}
 	
 	//permet de recuperer les arguments et de update un ordinateur.

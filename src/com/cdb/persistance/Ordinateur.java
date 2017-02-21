@@ -59,4 +59,17 @@ public class Ordinateur {
 	public void setFabricant(Entreprise fabricant) {
 		this.fabricant = fabricant;
 	}
+	
+	@Override
+	public String toString(){
+		String chaine = "Ordinateur numero ";
+		chaine += this.id + " : " + this.name + "\t" + this.dateIntroduit + "\t" + this.dateInterrompu + "\t";
+        if(this.fabricant != null){
+        	chaine += this.fabricant.getName();
+        }
+        else{
+        	chaine += "NULL";
+        }
+		return chaine;
+	}
 }
