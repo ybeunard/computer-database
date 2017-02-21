@@ -54,7 +54,12 @@ public class Ordinateur {
 	}
 
 	public void setDateIntroduit(Date dateIntroduit) {
-		this.dateIntroduit = dateIntroduit;
+		if(dateIntroduit != null && this.dateInterrompu != null && dateIntroduit.before(this.dateInterrompu)){
+			this.dateIntroduit = dateIntroduit;
+		}
+		else{
+			System.out.println("Update de dateIntroduit impossible car incompatible avec dateInterrompu");
+		}
 	}
 
 	public Date getDateInterrompu() {
@@ -62,7 +67,12 @@ public class Ordinateur {
 	}
 
 	public void setDateInterrompu(Date dateInterrompu) {
-		this.dateInterrompu = dateInterrompu;
+		if(this.dateIntroduit != null && dateInterrompu != null && this.dateIntroduit.before(dateInterrompu)){
+			this.dateInterrompu = dateInterrompu;
+		}
+		else{
+			System.out.println("Update de dateInterrompu impossible car incompatible avec dateIntroduit");
+		}
 	}
 
 	public Entreprise getFabricant() {
