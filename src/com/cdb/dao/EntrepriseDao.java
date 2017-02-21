@@ -210,6 +210,7 @@ public final class EntrepriseDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+		
 		return entreprises;
 	}
 }

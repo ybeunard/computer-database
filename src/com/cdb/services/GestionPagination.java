@@ -21,7 +21,12 @@ public class GestionPagination {
 	
 	public GestionPagination(int ligneParPage){
 		this.numeroPage = 1;
-		this.ligneParPage = ligneParPage;
+		if(ligneParPage > 0){
+			this.ligneParPage = ligneParPage;
+		}
+		else{
+			this.ligneParPage = 100;
+		}
 	}
 	
 	public void pagination(int typePage){

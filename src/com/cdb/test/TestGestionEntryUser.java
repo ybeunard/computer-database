@@ -12,6 +12,7 @@ public class TestGestionEntryUser {
 		GestionEntryUser.lectureEntryUser("help affiche");
 		
 		GestionEntryUser.lectureEntryUser("create 'newOrdinateur' introduction 2021/11/12 interruption 2000/07/24");
+		GestionEntryUser.lectureEntryUser("create 'newOrdinateur' introduction 2000/07/24 interruption 2021/11/12");
 		GestionEntryUser.lectureEntryUser("create 'newOrdinateur'");
 		GestionEntryUser.lectureEntryUser("create 'newOrdinateur' fabricant 3");
 		GestionEntryUser.lectureEntryUser("create 'newOrdinateur' fabricant tj");
@@ -28,6 +29,7 @@ public class TestGestionEntryUser {
 		
 		GestionEntryUser.lectureEntryUser("delete 4");
 		GestionEntryUser.lectureEntryUser("delete 15");
+		
 		GestionEntryUser.lectureEntryUser("list company");
 	}
 }

@@ -25,7 +25,7 @@ public class Ordinateur {
 				this.dateInterrompu = dateInterrompu;
 			}
 			else{
-				System.out.println("Date Introduit n'est pas compatible avec dateInterrompu");
+				System.out.println("Date Introduit " + dateIntroduit + " n'est pas compatible avec dateInterrompu " + dateInterrompu);
 				this.dateIntroduit = null;
 				this.dateInterrompu = null;
 			}
@@ -54,11 +54,16 @@ public class Ordinateur {
 	}
 
 	public void setDateIntroduit(Date dateIntroduit) {
-		if(dateIntroduit != null && this.dateInterrompu != null && dateIntroduit.before(this.dateInterrompu)){
-			this.dateIntroduit = dateIntroduit;
+		if(dateIntroduit != null && this.dateInterrompu != null){
+			if(dateIntroduit.before(this.dateInterrompu)){
+				this.dateIntroduit = dateIntroduit;
+			}
+			else{
+				System.out.println("Update de dateIntroduit " + dateIntroduit + " impossible car incompatible avec dateInterrompu " + this.dateInterrompu);
+			}
 		}
 		else{
-			System.out.println("Update de dateIntroduit impossible car incompatible avec dateInterrompu");
+			this.dateIntroduit = dateIntroduit;
 		}
 	}
 
@@ -67,11 +72,16 @@ public class Ordinateur {
 	}
 
 	public void setDateInterrompu(Date dateInterrompu) {
-		if(this.dateIntroduit != null && dateInterrompu != null && this.dateIntroduit.before(dateInterrompu)){
-			this.dateInterrompu = dateInterrompu;
+		if(this.dateIntroduit != null && dateInterrompu != null){
+			if(this.dateIntroduit.before(dateInterrompu)){
+				this.dateInterrompu = dateInterrompu;
+			}
+			else{
+				System.out.println("Update de dateInterrompu " + dateInterrompu + " impossible car incompatible avec dateIntroduit " + this.dateIntroduit);
+			}
 		}
 		else{
-			System.out.println("Update de dateInterrompu impossible car incompatible avec dateIntroduit");
+			this.dateInterrompu = dateInterrompu;
 		}
 	}
 
