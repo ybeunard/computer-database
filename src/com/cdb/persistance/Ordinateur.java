@@ -15,12 +15,25 @@ public class Ordinateur {
 		this.name = name;
 	}
 	
-	public Ordinateur(int id, String name, Date dateIntroduit, Date dateInterrompu, Entreprise fabricant) {
+	public Ordinateur(int id, String name, Date dateIntroduit, Date dateInterrompu, Entreprise fabricant){
 		super();
 		this.id = id;
 		this.name = name;
-		this.dateIntroduit = dateIntroduit;
-		this.dateInterrompu = dateInterrompu;
+		if(dateIntroduit != null && dateInterrompu != null){
+			if(dateIntroduit.before(dateInterrompu)){
+				this.dateIntroduit = dateIntroduit;
+				this.dateInterrompu = dateInterrompu;
+			}
+			else{
+				System.out.println("Date Introduit n'est pas compatible avec dateInterrompu");
+				this.dateIntroduit = null;
+				this.dateInterrompu = null;
+			}
+		}
+		else{
+			this.dateIntroduit = dateIntroduit;
+			this.dateInterrompu = dateInterrompu;
+		}
 		this.fabricant = fabricant;
 	}
 
