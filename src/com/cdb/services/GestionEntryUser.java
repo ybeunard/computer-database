@@ -47,9 +47,22 @@ public class GestionEntryUser {
 			}
 			break;
 		case "delete":
-			
+			if(splitArray.length != 2){
+				System.out.println("Nombre d'argument incorecte");
+				return;
+			}
+			deleteOrdinateur(splitArray[1]);
+			break;
 		case "help":
-			
+			if(splitArray.length == 2){
+				System.out.println("Nombre d'argument incorecte");
+				return;
+			}
+			else if(splitArray.length == 1){
+				System.out.println("Liste des commande :\nliste\naffiche\ncreate\nupdate\ndelete\nhelp\nPour une description détaillé de chaque commande taper: help [commande]");
+			}
+			System.out.println("Nombre d'argument incorecte");
+			break;
 		default:
 			System.out.println("Argument : " + splitArray[0] + " incorrecte, tapez help pour la liste des commandes");
 		}
@@ -236,4 +249,16 @@ public class GestionEntryUser {
 		System.out.println("Nombre d'argument incorecte ");
 		return null;
 	}
+	
+	//permet de recuperer les arguments et d'afficher un ordinateur précis en détails.
+		private static void deleteOrdinateur(String arg) {
+			
+			try{
+				int id = Integer.parseInt(arg);
+				OrdinateurDao.getInstanceOrdinateurDao().suppressionOrdinateur(id);
+			}catch(NumberFormatException e){
+				System.out.println("Veuillez donner un id d'ordinateur correct");
+				return;
+			}
+		}
 }
