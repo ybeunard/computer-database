@@ -7,6 +7,9 @@ public class TestGestionEntryUser {
 	public static void main(String args[]){
 		
 		GestionEntryUser.lectureEntryUser("help");
+		GestionEntryUser.lectureEntryUser("help create");
+		GestionEntryUser.lectureEntryUser("help test");
+		GestionEntryUser.lectureEntryUser("help affiche");
 		
 		GestionEntryUser.lectureEntryUser("create 'newOrdinateur' introduction 2021/11/12 interruption 2000/07/24");
 		GestionEntryUser.lectureEntryUser("create 'newOrdinateur'");

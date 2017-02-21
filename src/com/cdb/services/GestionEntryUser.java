@@ -55,13 +55,12 @@ public class GestionEntryUser {
 			break;
 		case "help":
 			if(splitArray.length == 2){
-				System.out.println("Nombre d'argument incorecte");
-				return;
+				help(splitArray[1]);
 			}
 			else if(splitArray.length == 1){
 				System.out.println("Liste des commande :\nliste\naffiche\ncreate\nupdate\ndelete\nhelp\nPour une description détaillé de chaque commande taper: help [commande]");
 			}
-			System.out.println("Nombre d'argument incorecte");
+			else System.out.println("Nombre d'argument incorecte");
 			break;
 		default:
 			System.out.println("Argument : " + splitArray[0] + " incorrecte, tapez help pour la liste des commandes");
@@ -250,7 +249,7 @@ public class GestionEntryUser {
 		return null;
 	}
 	
-	//permet de recuperer les arguments et d'afficher un ordinateur précis en détails.
+	//permet de recuperer les arguments et supprimer un ordinateur précis.
 		private static void deleteOrdinateur(String arg) {
 			
 			try{
@@ -259,6 +258,30 @@ public class GestionEntryUser {
 			}catch(NumberFormatException e){
 				System.out.println("Veuillez donner un id d'ordinateur correct");
 				return;
+			}
+		}
+		
+		private static void help(String arg){
+			switch(arg){
+			
+			case "liste":
+				break;
+			case "affiche":
+				System.out.println("Syntaxe: affiche id_ordinateur");
+				break;
+			case "create":
+				System.out.println("Syntaxe: create 'nom ordinateur' [introduction date_introduction] [interruption date_interruption] [fabricant id_fabricant]");
+				System.out.println("Les crochets signifie que l'argument est optionnel.");
+				break;
+			case "update":
+				System.out.println("Syntaxe: update id_ordinateur [name 'nom ordinateur'] [introduction date_introduction] [interruption date_interruption] [fabricant id_fabricant]");
+				System.out.println("Les crochets signifie que l'argument est optionnel, il faut au moins un argument optionnel pour modifier.");
+				break;
+			case "delete":
+				System.out.println("Syntaxe: delete id_ordinateur");
+				break;
+			default:
+				System.out.println("Argument : " + arg + " incorrecte, tapez help pour la liste des commandes");
 			}
 		}
 }
