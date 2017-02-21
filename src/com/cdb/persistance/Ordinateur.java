@@ -1,6 +1,6 @@
 package com.cdb.persistance;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Ordinateur {
 

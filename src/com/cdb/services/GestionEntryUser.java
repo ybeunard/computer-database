@@ -1,15 +1,19 @@
 package com.cdb.services;
 
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import com.cdb.dao.EntrepriseDao;
+import com.cdb.dao.OrdinateurDao;
 import com.cdb.persistance.Ordinateur;
+import com.cdb.persistance.Entreprise;
 
 public class GestionEntryUser {
 
 	public static void lectureEntryUser(String arg){
 		
-		String[] splitArray = arg.split(" ");
+		String[] splitArray = arg.split(" ", 2);
 		
 		switch(splitArray[0]){
 		
@@ -18,7 +22,12 @@ public class GestionEntryUser {
 		case "afficher":
 			
 		case "create":
-			createOrdinateur(splitArray);
+			if(splitArray.length != 2){
+				System.out.println("Nombre d'argument incorecte");
+				return;
+			}
+			Ordinateur ordinateur = createOrdinateur(splitArray[1]);
+			if(ordinateur != null)OrdinateurDao.getInstanceOrdinateurDao().createOrdinateur(ordinateur);
 			break;
 		case "update":
 			
@@ -31,34 +40,77 @@ public class GestionEntryUser {
 		}
 	}
 	
-	public static void createOrdinateur(String args[]){
-		if(args.length < 2 && args.length%2 == 0){
-			System.out.println("Nombre d'argument incorecte");
-			return;
+	public static Ordinateur createOrdinateur(String args){
+		
+		String[] argArray = args.split("'", 3);
+		Ordinateur ordinateur = new Ordinateur(argArray[1]);
+		if(argArray[2].isEmpty()){
+			System.out.println("Ordinateur : " +ordinateur.getName() + "\t" + ordinateur.getDateIntroduit() + "\t" + ordinateur.getDateInterrompu());
+	        if(ordinateur.getFabricant() != null){
+	        	System.out.println(ordinateur.getFabricant().getName() + "\n");
+	        }
+			return ordinateur;
 		}
-		Ordinateur ordinateur = new Ordinateur(args[1]);
-		for(int i=2; i<args.length; i=i+2){
-			switch(args[i]){
+		argArray = argArray[2].split(" ", 2);
+		args = argArray[1];
+		while(argArray.length > 1){
+			argArray = args.split(" ", 2);
+			if(argArray.length != 2){
+				System.out.println("Nombre d'argument incorecte " + argArray[0] + argArray.length);
+				return null;
+			}
+			switch(argArray[0]){
 			
 			case "introduction":
 				try {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					ordinateur.setDateIntroduit(sdf.parse(args[i]));
+					SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+			        Date parsed = format.parse(argArray[0]);
+					ordinateur.setDateIntroduit(new java.sql.Date(parsed.getTime()));
 				} catch (ParseException e) {
-					e.printStackTrace();
+					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
+					return null;
 				}
+				break;
 			case "interruption":
 				try {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					ordinateur.setDateInterrompu(sdf.parse(args[i]));
+					SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+			        Date parsed = format.parse(argArray[0]);
+					ordinateur.setDateInterrompu(new java.sql.Date(parsed.getTime()));
 				} catch (ParseException e) {
-					e.printStackTrace();
+					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
+					return null;
 				}
+				break;
 			case "fabricant":
-				
+				try{
+					argArray = argArray[1].split(" ", 2);
+					int i = Integer.parseInt(argArray[0]);
+					Entreprise fabricant = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByID(i);
+					if(fabricant != null){
+						ordinateur.setFabricant(fabricant);
+					}
+					else{
+						System.out.println("Veuillez donner un id d'entreprise correct");
+						return null;
+					}
+				}catch(NumberFormatException e){
+					System.out.println("Veuillez donner un id d'entreprise correct");
+					return null;
+				}
+				break;
 			default:
-				System.out.println("Argument : " + args[i] + " inconnue");
+				System.out.println("Argument : " + argArray[1] + " inconnue");
+				return null;
 			}
+			if(argArray.length < 2){
+				System.out.println("Ordinateur : " +ordinateur.getName() + "\t" + ordinateur.getDateIntroduit() + "\t" + ordinateur.getDateInterrompu());
+		        if(ordinateur.getFabricant() != null){
+		        	System.out.println(ordinateur.getFabricant().getName() + "\n");
+		        }
+				return ordinateur;
+			}
+			args = argArray[1];
 		}
+		return null;
 	}
 }
