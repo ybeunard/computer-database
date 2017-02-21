@@ -9,16 +9,19 @@ import com.cdb.ui.UserInterpreter;
 
 public class GestionPagination {
 
+	//Variable pour la pagination
 	private int numeroPage;
 	private int ligneParPage;
 	private List<Ordinateur> pageOrdinateur;
 	private List<Entreprise> pageEntreprise;
 	
+	//constructeur standard
 	public GestionPagination(){
 		this.numeroPage = 1;
 		this.ligneParPage = 100;
 	}
 	
+	//constructeur pour spécifier le nombre de ligne par page
 	public GestionPagination(int ligneParPage){
 		this.numeroPage = 1;
 		if(ligneParPage > 0){
@@ -29,64 +32,107 @@ public class GestionPagination {
 		}
 	}
 	
+	//Fonction principal qui gere la pagination de la liste specifier
 	public void pagination(int typePage){
 		do{
 			switch(typePage){
+			
+			//Liste computer
 			case 1:
+				
+				//On recupere la liste avec le numero de page et le nombre de ligne par page
 				pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
+				
+				//Si la liste est vide on revient à la page précédente
 				if(pageOrdinateur.isEmpty()){
 					numeroPage--;
 					pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
 				}
+				
+				//On affiche la liste
 				affichagePage(typePage);
 				break;
+				
+			//liste company
 			case 2:
+				
+				//On recupere la liste avec le numero de page et le nombre de ligne par page
 				pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
+				
+				//Si la liste est vide on revient à la page précédente
 				if(pageEntreprise.isEmpty()){
 					numeroPage--;
 					pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
 				}
+				
+				//On affiche la liste
 				affichagePage(typePage);
 				break;
+			
+				// liste incconu
 			default:
 				System.out.println("Type de page inconnu");
 				return;
 			}
+		//On test si l'utilisateur veut continuer de consulter la liste ou sortir
 		}while(changementPage());
 	}
 	
+	//Fonction qui interroge l'utilisateur si il a envie de changer de page ou quitter la lecture de page.
 	private boolean changementPage() {
+		
+		//Lecture
 		String arg = UserInterpreter.sc.nextLine();
+		
+		//Traitement
 		switch(arg){
+		
+		//Page precedente
 		case "b":
 			if(numeroPage>1){
 				numeroPage--;
 			}
 			return true;
+			
+		//Page suivante
 		case "n":
 			numeroPage++;
 			return true;
+			
+		//Sortie
 		default:
 		}
+		
 		return false;
 	}
 
+	//Fonction qui permet l'affichage de la page selon la liste
 	private void affichagePage(int typePage){
+		
+		//Test le type de liste à afficher
 		switch(typePage){
+		
+		//Affiche la liste d'ordinateur
 		case 1:
 			for(Ordinateur ordinateur : pageOrdinateur){
 				System.out.println(ordinateur);
 			}
 			break;
+			
+		//affiche la liste d'entreprise
 		case 2:
 			for(Entreprise entreprise : pageEntreprise){
 				System.out.println(entreprise);
 			}
 			break;
+			
+		//Liste incconu
 		default:
 			System.out.println("Type de page inconnu");
 			return;
 		}
+		
+		//Affichage des options à l'utilisateur
 		System.out.println("PRECENT taper b\tNEXT taper n\tEXIT taper n'importe qu'elle touche");
 	}
 }
