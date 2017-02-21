@@ -1,6 +1,7 @@
 package com.cdb.services;
 
 import java.util.Date;
+import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -17,7 +18,12 @@ public class GestionEntryUser {
 		
 		switch(splitArray[0]){
 		
-		case "liste":
+		case "list":
+			if(splitArray.length != 2){
+				System.out.println("Nombre d'argument incorecte");
+				return true;
+			}
+			affichageListe(splitArray[1]);
 			break;
 		case "affiche":
 			if(splitArray.length != 2){
@@ -68,6 +74,23 @@ public class GestionEntryUser {
 			System.out.println("Argument : " + splitArray[0] + " incorrecte, tapez help pour la liste des commandes");
 		}
 		return true;
+	}
+
+	private static void affichageListe(String arg) {
+		switch(arg){
+		case "company":
+			List<Entreprise> entreprises = EntrepriseDao.getInstanceEntrepriseDao().findEntreprise();
+			System.out.println("ID\tNom");
+			for(Entreprise entreprise : entreprises){
+				System.out.println(entreprise.getId() + "\t" + entreprise.getName());
+			}
+			break;
+		case "computer":
+			
+			break;
+		default:
+			System.out.println("Argument : " + arg + " inconnue");
+		}
 	}
 
 	//permet de recuperer les arguments et de creer un ordinateur.

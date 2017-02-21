@@ -28,5 +28,6 @@ public class TestGestionEntryUser {
 		
 		GestionEntryUser.lectureEntryUser("delete 4");
 		GestionEntryUser.lectureEntryUser("delete 15");
+		GestionEntryUser.lectureEntryUser("list company");
 	}
 }
