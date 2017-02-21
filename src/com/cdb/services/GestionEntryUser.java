@@ -11,25 +11,25 @@ import com.cdb.persistance.Entreprise;
 
 public class GestionEntryUser {
 
-	public static void lectureEntryUser(String arg){
+	public static boolean lectureEntryUser(String arg){
 		
 		String[] splitArray = arg.split(" ", 2);
 		
 		switch(splitArray[0]){
 		
 		case "liste":
-			
+			break;
 		case "affiche":
 			if(splitArray.length != 2){
 				System.out.println("Nombre d'argument incorecte");
-				return;
+				return true;
 			}
 			affichageOrdinateur(splitArray[1]);
 			break;
 		case "create":
 			if(splitArray.length != 2){
 				System.out.println("Nombre d'argument incorecte");
-				return;
+				return true;
 			}
 			Ordinateur ordinateurCreated = createOrdinateur(splitArray[1]);
 			if(ordinateurCreated != null){
@@ -39,7 +39,7 @@ public class GestionEntryUser {
 		case "update":
 			if(splitArray.length != 2){
 				System.out.println("Nombre d'argument incorecte");
-				return;
+				return true;
 			}
 			Ordinateur ordinateurUpdated = updateOrdinateur(splitArray[1]);
 			if(ordinateurUpdated != null){
@@ -49,7 +49,7 @@ public class GestionEntryUser {
 		case "delete":
 			if(splitArray.length != 2){
 				System.out.println("Nombre d'argument incorecte");
-				return;
+				return true;
 			}
 			deleteOrdinateur(splitArray[1]);
 			break;
@@ -58,13 +58,16 @@ public class GestionEntryUser {
 				help(splitArray[1]);
 			}
 			else if(splitArray.length == 1){
-				System.out.println("Liste des commande :\nliste\naffiche\ncreate\nupdate\ndelete\nhelp\nPour une description détaillé de chaque commande taper: help [commande]");
+				System.out.println("Liste des commande :\nliste\naffiche\ncreate\nupdate\ndelete\nhelp\nexit\nPour une description détaillé de chaque commande taper: help [commande]");
 			}
 			else System.out.println("Nombre d'argument incorecte");
 			break;
+		case "exit":
+			return false;
 		default:
 			System.out.println("Argument : " + splitArray[0] + " incorrecte, tapez help pour la liste des commandes");
 		}
+		return true;
 	}
 
 	//permet de recuperer les arguments et de creer un ordinateur.
