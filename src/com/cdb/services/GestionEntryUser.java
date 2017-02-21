@@ -76,8 +76,20 @@ public class GestionEntryUser {
 	}
 
 	private static void affichageListe(String arg) {
-		GestionPagination pagination = new GestionPagination();
-		switch(arg){
+		String[] argArray = arg.split(" ");
+		GestionPagination pagination;
+		if(argArray.length == 2){
+			try{
+				pagination = new GestionPagination(Integer.parseInt(argArray[1]));
+			}catch(NumberFormatException e){
+					System.out.println("Pagination impossible");
+					return;
+			}
+		}
+		else{
+			pagination = new GestionPagination();
+		}
+		switch(argArray[0]){
 		case "company":
 			pagination.pagination(2);
 			break;

@@ -19,6 +19,11 @@ public class GestionPagination {
 		this.ligneParPage = 100;
 	}
 	
+	public GestionPagination(int ligneParPage){
+		this.numeroPage = 1;
+		this.ligneParPage = ligneParPage;
+	}
+	
 	public void pagination(int typePage){
 		do{
 			switch(typePage){
