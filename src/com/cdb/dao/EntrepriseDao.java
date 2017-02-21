@@ -17,6 +17,7 @@ public final class EntrepriseDao {
     private static String LOGIN = "root";
     private static String PASSWORD = "";
     private final static String QUERY_FIND_ENTREPRISES = "SELECT * FROM company ";
+    private final static String QUERY_FIND_ENTREPRISES_BY_PAGE = "SELECT * FROM company LIMIT ? OFFSET ?";
     private final static String QUERY_FIND_ENTREPRISES_BY_ID = "SELECT * FROM company where id=?";
 
     private static volatile EntrepriseDao instance = null;
@@ -132,6 +133,51 @@ public final class EntrepriseDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+		return entreprises;
+	}
+
+	public List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage) {
+		List<Entreprise> entreprises = new ArrayList<Entreprise>();
+		int limit = ligneParPage;
+		int offset = (numeroPage-1)*ligneParPage;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Connection con = null; 
+		PreparedStatement requete = null;
+		
+		try {
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            requete = con.prepareStatement(QUERY_FIND_ENTREPRISES_BY_PAGE);
+            requete.setInt(1, limit);
+            requete.setInt(2, offset);
+            ResultSet res = requete.executeQuery();
+            entreprises = recuperationResultatRequete(res);
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (requete != null) {
+                try {
+                	requete.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 		return entreprises;
 	}
 }
