@@ -20,6 +20,7 @@ public final class OrdinateurDao {
     private static String PASSWORD = "qwerty1234";
     private final static String QUERY_INSERT_ORDINATEUR = "INSERT INTO computer (name,introduced,discontinued,company_id) values ( ?, ?, ?, ?);";
     private final static String QUERY_FIND_ORDINATEURS = "SELECT * FROM computer ";
+    private final static String QUERY_FIND_ORDINATEURS_BY_PAGE = "SELECT * FROM computer LIMIT ? OFFSET ?";
     private final static String QUERY_FIND_ORDINATEURS_BY_ID = "SELECT * FROM computer where id=?";
     private final static String QUERY_UPDATE_ORDINATEUR = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
     private final static String QUERY_DELETE_ORDINATEUR = "DELETE FROM computer where id=?";
@@ -112,6 +113,52 @@ public final class OrdinateurDao {
             if (stmt != null) {
                 try {
                     stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		return ordinateurs;
+	}
+	
+public List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage) {
+		
+		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
+		int limit = ligneParPage;
+		int offset = (numeroPage-1)*ligneParPage;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Connection con = null; 
+		PreparedStatement requete = null;
+		
+		try {
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            requete = con.prepareStatement(QUERY_FIND_ORDINATEURS_BY_PAGE);
+            requete.setInt(1, limit);
+            requete.setInt(2, offset);
+            ResultSet res = requete.executeQuery();
+            ordinateurs = recuperationResultatRequete(res);
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (requete != null) {
+                try {
+                	requete.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
