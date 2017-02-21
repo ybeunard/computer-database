@@ -299,6 +299,8 @@ public class GestionEntryUser {
 			switch(arg){
 			
 			case "liste":
+				System.out.println("Syntaxe: list computer/company [nombre de ligne par page");
+				System.out.println("Les crochets signifie que l'argument est optionnel.");
 				break;
 			case "affiche":
 				System.out.println("Syntaxe: affiche id_ordinateur");
