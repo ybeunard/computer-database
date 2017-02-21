@@ -116,7 +116,7 @@ public final class OrdinateurDao {
 		try {
             con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
-          //Formation de la requete QUERY
+            //Formation de la requete QUERY
             stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery(QUERY_FIND_ORDINATEURS);
             
