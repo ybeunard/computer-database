@@ -14,5 +14,9 @@ public class TestGestionEntryUser {
 		GestionEntryUser.lectureEntryUser("update 76 introduction 2012/12/12 name 'newOrdinateur' fabricant 9");
 		GestionEntryUser.lectureEntryUser("update 77 introduction 2022/12/12 fabricant 9");
 		GestionEntryUser.lectureEntryUser("update 79 introduction 2002/12/12 interruption 2002/12/15");
+		GestionEntryUser.lectureEntryUser("affiche 75");
+		GestionEntryUser.lectureEntryUser("affiche 76");
+		GestionEntryUser.lectureEntryUser("affiche 77");
+		GestionEntryUser.lectureEntryUser("affiche 79");
 	}
 }

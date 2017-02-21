@@ -19,15 +19,22 @@ public class GestionEntryUser {
 		
 		case "liste":
 			
-		case "afficher":
-			
+		case "affiche":
+			if(splitArray.length != 2){
+				System.out.println("Nombre d'argument incorecte");
+				return;
+			}
+			affichageOrdinateur(splitArray[1]);
+			break;
 		case "create":
 			if(splitArray.length != 2){
 				System.out.println("Nombre d'argument incorecte");
 				return;
 			}
 			Ordinateur ordinateurCreated = createOrdinateur(splitArray[1]);
-			if(ordinateurCreated != null)OrdinateurDao.getInstanceOrdinateurDao().createOrdinateur(ordinateurCreated);
+			if(ordinateurCreated != null){
+				OrdinateurDao.getInstanceOrdinateurDao().createOrdinateur(ordinateurCreated);
+			}
 			break;
 		case "update":
 			if(splitArray.length != 2){
@@ -35,17 +42,19 @@ public class GestionEntryUser {
 				return;
 			}
 			Ordinateur ordinateurUpdated = updateOrdinateur(splitArray[1]);
-			if(ordinateurUpdated != null)OrdinateurDao.getInstanceOrdinateurDao().createOrdinateur(ordinateurUpdated);
+			if(ordinateurUpdated != null){
+				OrdinateurDao.getInstanceOrdinateurDao().updateOrdinateur(ordinateurUpdated);
+			}
 			break;
 		case "delete":
 			
 		case "help":
 			
 		default:
-			System.out.println("Argument : " + splitArray[0] + " incorrecte");
+			System.out.println("Argument : " + splitArray[0] + " incorrecte, tapez help pour la liste des commandes");
 		}
 	}
-	
+
 	//permet de recuperer les arguments et de creer un ordinateur.
 	private static Ordinateur createOrdinateur(String args){
 		
@@ -114,6 +123,30 @@ public class GestionEntryUser {
 		}
 		System.out.println("Nombre d'argument incorecte ");
 		return null;
+	}
+	
+	//permet de recuperer les arguments et d'afficher un ordinateur précis en détails.
+	private static void affichageOrdinateur(String arg) {
+		
+		Ordinateur ordinateur;
+		try{
+			int id = Integer.parseInt(arg);
+			ordinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByID(id);
+			if(ordinateur == null){
+				System.out.println("Veuillez donner un id d'ordinateur correct");
+				return;
+			}
+		}catch(NumberFormatException e){
+			System.out.println("Veuillez donner un id d'ordinateur correct");
+			return;
+		}
+		System.out.print("Ordinateur numero "+ ordinateur.getId() + " : " + ordinateur.getName() + "\t" + ordinateur.getDateIntroduit() + "\t" + ordinateur.getDateInterrompu() + "\t");
+        if(ordinateur.getFabricant() != null){
+        	System.out.println(ordinateur.getFabricant().getName() + "\n");
+        }
+        else{
+        	System.out.println("NULL");
+        }
 	}
 	
 	//permet de recuperer les arguments et de update un ordinateur.
