@@ -1,12 +1,11 @@
 package com.cdb.services;
 
 import java.util.List;
-import java.util.Scanner;
-
 import com.cdb.dao.EntrepriseDao;
 import com.cdb.dao.OrdinateurDao;
 import com.cdb.persistance.Entreprise;
 import com.cdb.persistance.Ordinateur;
+import com.cdb.ui.UserInterpreter;
 
 public class GestionPagination {
 
@@ -17,7 +16,7 @@ public class GestionPagination {
 	
 	public GestionPagination(){
 		this.numeroPage = 1;
-		this.ligneParPage = 20;
+		this.ligneParPage = 100;
 	}
 	
 	public void pagination(int typePage){
@@ -25,10 +24,18 @@ public class GestionPagination {
 			switch(typePage){
 			case 1:
 				pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
+				if(pageOrdinateur.isEmpty()){
+					numeroPage--;
+					pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
+				}
 				affichagePage(typePage);
 				break;
 			case 2:
 				pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
+				if(pageEntreprise.isEmpty()){
+					numeroPage--;
+					pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
+				}
 				affichagePage(typePage);
 				break;
 			default:
@@ -39,12 +46,12 @@ public class GestionPagination {
 	}
 	
 	private boolean changementPage() {
-		Scanner sc = new Scanner(System.in);
-		String arg = sc.next();
-		sc.close();
+		String arg = UserInterpreter.sc.nextLine();
 		switch(arg){
 		case "b":
-			numeroPage--;
+			if(numeroPage>1){
+				numeroPage--;
+			}
 			return true;
 		case "n":
 			numeroPage++;

@@ -1,7 +1,6 @@
 package com.cdb.services;
 
 import java.util.Date;
-import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -77,16 +76,13 @@ public class GestionEntryUser {
 	}
 
 	private static void affichageListe(String arg) {
+		GestionPagination pagination = new GestionPagination();
 		switch(arg){
 		case "company":
-			List<Entreprise> entreprises = EntrepriseDao.getInstanceEntrepriseDao().findEntreprise();
-			System.out.println("ID\tNom");
-			for(Entreprise entreprise : entreprises){
-				System.out.println(entreprise.getId() + "\t" + entreprise.getName());
-			}
+			pagination.pagination(2);
 			break;
 		case "computer":
-			
+			pagination.pagination(1);
 			break;
 		default:
 			System.out.println("Argument : " + arg + " inconnue");
