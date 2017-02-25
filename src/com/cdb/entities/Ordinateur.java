@@ -99,19 +99,15 @@ public class Ordinateur {
 	@Override
 	public boolean equals(Object obj) {
 		
-		if (this == obj) {
+		if(this == obj) {
 			
 			return true;
 			
-		}
-		
-		if (obj == null) {
+		} if(obj == null) {
 			
 			return false;
 			
-		}
-		
-		if (getClass() != obj.getClass()) {
+		} if(getClass() != obj.getClass()) {
 			
 			return false;
 			
@@ -119,63 +115,55 @@ public class Ordinateur {
 		
 		Ordinateur other = (Ordinateur) obj;
 		
-		if (dateInterrompu == null) {
+		if(dateInterrompu == null) {
 			
-			if (other.dateInterrompu != null) {
+			if(other.dateInterrompu != null) {
 				
 				return false;
 				
 			}
 			
-		} else if (!dateInterrompu.equals(other.dateInterrompu)) {
+		} else if(!dateInterrompu.equals(other.dateInterrompu)) {
 			
 			return false;
 			
-		}
-		
-		if (dateIntroduit == null) {
+		} if(dateIntroduit == null) {
 			
-			if (other.dateIntroduit != null) {
+			if(other.dateIntroduit != null) {
 				
 				return false;
 				
 			}
 			
-		} else if (!dateIntroduit.equals(other.dateIntroduit)) {
+		} else if(!dateIntroduit.equals(other.dateIntroduit)) {
 			
 			return false;
 			
-		}
-		
-		if (fabricant == null) {
+		} if(fabricant == null) {
 			
-			if (other.fabricant != null) {
+			if(other.fabricant != null) {
 				
 				return false;
 				
 			}
 			
-		} else if (!fabricant.equals(other.fabricant)) {
+		} else if(!fabricant.equals(other.fabricant)) {
 			
 			return false;
 			
-		}
-		
-		if (id != other.id) {
+		} if(id != other.id) {
 			
 			return false;
 			
-		}
-		
-		if (name == null) {
+		} if(name == null) {
 			
-			if (other.name != null) {
+			if(other.name != null) {
 				
 				return false;
 				
 			}
 			
-		} else if (!name.equals(other.name)) {
+		} else if(!name.equals(other.name)) {
 			
 			return false;
 			
@@ -191,13 +179,11 @@ public class Ordinateur {
 		String chaine = "Ordinateur numero ";
 		chaine += this.id + " : " + this.name + "\t" + this.dateIntroduit + "\t" + this.dateInterrompu + "\t";
 		
-        if(this.fabricant != null){
+        if(this.fabricant != null) {
         	
         	chaine += this.fabricant.getName();
         	
-        }
-        
-        else{
+        } else {
         	
         	chaine += "NULL";
         	

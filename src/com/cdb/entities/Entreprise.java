@@ -39,19 +39,15 @@ public class Entreprise {
 	@Override
 	public boolean equals(Object obj) {
 		
-		if (this == obj) {
+		if(this == obj) {
 			
 			return true;
 			
-		}
-		
-		if (obj == null) {
+		} if(obj == null) {
 			
 			return false;
 			
-		}
-		
-		if (getClass() != obj.getClass()) {
+		} if(getClass() != obj.getClass()) {
 			
 			return false;
 			
@@ -59,21 +55,19 @@ public class Entreprise {
 		
 		Entreprise other = (Entreprise) obj;
 		
-		if (id != other.id) {
+		if(id != other.id) {
 			
 			return false;
 			
-		}
-		
-		if (name == null) {
+		} if(name == null) {
 			
-			if (other.name != null) {
+			if(other.name != null) {
 				
 				return false;
 				
 			}
 			
-		} else if (!name.equals(other.name)) {
+		} else if(!name.equals(other.name)) {
 			
 			return false;
 			
@@ -84,7 +78,7 @@ public class Entreprise {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		
 		String chaine= this.id + "\t" + this.name;
 		return chaine;
