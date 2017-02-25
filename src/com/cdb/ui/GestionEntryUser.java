@@ -4,9 +4,9 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import com.cdb.dao.Impl.EntrepriseDao;
-import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Ordinateur;
+import com.cdb.services.Impl.GestionEntreprise;
+import com.cdb.services.Impl.GestionOrdinateur;
 import com.cdb.services.Impl.GestionPagination;
 import com.cdb.entities.Entreprise;
 
@@ -152,8 +152,8 @@ public class GestionEntryUser {
 		Ordinateur ordinateur;
 		try{
 			//Recuperation de l'ordinateur demandé
-			int id = Integer.parseInt(arg);
-			ordinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByID(id);
+			long id = Integer.parseInt(arg);
+			ordinateur = GestionOrdinateur.getInstanceGestionOrdinateur().findOrdinateurByID(id);
 			if(ordinateur == null){
 				System.out.println("Veuillez donner un id d'ordinateur correct");
 				return;
@@ -176,7 +176,7 @@ public class GestionEntryUser {
 		
 		//Si juste le nom à été  spécifier on créer directement l'ordinateur
 		if(argArray[2].isEmpty()){
-			OrdinateurDao.getInstanceOrdinateurDao().createOrdinateur(ordinateur);
+			GestionOrdinateur.getInstanceGestionOrdinateur().createOrdinateur(ordinateur);
 			return;
 		}
 		
@@ -202,7 +202,7 @@ public class GestionEntryUser {
 					argArray = argArray[1].split(" ", 2);
 					SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 			        Date parsed = format.parse(argArray[0]);
-					ordinateur.setDateIntroduit(new java.sql.Date(parsed.getTime()));
+					ordinateur.setDateIntroduit(new java.sql.Date(parsed.getTime()).toLocalDate());
 				} catch (ParseException e) {
 					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
 					return;
@@ -215,7 +215,7 @@ public class GestionEntryUser {
 					argArray = argArray[1].split(" ", 2);
 					SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 			        Date parsed = format.parse(argArray[0]);
-					ordinateur.setDateInterrompu(new java.sql.Date(parsed.getTime()));
+					ordinateur.setDateInterrompu(new java.sql.Date(parsed.getTime()).toLocalDate());
 				} catch (ParseException e) {
 					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
 					return;
@@ -227,7 +227,7 @@ public class GestionEntryUser {
 				try{
 					argArray = argArray[1].split(" ", 2);
 					int id = Integer.parseInt(argArray[0]);
-					Entreprise fabricant = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByID(id);
+					Entreprise fabricant = GestionEntreprise.getInstanceGestionEntreprise().findEntrepriseByID(id);
 					if(fabricant != null){
 						ordinateur.setFabricant(fabricant);
 					}
@@ -249,7 +249,7 @@ public class GestionEntryUser {
 			
 			//Si pas d'autre option on creer l'ordinateur
 			if(argArray.length == 1){
-				OrdinateurDao.getInstanceOrdinateurDao().createOrdinateur(ordinateur);
+				GestionOrdinateur.getInstanceGestionOrdinateur().createOrdinateur(ordinateur);
 				return;
 			}
 			
@@ -277,7 +277,7 @@ public class GestionEntryUser {
 		try{
 			//Recuperation de l'ordinateur à modifier via l'ID
 			int id = Integer.parseInt(argArray[0]);
-			ordinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByID(id);
+			ordinateur = GestionOrdinateur.getInstanceGestionOrdinateur().findOrdinateurByID(id);
 			if(ordinateur == null){
 				System.out.println("Veuillez donner un id d'ordinateur correct");
 				return;
@@ -308,7 +308,7 @@ public class GestionEntryUser {
 				argArray = argArray[0].split("'", 3);
 				ordinateur.setName(argArray[1]);
 				if(argArray[2].isEmpty()){
-					OrdinateurDao.getInstanceOrdinateurDao().updateOrdinateur(ordinateur);
+					GestionOrdinateur.getInstanceGestionOrdinateur().updateOrdinateur(ordinateur);
 					return;
 				}
 				break;
@@ -319,7 +319,7 @@ public class GestionEntryUser {
 					argArray = argArray[1].split(" ", 2);
 					SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 			        Date parsed = format.parse(argArray[0]);
-					ordinateur.setDateIntroduit(new java.sql.Date(parsed.getTime()));
+					ordinateur.setDateIntroduit(new java.sql.Date(parsed.getTime()).toLocalDate());
 				} catch (ParseException e) {
 					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
 					return;
@@ -332,7 +332,7 @@ public class GestionEntryUser {
 					argArray = argArray[1].split(" ", 2);
 					SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 			        Date parsed = format.parse(argArray[0]);
-					ordinateur.setDateInterrompu(new java.sql.Date(parsed.getTime()));
+					ordinateur.setDateInterrompu(new java.sql.Date(parsed.getTime()).toLocalDate());
 				} catch (ParseException e) {
 					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
 					return;
@@ -344,7 +344,7 @@ public class GestionEntryUser {
 				try{
 					argArray = argArray[1].split(" ", 2);
 					int id = Integer.parseInt(argArray[0]);
-					Entreprise fabricant = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByID(id);
+					Entreprise fabricant = GestionEntreprise.getInstanceGestionEntreprise().findEntrepriseByID(id);
 					if(fabricant != null){
 						ordinateur.setFabricant(fabricant);
 					}
@@ -366,7 +366,7 @@ public class GestionEntryUser {
 			
 			//Si pas d'autre option on update l'ordinateur
 			if(argArray.length < 2){
-				OrdinateurDao.getInstanceOrdinateurDao().updateOrdinateur(ordinateur);
+				GestionOrdinateur.getInstanceGestionOrdinateur().updateOrdinateur(ordinateur);
 				return;
 			}
 			
@@ -381,8 +381,8 @@ public class GestionEntryUser {
 	//Fonction qui supprime un ordinateur existant
 	private static void deleteOrdinateur(String arg) {
 		try{
-			int id = Integer.parseInt(arg);
-			OrdinateurDao.getInstanceOrdinateurDao().suppressionOrdinateur(id);
+			long id = Integer.parseInt(arg);
+			GestionOrdinateur.getInstanceGestionOrdinateur().suppressionOrdinateur(id);
 		}catch(NumberFormatException e){
 			System.out.println("Veuillez donner un id d'ordinateur correct");
 			return;

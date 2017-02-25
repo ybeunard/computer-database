@@ -226,7 +226,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	// Fonction qui recupere un ordinateur via son ID
 	@Override
-	public Ordinateur findOrdinateurByID(int index) throws ConnexionDatabaseException, RequeteQueryException {
+	public Ordinateur findOrdinateurByID(long id2) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Ordinateur ordinateur = null;
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
@@ -236,7 +236,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"));
-            requete.setInt(1, index);
+            requete.setLong(1, id2);
             ResultSet res = requete.executeQuery();
             
             //Traitement du resultat si il existe pour recuperer un objet de type Ordinateur
@@ -298,7 +298,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
         } catch(SQLException e) {
         	
-        	throw new RequeteQueryException("Echec de la requete de recherche de l'ordinateur numero:" + index);
+        	throw new RequeteQueryException("Echec de la requete de recherche de l'ordinateur numero:" + id2);
             
         } finally {
         	
@@ -394,7 +394,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	//fonction qui supprime un ordinateur
 	@Override
-	public void suppressionOrdinateur(int index) throws ConnexionDatabaseException, RequeteQueryException {
+	public void suppressionOrdinateur(long id) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
@@ -403,12 +403,12 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(prop.getProperty("QUERY_DELETE_ORDINATEUR"));
-            requete.setInt(1, index);
+            requete.setLong(1, id);
             requete.executeUpdate();
             
 		} catch(SQLException e) {
 			
-			throw new RequeteQueryException("Echec de la requete de suppression de l'ordinateur: " + index);
+			throw new RequeteQueryException("Echec de la requete de suppression de l'ordinateur: " + id);
 			
 		} finally {
 			
@@ -442,11 +442,11 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 			while(res.next()) {
 				
 				//Initialisation des variable
-            	int id = res.getInt("id");
+            	long id = res.getLong("id");
             	String name = res.getString("name");
 				LocalDate dateIntroduit = null;
 				LocalDate dateInterrompu = null;
-				Integer fabricantID = res.getInt("company_id");
+				long fabricantID = res.getLong("company_id");
 				String fabricantName = res.getString("company_name");
 				Date date = null;
 				

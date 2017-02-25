@@ -5,6 +5,8 @@ import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.InterfaceGestionPagination;
 import com.cdb.ui.UserInterpreter;
 
@@ -47,48 +49,56 @@ public class GestionPagination implements InterfaceGestionPagination {
 		
 		do {
 			
-			switch(typePage) {
-			
-			//Liste computer
-			case 1:
+			try {
 				
-				//On recupere la liste avec le numero de page et le nombre de ligne par page
-				pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
+				switch(typePage) {
 				
-				//Si la liste est vide on revient à la page précédente
-				if(pageOrdinateur.isEmpty()) {
+				//Liste computer
+				case 1:
 					
-					numeroPage--;
+					//On recupere la liste avec le numero de page et le nombre de ligne par page
 					pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
-				
-				}
-				
-				//On affiche la liste
-				affichagePage(typePage);
-				break;
-				
-			//liste company
-			case 2:
-				
-				//On recupere la liste avec le numero de page et le nombre de ligne par page
-				pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
-				
-				//Si la liste est vide on revient à la page précédente
-				if(pageEntreprise.isEmpty()) {
 					
-					numeroPage--;
+					//Si la liste est vide on revient à la page précédente
+					if(pageOrdinateur.isEmpty()) {
+						
+						numeroPage--;
+						pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
+					
+					}
+					
+					//On affiche la liste
+					affichagePage(typePage);
+					break;
+					
+				//liste company
+				case 2:
+					
+					//On recupere la liste avec le numero de page et le nombre de ligne par page
 					pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
+					
+					//Si la liste est vide on revient à la page précédente
+					if(pageEntreprise.isEmpty()) {
+						
+						numeroPage--;
+						pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
+					
+					}
+					
+					//On affiche la liste
+					affichagePage(typePage);
+					break;
 				
+					// liste incconu
+				default:
+					System.out.println("Type de page inconnu");
+					return;
+					
 				}
 				
-				//On affiche la liste
-				affichagePage(typePage);
-				break;
-			
-				// liste incconu
-			default:
-				System.out.println("Type de page inconnu");
-				return;
+			} catch (ConnexionDatabaseException | RequeteQueryException e) {
+				
+				e.printStackTrace();
 				
 			}
 			
