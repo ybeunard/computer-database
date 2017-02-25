@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.dao.InstanceOrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
@@ -58,6 +61,8 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 		}
 		
 	}
+	
+	public final static Logger logger = LoggerFactory.getLogger(OrdinateurDao.class);
     
     //fonction qui cree un ordinateur dans la BDD
 	@Override
@@ -65,6 +70,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase();; 
 		PreparedStatement requete = null;
+		logger.info("Création d'un " + ordinateur);
 		
 		try {
             
@@ -99,6 +105,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             }
             
             requete.executeUpdate();
+            logger.info("Creation d'un ordinateur effectuée");
             
         } catch (SQLException e) {
         	
@@ -134,6 +141,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		Statement stmt = null;
+		logger.info("recherche de la liste d'ordinateur");
 		
 		try {
             
@@ -143,6 +151,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
             //recuperation des resultats
             ordinateurs = recuperationResultatRequete(rset);
+            logger.info("recherche de la liste d'ordinateur effectuée");
             
 
         } catch(SQLException e) {
@@ -184,6 +193,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 		int offset = (numeroPage-1)*ligneParPage;
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
+		logger.info("recherche de la liste d'ordinateur par page");
 		
 		try {
             
@@ -195,6 +205,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
           //recuperation des resultats
             ordinateurs = recuperationResultatRequete(res);
+            logger.info("recherche de la liste d'ordinateur par page effectuée");
             
         } catch(SQLException e) {
         	
@@ -226,24 +237,25 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	// Fonction qui recupere un ordinateur via son ID
 	@Override
-	public Ordinateur findOrdinateurByID(long id2) throws ConnexionDatabaseException, RequeteQueryException {
+	public Ordinateur findOrdinateurByID(long index) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Ordinateur ordinateur = null;
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
+		logger.info("recherche d'un ordinateur par id: " + index);
 		
 		try {
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"));
-            requete.setLong(1, id2);
+            requete.setLong(1, index);
             ResultSet res = requete.executeQuery();
             
             //Traitement du resultat si il existe pour recuperer un objet de type Ordinateur
             if(res.next()){
             	
             	//Initialisation des variable
-            	int id = res.getInt("id");
+            	long id = res.getInt("id");
             	String name = res.getString("name");
 				LocalDate dateIntroduit = null;
 				LocalDate dateInterrompu = null;
@@ -296,9 +308,11 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 				
             }
             
+            logger.info("recherche d'un ordinateur par id effectuée");
+            
         } catch(SQLException e) {
         	
-        	throw new RequeteQueryException("Echec de la requete de recherche de l'ordinateur numero:" + id2);
+        	throw new RequeteQueryException("Echec de la requete de recherche de l'ordinateur numero:" + index);
             
         } finally {
         	
@@ -330,6 +344,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
+		logger.info("update d'un " + ordinateur);
 		
 		try {
             
@@ -366,6 +381,8 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             requete.setLong(5, ordinateur.getId());
             requete.executeUpdate();
             
+            logger.info("update d'un ordinateur effectuée");
+            
 		} catch(SQLException e) {
 			
 			throw new RequeteQueryException("Echec de la requete de mise à jour de l'" + ordinateur);
@@ -398,6 +415,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
+		logger.info("suppression de l'ordinateur numero " + id);
 		
 		try {
             
@@ -405,6 +423,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             requete = con.prepareStatement(prop.getProperty("QUERY_DELETE_ORDINATEUR"));
             requete.setLong(1, id);
             requete.executeUpdate();
+            logger.info("suppression d'un ordinateur effectuée");
             
 		} catch(SQLException e) {
 			

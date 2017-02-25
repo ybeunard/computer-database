@@ -10,6 +10,9 @@ import com.cdb.dao.InterfaceConnexionDatabase;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.mysql.jdbc.Connection;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 
@@ -50,6 +53,8 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 		
 	}
 	
+	public final static Logger logger = LoggerFactory.getLogger(ConnexionDatabase.class);
+	
 	@Override
 	public Connection connectDatabase() throws ConnexionDatabaseException {
 		
@@ -63,6 +68,7 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 			
 		}
 		
+		logger.info("Tentative de connexion");
 		Connection con = null;
 		
 		try {
@@ -75,6 +81,7 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 			
 		}
 		
+		logger.info("connexion effectuée");
 		return con;
 		
 	}
@@ -84,6 +91,8 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 		
 		if(con != null) {
         	
+			logger.info("tentative de deconnexion");
+			
             try {
             	
                 con.close();
@@ -93,6 +102,8 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
             	throw new ConnexionDatabaseException("Deconnexion au serveur impossible");
                 
             }
+            
+            logger.info("deconnexion effectuée");
             
         }
 		

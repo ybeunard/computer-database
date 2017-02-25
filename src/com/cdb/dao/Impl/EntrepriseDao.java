@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.dao.InterfaceEntrepriseDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -54,16 +57,18 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 			
 		}
 		
-	}   
+	}
+	
+	public final static Logger logger = LoggerFactory.getLogger(EntrepriseDao.class);
     
     // Fonction qui recupere la liste de tous les entreprises
 	@Override
 	public List<Entreprise> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
-		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		Statement stmt = null;
+		logger.info("recherche de la liste d'entreprise");
 		
 		try {
             
@@ -73,6 +78,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             
             //recuperation des resultats
             entreprises = recuperationResultatRequete(rset);
+            logger.info("recherche de la liste d'entreprise effectuée");
             
         } catch(SQLException e) {
         	
@@ -112,6 +118,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 		int offset = (numeroPage-1)*ligneParPage;
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
+		logger.info("recherche de la liste d'entreprise par page");
 		
 		try {
             
@@ -123,6 +130,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             
             //recuperation des resultats
             entreprises = recuperationResultatRequete(res);
+            logger.info("recherche de la liste d'entreprise par page effectuée");
             
         } catch(SQLException e) {
         	
@@ -159,6 +167,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 		Entreprise entreprise = null;
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement stmt = null;
+		logger.info("recherche d'une entreprise par id: " + index);
 		
 		try {
             
@@ -174,6 +183,8 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             	entreprise = new Entreprise(res.getInt("id"), res.getString("name"));
             
             }
+            
+            logger.info("recherche d'une entreprise par id effectuée");
             
         } catch(SQLException e) {
         	
