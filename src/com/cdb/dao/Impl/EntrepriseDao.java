@@ -227,5 +227,3 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	}
 	
 }
-
-

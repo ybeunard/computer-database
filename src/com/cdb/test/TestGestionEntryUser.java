@@ -1,6 +1,6 @@
 package com.cdb.test;
 
-import com.cdb.services.GestionEntryUser;
+import com.cdb.ui.GestionEntryUser;
 
 public class TestGestionEntryUser {
 

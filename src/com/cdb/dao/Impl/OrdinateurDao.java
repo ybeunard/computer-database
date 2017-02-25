@@ -506,4 +506,3 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	}
 	
 }
-

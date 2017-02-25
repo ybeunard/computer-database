@@ -1,13 +1,14 @@
-package com.cdb.services;
+package com.cdb.ui;
 
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import com.cdb.dao.EntrepriseDao;
-import com.cdb.dao.OrdinateurDao;
-import com.cdb.persistance.Ordinateur;
-import com.cdb.persistance.Entreprise;
+import com.cdb.dao.Impl.EntrepriseDao;
+import com.cdb.dao.Impl.OrdinateurDao;
+import com.cdb.entities.Ordinateur;
+import com.cdb.services.GestionPagination;
+import com.cdb.entities.Entreprise;
 
 public class GestionEntryUser {
 
@@ -414,3 +415,4 @@ public class GestionEntryUser {
 		}
 	}
 }
+

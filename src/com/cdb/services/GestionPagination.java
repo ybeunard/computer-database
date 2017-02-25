@@ -1,10 +1,10 @@
 package com.cdb.services;
 
 import java.util.List;
-import com.cdb.dao.EntrepriseDao;
-import com.cdb.dao.OrdinateurDao;
-import com.cdb.persistance.Entreprise;
-import com.cdb.persistance.Ordinateur;
+import com.cdb.dao.Impl.EntrepriseDao;
+import com.cdb.dao.Impl.OrdinateurDao;
+import com.cdb.entities.Entreprise;
+import com.cdb.entities.Ordinateur;
 import com.cdb.ui.UserInterpreter;
 
 public class GestionPagination {

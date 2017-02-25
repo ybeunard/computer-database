@@ -2,8 +2,6 @@ package com.cdb.ui;
 
 import java.util.Scanner;
 
-import com.cdb.services.GestionEntryUser;
-
 public class UserInterpreter {
 
 	public final static Scanner sc = new Scanner(System.in);
