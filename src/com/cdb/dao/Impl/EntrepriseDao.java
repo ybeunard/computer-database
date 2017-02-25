@@ -13,6 +13,8 @@ import java.util.Properties;
 
 import com.cdb.dao.InterfaceEntrepriseDao;
 import com.cdb.entities.Entreprise;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 import com.mysql.jdbc.Connection;
 
 public enum EntrepriseDao implements InterfaceEntrepriseDao {
@@ -56,7 +58,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
     
     // Fonction qui recupere la liste de tous les entreprises
 	@Override
-	public List<Entreprise> findEntreprise() {
+	public List<Entreprise> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
 		
@@ -74,7 +76,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             
         } catch(SQLException e) {
         	
-            e.printStackTrace();
+        	throw new RequeteQueryException("Echec de la requete de recherche d'entreprise");
             
         } finally {
         	
@@ -86,7 +88,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                     
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de recherche d'entreprise impossible");
                     
                 }
                 
@@ -101,7 +103,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	
 	// Fonction qui recupere la liste de toutes les entreprises d'une page
 	@Override
-	public List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage) {
+	public List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
 		
@@ -124,7 +126,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             
         } catch(SQLException e) {
         	
-            e.printStackTrace();
+        	throw new RequeteQueryException("Echec de la requete de recherche par page d'entreprise");
             
         } finally {
         	
@@ -136,7 +138,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                 	
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de recherche d'entreprise par page impossible");
                     
                 }
                 
@@ -152,19 +154,18 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
 	// Fonction qui recupere une entreprise via son ID
 	@Override
-	public Entreprise findEntrepriseByID(long index) {
+	public Entreprise findEntrepriseByID(long index) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Entreprise entreprise = null;
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		
 		try {
             
             //Formation de la requete QUERY
-            stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            PreparedStatement requete = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
-            requete.setLong(1, index);
-            ResultSet res = requete.executeQuery();
+            stmt = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
+            stmt.setLong(1, index);
+            ResultSet res = stmt.executeQuery();
             
             //Traitement du resultat si il existe pour recuperer un objet de type Entreprise
             if(res.next()){
@@ -176,7 +177,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             
         } catch(SQLException e) {
         	
-            e.printStackTrace();
+        	throw new RequeteQueryException("Echec de la requete de recherche de l'entreprise numero:" + index);
             
         } finally {
         	
@@ -188,7 +189,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                     
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de recherche d'entreprise par ID impossible");
                     
                 }
                 
@@ -203,7 +204,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	}
 
 	// Fonction de recuperation de resultat de la requete en format List Entreprise pour qu'elle soit traitable par l'application.
-	private List<Entreprise> recuperationResultatRequete(ResultSet rset) {
+	private List<Entreprise> recuperationResultatRequete(ResultSet rset) throws RequeteQueryException {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
 		
@@ -218,7 +219,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 			
 		}catch(SQLException e){
 			
-			e.printStackTrace();
+			throw new RequeteQueryException("L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
 			
 		}
 		

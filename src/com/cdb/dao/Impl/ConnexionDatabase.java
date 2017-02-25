@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.cdb.dao.InterfaceConnexionDatabase;
+import com.cdb.exception.ConnexionDatabaseException;
 import com.mysql.jdbc.Connection;
 import java.util.Properties;
 
@@ -50,15 +51,15 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 	}
 	
 	@Override
-	public Connection connectDatabase() {
+	public Connection connectDatabase() throws ConnexionDatabaseException {
 		
 		try {
 			
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName(prop.getProperty("nameDriver")).newInstance();
 			
 		} catch(InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			
-			e.printStackTrace();
+			throw new ConnexionDatabaseException("Impossible de charger le Driver " + prop.getProperty("nameDriver"));
 			
 		}
 		
@@ -69,9 +70,8 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
            con = (Connection) DriverManager.getConnection(prop.getProperty("URL"), prop.getProperty("LOGIN"), prop.getProperty("PASSWORD"));
 		
 		} catch(SQLException e) {
-			
-			closeConnexionDatabase(con);			
-			e.printStackTrace();
+					
+			throw new ConnexionDatabaseException("Connexion au serveur " + prop.getProperty("URL") + " impossible", con);
 			
 		}
 		
@@ -80,7 +80,7 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 	}
 	
 	@Override
-	public void closeConnexionDatabase(Connection con) {
+	public void closeConnexionDatabase(Connection con) throws ConnexionDatabaseException {
 		
 		if(con != null) {
         	
@@ -90,7 +90,7 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
                 
             } catch(SQLException e) {
             	
-                e.printStackTrace();
+            	throw new ConnexionDatabaseException("Deconnexion au serveur impossible");
                 
             }
             

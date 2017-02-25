@@ -17,6 +17,8 @@ import java.util.Properties;
 import com.cdb.dao.InstanceOrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 
 public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
@@ -59,7 +61,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
     
     //fonction qui cree un ordinateur dans la BDD
 	@Override
-    public void createOrdinateur(Ordinateur ordinateur) {
+    public void createOrdinateur(Ordinateur ordinateur) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase();; 
 		PreparedStatement requete = null;
@@ -100,7 +102,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
         } catch (SQLException e) {
         	
-            e.printStackTrace();
+            throw new RequeteQueryException("Echec de la requete de creation de l'" + ordinateur);
             
         } finally {
         	
@@ -112,7 +114,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                     
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de creation d'ordinateur impossible");
                     
                 }
                 
@@ -126,7 +128,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
     
     // Fonction qui recupere la liste de tous les ordinateurs
 	@Override
-	public List<Ordinateur> findOrdinateur() {
+	public List<Ordinateur> findOrdinateur() throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
 		
@@ -145,7 +147,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 
         } catch(SQLException e) {
         	
-            e.printStackTrace();
+        	throw new RequeteQueryException("Echec de la requete de recherche d'ordinateur");
             
         } finally {
         	
@@ -157,7 +159,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                     
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de recherche d'ordinateur impossible");
                     
                 }
                 
@@ -173,7 +175,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	// Fonction qui recupere la liste de tous les ordinateurs d'une page
 	@Override
-	public List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage) {
+	public List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
 		
@@ -196,7 +198,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
         } catch(SQLException e) {
         	
-            e.printStackTrace();
+        	throw new RequeteQueryException("Echec de la requete de recherche par page d'ordinateur");
             
         } finally {
         	
@@ -208,7 +210,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                 	
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de recherche d'ordinateur par page impossible");
                     
                 }
                 
@@ -224,7 +226,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	// Fonction qui recupere un ordinateur via son ID
 	@Override
-	public Ordinateur findOrdinateurByID(int index) {
+	public Ordinateur findOrdinateurByID(int index) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Ordinateur ordinateur = null;
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
@@ -263,7 +265,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 					
 				} catch(SQLException e) {
 					
-					e.printStackTrace();
+					throw new RequeteQueryException("Recuperation de la date d'introduction impossible");
 					
 				} try {
 					
@@ -271,13 +273,13 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 					
 					if(date != null) {
 						
-						dateIntroduit = date.toLocalDate();
+						dateInterrompu = date.toLocalDate();
 						
 					}
 					
 				} catch(SQLException e) {
 					
-					e.printStackTrace();
+					throw new RequeteQueryException("Recuperation de la date d'interruption impossible");
 					
 				}
 				
@@ -296,7 +298,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
         } catch(SQLException e) {
         	
-            e.printStackTrace();
+        	throw new RequeteQueryException("Echec de la requete de recherche de l'ordinateur numero:" + index);
             
         } finally {
         	
@@ -308,7 +310,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                     
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de recherche d'ordinateur par ID impossible");
                     
                 }
                 
@@ -324,7 +326,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	//Fonction de mise à jour d'un ordinateur
 	@Override
-	public void updateOrdinateur(Ordinateur ordinateur) {
+	public void updateOrdinateur(Ordinateur ordinateur) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
@@ -366,7 +368,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			throw new RequeteQueryException("Echec de la requete de mise à jour de l'" + ordinateur);
 			
 		} finally {
 			
@@ -378,7 +380,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                     
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de mise à jour d'ordinateur impossible");
                     
                 }
                 
@@ -392,7 +394,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	//fonction qui supprime un ordinateur
 	@Override
-	public void suppressionOrdinateur(int index) {
+	public void suppressionOrdinateur(int index) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
@@ -406,7 +408,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			throw new RequeteQueryException("Echec de la requete de suppression de l'ordinateur: " + index);
 			
 		} finally {
 			
@@ -418,7 +420,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                     
                 } catch(SQLException e) {
                 	
-                    e.printStackTrace();
+                	throw new RequeteQueryException("Fermeture de la requete de suppression d'ordinateur impossible");
                     
                 }
                 
@@ -430,7 +432,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	}
 	
 	// Fonction de recuperation de resultat de la requete en format List Ordinateur pour qu'elle soit traitable par l'application.
-	private List<Ordinateur> recuperationResultatRequete(ResultSet res) {
+	private List<Ordinateur> recuperationResultatRequete(ResultSet res) throws RequeteQueryException {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
 		Ordinateur ordinateur;
@@ -451,7 +453,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 				//Recuperation des variables dates si elles existent
 				try {
 					
-					date = res.getDate("introduced");
+					date = (java.sql.Date) res.getDate("introduced");
 					
 					if(date != null) {
 						
@@ -461,7 +463,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 					
 				} catch(SQLException e) {
 					
-					e.printStackTrace();
+					throw new RequeteQueryException("Recuperation de la date d'introduction impossible");
 					
 				} try {
 					
@@ -475,7 +477,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 					
 				} catch(SQLException e) {
 					
-					e.printStackTrace();
+					throw new RequeteQueryException("Recuperation de la date d'interruption impossible");
 					
 				}
 				
@@ -497,7 +499,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 			
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			throw new RequeteQueryException("L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
 			
 		}
 		

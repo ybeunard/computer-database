@@ -5,10 +5,12 @@ import java.util.List;
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Ordinateur;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 
 public class TestOrdinateurDao {
 
-	public static void main(String args[]){
+	public static void main(String args[]) throws ConnexionDatabaseException, RequeteQueryException{
 		EntrepriseDao entrepriseDao = EntrepriseDao.getInstanceEntrepriseDao();
 		OrdinateurDao ordinateurDao = OrdinateurDao.getInstanceOrdinateurDao();
         List<Ordinateur> ordinateurs = ordinateurDao.findOrdinateur();

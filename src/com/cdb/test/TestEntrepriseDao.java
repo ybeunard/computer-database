@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.entities.Entreprise;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 
 public class TestEntrepriseDao {
 
-	public static void main(String args[]){
+	public static void main(String args[]) throws ConnexionDatabaseException, RequeteQueryException{
 		
 		EntrepriseDao dao = EntrepriseDao.getInstanceEntrepriseDao();
 		
