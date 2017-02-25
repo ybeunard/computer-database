@@ -5,7 +5,7 @@ public class Entreprise {
 	private long id;
 	private String name;
 
-	public Entreprise(int id, String name) {
+	public Entreprise(long id, String name) {
 		
 		super();
 		this.id = id;

@@ -17,7 +17,7 @@ public class Ordinateur {
 		
 	}
 	
-	public Ordinateur(int id, String name, LocalDate dateIntroduit, LocalDate dateInterrompu, Entreprise fabricant) {
+	public Ordinateur(long id, String name, LocalDate dateIntroduit, LocalDate dateInterrompu, Entreprise fabricant) {
 		
 		super();
 		this.id = id;

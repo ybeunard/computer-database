@@ -1,89 +1,97 @@
 package com.cdb.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import com.cdb.persistance.Entreprise;
+import com.cdb.entities.Entreprise;
+import com.mysql.jdbc.Connection;
 
-public final class EntrepriseDao {
-
-	//Identifiant BDD
-	private static String URL = "jdbc:mysql://localhost:3306/computer-database-db";
-    private static String LOGIN = "root";
-    private static String PASSWORD = "";
-    
-    //Format standard des requetes QUERY	
-    private final static String QUERY_FIND_ENTREPRISES = "SELECT * FROM company ";
-    private final static String QUERY_FIND_ENTREPRISES_BY_PAGE = "SELECT * FROM company LIMIT ? OFFSET ?";
-    private final static String QUERY_FIND_ENTREPRISES_BY_ID = "SELECT * FROM company where id=?";
-
-    private static volatile EntrepriseDao instance = null;
-    
-    //Constructeur private (Singleton)
+public enum EntrepriseDao {
+	
+	INSTANCE_ENTREPRISE_DAO;
+	
+	//Constructeur private
     private EntrepriseDao() {
-        super();
+
     }
-  
-    //methode pour recuperer l'instance EntrepriseDao, Créer l'instance si celle-ci n'existe pas.
+    
     public final static EntrepriseDao getInstanceEntrepriseDao() {
-        if (EntrepriseDao.instance == null) {
-           synchronized(EntrepriseDao.class) {
-             if (EntrepriseDao.instance == null) {
-            	 EntrepriseDao.instance = new EntrepriseDao();
-             }
-           }
-        }
-        return EntrepriseDao.instance;
+    	
+    	return INSTANCE_ENTREPRISE_DAO;
+   
     }
+    
+private static Properties prop = new Properties() ;
+	
+	//Chargement du fichier query_entreprises.properties
+	static{
+		
+		File fProp = new File("computer-database/properties/query_entreprises.properties") ;
+		 
+		// Charge le contenu de ton fichier properties dans un objet Properties
+		FileInputStream stream = null;
+		
+		try {
+			
+			stream = new FileInputStream(fProp);
+			prop.load(stream) ;
+			
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			
+		}
+		
+	}   
     
     // Fonction qui recupere la liste de tous les entreprises
 	public List<Entreprise> findEntreprise(){
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
 		
-		//Connection à la BDD
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		Statement stmt = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             stmt = con.createStatement();
-            ResultSet rset = stmt.executeQuery(QUERY_FIND_ENTREPRISES);
+            ResultSet rset = stmt.executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
             
             //recuperation des resultats
             entreprises = recuperationResultatRequete(rset);
             
         } catch (SQLException e) {
+        	
             e.printStackTrace();
+            
         } finally {
+        	
             if (stmt != null) {
+            	
                 try {
+                	
                     stmt.close();
+                    
                 } catch (SQLException e) {
+                	
                     e.printStackTrace();
+                    
                 }
+                
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            
+            ConnexionDatabase.getInstanceConnexionDatabase().closeConnexionDatabase(con);
+            
         }
 		
 		return entreprises;
@@ -98,21 +106,13 @@ public final class EntrepriseDao {
 		int limit = ligneParPage;
 		int offset = (numeroPage-1)*ligneParPage;
 		
-		//Connection à la BDD
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
           //Formation de la requete QUERY
-            requete = con.prepareStatement(QUERY_FIND_ENTREPRISES_BY_PAGE);
+            requete = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"));
             requete.setInt(1, limit);
             requete.setInt(2, offset);
             ResultSet res = requete.executeQuery();
@@ -121,78 +121,83 @@ public final class EntrepriseDao {
             entreprises = recuperationResultatRequete(res);
             
         } catch (SQLException e) {
+        	
             e.printStackTrace();
+            
         } finally {
+        	
             if (requete != null) {
+            	
                 try {
+                	
                 	requete.close();
+                	
                 } catch (SQLException e) {
+                	
                     e.printStackTrace();
+                    
                 }
+                
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            
+            ConnexionDatabase.getInstanceConnexionDatabase().closeConnexionDatabase(con);
+            
         }
 		
 		return entreprises;
+		
 	}
 
 	// Fonction qui recupere une entreprise via son ID
-	public Entreprise findEntrepriseByID(int index){
+	public Entreprise findEntrepriseByID(long index){
 		
 		Entreprise entreprise = null;
 		
-		//Connection à la BDD
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		Statement stmt = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            PreparedStatement requete = con.prepareStatement(QUERY_FIND_ENTREPRISES_BY_ID);
-            requete.setInt(1, index);
+            PreparedStatement requete = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
+            requete.setLong(1, index);
             ResultSet res = requete.executeQuery();
             
-          //Traitement du resultat si il existe pour recuperer un objet de type Entreprise
+            //Traitement du resultat si il existe pour recuperer un objet de type Entreprise
             if(res.next()){
             	
             	//Construction de l'entreprise final
             	entreprise = new Entreprise(res.getInt("id"), res.getString("name"));
+            
             }
             
         } catch (SQLException e) {
+        	
             e.printStackTrace();
+            
         } finally {
+        	
             if (stmt != null) {
+            	
                 try {
+                	
                     stmt.close();
+                    
                 } catch (SQLException e) {
+                	
                     e.printStackTrace();
+                    
                 }
+                
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            
+            ConnexionDatabase.getInstanceConnexionDatabase().closeConnexionDatabase(con);
+            
         }
 		
 		return entreprise;
+		
 	}
 
 	// Fonction de recuperation de resultat de la requete en format List Entreprise pour qu'elle soit traitable par l'application.
@@ -202,15 +207,22 @@ public final class EntrepriseDao {
 		
 		
 		try {
+			
 			while (rset.next()) {
 				
 				//Construction de l'entreprise final + ajout à la liste
-				entreprises.add(new Entreprise(rset.getInt("id"), rset.getString("name")));
+				entreprises.add(new Entreprise(rset.getLong("id"), rset.getString("name")));
+			
 			}
+			
 		}catch(SQLException e){
+			
 			e.printStackTrace();
+			
 		}
 		
 		return entreprises;
+		
 	}
+	
 }

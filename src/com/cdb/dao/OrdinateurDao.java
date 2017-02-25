@@ -10,16 +10,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cdb.persistance.Ordinateur;
+import com.cdb.entities.Ordinateur;
 
-public final class OrdinateurDao {
+public enum OrdinateurDao {
 	
-	private static EntrepriseDao entrepriseDao;
+	INSTANCE_ORDINATEUR_DAO;
 	
-	//Identifiant BDD
-	private static String URL = "jdbc:mysql://localhost:3306/computer-database-db";
-    private static String LOGIN = "admincdb";
-    private static String PASSWORD = "qwerty1234";
     
     //Format standard des requetes QUERY
     private final static String QUERY_INSERT_ORDINATEUR = "INSERT INTO computer (name,introduced,discontinued,company_id) values ( ?, ?, ?, ?);";
@@ -29,24 +25,16 @@ public final class OrdinateurDao {
     private final static String QUERY_UPDATE_ORDINATEUR = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
     private final static String QUERY_DELETE_ORDINATEUR = "DELETE FROM computer where id=?";
     
-    private static volatile OrdinateurDao instance = null;
-    
-    //Constructeur private (Singleton)
+    //Constructeur private
     private OrdinateurDao() {
-        super();
-        entrepriseDao = EntrepriseDao.getInstanceEntrepriseDao();
+    	
     }
   
-    //methode pour recuperer l'instance OrdinateurDao, Créer l'instance si celle-ci n'existe pas.
+    //methode pour recuperer l'instance OrdinateurDao
     public final static OrdinateurDao getInstanceOrdinateurDao() {
-        if (OrdinateurDao.instance == null) {
-           synchronized(OrdinateurDao.class) {
-             if (OrdinateurDao.instance == null) {
-            	 OrdinateurDao.instance = new OrdinateurDao();
-             }
-           }
-        }
-        return OrdinateurDao.instance;
+        
+        return INSTANCE_ORDINATEUR_DAO;
+        
     }
     
     //fonction qui cree un ordinateur dans la BDD
@@ -54,48 +42,66 @@ public final class OrdinateurDao {
     	
     	//Connection à la BDD
     	try {
+    		
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			
 			e.printStackTrace();
+			
 		}
 		
 		Connection con = null; 
 		PreparedStatement requete = null;
 		
 		try {
+			
             con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(QUERY_INSERT_ORDINATEUR);
             requete.setString(1, ordinateur.getName());
-            requete.setDate(2, (java.sql.Date) ordinateur.getDateIntroduit());
-            requete.setDate(3, (java.sql.Date) ordinateur.getDateInterrompu());
+            requete.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
+            requete.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
+            
             if(ordinateur.getFabricant() != null){
-            	requete.setInt(4, ordinateur.getFabricant().getId());
+            	
+            	requete.setLong(4, ordinateur.getFabricant().getId());
+            	
             }
+            
             else{
+            	
             	requete.setString(4, null);
+            	
             }
+            
             requete.executeUpdate();
             
         } catch (SQLException e) {
+        	
             e.printStackTrace();
+            
         } finally {
+        	
             if (requete != null) {
+            	
                 try {
+                	
                     requete.close();
+                    
                 } catch (SQLException e) {
+                	
                     e.printStackTrace();
+                    
                 }
+                
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            
+            
+            
         }
+		
     }
     
     // Fonction qui recupere la liste de tous les ordinateurs
@@ -105,16 +111,19 @@ public final class OrdinateurDao {
 		
 		//Connection à la BDD
 		try {
+			
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			
 			e.printStackTrace();
+			
 		}
 		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.connectDatabase(); 
 		Statement stmt = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             stmt = con.createStatement();
@@ -125,25 +134,43 @@ public final class OrdinateurDao {
             
 
         } catch (SQLException e) {
+        	
             e.printStackTrace();
+            
         } finally {
+        	
             if (stmt != null) {
+            	
                 try {
+                	
                     stmt.close();
+                    
                 } catch (SQLException e) {
+                	
                     e.printStackTrace();
+                    
                 }
+                
             }
+            
             if (con != null) {
+            	
                 try {
+                	
                     con.close();
+                    
                 } catch (SQLException e) {
+                	
                     e.printStackTrace();
+                    
                 }
+                
             }
+            
         }
 		
 		return ordinateurs;
+		
 	}
 	
 	// Fonction qui recupere la liste de tous les ordinateurs d'une page
@@ -162,11 +189,10 @@ public final class OrdinateurDao {
 			e.printStackTrace();
 		}
 		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.connectDatabase(); 
 		PreparedStatement requete = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(QUERY_FIND_ORDINATEURS_BY_PAGE);
@@ -210,11 +236,10 @@ public final class OrdinateurDao {
 			e.printStackTrace();
 		}
 		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.connectDatabase(); 
 		PreparedStatement requete = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(QUERY_FIND_ORDINATEURS_BY_ID);
@@ -280,24 +305,23 @@ public final class OrdinateurDao {
 			e.printStackTrace();
 		}
 		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.connectDatabase(); 
 		PreparedStatement requete = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(QUERY_UPDATE_ORDINATEUR);
             requete.setString(1, ordinateur.getName());
-            requete.setDate(2, (java.sql.Date) ordinateur.getDateIntroduit());
-            requete.setDate(3, (java.sql.Date) ordinateur.getDateInterrompu());
+            requete.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
+            requete.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
             if(ordinateur.getFabricant() != null){
-            	requete.setInt(4, ordinateur.getFabricant().getId());
+            	requete.setLong(4, ordinateur.getFabricant().getId());
             }
             else{
             	requete.setString(4, null);
             }
-            requete.setInt(5, ordinateur.getId());
+            requete.setLong(5, ordinateur.getId());
             requete.executeUpdate();
             
 		}catch(SQLException e){
@@ -331,11 +355,10 @@ public final class OrdinateurDao {
 			e.printStackTrace();
 		}
 		
-		Connection con = null; 
+		Connection con = ConnexionDatabase.connectDatabase(); 
 		PreparedStatement requete = null;
 		
 		try {
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             
             //Formation de la requete QUERY
             requete = con.prepareStatement(QUERY_DELETE_ORDINATEUR);
