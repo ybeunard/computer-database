@@ -1,13 +1,14 @@
-package com.cdb.services;
+package com.cdb.services.Impl;
 
 import java.util.List;
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
+import com.cdb.services.InterfaceGestionPagination;
 import com.cdb.ui.UserInterpreter;
 
-public class GestionPagination {
+public class GestionPagination implements InterfaceGestionPagination {
 
 	//Variable pour la pagination
 	private int numeroPage;
@@ -16,26 +17,37 @@ public class GestionPagination {
 	private List<Entreprise> pageEntreprise;
 	
 	//constructeur standard
-	public GestionPagination(){
+	public GestionPagination() {
+		
 		this.numeroPage = 1;
 		this.ligneParPage = 100;
+		
 	}
 	
 	//constructeur pour spécifier le nombre de ligne par page
-	public GestionPagination(int ligneParPage){
+	public GestionPagination(int ligneParPage) {
+		
 		this.numeroPage = 1;
-		if(ligneParPage > 0){
+		
+		if(ligneParPage > 0) {
+			
 			this.ligneParPage = ligneParPage;
-		}
-		else{
+			
+		} else {
+			
 			this.ligneParPage = 100;
+			
 		}
+		
 	}
 	
 	//Fonction principal qui gere la pagination de la liste specifier
-	public void pagination(int typePage){
-		do{
-			switch(typePage){
+	@Override
+	public void pagination(int typePage) {
+		
+		do {
+			
+			switch(typePage) {
 			
 			//Liste computer
 			case 1:
@@ -44,9 +56,11 @@ public class GestionPagination {
 				pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
 				
 				//Si la liste est vide on revient à la page précédente
-				if(pageOrdinateur.isEmpty()){
+				if(pageOrdinateur.isEmpty()) {
+					
 					numeroPage--;
 					pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByPage(numeroPage, ligneParPage);
+				
 				}
 				
 				//On affiche la liste
@@ -60,9 +74,11 @@ public class GestionPagination {
 				pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
 				
 				//Si la liste est vide on revient à la page précédente
-				if(pageEntreprise.isEmpty()){
+				if(pageEntreprise.isEmpty()) {
+					
 					numeroPage--;
 					pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByPage(numeroPage, ligneParPage);
+				
 				}
 				
 				//On affiche la liste
@@ -73,9 +89,12 @@ public class GestionPagination {
 			default:
 				System.out.println("Type de page inconnu");
 				return;
+				
 			}
+			
 		//On test si l'utilisateur veut continuer de consulter la liste ou sortir
-		}while(changementPage());
+		} while(changementPage());
+		
 	}
 	
 	//Fonction qui interroge l'utilisateur si il a envie de changer de page ou quitter la lecture de page.
@@ -85,13 +104,17 @@ public class GestionPagination {
 		String arg = UserInterpreter.sc.nextLine();
 		
 		//Traitement
-		switch(arg){
+		switch(arg) {
 		
 		//Page precedente
 		case "b":
-			if(numeroPage>1){
+			
+			if(numeroPage>1) {
+				
 				numeroPage--;
+				
 			}
+			
 			return true;
 			
 		//Page suivante
@@ -101,38 +124,52 @@ public class GestionPagination {
 			
 		//Sortie
 		default:
+			
 		}
 		
 		return false;
+		
 	}
 
 	//Fonction qui permet l'affichage de la page selon la liste
-	private void affichagePage(int typePage){
+	private void affichagePage(int typePage) {
 		
 		//Test le type de liste à afficher
-		switch(typePage){
+		switch(typePage) {
 		
 		//Affiche la liste d'ordinateur
 		case 1:
-			for(Ordinateur ordinateur : pageOrdinateur){
+			
+			for(Ordinateur ordinateur : pageOrdinateur) {
+				
 				System.out.println(ordinateur);
+				
 			}
+			
 			break;
 			
 		//affiche la liste d'entreprise
 		case 2:
-			for(Entreprise entreprise : pageEntreprise){
+			
+			for(Entreprise entreprise : pageEntreprise) {
+				
 				System.out.println(entreprise);
+				
 			}
+			
 			break;
 			
 		//Liste incconu
 		default:
+			
 			System.out.println("Type de page inconnu");
 			return;
+			
 		}
 		
 		//Affichage des options à l'utilisateur
 		System.out.println("PRECENT taper b\tNEXT taper n\tEXIT taper n'importe qu'elle touche");
+		
 	}
+	
 }

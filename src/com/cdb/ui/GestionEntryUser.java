@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Ordinateur;
-import com.cdb.services.GestionPagination;
+import com.cdb.services.Impl.GestionPagination;
 import com.cdb.entities.Entreprise;
 
 public class GestionEntryUser {
