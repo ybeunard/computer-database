@@ -2,7 +2,7 @@ package com.cdb.test;
 
 import java.util.List;
 
-import com.cdb.dao.EntrepriseDao;
+import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.entities.Entreprise;
 
 public class TestEntrepriseDao {

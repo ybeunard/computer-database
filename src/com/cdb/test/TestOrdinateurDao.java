@@ -2,8 +2,8 @@ package com.cdb.test;
 
 import java.util.List;
 
-import com.cdb.dao.EntrepriseDao;
-import com.cdb.dao.OrdinateurDao;
+import com.cdb.dao.Impl.EntrepriseDao;
+import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Ordinateur;
 
 public class TestOrdinateurDao {

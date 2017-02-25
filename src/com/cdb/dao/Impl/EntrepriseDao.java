@@ -1,5 +1,4 @@
-package com.cdb.dao;
-
+package com.cdb.dao.Impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,10 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.cdb.dao.InterfaceEntrepriseDao;
 import com.cdb.entities.Entreprise;
 import com.mysql.jdbc.Connection;
 
-public enum EntrepriseDao {
+public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	
 	INSTANCE_ENTREPRISE_DAO;
 	
@@ -31,12 +31,12 @@ public enum EntrepriseDao {
    
     }
     
-    private static Properties prop = new Properties() ;
+    private static Properties prop = new Properties();
 	
 	//Chargement du fichier query_entreprises.properties
-	static{
+	static {
 		
-		File fProp = new File("computer-database/properties/query_entreprises.properties") ;
+		File fProp = new File("computer-database/properties/query_entreprises.properties");
 		 
 		// Charge le contenu de ton fichier properties dans un objet Properties
 		FileInputStream stream = null;
@@ -46,7 +46,7 @@ public enum EntrepriseDao {
 			stream = new FileInputStream(fProp);
 			prop.load(stream) ;
 			
-		} catch (IOException e) {
+		} catch(IOException e) {
 
 			e.printStackTrace();
 			
@@ -55,7 +55,8 @@ public enum EntrepriseDao {
 	}   
     
     // Fonction qui recupere la liste de tous les entreprises
-	public List<Entreprise> findEntreprise(){
+	@Override
+	public List<Entreprise> findEntreprise() {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
 		
@@ -71,19 +72,19 @@ public enum EntrepriseDao {
             //recuperation des resultats
             entreprises = recuperationResultatRequete(rset);
             
-        } catch (SQLException e) {
+        } catch(SQLException e) {
         	
             e.printStackTrace();
             
         } finally {
         	
-            if (stmt != null) {
+            if(stmt != null) {
             	
                 try {
                 	
                     stmt.close();
                     
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -99,6 +100,7 @@ public enum EntrepriseDao {
 	}
 	
 	// Fonction qui recupere la liste de toutes les entreprises d'une page
+	@Override
 	public List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage) {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
@@ -106,7 +108,6 @@ public enum EntrepriseDao {
 		//initialisation des bornes pour la requete QUERY
 		int limit = ligneParPage;
 		int offset = (numeroPage-1)*ligneParPage;
-		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
 		
@@ -121,19 +122,19 @@ public enum EntrepriseDao {
             //recuperation des resultats
             entreprises = recuperationResultatRequete(res);
             
-        } catch (SQLException e) {
+        } catch(SQLException e) {
         	
             e.printStackTrace();
             
         } finally {
         	
-            if (requete != null) {
+            if(requete != null) {
             	
                 try {
                 	
                 	requete.close();
                 	
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -150,10 +151,10 @@ public enum EntrepriseDao {
 	}
 
 	// Fonction qui recupere une entreprise via son ID
-	public Entreprise findEntrepriseByID(long index){
+	@Override
+	public Entreprise findEntrepriseByID(long index) {
 		
 		Entreprise entreprise = null;
-		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		Statement stmt = null;
 		
@@ -173,19 +174,19 @@ public enum EntrepriseDao {
             
             }
             
-        } catch (SQLException e) {
+        } catch(SQLException e) {
         	
             e.printStackTrace();
             
         } finally {
         	
-            if (stmt != null) {
+            if(stmt != null) {
             	
                 try {
                 	
                     stmt.close();
                     
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -206,10 +207,9 @@ public enum EntrepriseDao {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
 		
-		
 		try {
 			
-			while (rset.next()) {
+			while(rset.next()) {
 				
 				//Construction de l'entreprise final + ajout à la liste
 				entreprises.add(new Entreprise(rset.getLong("id"), rset.getString("name")));
@@ -227,3 +227,5 @@ public enum EntrepriseDao {
 	}
 	
 }
+
+

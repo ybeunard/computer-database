@@ -1,4 +1,4 @@
-package com.cdb.dao;
+package com.cdb.dao.Impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,10 +13,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import com.cdb.dao.InstanceOrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 
-public enum OrdinateurDao {
+public enum OrdinateurDao implements InstanceOrdinateurDao {
 	
 	INSTANCE_ORDINATEUR_DAO;
     
@@ -32,12 +34,12 @@ public enum OrdinateurDao {
         
     }
     
-    private static Properties prop = new Properties() ;
+    private static Properties prop = new Properties();
 	
 	//Chargement du fichier query_entreprises.properties
-	static{
+	static {
 		
-		File fProp = new File("computer-database/properties/query_ordinateurs.properties") ;
+		File fProp = new File("computer-database/properties/query_ordinateurs.properties");
 		 
 		// Charge le contenu de ton fichier properties dans un objet Properties
 		FileInputStream stream = null;
@@ -47,7 +49,7 @@ public enum OrdinateurDao {
 			stream = new FileInputStream(fProp);
 			prop.load(stream) ;
 			
-		} catch (IOException e) {
+		} catch(IOException e) {
 
 			e.printStackTrace();
 			
@@ -56,6 +58,7 @@ public enum OrdinateurDao {
 	}
     
     //fonction qui cree un ordinateur dans la BDD
+	@Override
     public void createOrdinateur(Ordinateur ordinateur) {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase();; 
@@ -71,29 +74,23 @@ public enum OrdinateurDao {
             	
             	requete.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
             	
-            }else {
+            } else {
             	
             	requete.setDate(2, null);
             	
-            }
-            
-            if(ordinateur.getDateInterrompu() != null) {
+            } if(ordinateur.getDateInterrompu() != null) {
             	
             	requete.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
             	
-            }else {
+            } else {
             	
             	requete.setDate(3, null);
             	
-            }
-            
-            if(ordinateur.getFabricant() != null){
+            } if(ordinateur.getFabricant() != null) {
             	
             	requete.setLong(4, ordinateur.getFabricant().getId());
             	
-            }
-            
-            else{
+            } else {
             	
             	requete.setString(4, null);
             	
@@ -107,13 +104,13 @@ public enum OrdinateurDao {
             
         } finally {
         	
-            if (requete != null) {
+            if(requete != null) {
             	
                 try {
                 	
                     requete.close();
                     
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -128,6 +125,7 @@ public enum OrdinateurDao {
     }
     
     // Fonction qui recupere la liste de tous les ordinateurs
+	@Override
 	public List<Ordinateur> findOrdinateur() {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
@@ -145,19 +143,19 @@ public enum OrdinateurDao {
             ordinateurs = recuperationResultatRequete(rset);
             
 
-        } catch (SQLException e) {
+        } catch(SQLException e) {
         	
             e.printStackTrace();
             
         } finally {
         	
-            if (stmt != null) {
+            if(stmt != null) {
             	
                 try {
                 	
                     stmt.close();
                     
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -174,6 +172,7 @@ public enum OrdinateurDao {
 	}
 	
 	// Fonction qui recupere la liste de tous les ordinateurs d'une page
+	@Override
 	public List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage) {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
@@ -181,7 +180,6 @@ public enum OrdinateurDao {
 		//initialisation des bornes pour la requete QUERY
 		int limit = ligneParPage;
 		int offset = (numeroPage-1)*ligneParPage;
-		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
 		
@@ -196,19 +194,19 @@ public enum OrdinateurDao {
           //recuperation des resultats
             ordinateurs = recuperationResultatRequete(res);
             
-        } catch (SQLException e) {
+        } catch(SQLException e) {
         	
             e.printStackTrace();
             
         } finally {
         	
-            if (requete != null) {
+            if(requete != null) {
             	
                 try {
                 	
                 	requete.close();
                 	
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -225,10 +223,10 @@ public enum OrdinateurDao {
 	}
 	
 	// Fonction qui recupere un ordinateur via son ID
+	@Override
 	public Ordinateur findOrdinateurByID(int index) {
 		
 		Ordinateur ordinateur = null;
-		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
 		PreparedStatement requete = null;
 		
@@ -257,40 +255,38 @@ public enum OrdinateurDao {
 					
 					date = res.getDate("introduced");
 					
-					if(date != null){
+					if(date != null) {
 						
 						dateIntroduit = date.toLocalDate();
 						
 					}
 					
-				}catch(SQLException e){
+				} catch(SQLException e) {
 					
 					e.printStackTrace();
 					
-				}
-				
-				try {
+				} try {
 					
 					date = res.getDate("discontinued");
 					
-					if(date != null){
+					if(date != null) {
 						
 						dateIntroduit = date.toLocalDate();
 						
 					}
 					
-				}catch(SQLException e){
+				} catch(SQLException e) {
 					
 					e.printStackTrace();
 					
 				}
 				
 				//Construction de l'ordinateur final
-				if(fabricantID == 0){
+				if(fabricantID == 0) {
 					
 					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, null);
 					
-				}else{
+				} else {
 					
 					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, new Entreprise(fabricantID, fabricantName));
 				
@@ -298,19 +294,19 @@ public enum OrdinateurDao {
 				
             }
             
-        } catch (SQLException e) {
+        } catch(SQLException e) {
         	
             e.printStackTrace();
             
         } finally {
         	
-            if (requete != null) {
+            if(requete != null) {
             	
                 try {
                 	
                     requete.close();
                     
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -323,9 +319,11 @@ public enum OrdinateurDao {
         }
 		
 		return ordinateur;
+		
 	}
 	
 	//Fonction de mise à jour d'un ordinateur
+	@Override
 	public void updateOrdinateur(Ordinateur ordinateur) {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
@@ -341,27 +339,23 @@ public enum OrdinateurDao {
             	
             	requete.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
             	
-            }else {
+            } else {
             	
             	requete.setDate(2, null);
             	
-            }
-            
-            if(ordinateur.getDateInterrompu() != null) {
+            } if(ordinateur.getDateInterrompu() != null) {
             	
             	requete.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
             	
-            }else {
+            } else {
             	
             	requete.setDate(3, null);
             	
-            }
-            
-            if(ordinateur.getFabricant() != null){
+            } if(ordinateur.getFabricant() != null) {
             	
             	requete.setLong(4, ordinateur.getFabricant().getId());
             	
-            }else{
+            } else {
             	
             	requete.setString(4, null);
             	
@@ -370,19 +364,19 @@ public enum OrdinateurDao {
             requete.setLong(5, ordinateur.getId());
             requete.executeUpdate();
             
-		}catch(SQLException e){
+		} catch(SQLException e) {
 			
 			e.printStackTrace();
 			
 		} finally {
 			
-            if (requete != null) {
+            if(requete != null) {
             	
                 try {
                 	
                     requete.close();
                     
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -397,6 +391,7 @@ public enum OrdinateurDao {
 	}
 	
 	//fonction qui supprime un ordinateur
+	@Override
 	public void suppressionOrdinateur(int index) {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
@@ -409,19 +404,19 @@ public enum OrdinateurDao {
             requete.setInt(1, index);
             requete.executeUpdate();
             
-		}catch(SQLException e){
+		} catch(SQLException e) {
 			
 			e.printStackTrace();
 			
 		} finally {
 			
-            if (requete != null) {
+            if(requete != null) {
             	
                 try {
                 	
                     requete.close();
                     
-                } catch (SQLException e) {
+                } catch(SQLException e) {
                 	
                     e.printStackTrace();
                     
@@ -442,7 +437,7 @@ public enum OrdinateurDao {
 		
 		try {
 			
-			while (res.next()) {
+			while(res.next()) {
 				
 				//Initialisation des variable
             	int id = res.getInt("id");
@@ -458,51 +453,49 @@ public enum OrdinateurDao {
 					
 					date = res.getDate("introduced");
 					
-					if(date != null){
+					if(date != null) {
 						
 						dateIntroduit = date.toLocalDate();
 						
 					}
 					
-				}catch(SQLException e){
+				} catch(SQLException e) {
 					
 					e.printStackTrace();
 					
-				}
-				
-				try {
+				} try {
 					
 					date = res.getDate("discontinued");
 					
-					if(date != null){
+					if(date != null) {
 						
 						dateIntroduit = date.toLocalDate();
 						
 					}
 					
-				}catch(SQLException e){
+				} catch(SQLException e) {
 					
 					e.printStackTrace();
 					
 				}
 				
 				//Construction de l'ordinateur final
-				if(fabricantID == 0){
+				if(fabricantID == 0) {
 					
 					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, null);
 					
-				}else{
+				} else {
 					
 					ordinateur = new Ordinateur(id, name, dateIntroduit, dateInterrompu, new Entreprise(fabricantID, fabricantName));
 				
-				}    
+				}
 			    
 				//ajout de l'ordinateur à la liste
 			    ordinateurs.add(ordinateur);
 			    
 			}
 			
-		} catch (SQLException e) {
+		} catch(SQLException e) {
 			
 			e.printStackTrace();
 			
@@ -513,3 +506,4 @@ public enum OrdinateurDao {
 	}
 	
 }
+
