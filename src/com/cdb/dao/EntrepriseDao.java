@@ -24,13 +24,14 @@ public enum EntrepriseDao {
 
     }
     
+    //methode pour recuperer l'instance EntrepriseDao
     public final static EntrepriseDao getInstanceEntrepriseDao() {
     	
     	return INSTANCE_ENTREPRISE_DAO;
    
     }
     
-private static Properties prop = new Properties() ;
+    private static Properties prop = new Properties() ;
 	
 	//Chargement du fichier query_entreprises.properties
 	static{
