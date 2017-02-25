@@ -1,6 +1,10 @@
 package com.cdb.ui;
 
 import java.util.Date;
+import java.util.Properties;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -11,6 +15,29 @@ import com.cdb.services.Impl.GestionPagination;
 import com.cdb.entities.Entreprise;
 
 public class GestionEntryUser {
+	
+	private static Properties prop = new Properties();
+	
+	//Chargement du fichier connexion.properties
+	static {
+		
+		File fProp = new File("computer-database/properties/error_message_client.properties");
+		 
+		// Charge le contenu de ton fichier properties dans un objet Properties
+		FileInputStream stream = null;
+		
+		try {
+			
+			stream = new FileInputStream(fProp);
+			prop.load(stream) ;
+			
+		} catch(IOException e) {
+
+			e.printStackTrace();
+			
+		}
+		
+	}
 
 	//Lit le premier argument de la commande utilisateur et le renvoi vers la fonction qui la traite
 	public static boolean lectureEntryUser(String arg) {
@@ -26,7 +53,7 @@ public class GestionEntryUser {
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
 				
-				System.out.println("Nombre d'argument incorecte");
+				System.out.println(prop.getProperty("nombre_arg"));
 				return true;
 				
 			}
@@ -40,7 +67,7 @@ public class GestionEntryUser {
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
 				
-				System.out.println("Nombre d'argument incorecte");
+				System.out.println(prop.getProperty("nombre_arg"));
 				return true;
 				
 			}
@@ -54,7 +81,7 @@ public class GestionEntryUser {
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
 				
-				System.out.println("Nombre d'argument incorecte");
+				System.out.println(prop.getProperty("nombre_arg"));
 				return true;
 				
 			}
@@ -68,7 +95,7 @@ public class GestionEntryUser {
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
 				
-				System.out.println("Nombre d'argument incorecte");
+				System.out.println(prop.getProperty("nombre_arg"));
 				return true;
 				
 			}
@@ -82,7 +109,7 @@ public class GestionEntryUser {
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
 				
-				System.out.println("Nombre d'argument incorecte");
+				System.out.println(prop.getProperty("nombre_arg"));
 				return true;
 				
 			}
@@ -102,9 +129,12 @@ public class GestionEntryUser {
 				
 				System.out.println("Liste des commande :\nlist\naffiche\ncreate\nupdate\ndelete\nhelp\nexit\nPour une description détaillé de chaque commande taper: help [commande]");
 			
+			} else {
+				
+				System.out.println(prop.getProperty("nombre_arg"));
+				
 			}
 			
-			else System.out.println("Nombre d'argument incorecte");
 			break;
 			
 		//commande exit qui stop le programme
@@ -114,7 +144,7 @@ public class GestionEntryUser {
 			
 		default:
 			
-			System.out.println("Argument : " + splitArray[0] + " incorrecte, tapez help pour la liste des commandes");
+			System.out.println(splitArray[0] + prop.getProperty("command_incorrect"));
 		
 		}
 		
@@ -139,7 +169,7 @@ public class GestionEntryUser {
 				
 			} catch(NumberFormatException e) {
 				
-					System.out.println("Pagination impossible");
+					System.out.println(prop.getProperty("pagination"));
 					return;
 					
 			}
@@ -167,7 +197,7 @@ public class GestionEntryUser {
 		
 		default:
 			
-			System.out.println("Argument : " + arg + " inconnue");
+			System.out.println(argArray[0] + prop.getProperty("argument_incorrect"));
 			
 		}
 		
@@ -186,14 +216,14 @@ public class GestionEntryUser {
 			
 			if(ordinateur == null) {
 				
-				System.out.println("Veuillez donner un id d'ordinateur correct");
+				System.out.println(prop.getProperty("id_incorrect"));
 				return;
 				
 			}
 		
 		} catch(NumberFormatException e) {
 			
-			System.out.println("Veuillez donner un id d'ordinateur correct");
+			System.out.println(prop.getProperty("id_incorrect"));
 			return;
 			
 		}
@@ -228,7 +258,7 @@ public class GestionEntryUser {
 			
 			if(argArray.length != 2) {
 				
-				System.out.println("Nombre d'argument incorecte ");
+				System.out.println(prop.getProperty("nombre_arg"));
 				return;
 				
 			}
@@ -306,7 +336,7 @@ public class GestionEntryUser {
 			//Option inconnu
 			default:
 				
-				System.out.println("Argument : " + argArray[1] + " inconnue");
+				System.out.println(argArray[0] + prop.getProperty("argument_incorrect"));
 				return;
 				
 			}
@@ -324,7 +354,7 @@ public class GestionEntryUser {
 			
 		}
 		
-		System.out.println("Nombre d'argument incorecte ");
+		System.out.println(prop.getProperty("nombre_arg"));
 		return;
 		
 	}
@@ -339,7 +369,7 @@ public class GestionEntryUser {
 		
 		if(argArray.length != 2) {
 			
-			System.out.println("Nombre d'argument incorecte ");
+			System.out.println(prop.getProperty("nombre_arg"));
 			return;
 			
 		}
@@ -354,14 +384,14 @@ public class GestionEntryUser {
 			
 			if(ordinateur == null) {
 				
-				System.out.println("Veuillez donner un id d'ordinateur correct");
+				System.out.println(prop.getProperty("id_incorrect"));
 				return;
 				
 			}
 
 		} catch(NumberFormatException e) {
 			
-			System.out.println("Veuillez donner un id d'ordinateur correct");
+			System.out.println(prop.getProperty("id_incorrect"));
 			return;
 			
 		}
@@ -376,7 +406,7 @@ public class GestionEntryUser {
 			
 			if(argArray.length != 2) {
 				
-				System.out.println("Nombre d'argument incorecte " + argArray.length);
+				System.out.println(prop.getProperty("nombre_arg"));
 				return;
 				
 			}
@@ -412,7 +442,7 @@ public class GestionEntryUser {
 					
 				} catch(ParseException e) {
 					
-					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
+					System.out.println(prop.getProperty("date_incorrect"));
 					return;
 					
 				}
@@ -431,7 +461,7 @@ public class GestionEntryUser {
 					
 				} catch(ParseException e) {
 					
-					System.out.println("Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
+					System.out.println(prop.getProperty("date_incorrect"));
 					return;
 					
 				}
@@ -453,14 +483,14 @@ public class GestionEntryUser {
 						
 					} else {
 						
-						System.out.println("Veuillez donner un id d'entreprise correct");
+						System.out.println(prop.getProperty("id_entreprise_incorrect"));
 						return;
 						
 					}
 					
 				} catch(NumberFormatException e) {
 					
-					System.out.println("Veuillez donner un id d'entreprise correct");
+					System.out.println(prop.getProperty("id_entreprise_incorrect"));
 					return;
 					
 				}
@@ -470,7 +500,7 @@ public class GestionEntryUser {
 			//Option inconnu
 			default:
 				
-				System.out.println("Argument : " + argArray[1] + " inconnue");
+				System.out.println(argArray[0] + prop.getProperty("argument_incorrect"));
 				return;
 				
 			}
@@ -488,7 +518,7 @@ public class GestionEntryUser {
 			
 		}
 		
-		System.out.println("Nombre d'argument incorecte ");
+		System.out.println(prop.getProperty("nombre_arg"));
 		return;
 		
 	}
@@ -503,7 +533,7 @@ public class GestionEntryUser {
 			
 		} catch(NumberFormatException e) {
 			
-			System.out.println("Veuillez donner un id d'ordinateur correct");
+			System.out.println(prop.getProperty("id_incorrect"));
 			return;
 			
 		}
@@ -517,35 +547,32 @@ public class GestionEntryUser {
 		
 		case "list":
 			
-			System.out.println("Syntaxe: list computer/company [nombre de ligne par page");
-			System.out.println("Les crochets signifie que l'argument est optionnel.");
+			System.out.println(prop.getProperty("syntaxe_list"));
 			break;
 			
 		case "affiche":
 			
-			System.out.println("Syntaxe: affiche id_ordinateur");
+			System.out.println(prop.getProperty("syntaxe_affiche"));
 			break;
 			
 		case "create":
 			
-			System.out.println("Syntaxe: create 'nom ordinateur' [introduction date_introduction] [interruption date_interruption] [fabricant id_fabricant]");
-			System.out.println("Les crochets signifie que l'argument est optionnel.");
+			System.out.println(prop.getProperty("syntaxe_create"));
 			break;
 			
 		case "update":
 			
-			System.out.println("Syntaxe: update id_ordinateur [name 'nom ordinateur'] [introduction date_introduction] [interruption date_interruption] [fabricant id_fabricant]");
-			System.out.println("Les crochets signifie que l'argument est optionnel, il faut au moins un argument optionnel pour modifier.");
+			System.out.println(prop.getProperty("syntaxe_update"));
 			break;
 			
 		case "delete":
 			
-			System.out.println("Syntaxe: delete id_ordinateur");
+			System.out.println(prop.getProperty("syntaxe_delete"));
 			break;
 			
 		default:
 			
-			System.out.println("Commande : " + arg + " incorrecte, tapez help pour la liste des commandes");
+			System.out.println(arg + prop.getProperty("command_incorrect"));
 			
 		}
 		
