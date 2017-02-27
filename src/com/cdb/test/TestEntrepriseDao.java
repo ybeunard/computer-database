@@ -2,15 +2,10 @@ package com.cdb.test;
 
 import java.util.List;
 
-<<<<<<< HEAD
-import com.cdb.dao.EntrepriseDao;
-import com.cdb.entities.Entreprise;
-=======
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
->>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 
 public class TestEntrepriseDao {
 

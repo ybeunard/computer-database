@@ -8,19 +8,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-<<<<<<< HEAD:src/com/cdb/services/GestionEntryUser.java
-import com.cdb.dao.EntrepriseDao;
-import com.cdb.dao.OrdinateurDao;
-import com.cdb.entities.Ordinateur;
-import com.cdb.entities.Entreprise;
-=======
 import com.cdb.entities.Ordinateur;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 import com.cdb.services.Impl.GestionPagination;
 import com.cdb.entities.Entreprise;
 
->>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843:src/com/cdb/ui/GestionEntryUser.java
 public class GestionEntryUser {
 	
 	private static Properties prop = new Properties();
