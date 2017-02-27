@@ -19,217 +19,286 @@ import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.mysql.jdbc.Connection;
 
+/**
+ * The Enum EntrepriseDao.
+ *
+ * @author excilys
+ */
 public enum EntrepriseDao implements InterfaceEntrepriseDao {
-	
-	INSTANCE_ENTREPRISE_DAO;
-	
-	//Constructeur private
-    private EntrepriseDao() {
+
+    /** The instance entreprise dao. */
+    INSTANCE_ENTREPRISE_DAO;
+
+    /**
+     * Instantiates a new entreprise dao.
+     */
+    EntrepriseDao() {
 
     }
-    
-    //methode pour recuperer l'instance EntrepriseDao
-    public final static EntrepriseDao getInstanceEntrepriseDao() {
-    	
-    	return INSTANCE_ENTREPRISE_DAO;
-   
+
+    /**
+     * Gets the instance entreprise dao.
+     *
+     * @return INSTANCE_ENTREPRISE_DAO
+     */
+    public static final EntrepriseDao getInstanceEntrepriseDao() {
+
+        return INSTANCE_ENTREPRISE_DAO;
+
     }
-    
+
+    /** The prop. */
     private static Properties prop = new Properties();
-	
-	//Chargement du fichier query_entreprises.properties
-	static {
-		
-		// Charge le contenu de ton fichier properties dans un objet Properties
-		FileInputStream stream = null;
-		
-		try {
-			
-			stream = new FileInputStream("/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query_entreprises.properties");
-			prop.load(stream) ;
-			
-		} catch(IOException e) {
 
-			e.printStackTrace();
-			
-		}
-		
-	}
-	
-	public final static Logger logger = LoggerFactory.getLogger(EntrepriseDao.class);
-    
-    // Fonction qui recupere la liste de tous les entreprises
-	public List<Entreprise> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException {
-		
-		List<Entreprise> entreprises = new ArrayList<Entreprise>();
-		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
-		Statement stmt = null;
-		logger.info("recherche de la liste d'entreprise");
-		
-		try {
-            
-            //Formation de la requete QUERY
-            stmt = con.createStatement();
-            ResultSet rset = stmt.executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
-            
-            //recuperation des resultats
-            entreprises = recuperationResultatRequete(rset);
-            logger.info("recherche de la liste d'entreprise effectuée");
-            
-        } catch(SQLException e) {
-        	
-        	throw new RequeteQueryException("Echec de la requete de recherche d'entreprise");
-            
-        } finally {
-        	
-            if(stmt != null) {
-            	
-                try {
-                	
-                    stmt.close();
-                    
-                } catch(SQLException e) {
-                	
-                	throw new RequeteQueryException("Fermeture de la requete de recherche d'entreprise impossible");
-                    
-                }
-                
-            }
-            
-            ConnexionDatabase.getInstanceConnexionDatabase().closeConnexionDatabase(con);
-            
+    static {
+
+        FileInputStream stream = null;
+
+        try {
+
+            stream = new FileInputStream("/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query.properties");
+            prop.load(stream);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
         }
-		
-		return entreprises;
-	}
-	
-	// Fonction qui recupere la liste de toutes les entreprises d'une page
-	public List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage) throws ConnexionDatabaseException, RequeteQueryException {
-		
-		List<Entreprise> entreprises = new ArrayList<Entreprise>();
-		
-		//initialisation des bornes pour la requete QUERY
-		int limit = ligneParPage;
-		int offset = (numeroPage-1)*ligneParPage;
-		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
-		PreparedStatement requete = null;
-		logger.info("recherche de la liste d'entreprise par page");
-		
-		try {
-            
-          //Formation de la requete QUERY
-            requete = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"));
+
+    }
+
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(EntrepriseDao.class);
+
+    /**
+     * Find entreprise.
+     *
+     * @return une liste d'entreprise
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
+     */
+    public List<Entreprise> findEntreprise()
+            throws ConnexionDatabaseException, RequeteQueryException {
+
+        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+        Connection con = ConnexionDatabase.getInstanceConnexionDatabase()
+                .connectDatabase();
+        Statement stmt = null;
+        LOGGER.info("recherche de la liste d'entreprise");
+
+        try {
+
+            stmt = con.createStatement();
+            ResultSet rset = stmt
+                    .executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
+            entreprises = recuperationResultatRequete(rset);
+            LOGGER.info("recherche de la liste d'entreprise effectuée");
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException(
+                    "Echec" + " de la requete de recherche d'entreprise");
+
+        } finally {
+
+            if (stmt != null) {
+
+                try {
+
+                    stmt.close();
+
+                } catch (SQLException e) {
+
+                    throw new RequeteQueryException(
+                            "Fermeture" + " de la requete de recherche"
+                                    + " d'entreprise impossible");
+
+                }
+
+            }
+
+            ConnexionDatabase.getInstanceConnexionDatabase()
+                    .closeConnexionDatabase(con);
+
+        }
+
+        return entreprises;
+
+    }
+
+    /**
+     * Find entreprise by page.
+     *
+     * @param numeroPage
+     *            le numero de page
+     * @param ligneParPage
+     *            le nombre de ligne par page
+     * @return une liste d'entreprise
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
+     */
+    public List<Entreprise> findEntrepriseByPage(final int numeroPage,
+            final int ligneParPage)
+            throws ConnexionDatabaseException, RequeteQueryException {
+
+        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+        int limit = ligneParPage;
+        int offset = (numeroPage - 1) * ligneParPage;
+        Connection con = ConnexionDatabase.getInstanceConnexionDatabase()
+                .connectDatabase();
+        PreparedStatement requete = null;
+        LOGGER.info("recherche de la liste d'entreprise par page");
+
+        try {
+
+            requete = con.prepareStatement(
+                    prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"));
             requete.setInt(1, limit);
             requete.setInt(2, offset);
             ResultSet res = requete.executeQuery();
-            
-            //recuperation des resultats
             entreprises = recuperationResultatRequete(res);
-            logger.info("recherche de la liste d'entreprise par page effectuée");
-            
-        } catch(SQLException e) {
-        	
-        	throw new RequeteQueryException("Echec de la requete de recherche par page d'entreprise");
-            
-        } finally {
-        	
-            if(requete != null) {
-            	
-                try {
-                	
-                	requete.close();
-                	
-                } catch(SQLException e) {
-                	
-                	throw new RequeteQueryException("Fermeture de la requete de recherche d'entreprise par page impossible");
-                    
-                }
-                
-            }
-            
-            ConnexionDatabase.getInstanceConnexionDatabase().closeConnexionDatabase(con);
-            
-        }
-		
-		return entreprises;
-		
-	}
+            LOGGER.info("recherche de la liste"
+                    + " d'entreprise par page effectuée");
 
-	// Fonction qui recupere une entreprise via son ID
-	public Entreprise findEntrepriseByID(long index) throws ConnexionDatabaseException, RequeteQueryException {
-		
-		Entreprise entreprise = null;
-		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
-		PreparedStatement stmt = null;
-		logger.info("recherche d'une entreprise par id: " + index);
-		
-		try {
-            
-            //Formation de la requete QUERY
-            stmt = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException("Echec"
+                    + " de la requete de recherche" + " par page d'entreprise");
+
+        } finally {
+
+            if (requete != null) {
+
+                try {
+
+                    requete.close();
+
+                } catch (SQLException e) {
+
+                    throw new RequeteQueryException(
+                            "Fermeture" + " de la requete de recherche "
+                                    + "d'entreprise par page impossible");
+
+                }
+
+            }
+
+            ConnexionDatabase.getInstanceConnexionDatabase()
+                    .closeConnexionDatabase(con);
+
+        }
+
+        return entreprises;
+
+    }
+
+    /**
+     * Find entreprise by ID.
+     *
+     * @param index
+     *            l'id de l'entreprise à rechercher
+     * @return une entreprise
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
+     */
+    public Entreprise findEntrepriseByID(final long index)
+            throws ConnexionDatabaseException, RequeteQueryException {
+
+        Entreprise entreprise = null;
+        Connection con = ConnexionDatabase.getInstanceConnexionDatabase()
+                .connectDatabase();
+        PreparedStatement stmt = null;
+        LOGGER.info("recherche d'une entreprise par id: " + index);
+
+        try {
+
+            stmt = con.prepareStatement(
+                    prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
             stmt.setLong(1, index);
             ResultSet res = stmt.executeQuery();
-            
-            //Traitement du resultat si il existe pour recuperer un objet de type Entreprise
-            if(res.next()){
-            	
-            	//Construction de l'entreprise final
-            	entreprise = new Entreprise(res.getInt("id"), res.getString("name"));
-            
-            }
-            
-            logger.info("recherche d'une entreprise par id effectuée");
-            
-        } catch(SQLException e) {
-        	
-        	throw new RequeteQueryException("Echec de la requete de recherche de l'entreprise numero:" + index);
-            
-        } finally {
-        	
-            if(stmt != null) {
-            	
-                try {
-                	
-                    stmt.close();
-                    
-                } catch(SQLException e) {
-                	
-                	throw new RequeteQueryException("Fermeture de la requete de recherche d'entreprise par ID impossible");
-                    
-                }
-                
-            }
-            
-            ConnexionDatabase.getInstanceConnexionDatabase().closeConnexionDatabase(con);
-            
-        }
-		
-		return entreprise;
-		
-	}
 
-	// Fonction de recuperation de resultat de la requete en format List Entreprise pour qu'elle soit traitable par l'application.
-	private List<Entreprise> recuperationResultatRequete(ResultSet rset) throws RequeteQueryException {
-		
-		List<Entreprise> entreprises = new ArrayList<Entreprise>();
-		
-		try {
-			
-			while(rset.next()) {
-				
-				//Construction de l'entreprise final + ajout à la liste
-				entreprises.add(new Entreprise(rset.getLong("id"), rset.getString("name")));
-			
-			}
-			
-		}catch(SQLException e){
-			
-			throw new RequeteQueryException("L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
-			
-		}
-		
-		return entreprises;
-		
-	}
-	
+            if (res.next()) {
+
+                entreprise = new Entreprise(res.getInt("id"),
+                        res.getString("name"));
+
+            }
+
+            LOGGER.info("recherche d'une entreprise par id effectuée");
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException(
+                    "Echec" + " de la requete de recherche"
+                            + " de l'entreprise numero:" + index);
+
+        } finally {
+
+            if (stmt != null) {
+
+                try {
+
+                    stmt.close();
+
+                } catch (SQLException e) {
+
+                    throw new RequeteQueryException(
+                            "Fermeture" + " de la requete de recherche"
+                                    + " d'entreprise par ID impossible");
+
+                }
+
+            }
+
+            ConnexionDatabase.getInstanceConnexionDatabase()
+                    .closeConnexionDatabase(con);
+
+        }
+
+        return entreprise;
+
+    }
+
+    /**
+     * Recuperation resultat requete.
+     *
+     * @param rset
+     *            resultat d'une requete
+     * @return une liste d'entreprise
+     * @throws RequeteQueryException
+     *             if there is an issue
+     */
+    private List<Entreprise> recuperationResultatRequete(final ResultSet rset)
+            throws RequeteQueryException {
+
+        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+
+        try {
+
+            while (rset.next()) {
+
+                entreprises.add(new Entreprise(rset.getLong("id"),
+                        rset.getString("name")));
+
+            }
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException(
+                    "L'extraction des données " + "du résultat de la requete ne"
+                            + " s'est pas déroulé correctement");
+
+        }
+
+        return entreprises;
+
+    }
+
 }

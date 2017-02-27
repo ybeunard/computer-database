@@ -5,18 +5,25 @@ import org.slf4j.LoggerFactory;
 
 public class RequeteQueryException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	public final static Logger logger = LoggerFactory.getLogger(RequeteQueryException.class);
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public RequeteQueryException(String s) {
-		
-		super(s);
-		logger.error(s);
-		
-	}
-	
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(RequeteQueryException.class);
+
+    /**
+     * Instantiates a new requete query exception.
+     *
+     * @param s
+     *            the s
+     */
+    public RequeteQueryException(String s) {
+
+        super(s);
+        LOGGER.error(s);
+
+    }
+
 }

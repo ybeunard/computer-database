@@ -6,27 +6,49 @@ import org.slf4j.LoggerFactory;
 import com.cdb.dao.Impl.ConnexionDatabase;
 import com.mysql.jdbc.Connection;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConnexionDatabaseException.
+ */
 public class ConnexionDatabaseException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	public final static Logger logger = LoggerFactory.getLogger(ConnexionDatabaseException.class);
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
-	public ConnexionDatabaseException(String s) {
-		
-		super(s);
-		logger.error(s);
-		
-	}
-	
-	public ConnexionDatabaseException(String s, Connection con) throws ConnexionDatabaseException {
-		
-		super(s);
-		logger.error(s);
-		ConnexionDatabase.getInstanceConnexionDatabase().closeConnexionDatabase(con);
-		
-	}
+    /** The Constant logger. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(ConnexionDatabaseException.class);
+
+    /**
+     * Instantiates a new connexion database exception.
+     *
+     * @param s
+     *            the s
+     */
+    public ConnexionDatabaseException(String s) {
+
+        super(s);
+        LOGGER.error(s);
+
+    }
+
+    /**
+     * Instantiates a new connexion database exception.
+     *
+     * @param s
+     *            the s
+     * @param con
+     *            the con
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     */
+    public ConnexionDatabaseException(String s, Connection con)
+            throws ConnexionDatabaseException {
+
+        super(s);
+        LOGGER.error(s);
+        ConnexionDatabase.getInstanceConnexionDatabase()
+                .closeConnexionDatabase(con);
+
+    }
 }

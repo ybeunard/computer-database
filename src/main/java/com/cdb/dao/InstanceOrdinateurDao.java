@@ -6,18 +6,72 @@ import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 
+/**
+ * The Interface InstanceOrdinateurDao.
+ */
 public interface InstanceOrdinateurDao {
 
-	void createOrdinateur(Ordinateur ordinateur) throws ConnexionDatabaseException, RequeteQueryException;
+    /**
+     * Creates the ordinateur.
+     *
+     * @param ordinateur the ordinateur
+     * @throws ConnexionDatabaseException the connexion database exception
+     * @throws RequeteQueryException the requete query exception
+     */
+    void createOrdinateur(Ordinateur ordinateur)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
-	List<Ordinateur> findOrdinateur() throws ConnexionDatabaseException, RequeteQueryException;
+    /**
+     * Find ordinateur.
+     *
+     * @return the list
+     * @throws ConnexionDatabaseException the connexion database exception
+     * @throws RequeteQueryException the requete query exception
+     */
+    List<Ordinateur> findOrdinateur()
+            throws ConnexionDatabaseException, RequeteQueryException;
 
-	List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage) throws ConnexionDatabaseException, RequeteQueryException;
+    /**
+     * Find ordinateur by page.
+     *
+     * @param numeroPage the numero page
+     * @param ligneParPage the ligne par page
+     * @return the list
+     * @throws ConnexionDatabaseException the connexion database exception
+     * @throws RequeteQueryException the requete query exception
+     */
+    List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
-	Ordinateur findOrdinateurByID(long index) throws ConnexionDatabaseException, RequeteQueryException;
+    /**
+     * Find ordinateur by ID.
+     *
+     * @param index the index
+     * @return the ordinateur
+     * @throws ConnexionDatabaseException the connexion database exception
+     * @throws RequeteQueryException the requete query exception
+     */
+    Ordinateur findOrdinateurByID(long index)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
-	void updateOrdinateur(Ordinateur ordinateur) throws ConnexionDatabaseException, RequeteQueryException;
+    /**
+     * Update ordinateur.
+     *
+     * @param ordinateur the ordinateur
+     * @throws ConnexionDatabaseException the connexion database exception
+     * @throws RequeteQueryException the requete query exception
+     */
+    void updateOrdinateur(Ordinateur ordinateur)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
-	void suppressionOrdinateur(long index) throws ConnexionDatabaseException, RequeteQueryException;
+    /**
+     * Suppression ordinateur.
+     *
+     * @param index the index
+     * @throws ConnexionDatabaseException the connexion database exception
+     * @throws RequeteQueryException the requete query exception
+     */
+    void suppressionOrdinateur(long index)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
 }
