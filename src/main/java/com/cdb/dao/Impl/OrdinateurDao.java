@@ -44,7 +44,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	//Chargement du fichier query_entreprises.properties
 	static {
 		
-		File fProp = new File("computer-database/properties/query_ordinateurs.properties");
+		File fProp = new File("/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query_ordinateurs.properties");
 		 
 		// Charge le contenu de ton fichier properties dans un objet Properties
 		FileInputStream stream = null;

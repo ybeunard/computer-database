@@ -1,4 +1,4 @@
-package com.cdb.test;
+package com.cdb.ui;
 
 import com.cdb.ui.GestionEntryUser;
 

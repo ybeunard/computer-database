@@ -1,6 +1,5 @@
 package com.cdb.dao.Impl;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -41,14 +40,12 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	//Chargement du fichier query_entreprises.properties
 	static {
 		
-		File fProp = new File("computer-database/properties/query_entreprises.properties");
-		 
 		// Charge le contenu de ton fichier properties dans un objet Properties
 		FileInputStream stream = null;
 		
 		try {
 			
-			stream = new FileInputStream(fProp);
+			stream = new FileInputStream("/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query_entreprises.properties");
 			prop.load(stream) ;
 			
 		} catch(IOException e) {

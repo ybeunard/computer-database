@@ -1,4 +1,4 @@
-package com.cdb.test;
+package com.cdb.dao;
 
 import java.util.List;
 

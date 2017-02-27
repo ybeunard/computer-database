@@ -1,6 +1,5 @@
 package com.cdb.dao.Impl;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.DriverManager;
@@ -13,36 +12,46 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ *
+ * @author excilys
+ *
+ */
 public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 
-	INSTANCE_CONNEXION_DATABASE;
-	
-	//Constructeur private
-	private ConnexionDatabase() {
-		
-	}
-	
-	//methode pour recuperer l'instance ConnexionDatabase
+    /**
+     *
+     */
+    INSTANCE_CONNEXION_DATABASE;
+
+    /**
+     *
+     */
+    private ConnexionDatabase() {
+
+    }
+
+    /**
+     *
+     * @return
+     */
     public final static ConnexionDatabase getInstanceConnexionDatabase() {
-        
+
         return INSTANCE_CONNEXION_DATABASE;
-        
+
     }
 	
 	private static Properties prop = new Properties();
 	
 	//Chargement du fichier connexion.properties
 	static {
-		
-		File fProp = new File("computer-database/properties/connexion.properties");
 		 
 		// Charge le contenu de ton fichier properties dans un objet Properties
 		FileInputStream stream = null;
 		
 		try {
 			
-			stream = new FileInputStream(fProp);
+			stream = new FileInputStream("/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/connexion.properties");
 			prop.load(stream) ;
 			
 		} catch(IOException e) {
