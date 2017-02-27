@@ -62,7 +62,6 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	public final static Logger logger = LoggerFactory.getLogger(EntrepriseDao.class);
     
     // Fonction qui recupere la liste de tous les entreprises
-	@Override
 	public List<Entreprise> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
@@ -108,7 +107,6 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	}
 	
 	// Fonction qui recupere la liste de toutes les entreprises d'une page
-	@Override
 	public List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Entreprise> entreprises = new ArrayList<Entreprise>();
@@ -161,7 +159,6 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 	}
 
 	// Fonction qui recupere une entreprise via son ID
-	@Override
 	public Entreprise findEntrepriseByID(long index) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Entreprise entreprise = null;

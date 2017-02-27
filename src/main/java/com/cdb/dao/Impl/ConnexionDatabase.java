@@ -55,14 +55,21 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 	
 	public final static Logger logger = LoggerFactory.getLogger(ConnexionDatabase.class);
 	
-	@Override
 	public Connection connectDatabase() throws ConnexionDatabaseException {
 		
 		try {
 			
 			Class.forName(prop.getProperty("nameDriver")).newInstance();
 			
-		} catch(InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch(InstantiationException e) {
+			
+			throw new ConnexionDatabaseException("Impossible de charger le Driver " + prop.getProperty("nameDriver"));
+
+		} catch(IllegalAccessException e) {
+			
+			throw new ConnexionDatabaseException("Impossible de charger le Driver " + prop.getProperty("nameDriver"));
+			
+		} catch(ClassNotFoundException e) {
 			
 			throw new ConnexionDatabaseException("Impossible de charger le Driver " + prop.getProperty("nameDriver"));
 			
@@ -86,7 +93,6 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 		
 	}
 	
-	@Override
 	public void closeConnexionDatabase(Connection con) throws ConnexionDatabaseException {
 		
 		if(con != null) {

@@ -44,7 +44,6 @@ public class GestionPagination implements InterfaceGestionPagination {
 	}
 	
 	//Fonction principal qui gere la pagination de la liste specifier
-	@Override
 	public void pagination(int typePage) {
 		
 		do {
@@ -96,11 +95,15 @@ public class GestionPagination implements InterfaceGestionPagination {
 					
 				}
 				
-			} catch (ConnexionDatabaseException | RequeteQueryException e) {
-				
-				e.printStackTrace();
-				
-			}
+			} catch(ConnexionDatabaseException e) {
+	    		
+	    		e.printStackTrace();
+	    		
+	    	} catch(RequeteQueryException e) {
+	    		
+	    		e.printStackTrace();
+	    		
+	    	}
 			
 		//On test si l'utilisateur veut continuer de consulter la liste ou sortir
 		} while(changementPage());
@@ -113,11 +116,8 @@ public class GestionPagination implements InterfaceGestionPagination {
 		//Lecture
 		String arg = UserInterpreter.sc.nextLine();
 		
-		//Traitement
-		switch(arg) {
-		
 		//Page precedente
-		case "b":
+		if(arg=="b") {
 			
 			if(numeroPage>1) {
 				
@@ -128,12 +128,10 @@ public class GestionPagination implements InterfaceGestionPagination {
 			return true;
 			
 		//Page suivante
-		case "n":
+		} else if(arg=="n") {
+			
 			numeroPage++;
 			return true;
-			
-		//Sortie
-		default:
 			
 		}
 		

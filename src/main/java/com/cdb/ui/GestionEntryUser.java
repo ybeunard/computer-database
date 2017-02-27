@@ -45,10 +45,8 @@ public class GestionEntryUser {
 		//recuperation de l'argument principal
 		String[] splitArray = arg.split(" ", 2);
 		
-		switch(splitArray[0]) {
-		
 		//commande list qui affiche la liste paginer
-		case "list":
+		if(splitArray[0]=="list") {
 			
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
@@ -59,10 +57,9 @@ public class GestionEntryUser {
 			}
 			
 			affichageListe(splitArray[1]);
-			break;
 			
 		//commande affiche qui affiche l'ordinateur demandé
-		case "affiche":
+		} else if(splitArray[0]=="affiche") {
 			
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
@@ -73,10 +70,9 @@ public class GestionEntryUser {
 			}
 			
 			affichageOrdinateur(splitArray[1]);
-			break;
 			
 		//commande create qui creer un nouvel ordinateur
-		case "create":
+		} else if(splitArray[0]=="create") {
 			
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
@@ -87,10 +83,9 @@ public class GestionEntryUser {
 			}
 			
 			createOrdinateur(splitArray[1]);
-			break;
 			
 		//commande update qui modifie un ordinateur existant
-		case "update":
+		} else if(splitArray[0]=="update") {
 			
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
@@ -101,10 +96,9 @@ public class GestionEntryUser {
 			}
 			
 			updateOrdinateur(splitArray[1]);
-			break;
 			
 		//commande delete qui supprime un ordinateur existant
-		case "delete":
+		} else if(splitArray[0]=="delete") {
 			
 			//Verification si l'utilisateur à bien donner des arguments nessecaire à la commande
 			if(splitArray.length != 2) {
@@ -115,10 +109,9 @@ public class GestionEntryUser {
 			}
 			
 			deleteOrdinateur(splitArray[1]);
-			break;
 			
 		//commande help qui aide l'utilisateur dans l'utilisation des commandes
-		case "help":
+		} else if(splitArray[0]=="help") {
 			
 			//Verification si l'utilisateur à bien donner des arguments supplementaires
 			if(splitArray.length == 2) {
@@ -135,14 +128,12 @@ public class GestionEntryUser {
 				
 			}
 			
-			break;
-			
 		//commande exit qui stop le programme
-		case "exit":
+		} else if(splitArray[0]=="exit") {
 			
 			return false;
 			
-		default:
+		} else {
 			
 			System.out.println(splitArray[0] + prop.getProperty("command_incorrect"));
 		
@@ -181,21 +172,17 @@ public class GestionEntryUser {
 		}
 		
 		//Verification de la liste à afficher specifier par l'utilisateur
-		switch(argArray[0]) {
-		
 		//Affichage de la liste des entreprises
-		case "company":
+		if(argArray[0]=="company") {
 			
 			pagination.pagination(2);
-			break;
 			
 		//affichage de la liste des ordinateurs
-		case "computer":
+		} else if(argArray[0]=="computer") {
 			
 			pagination.pagination(1);
-			break;
 		
-		default:
+		} else {
 			
 			System.out.println(argArray[0] + prop.getProperty("argument_incorrect"));
 			
@@ -264,10 +251,8 @@ public class GestionEntryUser {
 			}
 			
 			//Traitement de l'option
-			switch(argArray[0]) {
-			
 			//Traitement de l'option: dateIntroduit
-			case "introduction":
+			if(argArray[0]=="introduction") {
 				
 				try {
 					
@@ -283,10 +268,8 @@ public class GestionEntryUser {
 					
 				}
 				
-				break;
-				
 			//Traitement de l'option:  dateInterrompu
-			case "interruption":
+			} else if(argArray[0]=="interruption") {
 				
 				try {
 					
@@ -302,10 +285,8 @@ public class GestionEntryUser {
 					
 				}
 				
-				break;
-				
 			//Traitement de l'option: fabricant
-			case "fabricant":
+			} else if(argArray[0]=="fabricant") {
 				
 				try {
 					
@@ -331,10 +312,8 @@ public class GestionEntryUser {
 					
 				}
 				
-				break;
-				
 			//Option inconnu
-			default:
+			} else {
 				
 				System.out.println(argArray[0] + prop.getProperty("argument_incorrect"));
 				return;
@@ -412,11 +391,9 @@ public class GestionEntryUser {
 			}
 			
 			//Traitement de l'option
-			switch(argArray[0]) {
-			
-			//Traitement de l'option : name
-			case "name":
-				
+			//Traitement de l'option : name	
+			if(argArray[0]=="name") {
+						
 				argArray = argArray[1].split(" ", 2);
 				argArray = argArray[0].split("'", 3);
 				ordinateur.setName(argArray[1]);
@@ -428,10 +405,8 @@ public class GestionEntryUser {
 					
 				}
 				
-				break;
-				
 			//Traitement de l'option : dateIntroduit
-			case "introduction":
+			} else if(argArray[0]=="introduction") {
 				
 				try {
 					
@@ -447,10 +422,8 @@ public class GestionEntryUser {
 					
 				}
 				
-				break;
-				
 			//Traitement de l'option: dateInterrompu
-			case "interruption":
+			} else if(argArray[0]=="interruption") {
 				
 				try {
 					
@@ -469,7 +442,7 @@ public class GestionEntryUser {
 				break;
 				
 			//Traitement de l'option: fabricant
-			case "fabricant":
+			} else if(argArray[0]=="fabricant") {
 				
 				try {
 					
@@ -495,10 +468,8 @@ public class GestionEntryUser {
 					
 				}
 				
-				break;
-				
 			//Option inconnu
-			default:
+			} else {
 				
 				System.out.println(argArray[0] + prop.getProperty("argument_incorrect"));
 				return;
@@ -543,34 +514,27 @@ public class GestionEntryUser {
 	//Fonction qui aide l'utilisateur dans l'utilisation des commandes
 	private static void help(String arg) {
 		
-		switch(arg) {
-		
-		case "list":
+		if(arg=="list") {
 			
 			System.out.println(prop.getProperty("syntaxe_list"));
-			break;
 			
-		case "affiche":
+		} else if(arg=="affiche") {
 			
 			System.out.println(prop.getProperty("syntaxe_affiche"));
-			break;
 			
-		case "create":
+		} else if(arg=="create") {
 			
 			System.out.println(prop.getProperty("syntaxe_create"));
-			break;
 			
-		case "update":
+		} else if(arg=="update") {
 			
 			System.out.println(prop.getProperty("syntaxe_update"));
-			break;
 			
-		case "delete":
+		} else if(arg=="delete") {
 			
 			System.out.println(prop.getProperty("syntaxe_delete"));
-			break;
 			
-		default:
+		} else {
 			
 			System.out.println(arg + prop.getProperty("command_incorrect"));
 			

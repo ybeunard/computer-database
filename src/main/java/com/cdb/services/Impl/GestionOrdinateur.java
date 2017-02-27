@@ -23,23 +23,25 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
     
     //Fonction qui creer un nouvel ordinateur
-    @Override
     public void createOrdinateur(Ordinateur ordinateur) {
     	
     	try {
     		
     	    OrdinateurDao.getInstanceOrdinateurDao().createOrdinateur(ordinateur);
    		 
-	   	} catch(ConnexionDatabaseException | RequeteQueryException e) {
-	   		
-	   		e.printStackTrace();
-	   		
-	   	}
+	   	} catch(ConnexionDatabaseException e) {
+    		
+    		e.printStackTrace();
+    		
+    	} catch(RequeteQueryException e) {
+    		
+    		e.printStackTrace();
+    		
+    	}
     	
     }
     
     //Fonction qui renvoie l'ordinateur demandé
-    @Override
     public Ordinateur findOrdinateurByID(long id){
     	
     	Ordinateur ordinateur = null;
@@ -48,7 +50,11 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     		
     		 ordinateur =OrdinateurDao.getInstanceOrdinateurDao().findOrdinateurByID(id);
     		 
-    	} catch(ConnexionDatabaseException | RequeteQueryException e) {
+    	} catch(ConnexionDatabaseException e) {
+    		
+    		e.printStackTrace();
+    		
+    	} catch(RequeteQueryException e) {
     		
     		e.printStackTrace();
     		
@@ -59,34 +65,40 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
     
     //Fonction qui modifie un ordinateur existant
-    @Override
     public void updateOrdinateur(Ordinateur ordinateur) {
     	
     	try {
     		
     		OrdinateurDao.getInstanceOrdinateurDao().updateOrdinateur(ordinateur);
    		 
-	   	} catch(ConnexionDatabaseException | RequeteQueryException e) {
-	   		
-	   		e.printStackTrace();
-	   		
-	   	}
+	   	} catch(ConnexionDatabaseException e) {
+    		
+    		e.printStackTrace();
+    		
+    	} catch(RequeteQueryException e) {
+    		
+    		e.printStackTrace();
+    		
+    	}
 
     }
     
     //Fonction qui supprime un ordinateur existant
-    @Override
     public void suppressionOrdinateur(long id) {
     	
     	try {
     		
     		OrdinateurDao.getInstanceOrdinateurDao().suppressionOrdinateur(id);
    		 
-	   	} catch(ConnexionDatabaseException | RequeteQueryException e) {
-	   		
-	   		e.printStackTrace();
-	   		
-	   	}
+	   	} catch(ConnexionDatabaseException e) {
+    		
+    		e.printStackTrace();
+    		
+    	} catch(RequeteQueryException e) {
+    		
+    		e.printStackTrace();
+    		
+    	}
     	
     }
     

@@ -23,7 +23,6 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     }
     
     //Fonction qui renvoie l'entreprise demandé
-    @Override
     public Entreprise findEntrepriseByID(long id){
     	
     	Entreprise entreprise = null;
@@ -32,7 +31,11 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     		
     		entreprise = EntrepriseDao.getInstanceEntrepriseDao().findEntrepriseByID(id);
     		 
-    	} catch(ConnexionDatabaseException | RequeteQueryException e) {
+    	} catch(ConnexionDatabaseException e) {
+    		
+    		e.printStackTrace();
+    		
+    	} catch(RequeteQueryException e) {
     		
     		e.printStackTrace();
     		

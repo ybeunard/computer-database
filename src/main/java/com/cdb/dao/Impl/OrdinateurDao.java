@@ -65,8 +65,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	public final static Logger logger = LoggerFactory.getLogger(OrdinateurDao.class);
     
     //fonction qui cree un ordinateur dans la BDD
-	@Override
-    public void createOrdinateur(Ordinateur ordinateur) throws ConnexionDatabaseException, RequeteQueryException {
+	public void createOrdinateur(Ordinateur ordinateur) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase();; 
 		PreparedStatement requete = null;
@@ -134,7 +133,6 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
     }
     
     // Fonction qui recupere la liste de tous les ordinateurs
-	@Override
 	public List<Ordinateur> findOrdinateur() throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
@@ -183,7 +181,6 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	}
 	
 	// Fonction qui recupere la liste de tous les ordinateurs d'une page
-	@Override
 	public List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
@@ -236,7 +233,6 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	}
 	
 	// Fonction qui recupere un ordinateur via son ID
-	@Override
 	public Ordinateur findOrdinateurByID(long index) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Ordinateur ordinateur = null;
@@ -339,7 +335,6 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	}
 	
 	//Fonction de mise à jour d'un ordinateur
-	@Override
 	public void updateOrdinateur(Ordinateur ordinateur) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
@@ -410,7 +405,6 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 	}
 	
 	//fonction qui supprime un ordinateur
-	@Override
 	public void suppressionOrdinateur(long id) throws ConnexionDatabaseException, RequeteQueryException {
 		
 		Connection con = ConnexionDatabase.getInstanceConnexionDatabase().connectDatabase(); 
