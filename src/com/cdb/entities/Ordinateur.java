@@ -17,11 +17,20 @@ public class Ordinateur {
 		
 	}
 	
+<<<<<<< HEAD
 	public Ordinateur(int id, String name, LocalDate dateIntroduit, LocalDate dateInterrompu, Entreprise fabricant) {
+=======
+	public Ordinateur(long id, String name, LocalDate dateIntroduit, LocalDate dateInterrompu, Entreprise fabricant) {
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 		
 		super();
 		this.id = id;
 		this.name = name;
+<<<<<<< HEAD
+=======
+		this.dateIntroduit = dateIntroduit;
+		this.dateInterrompu = dateInterrompu;
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 		this.fabricant = fabricant;
 		
 	}
@@ -51,21 +60,35 @@ public class Ordinateur {
 	}
 
 	public void setDateIntroduit(LocalDate dateIntroduit) {
+<<<<<<< HEAD
 
 		this.dateIntroduit = dateIntroduit;
 
+=======
+		
+		this.dateIntroduit = dateIntroduit;
+		
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 	}
 
 	public LocalDate getDateInterrompu() {
 		
 		return dateInterrompu;
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 	}
 
 	public void setDateInterrompu(LocalDate dateInterrompu) {
 		
 		this.dateInterrompu = dateInterrompu;
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 	}
 
 	public Entreprise getFabricant() {
@@ -97,6 +120,7 @@ public class Ordinateur {
 	@Override
 	public boolean equals(Object obj) {
 		
+<<<<<<< HEAD
 		if (this == obj) {
 			
 			return true;
@@ -110,6 +134,17 @@ public class Ordinateur {
 		}
 		
 		if (getClass() != obj.getClass()) {
+=======
+		if(this == obj) {
+			
+			return true;
+			
+		} if(obj == null) {
+			
+			return false;
+			
+		} if(getClass() != obj.getClass()) {
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 			
 			return false;
 			
@@ -117,6 +152,7 @@ public class Ordinateur {
 		
 		Ordinateur other = (Ordinateur) obj;
 		
+<<<<<<< HEAD
 		if (dateInterrompu == null) {
 			
 			if (other.dateInterrompu != null) {
@@ -134,11 +170,29 @@ public class Ordinateur {
 		if (dateIntroduit == null) {
 			
 			if (other.dateIntroduit != null) {
+=======
+		if(dateInterrompu == null) {
+			
+			if(other.dateInterrompu != null) {
 				
 				return false;
 				
 			}
 			
+		} else if(!dateInterrompu.equals(other.dateInterrompu)) {
+			
+			return false;
+			
+		} if(dateIntroduit == null) {
+			
+			if(other.dateIntroduit != null) {
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
+				
+				return false;
+				
+			}
+			
+<<<<<<< HEAD
 		} else if (!dateIntroduit.equals(other.dateIntroduit)) {
 			
 			return false;
@@ -148,11 +202,21 @@ public class Ordinateur {
 		if (fabricant == null) {
 			
 			if (other.fabricant != null) {
+=======
+		} else if(!dateIntroduit.equals(other.dateIntroduit)) {
+			
+			return false;
+			
+		} if(fabricant == null) {
+			
+			if(other.fabricant != null) {
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 				
 				return false;
 				
 			}
 			
+<<<<<<< HEAD
 		} else if (!fabricant.equals(other.fabricant)) {
 			
 			return false;
@@ -168,12 +232,29 @@ public class Ordinateur {
 		if (name == null) {
 			
 			if (other.name != null) {
+=======
+		} else if(!fabricant.equals(other.fabricant)) {
+			
+			return false;
+			
+		} if(id != other.id) {
+			
+			return false;
+			
+		} if(name == null) {
+			
+			if(other.name != null) {
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 				
 				return false;
 				
 			}
 			
+<<<<<<< HEAD
 		} else if (!name.equals(other.name)) {
+=======
+		} else if(!name.equals(other.name)) {
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 			
 			return false;
 			
@@ -184,7 +265,11 @@ public class Ordinateur {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public String toString() {
+=======
+	public String toString(){
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
 		
 		String chaine = "Ordinateur numero ";
 		chaine += this.id + " : " + this.name + "\t" + this.dateIntroduit + "\t" + this.dateInterrompu + "\t";
@@ -193,11 +278,18 @@ public class Ordinateur {
         	
         	chaine += this.fabricant.getName();
         	
+<<<<<<< HEAD
         }
         
         else {
         	
         	chaine += "NULL";
+=======
+        } else {
+        	
+        	chaine += "NULL";
+        	
+>>>>>>> d91cb8ed6581f2395b388995871dc39a4f142843
         }
         
 		return chaine;
