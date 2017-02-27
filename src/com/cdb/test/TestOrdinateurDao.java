@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.cdb.dao.EntrepriseDao;
 import com.cdb.dao.OrdinateurDao;
-import com.cdb.persistance.Ordinateur;
+import com.cdb.entities.Ordinateur;
 
 public class TestOrdinateurDao {
 

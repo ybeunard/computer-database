@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cdb.persistance.Entreprise;
+import com.cdb.entities.Entreprise;
 
 public final class EntrepriseDao {
 

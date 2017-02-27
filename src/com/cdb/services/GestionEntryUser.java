@@ -6,9 +6,8 @@ import java.text.SimpleDateFormat;
 
 import com.cdb.dao.EntrepriseDao;
 import com.cdb.dao.OrdinateurDao;
-import com.cdb.persistance.Ordinateur;
-import com.cdb.persistance.Entreprise;
-
+import com.cdb.entities.Ordinateur;
+import com.cdb.entities.Entreprise;
 public class GestionEntryUser {
 
 	//Lit le premier argument de la commande utilisateur et le renvoi vers la fonction qui la traite

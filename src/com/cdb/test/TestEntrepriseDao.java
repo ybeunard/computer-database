@@ -3,7 +3,7 @@ package com.cdb.test;
 import java.util.List;
 
 import com.cdb.dao.EntrepriseDao;
-import com.cdb.persistance.Entreprise;
+import com.cdb.entities.Entreprise;
 
 public class TestEntrepriseDao {
 
