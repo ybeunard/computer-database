@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import com.cdb.dao.InterfaceConnexionDatabase;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.mysql.jdbc.Connection;
+
+import java.util.Optional;
 import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +73,8 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
      * @throws ConnexionDatabaseException
      *             if there is an issue
      */
-    public Connection connectDatabase() throws ConnexionDatabaseException {
+    public Optional<Connection> connectDatabase()
+            throws ConnexionDatabaseException {
 
         try {
 
@@ -101,13 +104,13 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
          *
          */
         LOGGER.info("Tentative de connexion");
-        Connection con = null;
+        Optional<Connection> con = Optional.empty();
 
         try {
 
-            con = (Connection) DriverManager.getConnection(
+            con = Optional.ofNullable((Connection) DriverManager.getConnection(
                     prop.getProperty("URL"), prop.getProperty("LOGIN"),
-                    prop.getProperty("PASSWORD"));
+                    prop.getProperty("PASSWORD")));
 
         } catch (SQLException e) {
 

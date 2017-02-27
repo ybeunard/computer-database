@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -56,7 +57,8 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
         try {
 
-            stream = new FileInputStream("/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query.properties");
+            stream = new FileInputStream(
+                    "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query.properties");
             prop.load(stream);
 
         } catch (IOException e) {
@@ -80,22 +82,30 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Entreprise> findEntreprise()
+    public Optional<List<Optional<Entreprise>>> findEntreprise()
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        List<Entreprise> entreprises = new ArrayList<Entreprise>();
-        Connection con = ConnexionDatabase.getInstanceConnexionDatabase()
-                .connectDatabase();
+        Optional<List<Optional<Entreprise>>> entreprises = Optional.empty();
+        Optional<Connection> con = ConnexionDatabase
+                .getInstanceConnexionDatabase().connectDatabase();
         Statement stmt = null;
         LOGGER.info("recherche de la liste d'entreprise");
 
         try {
 
-            stmt = con.createStatement();
-            ResultSet rset = stmt
-                    .executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
-            entreprises = recuperationResultatRequete(rset);
-            LOGGER.info("recherche de la liste d'entreprise effectuée");
+            if (con.isPresent()) {
+
+                stmt = con.get().createStatement();
+                ResultSet rset = stmt.executeQuery(
+                        prop.getProperty("QUERY_FIND_ENTREPRISES"));
+                entreprises = recuperationResultatRequete(rset);
+                LOGGER.info("recherche de la liste d'entreprise effectuée");
+
+            } else {
+
+                LOGGER.info("echec de la connexion");
+
+            }
 
         } catch (SQLException e) {
 
@@ -113,15 +123,17 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                 } catch (SQLException e) {
 
                     throw new RequeteQueryException(
-                            "Fermeture" + " de la requete de recherche"
-                                    + " d'entreprise impossible");
+                            "Fermeture de la requete de recherche d'entreprise impossible");
 
                 }
 
             }
+            if (con.isPresent()) {
 
-            ConnexionDatabase.getInstanceConnexionDatabase()
-                    .closeConnexionDatabase(con);
+                ConnexionDatabase.getInstanceConnexionDatabase()
+                        .closeConnexionDatabase(con.get());
+
+            }
 
         }
 
@@ -142,33 +154,41 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Entreprise> findEntrepriseByPage(final int numeroPage,
-            final int ligneParPage)
+    public Optional<List<Optional<Entreprise>>> findEntrepriseByPage(
+            int numeroPage, int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+        Optional<List<Optional<Entreprise>>> entreprises = Optional.empty();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
-        Connection con = ConnexionDatabase.getInstanceConnexionDatabase()
-                .connectDatabase();
+        Optional<Connection> con = ConnexionDatabase
+                .getInstanceConnexionDatabase().connectDatabase();
         PreparedStatement requete = null;
         LOGGER.info("recherche de la liste d'entreprise par page");
 
         try {
 
-            requete = con.prepareStatement(
-                    prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"));
-            requete.setInt(1, limit);
-            requete.setInt(2, offset);
-            ResultSet res = requete.executeQuery();
-            entreprises = recuperationResultatRequete(res);
-            LOGGER.info("recherche de la liste"
-                    + " d'entreprise par page effectuée");
+            if (con.isPresent()) {
+
+                requete = con.get().prepareStatement(
+                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"));
+                requete.setInt(1, limit);
+                requete.setInt(2, offset);
+                ResultSet res = requete.executeQuery();
+                entreprises = recuperationResultatRequete(res);
+                LOGGER.info(
+                        "recherche de la liste d'entreprise par page effectuée");
+
+            } else {
+
+                LOGGER.info("echec de la connexion");
+
+            }
 
         } catch (SQLException e) {
 
-            throw new RequeteQueryException("Echec"
-                    + " de la requete de recherche" + " par page d'entreprise");
+            throw new RequeteQueryException(
+                    "Echec de la requete de recherche par page d'entreprise");
 
         } finally {
 
@@ -181,15 +201,17 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                 } catch (SQLException e) {
 
                     throw new RequeteQueryException(
-                            "Fermeture" + " de la requete de recherche "
-                                    + "d'entreprise par page impossible");
+                            "Fermeture de la requete de recherche d'entreprise par page impossible");
 
                 }
 
             }
+            if (con.isPresent()) {
 
-            ConnexionDatabase.getInstanceConnexionDatabase()
-                    .closeConnexionDatabase(con);
+                ConnexionDatabase.getInstanceConnexionDatabase()
+                        .closeConnexionDatabase(con.get());
+
+            }
 
         }
 
@@ -208,36 +230,45 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Entreprise findEntrepriseByID(final long index)
+    public Optional<Entreprise> findEntrepriseByID(final long index)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Entreprise entreprise = null;
-        Connection con = ConnexionDatabase.getInstanceConnexionDatabase()
-                .connectDatabase();
+        Optional<Entreprise> entreprise = Optional.empty();
+        Optional<Connection> con = ConnexionDatabase
+                .getInstanceConnexionDatabase().connectDatabase();
         PreparedStatement stmt = null;
         LOGGER.info("recherche d'une entreprise par id: " + index);
 
         try {
 
-            stmt = con.prepareStatement(
-                    prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
-            stmt.setLong(1, index);
-            ResultSet res = stmt.executeQuery();
+            if (con.isPresent()) {
 
-            if (res.next()) {
+                stmt = con.get().prepareStatement(
+                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
+                stmt.setLong(1, index);
+                ResultSet res = stmt.executeQuery();
 
-                entreprise = new Entreprise(res.getInt("id"),
-                        res.getString("name"));
+                if (res.next()) {
+
+                    long id = res.getLong("id");
+                    String name = res.getString("name");
+                    entreprise = Optional.ofNullable(new Entreprise(id, name));
+
+                }
+
+                LOGGER.info("recherche d'une entreprise par id effectuée");
+
+            } else {
+
+                LOGGER.info("echec de la connexion");
 
             }
-
-            LOGGER.info("recherche d'une entreprise par id effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
-                    "Echec" + " de la requete de recherche"
-                            + " de l'entreprise numero:" + index);
+                    "Echec de la requete de recherche de l'entreprise numero: "
+                            + index);
 
         } finally {
 
@@ -250,15 +281,17 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                 } catch (SQLException e) {
 
                     throw new RequeteQueryException(
-                            "Fermeture" + " de la requete de recherche"
-                                    + " d'entreprise par ID impossible");
+                            "Fermeture de la requete de recherche d'entreprise par ID impossible");
 
                 }
 
             }
+            if (con.isPresent()) {
 
-            ConnexionDatabase.getInstanceConnexionDatabase()
-                    .closeConnexionDatabase(con);
+                ConnexionDatabase.getInstanceConnexionDatabase()
+                        .closeConnexionDatabase(con.get());
+
+            }
 
         }
 
@@ -269,35 +302,35 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
     /**
      * Recuperation resultat requete.
      *
-     * @param rset
+     * @param res
      *            resultat d'une requete
      * @return une liste d'entreprise
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    private List<Entreprise> recuperationResultatRequete(final ResultSet rset)
-            throws RequeteQueryException {
+    private Optional<List<Optional<Entreprise>>> recuperationResultatRequete(
+            ResultSet res) throws RequeteQueryException {
 
-        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+        List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
 
         try {
 
-            while (rset.next()) {
+            while (res.next()) {
 
-                entreprises.add(new Entreprise(rset.getLong("id"),
-                        rset.getString("name")));
+                long id = res.getLong("id");
+                String name = res.getString("name");
+                entreprises.add(Optional.ofNullable(new Entreprise(id, name)));
 
             }
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
-                    "L'extraction des données " + "du résultat de la requete ne"
-                            + " s'est pas déroulé correctement");
+                    "L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
 
         }
 
-        return entreprises;
+        return Optional.ofNullable(entreprises);
 
     }
 

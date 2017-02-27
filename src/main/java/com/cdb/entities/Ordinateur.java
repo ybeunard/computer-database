@@ -1,6 +1,7 @@
 package com.cdb.entities;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * The Class Ordinateur.
@@ -20,12 +21,13 @@ public class Ordinateur {
     private LocalDate dateInterrompu;
 
     /** The fabricant. */
-    private Entreprise fabricant;
+    private Optional<Entreprise> fabricant;
 
     /**
      * Instantiates a new ordinateur.
      *
-     * @param name the name
+     * @param name
+     *            the name
      */
     public Ordinateur(String name) {
 
@@ -37,11 +39,16 @@ public class Ordinateur {
     /**
      * Instantiates a new ordinateur.
      *
-     * @param id the id
-     * @param name the name
-     * @param dateIntroduit the date introduit
-     * @param dateInterrompu the date interrompu
-     * @param fabricant the fabricant
+     * @param id
+     *            the id
+     * @param name
+     *            the name
+     * @param dateIntroduit
+     *            the date introduit
+     * @param dateInterrompu
+     *            the date interrompu
+     * @param fabricant
+     *            the fabricant
      */
     public Ordinateur(long id, String name, LocalDate dateIntroduit,
             LocalDate dateInterrompu, Entreprise fabricant) {
@@ -51,7 +58,7 @@ public class Ordinateur {
         this.name = name;
         this.dateIntroduit = dateIntroduit;
         this.dateInterrompu = dateInterrompu;
-        this.fabricant = fabricant;
+        this.fabricant = Optional.ofNullable(fabricant);
 
     }
 
@@ -80,7 +87,8 @@ public class Ordinateur {
     /**
      * Sets the name.
      *
-     * @param name the new name
+     * @param name
+     *            the new name
      */
     public void setName(String name) {
 
@@ -102,7 +110,8 @@ public class Ordinateur {
     /**
      * Sets the date introduit.
      *
-     * @param dateIntroduit the new date introduit
+     * @param dateIntroduit
+     *            the new date introduit
      */
     public void setDateIntroduit(LocalDate dateIntroduit) {
 
@@ -124,7 +133,8 @@ public class Ordinateur {
     /**
      * Sets the date interrompu.
      *
-     * @param dateInterrompu the new date interrompu
+     * @param dateInterrompu
+     *            the new date interrompu
      */
     public void setDateInterrompu(LocalDate dateInterrompu) {
 
@@ -137,7 +147,7 @@ public class Ordinateur {
      *
      * @return the fabricant
      */
-    public Entreprise getFabricant() {
+    public Optional<Entreprise> getFabricant() {
 
         return fabricant;
 
@@ -146,16 +156,17 @@ public class Ordinateur {
     /**
      * Sets the fabricant.
      *
-     * @param fabricant the new fabricant
+     * @param fabricant
+     *            the new fabricant
      */
     public void setFabricant(Entreprise fabricant) {
 
-        this.fabricant = fabricant;
+        this.fabricant = Optional.ofNullable(fabricant);
 
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
+    /**
+     * @return entier du ascode
      */
     @Override
     public int hashCode() {
@@ -174,8 +185,9 @@ public class Ordinateur {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * @param obj de comparaison
+     * @return vrai ou faux
      */
     @Override
     public boolean equals(Object obj) {
@@ -260,8 +272,8 @@ public class Ordinateur {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
+    /**
+     * @return la chaine de caractere a afficher
      */
     @Override
     public String toString() {
@@ -270,9 +282,9 @@ public class Ordinateur {
         chaine += this.id + " : " + this.name + "\t" + this.dateIntroduit + "\t"
                 + this.dateInterrompu + "\t";
 
-        if (this.fabricant != null) {
+        if (this.fabricant.isPresent()) {
 
-            chaine += this.fabricant.getName();
+            chaine += this.fabricant.get().getName();
 
         } else {
 

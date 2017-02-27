@@ -1,5 +1,7 @@
 package com.cdb.exception;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,13 +44,19 @@ public class ConnexionDatabaseException extends Exception {
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      */
-    public ConnexionDatabaseException(String s, Connection con)
+    public ConnexionDatabaseException(String s, Optional<Connection> con)
             throws ConnexionDatabaseException {
 
         super(s);
         LOGGER.error(s);
-        ConnexionDatabase.getInstanceConnexionDatabase()
-                .closeConnexionDatabase(con);
+
+        if (con.isPresent()) {
+
+            ConnexionDatabase.getInstanceConnexionDatabase()
+                    .closeConnexionDatabase(con.get());
+
+        }
 
     }
+
 }

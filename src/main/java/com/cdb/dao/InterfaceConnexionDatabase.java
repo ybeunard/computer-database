@@ -1,5 +1,7 @@
 package com.cdb.dao;
 
+import java.util.Optional;
+
 import com.cdb.exception.ConnexionDatabaseException;
 import com.mysql.jdbc.Connection;
 
@@ -14,7 +16,7 @@ public interface InterfaceConnexionDatabase {
      * @return the connection
      * @throws ConnexionDatabaseException the connexion database exception
      */
-    Connection connectDatabase() throws ConnexionDatabaseException;
+    Optional<Connection> connectDatabase() throws ConnexionDatabaseException;
 
     /**
      * Close connexion database.
