@@ -1,6 +1,8 @@
 package com.cdb.services;
 
 import com.cdb.entities.Entreprise;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,5 +18,17 @@ public interface InterfaceGestionEntreprise {
      * @return the entreprise
      */
     Optional<Entreprise> findEntrepriseByID(long id);
+
+    /**
+     * Find entreprise by page.
+     *
+     * @param numeroPage
+     *            the numero page
+     * @param ligneParPage
+     *            the ligne par page
+     * @return the optional
+     */
+    Optional<List<Optional<Entreprise>>> findEntrepriseByPage(int numeroPage,
+            int ligneParPage);
 
 }

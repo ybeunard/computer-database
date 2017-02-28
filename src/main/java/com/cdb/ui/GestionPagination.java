@@ -1,21 +1,17 @@
-package com.cdb.services.Impl;
+package com.cdb.ui;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.cdb.dao.Impl.EntrepriseDao;
-import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
-import com.cdb.exception.ConnexionDatabaseException;
-import com.cdb.exception.RequeteQueryException;
-import com.cdb.services.InterfaceGestionPagination;
-import com.cdb.ui.UserInterpreter;
+import com.cdb.services.Impl.GestionEntreprise;
+import com.cdb.services.Impl.GestionOrdinateur;
 
 /**
  * The Class GestionPagination.
  */
-public class GestionPagination implements InterfaceGestionPagination {
+public class GestionPagination {
 
     /** The numero page. */
     private int numeroPage;
@@ -69,79 +65,67 @@ public class GestionPagination implements InterfaceGestionPagination {
 
         do {
 
-            try {
+            switch (typePage) {
 
-                switch (typePage) {
+            case 1:
 
-                case 1:
+                pageOrdinateur = Optional.empty();
+                pageOrdinateur = GestionOrdinateur
+                        .getInstanceGestionOrdinateur()
+                        .findOrdinateurByPage(numeroPage, ligneParPage);
 
-                    pageOrdinateur = Optional.empty();
-                    pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao()
-                            .findOrdinateurByPage(numeroPage, ligneParPage);
+                if (pageOrdinateur.isPresent()) {
 
-                    if (pageOrdinateur.isPresent()) {
+                    if (pageOrdinateur.get().isEmpty()) {
 
-                        if (pageOrdinateur.get().isEmpty()) {
-
-                            numeroPage--;
-                            pageOrdinateur = OrdinateurDao
-                                    .getInstanceOrdinateurDao()
-                                    .findOrdinateurByPage(numeroPage,
-                                            ligneParPage);
-
-                        }
-
-                    } else {
-
-                        System.out.println("Aucune page à afficher");
-                        return;
+                        numeroPage--;
+                        pageOrdinateur = GestionOrdinateur
+                                .getInstanceGestionOrdinateur()
+                                .findOrdinateurByPage(numeroPage, ligneParPage);
 
                     }
 
-                    affichagePage(typePage);
-                    break;
+                } else {
 
-                case 2:
-
-                    pageEntreprise = Optional.empty();
-                    pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao()
-                            .findEntrepriseByPage(numeroPage, ligneParPage);
-
-                    if (pageEntreprise.isPresent()) {
-
-                        if (pageEntreprise.get().isEmpty()) {
-
-                            numeroPage--;
-                            pageEntreprise = EntrepriseDao
-                                    .getInstanceEntrepriseDao()
-                                    .findEntrepriseByPage(numeroPage,
-                                            ligneParPage);
-
-                        }
-
-                    } else {
-
-                        System.out.println("Aucune page à afficher");
-                        return;
-
-                    }
-
-                    affichagePage(typePage);
-                    break;
-
-                default:
-                    System.out.println("Type de page inconnu");
+                    System.out.println("Aucune page à afficher");
                     return;
 
                 }
 
-            } catch (ConnexionDatabaseException e) {
+                affichagePage(typePage);
+                break;
 
-                e.printStackTrace();
+            case 2:
 
-            } catch (RequeteQueryException e) {
+                pageEntreprise = Optional.empty();
+                pageEntreprise = GestionEntreprise
+                        .getInstanceGestionEntreprise()
+                        .findEntrepriseByPage(numeroPage, ligneParPage);
 
-                e.printStackTrace();
+                if (pageEntreprise.isPresent()) {
+
+                    if (pageEntreprise.get().isEmpty()) {
+
+                        numeroPage--;
+                        pageEntreprise = GestionEntreprise
+                                .getInstanceGestionEntreprise()
+                                .findEntrepriseByPage(numeroPage, ligneParPage);
+
+                    }
+
+                } else {
+
+                    System.out.println("Aucune page à afficher");
+                    return;
+
+                }
+
+                affichagePage(typePage);
+                break;
+
+            default:
+                System.out.println("Type de page inconnu");
+                return;
 
             }
 

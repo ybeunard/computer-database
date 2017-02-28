@@ -1,6 +1,8 @@
 package com.cdb.services;
 
 import com.cdb.entities.Ordinateur;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,6 +26,18 @@ public interface InterfaceGestionOrdinateur {
      * @return the ordinateur
      */
     Optional<Ordinateur> findOrdinateurByID(long id);
+
+    /**
+     * Find ordinateur by page.
+     *
+     * @param numeroPage
+     *            the numero page
+     * @param ligneParPage
+     *            the ligne par page
+     * @return the optional
+     */
+    Optional<List<Optional<Ordinateur>>> findOrdinateurByPage(int numeroPage,
+            int ligneParPage);
 
     /**
      * Update ordinateur.

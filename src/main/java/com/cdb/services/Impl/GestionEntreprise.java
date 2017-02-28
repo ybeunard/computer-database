@@ -1,5 +1,6 @@
 package com.cdb.services.Impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.cdb.dao.Impl.EntrepriseDao;
@@ -35,7 +36,10 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     }
 
     /**
-     * @param id de l'entreprise recherché
+     * Find entreprise by ID.
+     *
+     * @param id
+     *            de l'entreprise recherché
      * @return une entreprise
      */
     public Optional<Entreprise> findEntrepriseByID(long id) {
@@ -58,6 +62,37 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
         }
 
         return entreprise;
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cdb.services.InterfaceGestionEntreprise#findEntrepriseByPage(int,
+     * int)
+     */
+    public Optional<List<Optional<Entreprise>>> findEntrepriseByPage(
+            int numeroPage, int ligneParPage) {
+
+        Optional<List<Optional<Entreprise>>> entreprises = Optional.empty();
+
+        try {
+
+            entreprises = EntrepriseDao.getInstanceEntrepriseDao()
+                    .findEntrepriseByPage(numeroPage, ligneParPage);
+
+        } catch (ConnexionDatabaseException e) {
+
+            e.printStackTrace();
+
+        } catch (RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return entreprises;
 
     }
 

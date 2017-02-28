@@ -1,5 +1,6 @@
 package com.cdb.services.Impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.cdb.dao.Impl.OrdinateurDao;
@@ -35,6 +36,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
+     * Creates the ordinateur.
+     *
      * @param ordinateur
      *            à créer
      */
@@ -58,6 +61,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
+     * Find ordinateur by ID.
+     *
      * @param id
      *            de l'ordinateur recherché
      * @return un ordinateur
@@ -85,7 +90,40 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cdb.services.InterfaceGestionOrdinateur#findOrdinateurByPage(int,
+     * int)
+     */
+    public Optional<List<Optional<Ordinateur>>> findOrdinateurByPage(
+            int numeroPage, int ligneParPage) {
+
+        Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
+
+        try {
+
+            ordinateurs = OrdinateurDao.getInstanceOrdinateurDao()
+                    .findOrdinateurByPage(numeroPage, ligneParPage);
+
+        } catch (ConnexionDatabaseException e) {
+
+            e.printStackTrace();
+
+        } catch (RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return ordinateurs;
+
+    }
+
     /**
+     * Update ordinateur.
+     *
      * @param ordinateur
      *            a update
      */
@@ -109,6 +147,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
+     * Suppression ordinateur.
+     *
      * @param id
      *            de l'ordinateur a supprimé
      */
