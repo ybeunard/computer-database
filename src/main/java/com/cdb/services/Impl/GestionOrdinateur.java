@@ -98,10 +98,6 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @param ligneParPage
      *            le nombre de ligne par page
      * @return une liste d'ordinateur
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
-     * @throws RequeteQueryException
-     *             if there is an issue
      */
     public Optional<List<Optional<Ordinateur>>> findOrdinateurByPage(
             int numeroPage, int ligneParPage) {

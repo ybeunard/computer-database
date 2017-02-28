@@ -9,8 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -19,10 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.InstanceOrdinateurDao;
-import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
+import com.cdb.mappers.Impl.OrdinateurMapper;
 
 /**
  * The Enum OrdinateurDao.
@@ -200,7 +198,8 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                 stmt = con.get().createStatement();
                 ResultSet rset = stmt.executeQuery(
                         prop.getProperty("QUERY_FIND_ORDINATEURS"));
-                ordinateurs = recuperationResultatRequete(rset);
+                ordinateurs = OrdinateurMapper.getInstanceOrdinateurMapper()
+                        .recuperationListResultatRequete(rset);
                 LOGGER.info("recherche de la liste d'ordinateur effectuée");
 
             } else {
@@ -283,7 +282,8 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                 requete.setInt(1, limit);
                 requete.setInt(2, offset);
                 ResultSet res = requete.executeQuery();
-                ordinateurs = recuperationResultatRequete(res);
+                ordinateurs = OrdinateurMapper.getInstanceOrdinateurMapper()
+                        .recuperationListResultatRequete(res);
                 LOGGER.info(
                         "recherche de la liste d'ordinateur par page effectuée");
 
@@ -354,71 +354,8 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                         prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"));
                 requete.setLong(1, index);
                 ResultSet res = requete.executeQuery();
-
-                if (res.next()) {
-
-                    long id = res.getInt("id");
-                    String name = res.getString("name");
-                    LocalDate dateIntroduit = null;
-                    LocalDate dateInterrompu = null;
-                    Integer fabricantID = res.getInt("company_id");
-                    String fabricantName = res.getString("company_name");
-                    Date date = null;
-
-                    try {
-
-                        date = res.getDate("introduced");
-
-                        if (date != null) {
-
-                            dateIntroduit = date.toLocalDate();
-
-                        }
-
-                    } catch (SQLException e) {
-
-                        throw new RequeteQueryException(
-                                "Recuperation de la date d'introduction impossible");
-
-                    }
-                    try {
-
-                        date = res.getDate("discontinued");
-
-                        if (date != null) {
-
-                            dateInterrompu = date.toLocalDate();
-
-                        }
-
-                    } catch (SQLException e) {
-
-                        throw new RequeteQueryException(
-                                "Recuperation de la date d'interruption impossible");
-
-                    }
-
-                    if (fabricantID == 0) {
-
-                        ordinateur = Optional.ofNullable(
-                                new Ordinateur.OrdinateurBuilder(name).id(id)
-                                        .dateIntroduit(dateIntroduit)
-                                        .dateInterrompu(dateInterrompu)
-                                        .fabricant(null).build());
-
-                    } else {
-
-                        ordinateur = Optional.ofNullable(
-                                new Ordinateur.OrdinateurBuilder(name).id(id)
-                                        .dateIntroduit(dateIntroduit)
-                                        .dateInterrompu(dateInterrompu)
-                                        .fabricant(new Entreprise.EntrepriseBuilder(fabricantName).id(fabricantID).build())
-                                        .build());
-
-                    }
-
-                }
-
+                ordinateur = OrdinateurMapper.getInstanceOrdinateurMapper()
+                        .recuperationResultatRequete(res);
                 LOGGER.info("recherche d'un ordinateur par id effectuée");
 
             } else {
@@ -624,100 +561,6 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             }
 
         }
-    }
-
-    /**
-     * Recuperation resultat requete.
-     *
-     * @param res
-     *            the res
-     * @return the list
-     * @throws RequeteQueryException
-     *             the requete query exception
-     */
-    private Optional<List<Optional<Ordinateur>>> recuperationResultatRequete(
-            ResultSet res) throws RequeteQueryException {
-
-        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
-        Optional<Ordinateur> ordinateur = Optional.empty();
-
-        try {
-
-            while (res.next()) {
-
-                long id = res.getLong("id");
-                String name = res.getString("name");
-                LocalDate dateIntroduit = null;
-                LocalDate dateInterrompu = null;
-                long fabricantID = res.getLong("company_id");
-                String fabricantName = res.getString("company_name");
-                Date date = null;
-
-                try {
-
-                    date = (java.sql.Date) res.getDate("introduced");
-
-                    if (date != null) {
-
-                        dateIntroduit = date.toLocalDate();
-
-                    }
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Recuperation de la date d'introduction impossible");
-
-                }
-                try {
-
-                    date = res.getDate("discontinued");
-
-                    if (date != null) {
-
-                        dateIntroduit = date.toLocalDate();
-
-                    }
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Recuperation de la date d'interruption impossible");
-
-                }
-
-                if (fabricantID == 0) {
-
-                    ordinateur = Optional
-                            .ofNullable(new Ordinateur.OrdinateurBuilder(name)
-                                    .id(id).dateIntroduit(dateIntroduit)
-                                    .dateInterrompu(dateInterrompu)
-                                    .fabricant(null).build());
-
-                } else {
-
-                    ordinateur = Optional
-                            .ofNullable(
-                                    new Ordinateur.OrdinateurBuilder(name)
-                                            .id(id).dateIntroduit(dateIntroduit)
-                                            .dateInterrompu(dateInterrompu)
-                                            .fabricant(new Entreprise.EntrepriseBuilder(fabricantName).id(fabricantID).build())
-                                            .build());
-
-                }
-
-                ordinateurs.add(ordinateur);
-
-            }
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
-
-        }
-
-        return Optional.ofNullable(ordinateurs);
 
     }
 

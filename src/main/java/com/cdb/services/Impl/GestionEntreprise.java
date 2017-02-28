@@ -73,10 +73,6 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
      * @param ligneParPage
      *            le nombre de ligne par page
      * @return une liste d'entreprise
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
-     * @throws RequeteQueryException
-     *             if there is an issue
      */
     public Optional<List<Optional<Entreprise>>> findEntrepriseByPage(
             int numeroPage, int ligneParPage) {
