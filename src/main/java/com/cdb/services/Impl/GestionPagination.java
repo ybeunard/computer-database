@@ -75,6 +75,7 @@ public class GestionPagination implements InterfaceGestionPagination {
 
                 case 1:
 
+                    pageOrdinateur = Optional.empty();
                     pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao()
                             .findOrdinateurByPage(numeroPage, ligneParPage);
 
@@ -102,6 +103,7 @@ public class GestionPagination implements InterfaceGestionPagination {
 
                 case 2:
 
+                    pageEntreprise = Optional.empty();
                     pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao()
                             .findEntrepriseByPage(numeroPage, ligneParPage);
 

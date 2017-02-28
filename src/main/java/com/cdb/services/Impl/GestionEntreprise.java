@@ -40,7 +40,7 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
      */
     public Optional<Entreprise> findEntrepriseByID(long id) {
 
-        Optional<Entreprise> entreprise = null;
+        Optional<Entreprise> entreprise = Optional.empty();
 
         try {
 

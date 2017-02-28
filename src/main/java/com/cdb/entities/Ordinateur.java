@@ -33,6 +33,7 @@ public class Ordinateur {
 
         super();
         this.name = name;
+        this.fabricant = Optional.empty();
 
     }
 

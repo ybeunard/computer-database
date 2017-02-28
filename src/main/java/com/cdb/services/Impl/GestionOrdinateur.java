@@ -64,7 +64,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      */
     public Optional<Ordinateur> findOrdinateurByID(long id) {
 
-        Optional<Ordinateur> ordinateur = null;
+        Optional<Ordinateur> ordinateur = Optional.empty();
 
         try {
 

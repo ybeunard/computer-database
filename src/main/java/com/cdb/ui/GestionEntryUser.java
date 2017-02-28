@@ -1,6 +1,7 @@
 package com.cdb.ui;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.Properties;
 import java.io.File;
 import java.io.FileInputStream;
@@ -197,20 +198,13 @@ public class GestionEntryUser {
      */
     private static void affichageOrdinateur(String arg) {
 
-        Ordinateur ordinateur;
+        Optional<Ordinateur> ordinateur = Optional.empty();
 
         try {
 
             long id = Integer.parseInt(arg);
             ordinateur = GestionOrdinateur.getInstanceGestionOrdinateur()
                     .findOrdinateurByID(id);
-
-            if (ordinateur == null) {
-
-                System.out.println(prop.getProperty("id_incorrect"));
-                return;
-
-            }
 
         } catch (NumberFormatException e) {
 
@@ -219,7 +213,14 @@ public class GestionEntryUser {
 
         }
 
-        System.out.println(ordinateur);
+        if (ordinateur.isPresent()) {
+
+            System.out.println(ordinateur.get());
+            return;
+
+        }
+
+        System.out.println(prop.getProperty("id_incorrect"));
 
     }
 
@@ -300,13 +301,13 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Entreprise fabricant = GestionEntreprise
+                    Optional<Entreprise> fabricant = GestionEntreprise
                             .getInstanceGestionEntreprise()
                             .findEntrepriseByID(id);
 
-                    if (fabricant != null) {
+                    if (fabricant.isPresent()) {
 
-                        ordinateur.setFabricant(fabricant);
+                        ordinateur.setFabricant(fabricant.get());
 
                     } else {
 
@@ -366,7 +367,7 @@ public class GestionEntryUser {
 
         }
 
-        Ordinateur ordinateur;
+        Optional<Ordinateur> ordinateur;
 
         try {
 
@@ -374,7 +375,7 @@ public class GestionEntryUser {
             ordinateur = GestionOrdinateur.getInstanceGestionOrdinateur()
                     .findOrdinateurByID(id);
 
-            if (ordinateur == null) {
+            if (!ordinateur.isPresent()) {
 
                 System.out.println(prop.getProperty("id_incorrect"));
                 return;
@@ -405,13 +406,18 @@ public class GestionEntryUser {
 
                 argArray = argArray[1].split(" ", 2);
                 argArray = argArray[0].split("'", 3);
-                ordinateur.setName(argArray[1]);
 
-                if (argArray[2].isEmpty()) {
+                if (ordinateur.isPresent()) {
 
-                    GestionOrdinateur.getInstanceGestionOrdinateur()
-                            .updateOrdinateur(ordinateur);
-                    return;
+                    ordinateur.get().setName(argArray[1]);
+
+                    if (argArray[2].isEmpty()) {
+
+                        GestionOrdinateur.getInstanceGestionOrdinateur()
+                                .updateOrdinateur(ordinateur.get());
+                        return;
+
+                    }
 
                 }
 
@@ -423,8 +429,14 @@ public class GestionEntryUser {
                     SimpleDateFormat format = new SimpleDateFormat(
                             "yyyy/MM/dd");
                     Date parsed = format.parse(argArray[0]);
-                    ordinateur.setDateIntroduit(
-                            new java.sql.Date(parsed.getTime()).toLocalDate());
+
+                    if (ordinateur.isPresent()) {
+
+                        ordinateur.get().setDateIntroduit(
+                                new java.sql.Date(parsed.getTime())
+                                        .toLocalDate());
+
+                    }
 
                 } catch (ParseException e) {
 
@@ -441,8 +453,14 @@ public class GestionEntryUser {
                     SimpleDateFormat format = new SimpleDateFormat(
                             "yyyy/MM/dd");
                     Date parsed = format.parse(argArray[0]);
-                    ordinateur.setDateInterrompu(
-                            new java.sql.Date(parsed.getTime()).toLocalDate());
+
+                    if (ordinateur.isPresent()) {
+
+                        ordinateur.get().setDateInterrompu(
+                                new java.sql.Date(parsed.getTime())
+                                        .toLocalDate());
+
+                    }
 
                 } catch (ParseException e) {
 
@@ -459,13 +477,17 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Entreprise fabricant = GestionEntreprise
+                    Optional<Entreprise> fabricant = GestionEntreprise
                             .getInstanceGestionEntreprise()
                             .findEntrepriseByID(id);
 
-                    if (fabricant != null) {
+                    if (fabricant.isPresent()) {
 
-                        ordinateur.setFabricant(fabricant);
+                        if (ordinateur.isPresent()) {
+
+                            ordinateur.get().setFabricant(fabricant.get());
+
+                        }
 
                     } else {
 
@@ -493,8 +515,13 @@ public class GestionEntryUser {
 
             if (argArray.length < 2) {
 
-                GestionOrdinateur.getInstanceGestionOrdinateur()
-                        .updateOrdinateur(ordinateur);
+                if (ordinateur.isPresent()) {
+
+                    GestionOrdinateur.getInstanceGestionOrdinateur()
+                            .updateOrdinateur(ordinateur.get());
+
+                }
+
                 return;
 
             }
