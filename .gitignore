@@ -10,6 +10,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+WebContent/WEB-INF/lib/
 
 # Eclipse Core
 .project

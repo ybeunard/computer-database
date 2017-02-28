@@ -1,8 +1,11 @@
 package com.cdb.services.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.cdb.DTO.OrdinateurDTO;
+import com.cdb.DTO.OrdinateurDTO.OrdinateurDTOBuilder;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -99,14 +102,17 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            le nombre de ligne par page
      * @return une liste d'ordinateur
      */
-    public Optional<List<Optional<Ordinateur>>> findOrdinateurByPage(
-            int numeroPage, int ligneParPage) {
+    public List<OrdinateurDTO> findOrdinateurByPage(int numeroPage,
+            int ligneParPage) {
 
-        Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
+        Optional<List<Optional<Ordinateur>>> ordinateursOptional = Optional
+                .empty();
+        List<OrdinateurDTO> ordinateurs = new ArrayList<OrdinateurDTO>();
+        OrdinateurDTOBuilder ordinateur;
 
         try {
 
-            ordinateurs = OrdinateurDao.getInstanceOrdinateurDao()
+            ordinateursOptional = OrdinateurDao.getInstanceOrdinateurDao()
                     .findOrdinateurByPage(numeroPage, ligneParPage);
 
         } catch (ConnexionDatabaseException e) {
@@ -116,6 +122,30 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
         } catch (RequeteQueryException e) {
 
             e.printStackTrace();
+
+        }
+        if (ordinateursOptional.isPresent()) {
+
+            for (Optional<Ordinateur> c : ordinateursOptional.get()) {
+
+                if (c.isPresent()) {
+
+                    ordinateur = new OrdinateurDTOBuilder(c.get().getName())
+                            .dateInterrompu(c.get().getDateInterrompu())
+                            .dateIntroduit(c.get().getDateIntroduit());
+
+                    if (c.get().getFabricant().isPresent()) {
+
+                        ordinateur.factory(
+                                c.get().getFabricant().get().getName());
+
+                    }
+
+                    ordinateurs.add(ordinateur.build());
+
+                }
+
+            }
 
         }
 
