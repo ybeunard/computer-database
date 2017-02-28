@@ -1,6 +1,7 @@
 package com.cdb.services;
 
 import com.cdb.entities.Ordinateur;
+import java.util.Optional;
 
 /**
  * The Interface InterfaceGestionOrdinateur.
@@ -22,7 +23,7 @@ public interface InterfaceGestionOrdinateur {
      *            the id
      * @return the ordinateur
      */
-    Ordinateur findOrdinateurByID(long id);
+    Optional<Ordinateur> findOrdinateurByID(long id);
 
     /**
      * Update ordinateur.

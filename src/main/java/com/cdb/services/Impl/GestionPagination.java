@@ -1,6 +1,8 @@
 package com.cdb.services.Impl;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
@@ -22,10 +24,10 @@ public class GestionPagination implements InterfaceGestionPagination {
     private int ligneParPage;
 
     /** The page ordinateur. */
-    private List<Ordinateur> pageOrdinateur;
+    private Optional<List<Optional<Ordinateur>>> pageOrdinateur;
 
     /** The page entreprise. */
-    private List<Entreprise> pageEntreprise;
+    private Optional<List<Optional<Entreprise>>> pageEntreprise;
 
     /**
      * Instantiates a new gestion pagination.
@@ -40,7 +42,8 @@ public class GestionPagination implements InterfaceGestionPagination {
     /**
      * Instantiates a new gestion pagination.
      *
-     * @param ligneParPage the ligne par page
+     * @param ligneParPage
+     *            the ligne par page
      */
     public GestionPagination(int ligneParPage) {
 
@@ -59,7 +62,8 @@ public class GestionPagination implements InterfaceGestionPagination {
     }
 
     /**
-     * @param typePage indique si la page est une page entreprise ou ordinateur
+     * @param typePage
+     *            indique si la page est une page entreprise ou ordinateur
      */
     public void pagination(int typePage) {
 
@@ -74,12 +78,22 @@ public class GestionPagination implements InterfaceGestionPagination {
                     pageOrdinateur = OrdinateurDao.getInstanceOrdinateurDao()
                             .findOrdinateurByPage(numeroPage, ligneParPage);
 
-                    if (pageOrdinateur.isEmpty()) {
+                    if (pageOrdinateur.isPresent()) {
 
-                        numeroPage--;
-                        pageOrdinateur = OrdinateurDao
-                                .getInstanceOrdinateurDao()
-                                .findOrdinateurByPage(numeroPage, ligneParPage);
+                        if (pageOrdinateur.get().isEmpty()) {
+
+                            numeroPage--;
+                            pageOrdinateur = OrdinateurDao
+                                    .getInstanceOrdinateurDao()
+                                    .findOrdinateurByPage(numeroPage,
+                                            ligneParPage);
+
+                        }
+
+                    } else {
+
+                        System.out.println("Aucune page à afficher");
+                        return;
 
                     }
 
@@ -91,12 +105,22 @@ public class GestionPagination implements InterfaceGestionPagination {
                     pageEntreprise = EntrepriseDao.getInstanceEntrepriseDao()
                             .findEntrepriseByPage(numeroPage, ligneParPage);
 
-                    if (pageEntreprise.isEmpty()) {
+                    if (pageEntreprise.isPresent()) {
 
-                        numeroPage--;
-                        pageEntreprise = EntrepriseDao
-                                .getInstanceEntrepriseDao()
-                                .findEntrepriseByPage(numeroPage, ligneParPage);
+                        if (pageEntreprise.get().isEmpty()) {
+
+                            numeroPage--;
+                            pageEntreprise = EntrepriseDao
+                                    .getInstanceEntrepriseDao()
+                                    .findEntrepriseByPage(numeroPage,
+                                            ligneParPage);
+
+                        }
+
+                    } else {
+
+                        System.out.println("Aucune page à afficher");
+                        return;
 
                     }
 
@@ -165,9 +189,17 @@ public class GestionPagination implements InterfaceGestionPagination {
 
         case 1:
 
-            for (Ordinateur ordinateur : pageOrdinateur) {
+            if (pageOrdinateur.isPresent()) {
 
-                System.out.println(ordinateur);
+                for (Optional<Ordinateur> ordinateur : pageOrdinateur.get()) {
+
+                    if (ordinateur.isPresent()) {
+
+                        System.out.println(ordinateur.get());
+
+                    }
+
+                }
 
             }
 
@@ -175,9 +207,17 @@ public class GestionPagination implements InterfaceGestionPagination {
 
         case 2:
 
-            for (Entreprise entreprise : pageEntreprise) {
+            if (pageEntreprise.isPresent()) {
 
-                System.out.println(entreprise);
+                for (Optional<Entreprise> entreprise : pageEntreprise.get()) {
+
+                    if (entreprise.isPresent()) {
+
+                        System.out.println(entreprise.get());
+
+                    }
+
+                }
 
             }
 
@@ -191,7 +231,7 @@ public class GestionPagination implements InterfaceGestionPagination {
         }
 
         System.out.println(
-                "PRECENT taper b\tNEXT taper n\tEXIT taper n'importe qu'elle touche");
+                "PRECEDENT taper b\tNEXT taper n\tEXIT taper n'importe qu'elle touche");
 
     }
 

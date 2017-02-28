@@ -1,6 +1,7 @@
 package com.cdb.services;
 
 import com.cdb.entities.Entreprise;
+import java.util.Optional;
 
 /**
  * The Interface InterfaceGestionEntreprise.
@@ -14,6 +15,6 @@ public interface InterfaceGestionEntreprise {
      *            the id
      * @return the entreprise
      */
-    Entreprise findEntrepriseByID(long id);
+    Optional<Entreprise> findEntrepriseByID(long id);
 
 }

@@ -1,5 +1,7 @@
 package com.cdb.services.Impl;
 
+import java.util.Optional;
+
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -36,9 +38,9 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
      * @param id de l'entreprise recherché
      * @return une entreprise
      */
-    public Entreprise findEntrepriseByID(long id) {
+    public Optional<Entreprise> findEntrepriseByID(long id) {
 
-        Entreprise entreprise = null;
+        Optional<Entreprise> entreprise = null;
 
         try {
 

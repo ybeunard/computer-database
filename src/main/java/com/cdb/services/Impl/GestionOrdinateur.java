@@ -1,5 +1,7 @@
 package com.cdb.services.Impl;
 
+import java.util.Optional;
+
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -33,7 +35,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
-     * @param ordinateur à créer
+     * @param ordinateur
+     *            à créer
      */
     public void createOrdinateur(Ordinateur ordinateur) {
 
@@ -55,12 +58,13 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
-     * @param id de l'ordinateur recherché
+     * @param id
+     *            de l'ordinateur recherché
      * @return un ordinateur
      */
-    public Ordinateur findOrdinateurByID(long id) {
+    public Optional<Ordinateur> findOrdinateurByID(long id) {
 
-        Ordinateur ordinateur = null;
+        Optional<Ordinateur> ordinateur = null;
 
         try {
 
@@ -82,7 +86,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
-     * @param ordinateur a update
+     * @param ordinateur
+     *            a update
      */
     public void updateOrdinateur(Ordinateur ordinateur) {
 
@@ -104,7 +109,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
-     * @param id de l'ordinateur a supprimé
+     * @param id
+     *            de l'ordinateur a supprimé
      */
     public void suppressionOrdinateur(long id) {
 
