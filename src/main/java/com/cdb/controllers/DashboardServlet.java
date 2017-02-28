@@ -47,13 +47,33 @@ public class DashboardServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
+        String numPageStr = request.getParameter("numPage");
+        int numPage = 1;
+
+        if (numPageStr != null && !numPageStr.equals("")) {
+
+            numPage = Integer.parseInt(numPageStr);
+
+        }
+
+        String nbParPageStr = request.getParameter("nbParPage");
+        int nbParPage = 10;
+
+        if (nbParPageStr != null && !nbParPageStr.equals("")) {
+
+            nbParPage = Integer.parseInt(nbParPageStr);
+
+        }
 
         if (action != null) {
 
         }
 
-        request.setAttribute("allComputer", GestionOrdinateur
-                .getInstanceGestionOrdinateur().findOrdinateurByPage(1, 10));
+        request.setAttribute("pagination", GestionOrdinateur
+                .getInstanceGestionOrdinateur().count(numPage, nbParPage));
+        request.setAttribute("allComputer",
+                GestionOrdinateur.getInstanceGestionOrdinateur()
+                        .findOrdinateurByPage(numPage, nbParPage));
         request.getRequestDispatcher("views/dashboard.jsp").forward(request,
                 response);
 

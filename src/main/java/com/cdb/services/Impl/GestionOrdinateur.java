@@ -202,4 +202,73 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
     }
 
+    /**
+     * @param pageActuelle
+     *            la page courante
+     * @param nbParPage
+     *            le nombre de ligne par page
+     * @return une liste d'entier
+     */
+    public List<Integer> count(int pageActuelle, int nbParPage) {
+
+        List<Integer> entiers = new ArrayList<Integer>();
+        int nombreTotal = 0;
+
+        try {
+
+            nombreTotal = OrdinateurDao.getInstanceOrdinateurDao()
+                    .countOrdinateur();
+
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+        if (nombreTotal % nbParPage == 0) {
+
+            nombreTotal = nombreTotal / nbParPage;
+
+        } else {
+
+            nombreTotal = nombreTotal / nbParPage + 1;
+
+        }
+        if (nombreTotal > 7 && pageActuelle > nombreTotal - 5) {
+
+            for (int i = nombreTotal - 7; i < nombreTotal + 1; i++) {
+
+                entiers.add(i);
+
+            }
+
+        } else if (nombreTotal > 7 && pageActuelle > 4) {
+
+            for (int i = pageActuelle - 3; i < pageActuelle + 4; i++) {
+
+                entiers.add(i);
+
+            }
+
+        } else if (nombreTotal > 7) {
+
+            for (int i = 1; i < 8; i++) {
+
+                entiers.add(i);
+
+            }
+
+        } else {
+
+            for (int i = 1; i < nombreTotal + 1; i++) {
+
+                entiers.add(i);
+
+            }
+
+        }
+
+        return entiers;
+
+    }
+
 }

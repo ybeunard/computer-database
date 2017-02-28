@@ -94,4 +94,16 @@ public interface InstanceOrdinateurDao {
     void suppressionOrdinateur(long index)
             throws ConnexionDatabaseException, RequeteQueryException;
 
+    /**
+     * Count ordinateur.
+     *
+     * @return the int
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
+     */
+    int countOrdinateur()
+            throws ConnexionDatabaseException, RequeteQueryException;
+
 }

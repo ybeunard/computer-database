@@ -17,6 +17,7 @@ import com.cdb.entities.Ordinateur;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.mappers.InterfaceOrdinateurMapper;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Enum OrdinateurMapper.
  */
@@ -48,7 +49,10 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
             .getLogger(OrdinateurDao.class);
 
     /**
-     * @param res le resultat de la requete à traiter
+     * Recuperation resultat requete.
+     *
+     * @param res
+     *            le resultat de la requete à traiter
      * @return un ordinateur
      * @throws RequeteQueryException
      *             the requete query exception
@@ -230,6 +234,37 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
         }
 
         return Optional.ofNullable(ordinateurs);
+
+    }
+
+    /**
+     * @param res
+     *            the res
+     * @return un entier
+     * @throws RequeteQueryException
+     *             the requete query exception
+     */
+    public int recuperationIntResultatRequete(ResultSet res)
+            throws RequeteQueryException {
+
+        int count = 0;
+
+        try {
+
+            if (res.next()) {
+
+                count = res.getInt("count");
+
+            }
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException(
+                    "L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
+
+        }
+
+        return count;
 
     }
 

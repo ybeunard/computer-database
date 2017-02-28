@@ -36,4 +36,16 @@ public interface InterfaceOrdinateurMapper {
     Optional<List<Optional<Ordinateur>>> recuperationListResultatRequete(
             ResultSet res) throws RequeteQueryException;
 
+    /**
+     * Recuperation int resultat requete.
+     *
+     * @param res
+     *            the res
+     * @return the int
+     * @throws RequeteQueryException
+     *             the requete query exception
+     */
+    int recuperationIntResultatRequete(ResultSet res)
+            throws RequeteQueryException;
+
 }

@@ -55,4 +55,15 @@ public interface InterfaceGestionOrdinateur {
      */
     void suppressionOrdinateur(long id);
 
+    /**
+     * Count.
+     *
+     * @param pageActuelle
+     *            the page actuelle
+     * @param nbParPage
+     *            the nb par page
+     * @return the list
+     */
+    List<Integer> count(int pageActuelle, int nbParPage);
+
 }

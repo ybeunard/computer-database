@@ -564,4 +564,69 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 
     }
 
+    /**
+     * @return le nombre d'ordinateur total
+     *
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
+     */
+    public int countOrdinateur()
+            throws ConnexionDatabaseException, RequeteQueryException {
+
+        int count = 0;
+        Optional<Connection> con = ConnexionDatabase
+                .getInstanceConnexionDatabase().connectDatabase();
+        PreparedStatement requete = null;
+        LOGGER.info("Comptage du nombre d'ordinateur");
+
+        try {
+
+            if (con.isPresent()) {
+                requete = con.get().prepareStatement(
+                        prop.getProperty("QUERY_COUNT_ORDINATEUR"));
+                ResultSet res = requete.executeQuery();
+                count = OrdinateurMapper.getInstanceOrdinateurMapper().recuperationIntResultatRequete(res);
+                LOGGER.info("Comptage du nombre d'ordinateur effectuée");
+
+            } else {
+
+                LOGGER.info("echec de la connexion");
+
+            }
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException("Echec de la requete count");
+
+        } finally {
+
+            if (requete != null) {
+
+                try {
+
+                    requete.close();
+
+                } catch (SQLException e) {
+
+                    throw new RequeteQueryException(
+                            "Fermeture de la requete count impossible");
+
+                }
+
+            }
+            if (con.isPresent()) {
+
+                ConnexionDatabase.getInstanceConnexionDatabase()
+                        .closeConnexionDatabase(con.get());
+
+            }
+
+        }
+
+        return count;
+
+    }
+
 }
