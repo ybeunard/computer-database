@@ -161,6 +161,13 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
         Optional<List<Optional<Entreprise>>> entreprises = Optional.empty();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
+        
+        if (offset < 0) {
+            
+            return entreprises;
+            
+        }
+        
         Optional<Connection> con = ConnexionDatabase
                 .getInstanceConnexionDatabase().connectDatabase();
         PreparedStatement requete = null;
@@ -230,7 +237,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<Entreprise> findEntrepriseByID(final long index)
+    public Optional<Entreprise> findEntrepriseByID(long index)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         Optional<Entreprise> entreprise = Optional.empty();
