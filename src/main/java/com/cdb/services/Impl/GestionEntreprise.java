@@ -65,12 +65,18 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.cdb.services.InterfaceGestionEntreprise#findEntrepriseByPage(int,
-     * int)
+    /**
+     * Find entreprise by page.
+     *
+     * @param numeroPage
+     *            le numero de page
+     * @param ligneParPage
+     *            le nombre de ligne par page
+     * @return une liste d'entreprise
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
      */
     public Optional<List<Optional<Entreprise>>> findEntrepriseByPage(
             int numeroPage, int ligneParPage) {

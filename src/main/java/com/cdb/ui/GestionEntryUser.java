@@ -26,7 +26,7 @@ public class GestionEntryUser {
     static {
 
         File fProp = new File(
-                "computer-database/properties/error_message_client.properties");
+                "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/error_message_client.properties");
 
         FileInputStream stream = null;
 

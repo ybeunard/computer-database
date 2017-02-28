@@ -90,12 +90,18 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.cdb.services.InterfaceGestionOrdinateur#findOrdinateurByPage(int,
-     * int)
+    /**
+     * Find ordinateur by page.
+     *
+     * @param numeroPage
+     *            le numero de la page
+     * @param ligneParPage
+     *            le nombre de ligne par page
+     * @return une liste d'ordinateur
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
      */
     public Optional<List<Optional<Ordinateur>>> findOrdinateurByPage(
             int numeroPage, int ligneParPage) {
