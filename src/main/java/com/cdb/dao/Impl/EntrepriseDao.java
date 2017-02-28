@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -18,6 +17,7 @@ import com.cdb.dao.InterfaceEntrepriseDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
+import com.cdb.mappers.Impl.EntrepriseMapper;
 import com.mysql.jdbc.Connection;
 
 /**
@@ -98,7 +98,8 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                 stmt = con.get().createStatement();
                 ResultSet rset = stmt.executeQuery(
                         prop.getProperty("QUERY_FIND_ENTREPRISES"));
-                entreprises = recuperationResultatRequete(rset);
+                entreprises = EntrepriseMapper.getInstanceEntrepriseMapper()
+                        .recuperationListResultatRequete(rset);
                 LOGGER.info("recherche de la liste d'entreprise effectuée");
 
             } else {
@@ -182,7 +183,8 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                 requete.setInt(1, limit);
                 requete.setInt(2, offset);
                 ResultSet res = requete.executeQuery();
-                entreprises = recuperationResultatRequete(res);
+                entreprises = EntrepriseMapper.getInstanceEntrepriseMapper()
+                        .recuperationListResultatRequete(res);
                 LOGGER.info(
                         "recherche de la liste d'entreprise par page effectuée");
 
@@ -254,17 +256,8 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
                         prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
                 stmt.setLong(1, index);
                 ResultSet res = stmt.executeQuery();
-
-                if (res.next()) {
-
-                    long id = res.getLong("id");
-                    String name = res.getString("name");
-                    entreprise = Optional
-                            .ofNullable(new Entreprise.EntrepriseBuilder(name)
-                                    .id(id).build());
-
-                }
-
+                entreprise = EntrepriseMapper.getInstanceEntrepriseMapper()
+                        .recupertationResultatRequete(res);
                 LOGGER.info("recherche d'une entreprise par id effectuée");
 
             } else {
@@ -305,42 +298,6 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
         }
 
         return entreprise;
-
-    }
-
-    /**
-     * Recuperation resultat requete.
-     *
-     * @param res
-     *            resultat d'une requete
-     * @return une liste d'entreprise
-     * @throws RequeteQueryException
-     *             if there is an issue
-     */
-    private Optional<List<Optional<Entreprise>>> recuperationResultatRequete(
-            ResultSet res) throws RequeteQueryException {
-
-        List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
-
-        try {
-
-            while (res.next()) {
-
-                long id = res.getLong("id");
-                String name = res.getString("name");
-                entreprises.add(Optional.ofNullable(
-                        new Entreprise.EntrepriseBuilder(name).id(id).build()));
-
-            }
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
-
-        }
-
-        return Optional.ofNullable(entreprises);
 
     }
 

@@ -4,16 +4,16 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
-import com.cdb.entities.Ordinateur;
+import com.cdb.entities.Entreprise;
 import com.cdb.exception.RequeteQueryException;
 
 /**
- * The Interface InstanceOrdinateurMapper.
+ * The Interface InterfaceEntrepriseMapper.
  */
-public interface InstanceOrdinateurMapper {
+public interface InterfaceEntrepriseMapper {
 
     /**
-     * Recuperation resultat requete.
+     * Recupertation resultat requete.
      *
      * @param res
      *            the res
@@ -21,7 +21,7 @@ public interface InstanceOrdinateurMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    Optional<Ordinateur> recuperationResultatRequete(ResultSet res)
+    Optional<Entreprise> recupertationResultatRequete(ResultSet res)
             throws RequeteQueryException;
 
     /**
@@ -33,7 +33,7 @@ public interface InstanceOrdinateurMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    Optional<List<Optional<Ordinateur>>> recuperationListResultatRequete(
+    Optional<List<Optional<Entreprise>>> recuperationListResultatRequete(
             ResultSet res) throws RequeteQueryException;
 
 }
