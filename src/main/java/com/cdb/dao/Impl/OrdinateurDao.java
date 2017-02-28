@@ -400,14 +400,21 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 
                     if (fabricantID == 0) {
 
-                        ordinateur = Optional.ofNullable(new Ordinateur(id,
-                                name, dateIntroduit, dateInterrompu, null));
+                        ordinateur = Optional.ofNullable(
+                                new Ordinateur.OrdinateurBuilder(name).id(id)
+                                        .dateIntroduit(dateIntroduit)
+                                        .dateInterrompu(dateInterrompu)
+                                        .fabricant(null).build());
 
                     } else {
 
-                        ordinateur = Optional.ofNullable(new Ordinateur(id,
-                                name, dateIntroduit, dateInterrompu,
-                                new Entreprise(fabricantID, fabricantName)));
+                        ordinateur = Optional.ofNullable(
+                                new Ordinateur.OrdinateurBuilder(name).id(id)
+                                        .dateIntroduit(dateIntroduit)
+                                        .dateInterrompu(dateInterrompu)
+                                        .fabricant(new Entreprise(fabricantID,
+                                                fabricantName))
+                                        .build());
 
                     }
 
@@ -682,14 +689,22 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 
                 if (fabricantID == 0) {
 
-                    ordinateur = Optional.ofNullable(new Ordinateur(id, name,
-                            dateIntroduit, dateInterrompu, null));
+                    ordinateur = Optional
+                            .ofNullable(new Ordinateur.OrdinateurBuilder(name)
+                                    .id(id).dateIntroduit(dateIntroduit)
+                                    .dateInterrompu(dateInterrompu)
+                                    .fabricant(null).build());
 
                 } else {
 
-                    ordinateur = Optional.ofNullable(new Ordinateur(id, name,
-                            dateIntroduit, dateInterrompu,
-                            new Entreprise(fabricantID, fabricantName)));
+                    ordinateur = Optional
+                            .ofNullable(
+                                    new Ordinateur.OrdinateurBuilder(name)
+                                            .id(id).dateIntroduit(dateIntroduit)
+                                            .dateInterrompu(dateInterrompu)
+                                            .fabricant(new Entreprise(
+                                                    fabricantID, fabricantName))
+                                            .build());
 
                 }
 

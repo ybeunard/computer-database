@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import com.cdb.entities.Ordinateur;
+import com.cdb.entities.Ordinateur.OrdinateurBuilder;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 import com.cdb.services.Impl.GestionPagination;
@@ -233,12 +234,12 @@ public class GestionEntryUser {
     private static void createOrdinateur(String args) {
 
         String[] argArray = args.split("'", 3);
-        Ordinateur ordinateur = new Ordinateur(argArray[1]);
+        OrdinateurBuilder ordinateur = new OrdinateurBuilder(argArray[1]);
 
         if (argArray[2].isEmpty()) {
 
             GestionOrdinateur.getInstanceGestionOrdinateur()
-                    .createOrdinateur(ordinateur);
+                    .createOrdinateur(ordinateur.build());
             return;
 
         }
@@ -265,7 +266,7 @@ public class GestionEntryUser {
                     SimpleDateFormat format = new SimpleDateFormat(
                             "yyyy/MM/dd");
                     Date parsed = format.parse(argArray[0]);
-                    ordinateur.setDateIntroduit(
+                    ordinateur.dateIntroduit(
                             new java.sql.Date(parsed.getTime()).toLocalDate());
 
                 } catch (ParseException e) {
@@ -284,7 +285,7 @@ public class GestionEntryUser {
                     SimpleDateFormat format = new SimpleDateFormat(
                             "yyyy/MM/dd");
                     Date parsed = format.parse(argArray[0]);
-                    ordinateur.setDateInterrompu(
+                    ordinateur.dateInterrompu(
                             new java.sql.Date(parsed.getTime()).toLocalDate());
 
                 } catch (ParseException e) {
@@ -307,7 +308,7 @@ public class GestionEntryUser {
 
                     if (fabricant.isPresent()) {
 
-                        ordinateur.setFabricant(fabricant.get());
+                        ordinateur.fabricant(fabricant.get());
 
                     } else {
 
@@ -336,7 +337,7 @@ public class GestionEntryUser {
             if (argArray.length == 1) {
 
                 GestionOrdinateur.getInstanceGestionOrdinateur()
-                        .createOrdinateur(ordinateur);
+                        .createOrdinateur(ordinateur.build());
                 return;
 
             }
@@ -389,6 +390,17 @@ public class GestionEntryUser {
 
         }
 
+        OrdinateurBuilder builder = new OrdinateurBuilder(
+                ordinateur.get().getName()).id(ordinateur.get().getId())
+                        .dateIntroduit(ordinateur.get().getDateIntroduit())
+                        .dateInterrompu(ordinateur.get().getDateInterrompu());
+
+        if (ordinateur.get().getFabricant().isPresent()) {
+
+            builder.fabricant(ordinateur.get().getFabricant().get());
+
+        }
+
         args = argArray[1];
 
         while (argArray.length > 1) {
@@ -409,12 +421,12 @@ public class GestionEntryUser {
 
                 if (ordinateur.isPresent()) {
 
-                    ordinateur.get().setName(argArray[1]);
+                    builder.name(argArray[1]);
 
                     if (argArray[2].isEmpty()) {
 
                         GestionOrdinateur.getInstanceGestionOrdinateur()
-                                .updateOrdinateur(ordinateur.get());
+                                .updateOrdinateur(builder.build());
                         return;
 
                     }
@@ -429,14 +441,8 @@ public class GestionEntryUser {
                     SimpleDateFormat format = new SimpleDateFormat(
                             "yyyy/MM/dd");
                     Date parsed = format.parse(argArray[0]);
-
-                    if (ordinateur.isPresent()) {
-
-                        ordinateur.get().setDateIntroduit(
-                                new java.sql.Date(parsed.getTime())
-                                        .toLocalDate());
-
-                    }
+                    builder.dateIntroduit(
+                            new java.sql.Date(parsed.getTime()).toLocalDate());
 
                 } catch (ParseException e) {
 
@@ -453,14 +459,8 @@ public class GestionEntryUser {
                     SimpleDateFormat format = new SimpleDateFormat(
                             "yyyy/MM/dd");
                     Date parsed = format.parse(argArray[0]);
-
-                    if (ordinateur.isPresent()) {
-
-                        ordinateur.get().setDateInterrompu(
-                                new java.sql.Date(parsed.getTime())
-                                        .toLocalDate());
-
-                    }
+                    builder.dateInterrompu(
+                            new java.sql.Date(parsed.getTime()).toLocalDate());
 
                 } catch (ParseException e) {
 
@@ -483,11 +483,7 @@ public class GestionEntryUser {
 
                     if (fabricant.isPresent()) {
 
-                        if (ordinateur.isPresent()) {
-
-                            ordinateur.get().setFabricant(fabricant.get());
-
-                        }
+                        builder.fabricant(fabricant.get());
 
                     } else {
 
@@ -515,13 +511,8 @@ public class GestionEntryUser {
 
             if (argArray.length < 2) {
 
-                if (ordinateur.isPresent()) {
-
-                    GestionOrdinateur.getInstanceGestionOrdinateur()
-                            .updateOrdinateur(ordinateur.get());
-
-                }
-
+                GestionOrdinateur.getInstanceGestionOrdinateur()
+                        .updateOrdinateur(builder.build());
                 return;
 
             }

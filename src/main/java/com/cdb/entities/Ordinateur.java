@@ -9,57 +9,33 @@ import java.util.Optional;
 public class Ordinateur {
 
     /** The id. */
-    private long id;
+    private final long id;
 
     /** The name. */
-    private String name;
+    private final String name;
 
     /** The date introduit. */
-    private LocalDate dateIntroduit;
+    private final LocalDate dateIntroduit;
 
     /** The date interrompu. */
-    private LocalDate dateInterrompu;
+    private final LocalDate dateInterrompu;
 
     /** The fabricant. */
-    private Optional<Entreprise> fabricant;
+    private final Optional<Entreprise> fabricant;
 
     /**
      * Instantiates a new ordinateur.
      *
-     * @param name
-     *            the name
+     * @param builder
+     *            the builder
      */
-    public Ordinateur(String name) {
+    private Ordinateur(OrdinateurBuilder builder) {
 
-        super();
-        this.name = name;
-        this.fabricant = Optional.empty();
-
-    }
-
-    /**
-     * Instantiates a new ordinateur.
-     *
-     * @param id
-     *            the id
-     * @param name
-     *            the name
-     * @param dateIntroduit
-     *            the date introduit
-     * @param dateInterrompu
-     *            the date interrompu
-     * @param fabricant
-     *            the fabricant
-     */
-    public Ordinateur(long id, String name, LocalDate dateIntroduit,
-            LocalDate dateInterrompu, Entreprise fabricant) {
-
-        super();
-        this.id = id;
-        this.name = name;
-        this.dateIntroduit = dateIntroduit;
-        this.dateInterrompu = dateInterrompu;
-        this.fabricant = Optional.ofNullable(fabricant);
+        this.id = builder.id;
+        this.name = builder.name;
+        this.dateIntroduit = builder.dateIntroduit;
+        this.dateInterrompu = builder.dateInterrompu;
+        this.fabricant = builder.fabricant;
 
     }
 
@@ -86,18 +62,6 @@ public class Ordinateur {
     }
 
     /**
-     * Sets the name.
-     *
-     * @param name
-     *            the new name
-     */
-    public void setName(String name) {
-
-        this.name = name;
-
-    }
-
-    /**
      * Gets the date introduit.
      *
      * @return the date introduit
@@ -105,18 +69,6 @@ public class Ordinateur {
     public LocalDate getDateIntroduit() {
 
         return dateIntroduit;
-
-    }
-
-    /**
-     * Sets the date introduit.
-     *
-     * @param dateIntroduit
-     *            the new date introduit
-     */
-    public void setDateIntroduit(LocalDate dateIntroduit) {
-
-        this.dateIntroduit = dateIntroduit;
 
     }
 
@@ -132,18 +84,6 @@ public class Ordinateur {
     }
 
     /**
-     * Sets the date interrompu.
-     *
-     * @param dateInterrompu
-     *            the new date interrompu
-     */
-    public void setDateInterrompu(LocalDate dateInterrompu) {
-
-        this.dateInterrompu = dateInterrompu;
-
-    }
-
-    /**
      * Gets the fabricant.
      *
      * @return the fabricant
@@ -155,18 +95,123 @@ public class Ordinateur {
     }
 
     /**
-     * Sets the fabricant.
-     *
-     * @param fabricant
-     *            the new fabricant
+     * The Class OrdinateurBuilder.
      */
-    public void setFabricant(Entreprise fabricant) {
+    public static class OrdinateurBuilder {
 
-        this.fabricant = Optional.ofNullable(fabricant);
+        /** The id. */
+        private long id;
+
+        /** The name. */
+        private String name;
+
+        /** The date introduit. */
+        private LocalDate dateIntroduit;
+
+        /** The date interrompu. */
+        private LocalDate dateInterrompu;
+
+        /** The fabricant. */
+        private Optional<Entreprise> fabricant;
+
+        /**
+         * Instantiates a new ordinateur builder.
+         *
+         * @param name
+         *            the name
+         */
+        public OrdinateurBuilder(String name) {
+
+            this.name = name;
+
+        }
+
+        /**
+         * Id.
+         *
+         * @param id
+         *            the id
+         * @return the ordinateur builder
+         */
+        public OrdinateurBuilder id(long id) {
+
+            this.id = id;
+            return this;
+
+        }
+
+        /**
+         * Name.
+         *
+         * @param name
+         *            the name
+         * @return the ordinateur builder
+         */
+        public OrdinateurBuilder name(String name) {
+
+            this.name = name;
+            return this;
+
+        }
+
+        /**
+         * Date introduit.
+         *
+         * @param dateIntroduit
+         *            the date introduit
+         * @return the ordinateur builder
+         */
+        public OrdinateurBuilder dateIntroduit(LocalDate dateIntroduit) {
+
+            this.dateIntroduit = dateIntroduit;
+            return this;
+
+        }
+
+        /**
+         * Date interrompu.
+         *
+         * @param dateInterrompu
+         *            the date interrompu
+         * @return the ordinateur builder
+         */
+        public OrdinateurBuilder dateInterrompu(LocalDate dateInterrompu) {
+
+            this.dateInterrompu = dateInterrompu;
+            return this;
+
+        }
+
+        /**
+         * Fabricant.
+         *
+         * @param fabricant
+         *            the fabricant
+         * @return the ordinateur builder
+         */
+        public OrdinateurBuilder fabricant(Entreprise fabricant) {
+
+            this.fabricant = Optional.ofNullable(fabricant);
+            return this;
+
+        }
+
+        /**
+         * Builds the.
+         *
+         * @return the ordinateur
+         */
+        public Ordinateur build() {
+
+            return new Ordinateur(this);
+
+        }
 
     }
 
     /**
+     * Hash code.
+     *
      * @return entier du ascode
      */
     @Override
@@ -187,7 +232,10 @@ public class Ordinateur {
     }
 
     /**
-     * @param obj de comparaison
+     * Equals.
+     *
+     * @param obj
+     *            de comparaison
      * @return vrai ou faux
      */
     @Override
@@ -274,6 +322,8 @@ public class Ordinateur {
     }
 
     /**
+     * To string.
+     *
      * @return la chaine de caractere a afficher
      */
     @Override

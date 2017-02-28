@@ -68,10 +68,13 @@ public class TestOrdinateurDao extends TestCase {
         assertNotNull(ordinateur7.get().getId());
         assertNotNull(ordinateur7.get().getName());
 
-        Optional<Ordinateur> ordinateur8 = Optional
-                .ofNullable(ordinateur7.get());
-        ordinateur8.get().setName("ASUS REPUBLIC OF GAMER");
-        ordinateur8.get().setFabricant(ordinateur.get().getFabricant().get());
+        Optional<Ordinateur> ordinateur8 = Optional.ofNullable(
+                new Ordinateur.OrdinateurBuilder("ASUS REPUBLIC OF GAMER")
+                        .id(ordinateur7.get().getId())
+                        .dateIntroduit(ordinateur7.get().getDateIntroduit())
+                        .dateInterrompu(ordinateur7.get().getDateInterrompu())
+                        .fabricant(ordinateur.get().getFabricant().get())
+                        .build());
         this.dao.updateOrdinateur(ordinateur8.get());
 
         Optional<Ordinateur> ordinateur9 = this.dao.findOrdinateurByID(60);
