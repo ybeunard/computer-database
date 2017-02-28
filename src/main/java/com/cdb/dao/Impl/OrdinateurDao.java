@@ -263,6 +263,13 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
         Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
+
+        if (offset < 0) {
+
+            return ordinateurs;
+
+        }
+
         Optional<Connection> con = ConnexionDatabase
                 .getInstanceConnexionDatabase().connectDatabase();
         PreparedStatement requete = null;
