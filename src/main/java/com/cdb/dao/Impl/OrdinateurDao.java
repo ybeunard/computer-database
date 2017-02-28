@@ -412,8 +412,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                                 new Ordinateur.OrdinateurBuilder(name).id(id)
                                         .dateIntroduit(dateIntroduit)
                                         .dateInterrompu(dateInterrompu)
-                                        .fabricant(new Entreprise(fabricantID,
-                                                fabricantName))
+                                        .fabricant(new Entreprise.EntrepriseBuilder(fabricantName).id(fabricantID).build())
                                         .build());
 
                     }
@@ -702,8 +701,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                                     new Ordinateur.OrdinateurBuilder(name)
                                             .id(id).dateIntroduit(dateIntroduit)
                                             .dateInterrompu(dateInterrompu)
-                                            .fabricant(new Entreprise(
-                                                    fabricantID, fabricantName))
+                                            .fabricant(new Entreprise.EntrepriseBuilder(fabricantName).id(fabricantID).build())
                                             .build());
 
                 }

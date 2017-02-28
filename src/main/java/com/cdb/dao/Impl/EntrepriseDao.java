@@ -259,7 +259,9 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
                     long id = res.getLong("id");
                     String name = res.getString("name");
-                    entreprise = Optional.ofNullable(new Entreprise(id, name));
+                    entreprise = Optional
+                            .ofNullable(new Entreprise.EntrepriseBuilder(name)
+                                    .id(id).build());
 
                 }
 
@@ -326,7 +328,8 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
                 long id = res.getLong("id");
                 String name = res.getString("name");
-                entreprises.add(Optional.ofNullable(new Entreprise(id, name)));
+                entreprises.add(Optional.ofNullable(
+                        new Entreprise.EntrepriseBuilder(name).id(id).build()));
 
             }
 

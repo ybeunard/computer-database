@@ -6,22 +6,21 @@ package com.cdb.entities;
 public class Entreprise {
 
     /** The id. */
-    private long id;
+    private final long id;
 
     /** The name. */
-    private String name;
+    private final String name;
 
     /**
      * Instantiates a new entreprise.
      *
-     * @param id the id
-     * @param name the name
+     * @param builder
+     *            the builder
      */
-    public Entreprise(long id, String name) {
+    private Entreprise(EntrepriseBuilder builder) {
 
-        super();
-        this.id = id;
-        this.name = name;
+        this.id = builder.id;
+        this.name = builder.name;
 
     }
 
@@ -47,8 +46,60 @@ public class Entreprise {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
+    /**
+     * The Class EntrepriseBuilder.
+     */
+    public static class EntrepriseBuilder {
+
+        /** The id. */
+        private long id;
+
+        /** The name. */
+        private final String name;
+
+        /**
+         * Instantiates a new entreprise builder.
+         *
+         * @param name
+         *            the name
+         */
+        public EntrepriseBuilder(String name) {
+
+            this.name = name;
+
+        }
+
+        /**
+         * Id.
+         *
+         * @param id
+         *            the id
+         * @return the entreprise builder
+         */
+        public EntrepriseBuilder id(long id) {
+
+            this.id = id;
+            return this;
+
+        }
+
+        /**
+         * Builds the.
+         *
+         * @return the entreprise
+         */
+        public Entreprise build() {
+
+            return new Entreprise(this);
+
+        }
+
+    }
+
+    /**
+     * Hash code.
+     *
+     * @return entier du ascode
      */
     @Override
     public int hashCode() {
@@ -61,8 +112,12 @@ public class Entreprise {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * Equals.
+     *
+     * @param obj
+     *            de comparaison
+     * @return vrai ou faux
      */
     @Override
     public boolean equals(Object obj) {
@@ -111,8 +166,10 @@ public class Entreprise {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
+    /**
+     * To string.
+     *
+     * @return la chaine de caractere a afficher
      */
     @Override
     public String toString() {
