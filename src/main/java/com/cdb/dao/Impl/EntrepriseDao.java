@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.dao.Impl;
 
 import java.io.FileInputStream;
@@ -284,6 +287,79 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
                     throw new RequeteQueryException(
                             "Fermeture de la requete de recherche d'entreprise par ID impossible");
+
+                }
+
+            }
+            if (con.isPresent()) {
+
+                ConnexionDatabase.getInstanceConnexionDatabase()
+                        .closeConnexionDatabase(con.get());
+
+            }
+
+        }
+
+        return entreprise;
+
+    }
+
+    /**
+     * Find entreprise by name.
+     *
+     * @param name
+     *            le nom de l'entreprise à rechercher
+     * @return une entreprise
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
+     */
+    public Optional<Entreprise> findEntrepriseByName(String name)
+            throws ConnexionDatabaseException, RequeteQueryException {
+
+        Optional<Entreprise> entreprise = Optional.empty();
+        Optional<Connection> con = ConnexionDatabase
+                .getInstanceConnexionDatabase().connectDatabase();
+        PreparedStatement stmt = null;
+        LOGGER.info("recherche d'une entreprise par nom: " + name);
+
+        try {
+
+            if (con.isPresent()) {
+
+                stmt = con.get().prepareStatement(
+                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_NAME"));
+                stmt.setString(1, name);
+                ResultSet res = stmt.executeQuery();
+                entreprise = EntrepriseMapper.getInstanceEntrepriseMapper()
+                        .recupertationResultatRequete(res);
+                LOGGER.info("recherche d'une entreprise par nom effectuée");
+
+            } else {
+
+                LOGGER.info("echec de la connexion");
+
+            }
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException(
+                    "Echec de la requete de recherche de l'entreprise: "
+                            + name);
+
+        } finally {
+
+            if (stmt != null) {
+
+                try {
+
+                    stmt.close();
+
+                } catch (SQLException e) {
+
+                    throw new RequeteQueryException(
+                            "Fermeture de la requete de recherche d'entreprise par nom impossible");
 
                 }
 

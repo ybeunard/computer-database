@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.exception;
 
 import org.slf4j.Logger;

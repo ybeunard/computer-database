@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.dao;
 
 import java.util.List;
@@ -53,6 +56,20 @@ public interface InterfaceEntrepriseDao {
      *             the requete query exception
      */
     Optional<Entreprise> findEntrepriseByID(long index)
+            throws ConnexionDatabaseException, RequeteQueryException;
+
+    /**
+     * Find entreprise by name.
+     *
+     * @param name
+     *            the name
+     * @return the optional
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
+     */
+    Optional<Entreprise> findEntrepriseByName(String name)
             throws ConnexionDatabaseException, RequeteQueryException;
 
 }

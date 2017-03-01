@@ -1,7 +1,11 @@
+/*
+ * 
+ */
 package com.cdb.services;
 
 import com.cdb.DTO.OrdinateurDTO;
 import com.cdb.entities.Ordinateur;
+import com.cdb.exception.RequeteQueryException;
 
 import java.util.List;
 
@@ -15,8 +19,11 @@ public interface InterfaceGestionOrdinateur {
      *
      * @param ordinateur
      *            the ordinateur
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    void createOrdinateur(Ordinateur ordinateur);
+    void createOrdinateur(Ordinateur ordinateur)
+            throws RequeteQueryException;
 
     /**
      * Find ordinateur by Name.

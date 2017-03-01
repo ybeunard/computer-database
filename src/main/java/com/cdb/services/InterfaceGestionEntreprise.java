@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.services;
 
 import com.cdb.entities.Entreprise;
@@ -25,6 +28,15 @@ public interface InterfaceGestionEntreprise {
      * @return the entreprise
      */
     Optional<Entreprise> findEntrepriseByID(long id);
+
+    /**
+     * Find entreprise by name.
+     *
+     * @param name
+     *            the name
+     * @return the optional
+     */
+    Optional<Entreprise> findEntrepriseByName(String name);
 
     /**
      * Find entreprise by page.

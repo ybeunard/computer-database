@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.entities;
 
 import java.time.LocalDate;
@@ -123,6 +126,7 @@ public class Ordinateur {
         public OrdinateurBuilder(String name) {
 
             this.name = name;
+            this.fabricant = Optional.empty();
 
         }
 

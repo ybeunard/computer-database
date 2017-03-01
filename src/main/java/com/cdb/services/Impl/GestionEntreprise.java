@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.services.Impl;
 
 import java.util.ArrayList;
@@ -97,6 +100,37 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
 
             entreprise = EntrepriseDao.getInstanceEntrepriseDao()
                     .findEntrepriseByID(id);
+
+        } catch (ConnexionDatabaseException e) {
+
+            e.printStackTrace();
+
+        } catch (RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return entreprise;
+
+    }
+
+    /**
+     * Find entreprise by Name
+     * 
+     * @param name
+     *            de l'entreprise recherché
+     * 
+     * @return une entreprise
+     */
+    public Optional<Entreprise> findEntrepriseByName(String name) {
+
+        Optional<Entreprise> entreprise = Optional.empty();
+
+        try {
+
+            entreprise = EntrepriseDao.getInstanceEntrepriseDao()
+                    .findEntrepriseByName(name);
 
         } catch (ConnexionDatabaseException e) {
 

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.services.Impl;
 
 import java.util.ArrayList;
@@ -51,8 +54,10 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *
      * @param ordinateur
      *            à créer
+     * @throws RequeteQueryException
      */
-    public void createOrdinateur(Ordinateur ordinateur) {
+    public void createOrdinateur(Ordinateur ordinateur)
+            throws RequeteQueryException {
 
         try {
 
@@ -60,10 +65,6 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
                     .createOrdinateur(ordinateur);
 
         } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        } catch (RequeteQueryException e) {
 
             e.printStackTrace();
 

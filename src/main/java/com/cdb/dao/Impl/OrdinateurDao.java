@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.dao.Impl;
 
 import java.io.File;
@@ -338,7 +341,8 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<List<Optional<Ordinateur>>> findOrdinateurByName(String name)
+    public Optional<List<Optional<Ordinateur>>> findOrdinateurByName(
+            String name)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
@@ -353,7 +357,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
             if (con.isPresent()) {
                 requete = con.get().prepareStatement(
                         prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"));
-                requete.setString(1, "%"+name+"%");
+                requete.setString(1, "%" + name + "%");
                 ResultSet res = requete.executeQuery();
                 ordinateurs = OrdinateurMapper.getInstanceOrdinateurMapper()
                         .recuperationListResultatRequete(res);
@@ -588,7 +592,8 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                 requete = con.get().prepareStatement(
                         prop.getProperty("QUERY_COUNT_ORDINATEUR"));
                 ResultSet res = requete.executeQuery();
-                count = OrdinateurMapper.getInstanceOrdinateurMapper().recuperationIntResultatRequete(res);
+                count = OrdinateurMapper.getInstanceOrdinateurMapper()
+                        .recuperationIntResultatRequete(res);
                 LOGGER.info("Comptage du nombre d'ordinateur effectuée");
 
             } else {

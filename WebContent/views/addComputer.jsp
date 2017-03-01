@@ -27,25 +27,32 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
+                                <c:if test="${nameTest == 1}"><p>Nom requis</p></c:if>
                                 <input type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" name="introduced" class="form-control" id="introduced" placeholder="Introduced date">
+                                <c:if test="${introducedTest == 1}"><p>date invalide</p></c:if>
+                                <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être antérieur à la date d'interruption</p></c:if>
+                                <input type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy/mm/dd">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" name="discontinued" class="form-control" id="discontinued" placeholder="Discontinued date">
+                                <c:if test="${discontinuedTest == 1}"><p>date invalide</p></c:if>
+                                <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être postérieur à la date d'introduction</p></c:if>
+                                <input type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy/mm/dd">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" >
+                                <select class="form-control" name="company" id="companyId" >
+                                	<option value="">---</option>
                                 	<c:forEach items="${companies}" var="company">
-                                    	<option value="${company.id}">${company.name}</option>
+                                    	<option value="${company.name}">${company.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>                  
                         </fieldset>
+                        <c:if test="${creationOk == 1}"><p>Ordinateur créer</p></c:if>
                         <div class="actions pull-right">
                             <input type="submit" name="action" value="Add" class="btn btn-primary">
                             or

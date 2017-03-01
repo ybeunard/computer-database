@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.cdb.entities;
 
 /**
