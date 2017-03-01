@@ -66,11 +66,11 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
 
             if (res.next()) {
 
-                long id = res.getInt("id");
+                long id = res.getLong("id");
                 String name = res.getString("name");
                 LocalDate dateIntroduit = null;
                 LocalDate dateInterrompu = null;
-                Integer fabricantID = res.getInt("company_id");
+                long fabricantID = res.getLong("company_id");
                 String fabricantName = res.getString("company_name");
                 Date date = null;
 
@@ -107,7 +107,7 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
 
                 }
 
-                if (fabricantID == 0) {
+                if (fabricantID <= 0) {
 
                     ordinateur = Optional
                             .ofNullable(new Ordinateur.OrdinateurBuilder(name)
@@ -190,7 +190,7 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
 
                     if (date != null) {
 
-                        dateIntroduit = date.toLocalDate();
+                        dateInterrompu = date.toLocalDate();
 
                     }
 
@@ -201,7 +201,7 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
 
                 }
 
-                if (fabricantID == 0) {
+                if (fabricantID <= 0) {
 
                     ordinateur = Optional
                             .ofNullable(new Ordinateur.OrdinateurBuilder(name)

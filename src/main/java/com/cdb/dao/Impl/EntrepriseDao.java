@@ -160,6 +160,13 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             throws ConnexionDatabaseException, RequeteQueryException {
 
         Optional<List<Optional<Entreprise>>> entreprises = Optional.empty();
+        
+        if (ligneParPage < 1) {
+            
+            return entreprises;
+            
+        }
+
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
 

@@ -122,7 +122,16 @@ public class Ordinateur {
          */
         public OrdinateurBuilder(String name) {
 
-            this.name = name;
+            if(name == null) {
+                
+                this.name = "";
+                
+            } else {
+                
+                this.name = name;
+                
+            }
+            
             this.fabricant = Optional.empty();
 
         }
