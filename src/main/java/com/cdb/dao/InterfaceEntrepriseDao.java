@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.dao;
 
 import java.util.List;

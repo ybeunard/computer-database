@@ -1,6 +1,4 @@
-/*
- * 
- */
+
 package com.cdb.dao.Impl;
 
 import java.io.File;
@@ -19,7 +17,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dao.InstanceOrdinateurDao;
+import com.cdb.dao.InterfaceOrdinateurDao;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
@@ -28,7 +26,7 @@ import com.cdb.mappers.Impl.OrdinateurMapper;
 /**
  * The Enum OrdinateurDao.
  */
-public enum OrdinateurDao implements InstanceOrdinateurDao {
+public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
     /** The instance ordinateur dao. */
     INSTANCE_ORDINATEUR_DAO;

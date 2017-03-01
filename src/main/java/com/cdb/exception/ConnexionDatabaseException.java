@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.exception;
 
 import java.util.Optional;

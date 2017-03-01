@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.controllers;
 
 import java.io.IOException;
@@ -21,13 +18,17 @@ import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 
 /**
- * Servlet implementation class AddComputerServlet
+ * Servlet implementation class AddComputerServlet.
  */
 @WebServlet("/AddComputerServlet")
 public class AddComputerServlet extends HttpServlet {
+
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /**
+     * Instantiates a new adds the computer servlet.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public AddComputerServlet() {
@@ -37,6 +38,16 @@ public class AddComputerServlet extends HttpServlet {
     }
 
     /**
+     * Do get.
+     *
+     * @param request
+     *            the request
+     * @param response
+     *            the response
+     * @throws ServletException
+     *             the servlet exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
@@ -180,7 +191,6 @@ public class AddComputerServlet extends HttpServlet {
                             .forward(request, response);
                     return;
 
-
                 }
 
                 request.setAttribute("creationOk", 1);
@@ -189,11 +199,24 @@ public class AddComputerServlet extends HttpServlet {
 
         }
 
-        request.setAttribute("companies",GestionEntreprise.getInstanceGestionEntreprise().findEntreprise());request.getRequestDispatcher("views/addComputer.jsp").forward(request,response);
+        request.setAttribute("companies", GestionEntreprise
+                .getInstanceGestionEntreprise().findEntreprise());
+        request.getRequestDispatcher("views/addComputer.jsp").forward(request,
+                response);
 
     }
 
     /**
+     * Do post.
+     *
+     * @param request
+     *            the request
+     * @param response
+     *            the response
+     * @throws ServletException
+     *             the servlet exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
      */

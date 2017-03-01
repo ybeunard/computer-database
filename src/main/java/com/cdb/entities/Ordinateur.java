@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.entities;
 
 import java.time.LocalDate;

@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.DTO;
 
 import java.time.LocalDate;

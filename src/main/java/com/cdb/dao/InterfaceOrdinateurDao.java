@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.dao;
 
 import java.util.List;
@@ -11,9 +8,9 @@ import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 
 /**
- * The Interface InstanceOrdinateurDao.
+ * The Interface InterfaceOrdinateurDao.
  */
-public interface InstanceOrdinateurDao {
+public interface InterfaceOrdinateurDao {
 
     /**
      * Creates the ordinateur.

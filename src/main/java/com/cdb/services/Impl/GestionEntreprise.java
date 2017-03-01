@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.services.Impl;
 
 import java.util.ArrayList;
@@ -116,11 +113,11 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     }
 
     /**
-     * Find entreprise by Name
-     * 
+     * Find entreprise by Name.
+     *
      * @param name
      *            de l'entreprise recherché
-     * 
+     *
      * @return une entreprise
      */
     public Optional<Entreprise> findEntrepriseByName(String name) {

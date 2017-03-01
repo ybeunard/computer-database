@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.controllers.validation;
 
 import java.text.ParseException;
@@ -54,7 +51,8 @@ public class DateValidation {
      *            the discontinued
      * @return true, if is valid
      */
-    public static boolean isValid(LocalDate introduced, LocalDate discontinued) {
+    public static boolean isValid(LocalDate introduced,
+            LocalDate discontinued) {
 
         if (introduced.isBefore(discontinued)) {
 

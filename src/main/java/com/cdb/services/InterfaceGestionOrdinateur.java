@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.cdb.services;
 
 import com.cdb.DTO.OrdinateurDTO;
@@ -22,8 +19,7 @@ public interface InterfaceGestionOrdinateur {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    void createOrdinateur(Ordinateur ordinateur)
-            throws RequeteQueryException;
+    void createOrdinateur(Ordinateur ordinateur) throws RequeteQueryException;
 
     /**
      * Find ordinateur by Name.
