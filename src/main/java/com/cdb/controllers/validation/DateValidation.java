@@ -30,12 +30,14 @@ public class DateValidation {
 
         try {
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
             Date parsed = format.parse(date);
             d = new java.sql.Date(parsed.getTime()).toLocalDate();
 
         } catch (ParseException e) {
-
+            
+            LOGGER.error("Date parsing failed" + date);
+            
         }
 
         return Optional.ofNullable(d);

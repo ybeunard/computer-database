@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="AddComputerServlet" method="POST">
+                    <form action="AddComputerServlet" name="newComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -34,13 +34,13 @@
                                 <label for="introduced">Introduced date</label>
                                 <c:if test="${introducedTest == 1}"><p>date invalide</p></c:if>
                                 <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être antérieur à la date d'interruption</p></c:if>
-                                <input type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy/mm/dd">
+                                <input type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
                                 <c:if test="${discontinuedTest == 1}"><p>date invalide</p></c:if>
                                 <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être postérieur à la date d'introduction</p></c:if>
-                                <input type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy/mm/dd">
+                                <input type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
@@ -65,6 +65,6 @@
     </section>
    <script src="js/jquery.min.js"></script>
    <script src="js/jquery.validate.min.js"></script>
-   <script src="js/my_jquery.js"></script>
+   <script src="js/my.jquery.js"></script>
 </body>
 </html>
