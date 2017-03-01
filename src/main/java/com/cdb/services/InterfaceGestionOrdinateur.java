@@ -4,7 +4,6 @@ import com.cdb.DTO.OrdinateurDTO;
 import com.cdb.entities.Ordinateur;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The Interface InterfaceGestionOrdinateur.
@@ -20,13 +19,13 @@ public interface InterfaceGestionOrdinateur {
     void createOrdinateur(Ordinateur ordinateur);
 
     /**
-     * Find ordinateur by ID.
+     * Find ordinateur by Name.
      *
-     * @param id
-     *            the id
-     * @return the ordinateur
+     * @param name
+     *            de l'ordinateur recherché
+     * @return the list ordinateur
      */
-    Optional<Ordinateur> findOrdinateurByID(long id);
+    List<OrdinateurDTO> findOrdinateurByName(String name);
 
     /**
      * Find ordinateur by page.
@@ -65,5 +64,21 @@ public interface InterfaceGestionOrdinateur {
      * @return the list
      */
     List<Integer> count(int pageActuelle, int nbParPage);
+
+    /**
+     * Page max.
+     *
+     * @param nbParPage
+     *            the nb par page
+     * @return the int
+     */
+    int pageMax(int nbParPage);
+
+    /**
+     * Count max.
+     *
+     * @return the int
+     */
+    int countMax();
 
 }

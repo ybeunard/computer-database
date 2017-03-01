@@ -328,35 +328,37 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
     }
 
     /**
-     * Find ordinateur by ID.
+     * Find ordinateur by Name.
      *
-     * @param index
-     *            l'identifiant de l'ordinateur recherché
-     * @return un ordinateur
+     * @param name
+     *            le nom de l'ordinateur recherché
+     * @return une liste ordinateur
      * @throws ConnexionDatabaseException
      *             if there is an issue
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<Ordinateur> findOrdinateurByID(long index)
+    public Optional<List<Optional<Ordinateur>>> findOrdinateurByName(String name)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
+
         Optional<Connection> con = ConnexionDatabase
                 .getInstanceConnexionDatabase().connectDatabase();
         PreparedStatement requete = null;
-        LOGGER.info("recherche d'un ordinateur par id: " + index);
+        LOGGER.info("recherche de la liste d'ordinateur par nom");
 
         try {
 
             if (con.isPresent()) {
                 requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"));
-                requete.setLong(1, index);
+                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"));
+                requete.setString(1, "%"+name+"%");
                 ResultSet res = requete.executeQuery();
-                ordinateur = OrdinateurMapper.getInstanceOrdinateurMapper()
-                        .recuperationResultatRequete(res);
-                LOGGER.info("recherche d'un ordinateur par id effectuée");
+                ordinateurs = OrdinateurMapper.getInstanceOrdinateurMapper()
+                        .recuperationListResultatRequete(res);
+                LOGGER.info(
+                        "recherche de la liste d'ordinateur par nom effectuée");
 
             } else {
 
@@ -367,8 +369,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
-                    "Echec de la requete de recherche de l'ordinateur numero:"
-                            + index);
+                    "Echec de la requete de recherche par nom d'ordinateur");
 
         } finally {
 
@@ -381,7 +382,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
                 } catch (SQLException e) {
 
                     throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'ordinateur par ID impossible");
+                            "Fermeture de la requete de recherche d'ordinateur par nom impossible");
 
                 }
 
@@ -395,7 +396,7 @@ public enum OrdinateurDao implements InstanceOrdinateurDao {
 
         }
 
-        return ordinateur;
+        return ordinateurs;
 
     }
 

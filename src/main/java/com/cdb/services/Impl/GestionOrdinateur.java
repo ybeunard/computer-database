@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.DTO.OrdinateurDTO;
 import com.cdb.DTO.OrdinateurDTO.OrdinateurDTOBuilder;
+import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -38,6 +42,10 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
     }
 
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(EntrepriseDao.class);
+
     /**
      * Creates the ordinateur.
      *
@@ -64,20 +72,23 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
-     * Find ordinateur by ID.
+     * Find ordinateur by Name.
      *
-     * @param id
+     * @param name
      *            de l'ordinateur recherché
-     * @return un ordinateur
+     * @return une liste d'ordinateur
      */
-    public Optional<Ordinateur> findOrdinateurByID(long id) {
+    public List<OrdinateurDTO> findOrdinateurByName(String name) {
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        Optional<List<Optional<Ordinateur>>> ordinateursOptional = Optional
+                .empty();
+        List<OrdinateurDTO> ordinateurs = new ArrayList<OrdinateurDTO>();
+        OrdinateurDTOBuilder ordinateur;
 
         try {
 
-            ordinateur = OrdinateurDao.getInstanceOrdinateurDao()
-                    .findOrdinateurByID(id);
+            ordinateursOptional = OrdinateurDao.getInstanceOrdinateurDao()
+                    .findOrdinateurByName(name);
 
         } catch (ConnexionDatabaseException e) {
 
@@ -88,8 +99,32 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             e.printStackTrace();
 
         }
+        if (ordinateursOptional.isPresent()) {
 
-        return ordinateur;
+            for (Optional<Ordinateur> c : ordinateursOptional.get()) {
+
+                if (c.isPresent()) {
+
+                    ordinateur = new OrdinateurDTOBuilder(c.get().getName())
+                            .dateInterrompu(c.get().getDateInterrompu())
+                            .dateIntroduit(c.get().getDateIntroduit());
+
+                    if (c.get().getFabricant().isPresent()) {
+
+                        ordinateur.factory(
+                                c.get().getFabricant().get().getName());
+
+                    }
+
+                    ordinateurs.add(ordinateur.build());
+
+                }
+
+            }
+
+        }
+
+        return ordinateurs;
 
     }
 
@@ -124,6 +159,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             e.printStackTrace();
 
         }
+
         if (ordinateursOptional.isPresent()) {
 
             for (Optional<Ordinateur> c : ordinateursOptional.get()) {
@@ -203,6 +239,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
+     * Count.
+     *
      * @param pageActuelle
      *            la page courante
      * @param nbParPage
@@ -224,6 +262,14 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             e.printStackTrace();
 
         }
+
+        if (nbParPage == 0) {
+
+            LOGGER.error("Le nombre de ligne par page vaut 0, Impossible");
+            return entiers;
+
+        }
+
         if (nombreTotal % nbParPage == 0) {
 
             nombreTotal = nombreTotal / nbParPage;
@@ -233,9 +279,10 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             nombreTotal = nombreTotal / nbParPage + 1;
 
         }
-        if (nombreTotal > 7 && pageActuelle > nombreTotal - 5) {
 
-            for (int i = nombreTotal - 7; i < nombreTotal + 1; i++) {
+        if (nombreTotal > 7 && pageActuelle > nombreTotal - 4) {
+
+            for (int i = nombreTotal - 6; i < nombreTotal + 1; i++) {
 
                 entiers.add(i);
 
@@ -268,6 +315,71 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
         }
 
         return entiers;
+
+    }
+
+    /**
+     * Page max.
+     *
+     * @param nbParPage
+     *            nombre de ligne par page
+     * @return le nombre de page max
+     */
+    public int pageMax(int nbParPage) {
+
+        int nombreTotal = 0;
+
+        try {
+
+            nombreTotal = OrdinateurDao.getInstanceOrdinateurDao()
+                    .countOrdinateur();
+
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+
+        if (nbParPage == 0) {
+
+            LOGGER.error("Le nombre de ligne par page vaut 0, Impossible");
+            return 1;
+
+        }
+
+        if (nombreTotal % nbParPage == 0) {
+
+            nombreTotal = nombreTotal / nbParPage;
+
+        } else {
+
+            nombreTotal = nombreTotal / nbParPage + 1;
+
+        }
+
+        return nombreTotal;
+
+    }
+
+    /**
+     * @return le nombre max d'ordinateur
+     */
+    public int countMax() {
+
+        int nombreTotal = 0;
+
+        try {
+
+            nombreTotal = OrdinateurDao.getInstanceOrdinateurDao()
+                    .countOrdinateur();
+
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return nombreTotal;
 
     }
 

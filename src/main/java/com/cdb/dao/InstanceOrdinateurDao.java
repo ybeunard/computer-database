@@ -55,17 +55,17 @@ public interface InstanceOrdinateurDao {
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
-     * Find ordinateur by ID.
+     * Find ordinateur by Name.
      *
-     * @param index
-     *            the index
-     * @return the ordinateur
+     * @param name
+     *            le nom de l'ordinateur recherché
+     * @return une liste ordinateur
      * @throws ConnexionDatabaseException
-     *             the connexion database exception
+     *             if there is an issue
      * @throws RequeteQueryException
-     *             the requete query exception
+     *             if there is an issue
      */
-    Optional<Ordinateur> findOrdinateurByID(long index)
+    Optional<List<Optional<Ordinateur>>> findOrdinateurByName(String name)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**

@@ -11,6 +11,13 @@ import java.util.Optional;
 public interface InterfaceGestionEntreprise {
 
     /**
+     * Find entreprise.
+     *
+     * @return the list
+     */
+    List<Entreprise> findEntreprise();
+
+    /**
      * Find entreprise by ID.
      *
      * @param id

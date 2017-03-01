@@ -1,10 +1,12 @@
 package com.cdb.services.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.entities.Entreprise;
+import com.cdb.entities.Entreprise.EntrepriseBuilder;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.InterfaceGestionEntreprise;
@@ -32,6 +34,51 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     public static final GestionEntreprise getInstanceGestionEntreprise() {
 
         return INSTANCE_GESTION_ENTREPRISE;
+
+    }
+
+    /**
+     * Find entreprise.
+     *
+     * @return the list
+     */
+    public List<Entreprise> findEntreprise() {
+
+        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+        Optional<List<Optional<Entreprise>>> entreprisesOptional = Optional
+                .empty();
+
+        try {
+
+            entreprisesOptional = EntrepriseDao.getInstanceEntrepriseDao()
+                    .findEntreprise();
+
+        } catch (ConnexionDatabaseException e) {
+
+            e.printStackTrace();
+
+        } catch (RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+
+        if (entreprisesOptional.isPresent()) {
+
+            for (Optional<Entreprise> e : entreprisesOptional.get()) {
+
+                if (e.isPresent()) {
+
+                    entreprises.add(new EntrepriseBuilder(e.get().getName())
+                            .id(e.get().getId()).build());
+
+                }
+
+            }
+
+        }
+
+        return entreprises;
 
     }
 
