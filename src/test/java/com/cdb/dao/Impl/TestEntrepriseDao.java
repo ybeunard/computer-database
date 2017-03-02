@@ -23,23 +23,19 @@ import junit.framework.TestCase;
 public class TestEntrepriseDao extends TestCase {
 
     private EntrepriseDao dao;
-    private static Properties propInit = new Properties();
-    private static Properties propTest = new Properties();
-    private static FileInputStream streamIn;
-    private static FileOutputStream streamOut;
+    private String URL_base;
+    private static Properties prop = new Properties();
 
     protected void setUp() throws Exception {
 
-        streamIn = new FileInputStream(
+        FileInputStream stream = new FileInputStream(
                 "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/connexion.properties");
-        propInit.load(streamIn);
-        streamIn = new FileInputStream(
-                "/home/excilys/eclipse_workspace/computerDatabase/src/test/resources/connexion.properties");
-        propTest.load(streamIn);
-        streamIn.close();
-        streamOut = new FileOutputStream(
+        prop.load(stream);
+        URL_base = prop.getProperty("URL");
+        prop.setProperty("URL", URL_base + "-test");
+        FileOutputStream streamOut = new FileOutputStream(
                 "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/connexion.properties");
-        propTest.store(streamOut, null);
+        prop.store(streamOut, null);
         IDataSet dataSet = readDataSet();
         cleanlyInsertDataset(dataSet);
         dao = EntrepriseDao.getInstanceEntrepriseDao();
@@ -48,8 +44,13 @@ public class TestEntrepriseDao extends TestCase {
 
     protected void tearDown() throws IOException {
 
-        propInit.store(streamOut, null);
-        streamOut.close();
+        FileInputStream stream = new FileInputStream(
+                "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/connexion.properties");
+        FileOutputStream streamOut = new FileOutputStream(
+                "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/connexion.properties");
+        prop.load(stream);
+        prop.setProperty("URL", URL_base);
+        prop.store(streamOut, null);
         dao = null;
 
     }
@@ -63,9 +64,8 @@ public class TestEntrepriseDao extends TestCase {
 
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
         IDatabaseTester databaseTester = new JdbcDatabaseTester(
-                com.mysql.jdbc.Driver.class.getName(),
-                propTest.getProperty("URL"), propTest.getProperty("LOGIN"),
-                propTest.getProperty("PASSWORD"));
+                com.mysql.jdbc.Driver.class.getName(), prop.getProperty("URL"),
+                prop.getProperty("LOGIN"), prop.getProperty("PASSWORD"));
         databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
         databaseTester.setDataSet(dataSet);
         databaseTester.onSetup();
