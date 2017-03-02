@@ -35,9 +35,9 @@ public class DateValidation {
             d = new java.sql.Date(parsed.getTime()).toLocalDate();
 
         } catch (ParseException e) {
-            
+
             LOGGER.error("Date parsing failed" + date);
-            
+
         }
 
         return Optional.ofNullable(d);

@@ -65,14 +65,14 @@ public class Entreprise {
          */
         public EntrepriseBuilder(String name) {
 
-           if(name == null) {
-                
+            if (name == null) {
+
                 this.name = "";
-                
+
             } else {
-                
+
                 this.name = name;
-                
+
             }
 
         }
