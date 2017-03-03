@@ -1,9 +1,7 @@
 package com.cdb.controllers.validation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -26,19 +24,7 @@ public class DateValidation {
      */
     public static Optional<LocalDate> parseDate(String date) {
 
-        LocalDate d = null;
-
-        try {
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-            Date parsed = format.parse(date);
-            d = new java.sql.Date(parsed.getTime()).toLocalDate();
-
-        } catch (ParseException e) {
-
-            LOGGER.error("Date parsing failed" + date);
-
-        }
+        LocalDate d = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         return Optional.ofNullable(d);
 
