@@ -49,7 +49,7 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        String action = request.getParameter("action");
+
         String numPageStr = request.getParameter("numPage");
         Integer numPage = (Integer) request.getSession()
                 .getAttribute("numPage");
@@ -82,25 +82,7 @@ public class DashboardServlet extends HttpServlet {
 
         }
 
-        if (action != null) {
-
-            if (action.equals("Filter by name")) {
-
-                String nom = request.getParameter("search");
-                List<OrdinateurDto> oSearch = GestionOrdinateur
-                        .getInstanceGestionOrdinateur()
-                        .findOrdinateurByName(nom);
-                request.setAttribute("allComputer", oSearch);
-                request.setAttribute("nbComputer", oSearch.size());
-                request.getSession().setAttribute("numPage", 1);
-                request.getSession().setAttribute("nbParPage", 10);
-                request.getRequestDispatcher("views/dashboard.jsp")
-                        .forward(request, response);
-                return;
-
-            }
-
-        }
+        
 
         if (numPage <= 1) {
 
@@ -155,8 +137,27 @@ public class DashboardServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        if (action != null) {
 
-        doGet(request, response);
+            if (action.equals("Filter by name")) {
+
+                String nom = request.getParameter("search");
+                List<OrdinateurDto> oSearch = GestionOrdinateur
+                        .getInstanceGestionOrdinateur()
+                        .findOrdinateurByName(nom);
+                request.setAttribute("allComputer", oSearch);
+                request.setAttribute("nbComputer", oSearch.size());
+                request.getSession().setAttribute("numPage", 1);
+                request.getSession().setAttribute("nbParPage", 10);
+                request.getRequestDispatcher("views/dashboard.jsp")
+                        .forward(request, response);
+                return;
+
+            }
+
+        }
 
     }
 

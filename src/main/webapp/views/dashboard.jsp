@@ -98,29 +98,7 @@
     </section>
 
     <footer class="navbar-fixed-bottom">
-        <div class="container text-center">
-            <ul class="pagination">
-                <li>
-                    <a href="DashboardServlet?numPage=${precPage}" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-              <c:forEach items="${pagination}" var="page" >
-              	<li><a href="DashboardServlet?numPage=${page}">${page}</a></li>
-              </c:forEach>
-              <li>
-                <a href="DashboardServlet?numPage=${suivPage}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default"><a href="DashboardServlet?nbParPage=10">10</a></button>
-            <button type="button" class="btn btn-default"><a href="DashboardServlet?nbParPage=50">50</a></button>
-            <button type="button" class="btn btn-default"><a href="DashboardServlet?nbParPage=100">100</a></button>
-        </div>
-
+        <%@include file="pagination.jsp" %>
     </footer>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
