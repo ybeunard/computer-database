@@ -78,7 +78,7 @@
                 </thead>
                 <!-- Browse attribute computers -->
                 <tbody id="results">
-                	<c:forEach items="${allComputer}" var="computer" >
+                	<c:forEach items="${page.contenue}" var="computer" >
 	                    <tr>
 	                        <td class="editMode">
 	                            <input type="checkbox" name="cb" class="cb" value="0">

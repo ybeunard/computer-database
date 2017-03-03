@@ -81,8 +81,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_INSERT_ORDINATEUR"))))) {
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_INSERT_ORDINATEUR"))) {
 
             stmt.setString(1, ordinateur.getName());
 
@@ -143,8 +143,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS"))))) {
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_FIND_ORDINATEURS"))) {
 
             ResultSet rset = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
@@ -189,12 +189,12 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
-        LOGGER.info("recherche de la liste d'ordinateur par page");
+        LOGGER.info("recherche de la liste d'ordinateur par page "+limit + " " + offset);
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_PAGE"))))) {
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_PAGE"))) {
 
             stmt.setInt(1, limit);
             stmt.setInt(2, offset);
@@ -234,8 +234,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"))))) {
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"))) {
 
             stmt.setString(1, "%" + name + "%");
             ResultSet res = stmt.executeQuery();
@@ -271,8 +271,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_UPDATE_ORDINATEUR"))))) {
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_UPDATE_ORDINATEUR"))) {
 
             stmt.setString(1, ordinateur.getName());
 
@@ -334,8 +334,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_DELETE_ORDINATEUR"))))) {
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_DELETE_ORDINATEUR"))) {
 
             stmt.setLong(1, id);
             stmt.executeUpdate();
@@ -367,8 +367,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_COUNT_ORDINATEUR"))))) {
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_COUNT_ORDINATEUR"))) {
 
             ResultSet res = stmt.executeQuery();
             count = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
+import com.cdb.entities.Ordinateur.OrdinateurBuilder;
 import com.cdb.exception.RequeteQueryException;
 
 public enum OrdinateurDaoMapper {
@@ -50,8 +51,10 @@ public enum OrdinateurDaoMapper {
 
             if (res.next()) {
 
-                long id = res.getLong("id");
                 String name = res.getString("name");
+                OrdinateurBuilder builder = new Ordinateur.OrdinateurBuilder(
+                        name);
+                long id = res.getLong("id");
                 LocalDate dateIntroduit = null;
                 LocalDate dateInterrompu = null;
                 long fabricantID = res.getLong("company_id");
@@ -64,7 +67,7 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        dateIntroduit = date.toLocalDate();
+                        builder.dateIntroduit(date.toLocalDate());
 
                     }
 
@@ -74,6 +77,7 @@ public enum OrdinateurDaoMapper {
                             "Recuperation de la date d'introduction impossible");
 
                 }
+
                 try {
 
                     date = res.getDate("discontinued");
@@ -134,22 +138,20 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public List<Ordinateur> recuperationListOrdinateur(
-            ResultSet res) throws RequeteQueryException {
+    public List<Ordinateur> recuperationListOrdinateur(ResultSet res)
+            throws RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
-        Ordinateur ordinateur;
 
         try {
 
             while (res.next()) {
 
-                long id = res.getLong("id");
                 String name = res.getString("name");
-                LocalDate dateIntroduit = null;
-                LocalDate dateInterrompu = null;
-                long fabricantID = res.getLong("company_id");
-                String fabricantName = res.getString("company_name");
+                OrdinateurBuilder builder = new Ordinateur.OrdinateurBuilder(
+                        name);
+                long id = res.getLong("id");
+                builder.id(id);
                 Date date = null;
 
                 try {
@@ -158,7 +160,7 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        dateIntroduit = date.toLocalDate();
+                        builder.dateIntroduit(date.toLocalDate());
 
                     }
 
@@ -168,13 +170,14 @@ public enum OrdinateurDaoMapper {
                             "Recuperation de la date d'introduction impossible");
 
                 }
+
                 try {
 
                     date = res.getDate("discontinued");
 
                     if (date != null) {
 
-                        dateInterrompu = date.toLocalDate();
+                        builder.dateInterrompu(date.toLocalDate());
 
                     }
 
@@ -185,26 +188,18 @@ public enum OrdinateurDaoMapper {
 
                 }
 
-                if (fabricantID <= 0) {
+                long fabricantID = res.getLong("company_id");
 
-                    ordinateur = new Ordinateur.OrdinateurBuilder(name)
-                                    .id(id).dateIntroduit(dateIntroduit)
-                                    .dateInterrompu(dateInterrompu)
-                                    .fabricant(null).build();
+                if (fabricantID > 0) {
 
-                } else {
-
-                    ordinateur = new Ordinateur.OrdinateurBuilder(name)
-                                    .id(id).dateIntroduit(dateIntroduit)
-                                    .dateInterrompu(dateInterrompu)
-                                    .fabricant(new Entreprise.EntrepriseBuilder(
-                                            fabricantName).id(fabricantID)
-                                                    .build())
-                                    .build();
+                    String fabricantName = res.getString("company_name");
+                    builder.fabricant(
+                            new Entreprise.EntrepriseBuilder(fabricantName)
+                                    .id(fabricantID).build());
 
                 }
 
-                ordinateurs.add(ordinateur);
+                ordinateurs.add(builder.build());
 
             }
 
@@ -226,8 +221,7 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public int recuperationInt(ResultSet res)
-            throws RequeteQueryException {
+    public int recuperationInt(ResultSet res) throws RequeteQueryException {
 
         int count = 0;
 
@@ -249,5 +243,5 @@ public enum OrdinateurDaoMapper {
         return count;
 
     }
-    
+
 }

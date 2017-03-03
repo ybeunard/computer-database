@@ -74,8 +74,10 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurByPage(numeroPage, ligneParPage);
+            LOGGER.info("Recuperation de la liste d'ordinateur " + ordinateurs.size());
             nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .countOrdinateur();
+            LOGGER.info("recuperation du nombre maximum d'ordinateur " + nombreTotal);
 
         } catch (ConnexionDatabaseException e) {
 

@@ -1,15 +1,13 @@
 package com.cdb.controllers;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cdb.dto.OrdinateurDto;
+import com.cdb.dto.PageDto;
 import com.cdb.services.Impl.GestionOrdinateur;
 
 /**
@@ -48,18 +46,26 @@ public class DashboardServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-
-
-        String numPageStr = request.getParameter("numPage");
-        Integer numPage = (Integer) request.getSession()
-                .getAttribute("numPage");
-
-        if (numPage == null) {
-
+        
+        PageDto pageCourante = (PageDto) request.getSession()
+                .getAttribute("page");
+        int numPage;
+        int nbParPage;
+        
+        if(pageCourante == null) {
+            
             numPage = 1;
-
+            nbParPage = 10;
+            
+        } else {
+            
+            numPage = pageCourante.getNumPage();
+            nbParPage = pageCourante.getNbParPage();
+            
         }
 
+        String numPageStr = request.getParameter("numPage");
+        
         if (numPageStr != null && !numPageStr.equals("")) {
 
             numPage = Integer.parseInt(numPageStr);
@@ -67,14 +73,6 @@ public class DashboardServlet extends HttpServlet {
         }
 
         String nbParPageStr = request.getParameter("nbParPage");
-        Integer nbParPage = (Integer) request.getSession()
-                .getAttribute("nbParPage");
-
-        if (nbParPage == null) {
-
-            nbParPage = 10;
-
-        }
 
         if (nbParPageStr != null && !nbParPageStr.equals("")) {
 
@@ -82,40 +80,7 @@ public class DashboardServlet extends HttpServlet {
 
         }
 
-        
-
-        if (numPage <= 1) {
-
-            request.setAttribute("precPage", 1);
-
-        } else {
-
-            request.setAttribute("precPage", numPage - 1);
-
-        }
-
-        if (numPage >= GestionOrdinateur.getInstanceGestionOrdinateur()
-                .pageMax(nbParPage)) {
-
-            numPage = GestionOrdinateur.getInstanceGestionOrdinateur()
-                    .pageMax(nbParPage);
-            request.setAttribute("suivPage", numPage);
-
-        } else {
-
-            request.setAttribute("suivPage", numPage + 1);
-
-        }
-
-        request.setAttribute("pagination", GestionOrdinateur
-                .getInstanceGestionOrdinateur().count(numPage, nbParPage));
-        request.setAttribute("allComputer",
-                GestionOrdinateur.getInstanceGestionOrdinateur()
-                        .findOrdinateurByPage(numPage, nbParPage));
-        request.setAttribute("nbComputer",
-                GestionOrdinateur.getInstanceGestionOrdinateur().countMax());
-        request.getSession().setAttribute("numPage", numPage);
-        request.getSession().setAttribute("nbParPage", nbParPage);
+        request.setAttribute("page", GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.findOrdinateurByPage(numPage, nbParPage));
         request.getRequestDispatcher("views/dashboard.jsp").forward(request,
                 response);
 

@@ -54,10 +54,30 @@ public class AddComputerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        String action = request.getParameter("action");
-        request.getSession().setAttribute("numPage", 1);
+        request.setAttribute("companies", GestionEntreprise.INSTANCE_GESTION_ENTREPRISE.findEntreprise());
+        request.getRequestDispatcher("views/addComputer.jsp").forward(request,
+                response);
 
-        if (action != null) {
+    }
+
+    /**
+     * Do post.
+     *
+     * @param request
+     *            the request
+     * @param response
+     *            the response
+     * @throws ServletException
+     *             the servlet exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+
+        /*if (action != null) {
 
             if (action.equals("Add")) {
 
@@ -197,33 +217,7 @@ public class AddComputerServlet extends HttpServlet {
 
             }
 
-        }
-
-        request.setAttribute("companies", GestionEntreprise
-                .getInstanceGestionEntreprise().findEntreprise());
-        request.getRequestDispatcher("views/addComputer.jsp").forward(request,
-                response);
-
-    }
-
-    /**
-     * Do post.
-     *
-     * @param request
-     *            the request
-     * @param response
-     *            the response
-     * @throws ServletException
-     *             the servlet exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
-
-        doGet(request, response);
+        }*/
 
     }
 
