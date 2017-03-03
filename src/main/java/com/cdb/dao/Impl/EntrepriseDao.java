@@ -38,17 +38,6 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
     }
 
-    /**
-     * Gets the instance entreprise dao.
-     *
-     * @return INSTANCE_ENTREPRISE_DAO
-     */
-    public static final EntrepriseDao getInstanceEntrepriseDao() {
-
-        return INSTANCE_ENTREPRISE_DAO;
-
-    }
-
     /** The prop. */
     private static Properties prop = new Properties();
 
@@ -83,10 +72,10 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Optional<Entreprise>> findEntreprise()
+    public List<Entreprise> findEntreprise()
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
+        List<Entreprise> entreprises = new ArrayList<Entreprise>();
         LOGGER.info("recherche de la liste d'entreprise");
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
@@ -95,7 +84,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             ResultSet rset = stmt
                     .executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
             entreprises = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
-                    .recuperationListResultatRequete(rset);
+                    .recuperationListEntreprise(rset);
             LOGGER.info("recherche de la liste d'entreprise effectuée");
 
         } catch (SQLException e) {
@@ -122,11 +111,11 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Optional<Entreprise>> findEntrepriseByPage(int numeroPage,
+    public List<Entreprise> findEntrepriseByPage(int numeroPage,
             int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
+        List<Entreprise> entreprises = new ArrayList<Entreprise>();
 
         if (ligneParPage < 1) {
 
@@ -154,7 +143,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             stmt.setInt(2, offset);
             ResultSet res = stmt.executeQuery();
             entreprises = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
-                    .recuperationListResultatRequete(res);
+                    .recuperationListEntreprise(res);
             LOGGER.info(
                     "recherche de la liste d'entreprise par page effectuée");
 
@@ -194,7 +183,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             stmt.setLong(1, index);
             ResultSet res = stmt.executeQuery();
             entreprise = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
-                    .recupertationResultatRequete(res);
+                    .recupertationEntreprise(res);
             LOGGER.info("recherche d'une entreprise par id effectuée");
 
         } catch (SQLException e) {
@@ -234,7 +223,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             stmt.setString(1, name);
             ResultSet res = stmt.executeQuery();
             entreprise = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
-                    .recupertationResultatRequete(res);
+                    .recupertationEntreprise(res);
             LOGGER.info("recherche d'une entreprise par nom effectuée");
 
         } catch (SQLException e) {

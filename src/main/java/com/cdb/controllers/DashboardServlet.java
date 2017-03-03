@@ -138,26 +138,6 @@ public class DashboardServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         
-        String action = request.getParameter("action");
-        if (action != null) {
-
-            if (action.equals("Filter by name")) {
-
-                String nom = request.getParameter("search");
-                List<OrdinateurDto> oSearch = GestionOrdinateur
-                        .getInstanceGestionOrdinateur()
-                        .findOrdinateurByName(nom);
-                request.setAttribute("allComputer", oSearch);
-                request.setAttribute("nbComputer", oSearch.size());
-                request.getSession().setAttribute("numPage", 1);
-                request.getSession().setAttribute("nbParPage", 10);
-                request.getRequestDispatcher("views/dashboard.jsp")
-                        .forward(request, response);
-                return;
-
-            }
-
-        }
 
     }
 

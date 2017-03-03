@@ -36,7 +36,7 @@ public enum EntrepriseDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public Optional<Entreprise> recupertationResultatRequete(ResultSet res)
+    public Optional<Entreprise> recupertationEntreprise(ResultSet res)
             throws RequeteQueryException {
 
         Optional<Entreprise> entreprise = Optional.empty();
@@ -71,10 +71,10 @@ public enum EntrepriseDaoMapper {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Optional<Entreprise>> recuperationListResultatRequete(
+    public List<Entreprise> recuperationListEntreprise(
             ResultSet res) throws RequeteQueryException {
 
-        List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
+        List<Entreprise> entreprises = new ArrayList<Entreprise>();
 
         try {
 
@@ -82,8 +82,8 @@ public enum EntrepriseDaoMapper {
 
                 long id = res.getLong("id");
                 String name = res.getString("name");
-                entreprises.add(Optional.ofNullable(
-                        new Entreprise.EntrepriseBuilder(name).id(id).build()));
+                entreprises.add(
+                        new Entreprise.EntrepriseBuilder(name).id(id).build());
 
             }
 

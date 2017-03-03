@@ -12,12 +12,11 @@ import org.slf4j.LoggerFactory;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.InterfaceEntrepriseMapper;
 
 /**
  * The Enum EntrepriseMapper.
  */
-public enum EntrepriseMapper implements InterfaceEntrepriseMapper {
+public enum EntrepriseMapper {
 
     /** The instance entreprise mapper. */
     INSTANCE_ENTREPRISE_MAPPER;

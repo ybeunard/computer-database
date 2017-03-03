@@ -85,7 +85,7 @@ public class GestionEntryUser {
 
             }
 
-            createOrdinateur(splitArray[1]);
+            //createOrdinateur(splitArray[1]);
 
         } else if (splitArray[0] == "update") {
 
@@ -96,7 +96,7 @@ public class GestionEntryUser {
 
             }
 
-            updateOrdinateur(splitArray[1]);
+            //updateOrdinateur(splitArray[1]);
 
         } else if (splitArray[0] == "delete") {
 
@@ -230,7 +230,7 @@ public class GestionEntryUser {
      * @param args
      *            the args
      */
-    private static void createOrdinateur(String args) {
+    /*private static void createOrdinateur(String args) {
 
         String[] argArray = args.split("'", 3);
         OrdinateurBuilder ordinateur = new OrdinateurBuilder(argArray[1]);
@@ -302,7 +302,7 @@ public class GestionEntryUser {
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
                     Optional<Entreprise> fabricant = GestionEntreprise
-                            .getInstanceGestionEntreprise()
+                            .INSTANCE_GESTION_ENTREPRISE
                             .findEntrepriseByID(id);
 
                     if (fabricant.isPresent()) {
@@ -348,7 +348,7 @@ public class GestionEntryUser {
         System.out.println(prop.getProperty("nombre_arg"));
         return;
 
-    }
+    }*/
 
     /**
      * Update ordinateur.
@@ -356,7 +356,7 @@ public class GestionEntryUser {
      * @param args
      *            the args
      */
-    private static void updateOrdinateur(String args) {
+    /*private static void updateOrdinateur(String args) {
 
         String[] argArray = args.split(" ", 2);
 
@@ -424,7 +424,7 @@ public class GestionEntryUser {
 
                     if (argArray[2].isEmpty()) {
 
-                        GestionOrdinateur.getInstanceGestionOrdinateur()
+                        GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                                 .updateOrdinateur(builder.build());
                         return;
 
@@ -477,7 +477,7 @@ public class GestionEntryUser {
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
                     Optional<Entreprise> fabricant = GestionEntreprise
-                            .getInstanceGestionEntreprise()
+                            .INSTANCE_GESTION_ENTREPRISE
                             .findEntrepriseByID(id);
 
                     if (fabricant.isPresent()) {
@@ -510,7 +510,7 @@ public class GestionEntryUser {
 
             if (argArray.length < 2) {
 
-                GestionOrdinateur.getInstanceGestionOrdinateur()
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .updateOrdinateur(builder.build());
                 return;
 
@@ -523,7 +523,7 @@ public class GestionEntryUser {
         System.out.println(prop.getProperty("nombre_arg"));
         return;
 
-    }
+    }*/
 
     /**
      * Delete ordinateur.
@@ -536,7 +536,7 @@ public class GestionEntryUser {
         try {
 
             long id = Integer.parseInt(arg);
-            GestionOrdinateur.getInstanceGestionOrdinateur()
+            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .suppressionOrdinateur(id);
 
         } catch (NumberFormatException e) {

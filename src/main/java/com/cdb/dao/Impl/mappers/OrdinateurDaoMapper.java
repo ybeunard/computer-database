@@ -41,7 +41,7 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public Optional<Ordinateur> recuperationResultatRequete(ResultSet res)
+    public Optional<Ordinateur> recuperationOrdinateur(ResultSet res)
             throws RequeteQueryException {
 
         Optional<Ordinateur> ordinateur = Optional.empty();
@@ -134,11 +134,11 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public List<Optional<Ordinateur>> recuperationListResultatRequete(
+    public List<Ordinateur> recuperationListOrdinateur(
             ResultSet res) throws RequeteQueryException {
 
-        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
+        Ordinateur ordinateur;
 
         try {
 
@@ -187,22 +187,20 @@ public enum OrdinateurDaoMapper {
 
                 if (fabricantID <= 0) {
 
-                    ordinateur = Optional
-                            .ofNullable(new Ordinateur.OrdinateurBuilder(name)
+                    ordinateur = new Ordinateur.OrdinateurBuilder(name)
                                     .id(id).dateIntroduit(dateIntroduit)
                                     .dateInterrompu(dateInterrompu)
-                                    .fabricant(null).build());
+                                    .fabricant(null).build();
 
                 } else {
 
-                    ordinateur = Optional
-                            .ofNullable(new Ordinateur.OrdinateurBuilder(name)
+                    ordinateur = new Ordinateur.OrdinateurBuilder(name)
                                     .id(id).dateIntroduit(dateIntroduit)
                                     .dateInterrompu(dateInterrompu)
                                     .fabricant(new Entreprise.EntrepriseBuilder(
                                             fabricantName).id(fabricantID)
                                                     .build())
-                                    .build());
+                                    .build();
 
                 }
 
@@ -228,7 +226,7 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public int recuperationIntResultatRequete(ResultSet res)
+    public int recuperationInt(ResultSet res)
             throws RequeteQueryException {
 
         int count = 0;

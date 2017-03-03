@@ -1,9 +1,7 @@
 package com.cdb.services;
 
-import com.cdb.entities.Entreprise;
-
+import com.cdb.dto.EntrepriseDto;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The Interface InterfaceGestionEntreprise.
@@ -15,36 +13,6 @@ public interface InterfaceGestionEntreprise {
      *
      * @return the list
      */
-    List<Entreprise> findEntreprise();
-
-    /**
-     * Find entreprise by ID.
-     *
-     * @param id
-     *            the id
-     * @return the entreprise
-     */
-    Optional<Entreprise> findEntrepriseByID(long id);
-
-    /**
-     * Find entreprise by name.
-     *
-     * @param name
-     *            the name
-     * @return the optional
-     */
-    Optional<Entreprise> findEntrepriseByName(String name);
-
-    /**
-     * Find entreprise by page.
-     *
-     * @param numeroPage
-     *            the numero page
-     * @param ligneParPage
-     *            the ligne par page
-     * @return the optional
-     */
-    Optional<List<Optional<Entreprise>>> findEntrepriseByPage(int numeroPage,
-            int ligneParPage);
+    List<EntrepriseDto> findEntreprise();
 
 }

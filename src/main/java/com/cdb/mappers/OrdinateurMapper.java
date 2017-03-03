@@ -15,13 +15,12 @@ import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.InterfaceOrdinateurMapper;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Enum OrdinateurMapper.
  */
-public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
+public enum OrdinateurMapper {
 
     /** The instance ordinateur mapper. */
     INSTANCE_ORDINATEUR_MAPPER;

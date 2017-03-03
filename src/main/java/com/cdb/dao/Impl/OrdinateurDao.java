@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -136,10 +135,10 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Optional<Ordinateur>> findOrdinateur()
+    public List<Ordinateur> findOrdinateur()
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
+        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         LOGGER.info("recherche de la liste d'ordinateur");
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
@@ -149,7 +148,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
             ResultSet rset = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationListResultatRequete(rset);
+                    .recuperationListOrdinateur(rset);
             LOGGER.info("recherche de la liste d'ordinateur effectuée");
 
         } catch (SQLException e) {
@@ -176,11 +175,11 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Optional<Ordinateur>> findOrdinateurByPage(int numeroPage,
+    public List<Ordinateur> findOrdinateurByPage(int numeroPage,
             int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
+        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
 
@@ -201,7 +200,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             stmt.setInt(2, offset);
             ResultSet res = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationListResultatRequete(res);
+                    .recuperationListOrdinateur(res);
             LOGGER.info(
                     "recherche de la liste d'ordinateur par page effectuée");
 
@@ -227,10 +226,10 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Optional<Ordinateur>> findOrdinateurByName(String name)
+    public List<Ordinateur> findOrdinateurByName(String name)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
+        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         LOGGER.info("recherche de la liste d'ordinateur par nom");
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
@@ -241,7 +240,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             stmt.setString(1, "%" + name + "%");
             ResultSet res = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationListResultatRequete(res);
+                    .recuperationListOrdinateur(res);
             LOGGER.info("recherche de la liste d'ordinateur par nom effectuée");
 
         } catch (SQLException e) {
@@ -373,7 +372,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
             ResultSet res = stmt.executeQuery();
             count = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationIntResultatRequete(res);
+                    .recuperationInt(res);
             LOGGER.info("Comptage du nombre d'ordinateur effectuée");
 
         } catch (SQLException e) {

@@ -1,10 +1,8 @@
 package com.cdb.services;
 
-import com.cdb.dto.OrdinateurDto;
+import com.cdb.dto.PageDto;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.RequeteQueryException;
-
-import java.util.List;
 
 /**
  * The Interface InterfaceGestionOrdinateur.
@@ -22,15 +20,6 @@ public interface InterfaceGestionOrdinateur {
     void createOrdinateur(Ordinateur ordinateur) throws RequeteQueryException;
 
     /**
-     * Find ordinateur by Name.
-     *
-     * @param name
-     *            de l'ordinateur recherché
-     * @return the list ordinateur
-     */
-    List<OrdinateurDto> findOrdinateurByName(String name);
-
-    /**
      * Find ordinateur by page.
      *
      * @param numeroPage
@@ -39,7 +28,7 @@ public interface InterfaceGestionOrdinateur {
      *            the ligne par page
      * @return the optional
      */
-    List<OrdinateurDto> findOrdinateurByPage(int numeroPage, int ligneParPage);
+    PageDto findOrdinateurByPage(int numeroPage, int ligneParPage);
 
     /**
      * Update ordinateur.
@@ -66,22 +55,5 @@ public interface InterfaceGestionOrdinateur {
      *            the nb par page
      * @return the list
      */
-    List<Integer> count(int pageActuelle, int nbParPage);
-
-    /**
-     * Page max.
-     *
-     * @param nbParPage
-     *            the nb par page
-     * @return the int
-     */
-    int pageMax(int nbParPage);
-
-    /**
-     * Count max.
-     *
-     * @return the int
-     */
-    int countMax();
 
 }
