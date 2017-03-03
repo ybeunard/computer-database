@@ -34,7 +34,7 @@ public interface InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    Optional<List<Optional<Ordinateur>>> findOrdinateur()
+    List<Optional<Ordinateur>> findOrdinateur()
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
@@ -50,7 +50,7 @@ public interface InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    Optional<List<Optional<Ordinateur>>> findOrdinateurByPage(int numeroPage,
+    List<Optional<Ordinateur>> findOrdinateurByPage(int numeroPage,
             int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException;
 
@@ -65,7 +65,7 @@ public interface InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    Optional<List<Optional<Ordinateur>>> findOrdinateurByName(String name)
+    List<Optional<Ordinateur>> findOrdinateurByName(String name)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**

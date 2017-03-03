@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -18,10 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.InterfaceOrdinateurDao;
+import com.cdb.dao.Impl.mappers.OrdinateurDaoMapper;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.Impl.OrdinateurMapper;
 
 /**
  * The Enum OrdinateurDao.
@@ -35,17 +35,6 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * Instantiates a new ordinateur dao.
      */
     OrdinateurDao() {
-
-    }
-
-    /**
-     * Gets the instance ordinateur dao.
-     *
-     * @return the instance ordinateur dao
-     */
-    public static final OrdinateurDao getInstanceOrdinateurDao() {
-
-        return INSTANCE_ORDINATEUR_DAO;
 
     }
 
@@ -89,85 +78,50 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     public void createOrdinateur(Ordinateur ordinateur)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement requete = null;
         LOGGER.info("Création d'un " + ordinateur);
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_INSERT_ORDINATEUR"))))) {
 
-            if (con.isPresent()) {
+            stmt.setString(1, ordinateur.getName());
 
-                requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_INSERT_ORDINATEUR"));
-                requete.setString(1, ordinateur.getName());
+            if (ordinateur.getDateIntroduit() != null) {
 
-                if (ordinateur.getDateIntroduit() != null) {
-
-                    requete.setDate(2,
-                            Date.valueOf(ordinateur.getDateIntroduit()));
-
-                } else {
-
-                    requete.setDate(2, null);
-
-                }
-                if (ordinateur.getDateInterrompu() != null) {
-
-                    requete.setDate(3,
-                            Date.valueOf(ordinateur.getDateInterrompu()));
-
-                } else {
-
-                    requete.setDate(3, null);
-
-                }
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    requete.setLong(4, ordinateur.getFabricant().get().getId());
-
-                } else {
-
-                    requete.setString(4, null);
-
-                }
-
-                requete.executeUpdate();
-                LOGGER.info("Creation d'un ordinateur effectuée");
+                stmt.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
 
             } else {
 
-                LOGGER.info("echec de la connexion");
+                stmt.setDate(2, null);
 
             }
+            if (ordinateur.getDateInterrompu() != null) {
+
+                stmt.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
+
+            } else {
+
+                stmt.setDate(3, null);
+
+            }
+            if (ordinateur.getFabricant().isPresent()) {
+
+                stmt.setLong(4, ordinateur.getFabricant().get().getId());
+
+            } else {
+
+                stmt.setString(4, null);
+
+            }
+
+            stmt.executeUpdate();
+            LOGGER.info("Creation d'un ordinateur effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de creation de l'" + ordinateur);
-
-        } finally {
-
-            if (requete != null) {
-
-                try {
-
-                    requete.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de creation d'ordinateur impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -182,60 +136,26 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<List<Optional<Ordinateur>>> findOrdinateur()
+    public List<Optional<Ordinateur>> findOrdinateur()
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
-
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        Statement stmt = null;
+        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
         LOGGER.info("recherche de la liste d'ordinateur");
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_FIND_ORDINATEURS"))))) {
 
-            if (con.isPresent()) {
-
-                stmt = con.get().createStatement();
-                ResultSet rset = stmt.executeQuery(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS"));
-                ordinateurs = OrdinateurMapper.getInstanceOrdinateurMapper()
-                        .recuperationListResultatRequete(rset);
-                LOGGER.info("recherche de la liste d'ordinateur effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            ResultSet rset = stmt.executeQuery();
+            ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
+                    .recuperationListResultatRequete(rset);
+            LOGGER.info("recherche de la liste d'ordinateur effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de recherche d'ordinateur");
-
-        } finally {
-
-            if (stmt != null) {
-
-                try {
-
-                    stmt.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'ordinateur impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -256,11 +176,11 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<List<Optional<Ordinateur>>> findOrdinateurByPage(
-            int numeroPage, int ligneParPage)
+    public List<Optional<Ordinateur>> findOrdinateurByPage(int numeroPage,
+            int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
+        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
 
@@ -270,57 +190,25 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement requete = null;
         LOGGER.info("recherche de la liste d'ordinateur par page");
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_PAGE"))))) {
 
-            if (con.isPresent()) {
-                requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_PAGE"));
-                requete.setInt(1, limit);
-                requete.setInt(2, offset);
-                ResultSet res = requete.executeQuery();
-                ordinateurs = OrdinateurMapper.getInstanceOrdinateurMapper()
-                        .recuperationListResultatRequete(res);
-                LOGGER.info(
-                        "recherche de la liste d'ordinateur par page effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            stmt.setInt(1, limit);
+            stmt.setInt(2, offset);
+            ResultSet res = stmt.executeQuery();
+            ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
+                    .recuperationListResultatRequete(res);
+            LOGGER.info(
+                    "recherche de la liste d'ordinateur par page effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de recherche par page d'ordinateur");
-
-        } finally {
-
-            if (requete != null) {
-
-                try {
-
-                    requete.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'ordinateur par page impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -339,62 +227,27 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<List<Optional<Ordinateur>>> findOrdinateurByName(
-            String name)
+    public List<Optional<Ordinateur>> findOrdinateurByName(String name)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<List<Optional<Ordinateur>>> ordinateurs = Optional.empty();
-
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement requete = null;
+        List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
         LOGGER.info("recherche de la liste d'ordinateur par nom");
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"))))) {
 
-            if (con.isPresent()) {
-                requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"));
-                requete.setString(1, "%" + name + "%");
-                ResultSet res = requete.executeQuery();
-                ordinateurs = OrdinateurMapper.getInstanceOrdinateurMapper()
-                        .recuperationListResultatRequete(res);
-                LOGGER.info(
-                        "recherche de la liste d'ordinateur par nom effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            stmt.setString(1, "%" + name + "%");
+            ResultSet res = stmt.executeQuery();
+            ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
+                    .recuperationListResultatRequete(res);
+            LOGGER.info("recherche de la liste d'ordinateur par nom effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de recherche par nom d'ordinateur");
-
-        } finally {
-
-            if (requete != null) {
-
-                try {
-
-                    requete.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'ordinateur par nom impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -415,87 +268,51 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     public void updateOrdinateur(Ordinateur ordinateur)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement requete = null;
         LOGGER.info("update d'un " + ordinateur);
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_UPDATE_ORDINATEUR"))))) {
 
-            if (con.isPresent()) {
+            stmt.setString(1, ordinateur.getName());
 
-                requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_UPDATE_ORDINATEUR"));
-                requete.setString(1, ordinateur.getName());
+            if (ordinateur.getDateIntroduit() != null) {
 
-                if (ordinateur.getDateIntroduit() != null) {
-
-                    requete.setDate(2,
-                            Date.valueOf(ordinateur.getDateIntroduit()));
-
-                } else {
-
-                    requete.setDate(2, null);
-
-                }
-                if (ordinateur.getDateInterrompu() != null) {
-
-                    requete.setDate(3,
-                            Date.valueOf(ordinateur.getDateInterrompu()));
-
-                } else {
-
-                    requete.setDate(3, null);
-
-                }
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    requete.setLong(4, ordinateur.getFabricant().get().getId());
-
-                } else {
-
-                    requete.setString(4, null);
-
-                }
-
-                requete.setLong(5, ordinateur.getId());
-                requete.executeUpdate();
-
-                LOGGER.info("update d'un ordinateur effectuée");
+                stmt.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
 
             } else {
 
-                LOGGER.info("echec de la connexion");
+                stmt.setDate(2, null);
 
             }
+            if (ordinateur.getDateInterrompu() != null) {
+
+                stmt.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
+
+            } else {
+
+                stmt.setDate(3, null);
+
+            }
+            if (ordinateur.getFabricant().isPresent()) {
+
+                stmt.setLong(4, ordinateur.getFabricant().get().getId());
+
+            } else {
+
+                stmt.setString(4, null);
+
+            }
+
+            stmt.setLong(5, ordinateur.getId());
+            stmt.executeUpdate();
+            LOGGER.info("update d'un ordinateur effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de mise à jour de l'" + ordinateur);
-
-        } finally {
-
-            if (requete != null) {
-
-                try {
-
-                    requete.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de mise à jour d'ordinateur impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -514,54 +331,22 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     public void suppressionOrdinateur(long id)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement requete = null;
         LOGGER.info("suppression de l'ordinateur numero " + id);
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_DELETE_ORDINATEUR"))))) {
 
-            if (con.isPresent()) {
-                requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_DELETE_ORDINATEUR"));
-                requete.setLong(1, id);
-                requete.executeUpdate();
-                LOGGER.info("suppression d'un ordinateur effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+            LOGGER.info("suppression d'un ordinateur effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de suppression de l'ordinateur: "
                             + id);
-
-        } finally {
-
-            if (requete != null) {
-
-                try {
-
-                    requete.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de suppression d'ordinateur impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -579,53 +364,21 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             throws ConnexionDatabaseException, RequeteQueryException {
 
         int count = 0;
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement requete = null;
         LOGGER.info("Comptage du nombre d'ordinateur");
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_COUNT_ORDINATEUR"))))) {
 
-            if (con.isPresent()) {
-                requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_COUNT_ORDINATEUR"));
-                ResultSet res = requete.executeQuery();
-                count = OrdinateurMapper.getInstanceOrdinateurMapper()
-                        .recuperationIntResultatRequete(res);
-                LOGGER.info("Comptage du nombre d'ordinateur effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            ResultSet res = stmt.executeQuery();
+            count = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
+                    .recuperationIntResultatRequete(res);
+            LOGGER.info("Comptage du nombre d'ordinateur effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException("Echec de la requete count");
-
-        } finally {
-
-            if (requete != null) {
-
-                try {
-
-                    requete.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete count impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 

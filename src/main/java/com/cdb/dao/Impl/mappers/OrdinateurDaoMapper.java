@@ -1,4 +1,4 @@
-package com.cdb.mappers.Impl;
+package com.cdb.dao.Impl.mappers;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -15,32 +15,16 @@ import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.InterfaceOrdinateurMapper;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Enum OrdinateurMapper.
- */
-public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
+public enum OrdinateurDaoMapper {
 
     /** The instance ordinateur mapper. */
-    INSTANCE_ORDINATEUR_MAPPER;
+    INSTANCE_ORDINATEUR_DAO_MAPPER;
 
     /**
      * Instantiates a new ordinateur mapper.
      */
-    OrdinateurMapper() {
-
-    }
-
-    /**
-     * Gets the instance ordinateur mapper.
-     *
-     * @return the instance ordinateur mapper
-     */
-    public static final OrdinateurMapper getInstanceOrdinateurMapper() {
-
-        return INSTANCE_ORDINATEUR_MAPPER;
+    OrdinateurDaoMapper() {
 
     }
 
@@ -150,7 +134,7 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public Optional<List<Optional<Ordinateur>>> recuperationListResultatRequete(
+    public List<Optional<Ordinateur>> recuperationListResultatRequete(
             ResultSet res) throws RequeteQueryException {
 
         List<Optional<Ordinateur>> ordinateurs = new ArrayList<Optional<Ordinateur>>();
@@ -233,7 +217,7 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
 
         }
 
-        return Optional.ofNullable(ordinateurs);
+        return ordinateurs;
 
     }
 
@@ -267,5 +251,5 @@ public enum OrdinateurMapper implements InterfaceOrdinateurMapper {
         return count;
 
     }
-
+    
 }

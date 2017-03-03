@@ -1,4 +1,4 @@
-package com.cdb.mappers.Impl;
+package com.cdb.dao.Impl.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,31 +12,16 @@ import org.slf4j.LoggerFactory;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.InterfaceEntrepriseMapper;
 
-/**
- * The Enum EntrepriseMapper.
- */
-public enum EntrepriseMapper implements InterfaceEntrepriseMapper {
+public enum EntrepriseDaoMapper {
 
     /** The instance entreprise mapper. */
-    INSTANCE_ENTREPRISE_MAPPER;
+    INSTANCE_ENTREPRISE_DAO_MAPPER;
 
     /**
      * Instantiates a new entreprise mapper.
      */
-    EntrepriseMapper() {
-
-    }
-
-    /**
-     * Gets the instance entreprise mapper.
-     *
-     * @return the instance entreprise mapper
-     */
-    public static final EntrepriseMapper getInstanceEntrepriseMapper() {
-
-        return INSTANCE_ENTREPRISE_MAPPER;
+    EntrepriseDaoMapper() {
 
     }
 
@@ -86,7 +71,7 @@ public enum EntrepriseMapper implements InterfaceEntrepriseMapper {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<List<Optional<Entreprise>>> recuperationListResultatRequete(
+    public List<Optional<Entreprise>> recuperationListResultatRequete(
             ResultSet res) throws RequeteQueryException {
 
         List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
@@ -109,8 +94,7 @@ public enum EntrepriseMapper implements InterfaceEntrepriseMapper {
 
         }
 
-        return Optional.ofNullable(entreprises);
+        return entreprises;
 
     }
-
 }

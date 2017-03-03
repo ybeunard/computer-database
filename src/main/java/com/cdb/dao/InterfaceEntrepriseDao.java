@@ -21,7 +21,7 @@ public interface InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    Optional<List<Optional<Entreprise>>> findEntreprise()
+    List<Optional<Entreprise>> findEntreprise()
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
@@ -37,7 +37,7 @@ public interface InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    Optional<List<Optional<Entreprise>>> findEntrepriseByPage(int numeroPage,
+    List<Optional<Entreprise>> findEntrepriseByPage(int numeroPage,
             int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException;
 

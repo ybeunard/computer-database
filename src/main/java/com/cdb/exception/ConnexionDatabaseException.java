@@ -1,11 +1,8 @@
 package com.cdb.exception;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dao.Impl.ConnexionDatabase;
 import com.mysql.jdbc.Connection;
 
 // TODO: Auto-generated Javadoc
@@ -44,18 +41,11 @@ public class ConnexionDatabaseException extends Exception {
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      */
-    public ConnexionDatabaseException(String s, Optional<Connection> con)
+    public ConnexionDatabaseException(String s, Connection con)
             throws ConnexionDatabaseException {
 
         super(s);
         LOGGER.error(s);
-
-        if (con.isPresent()) {
-
-            ConnexionDatabase.getInstanceConnexionDatabase()
-                    .closeConnexionDatabase(con.get());
-
-        }
 
     }
 

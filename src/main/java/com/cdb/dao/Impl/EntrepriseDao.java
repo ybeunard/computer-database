@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -14,10 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.InterfaceEntrepriseDao;
+import com.cdb.dao.Impl.mappers.EntrepriseDaoMapper;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.Impl.EntrepriseMapper;
 import com.mysql.jdbc.Connection;
 
 /**
@@ -82,59 +83,25 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<List<Optional<Entreprise>>> findEntreprise()
+    public List<Optional<Entreprise>> findEntreprise()
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<List<Optional<Entreprise>>> entreprises = Optional.empty();
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        Statement stmt = null;
+        List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
         LOGGER.info("recherche de la liste d'entreprise");
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase(); Statement stmt = con.createStatement()) {
 
-            if (con.isPresent()) {
-
-                stmt = con.get().createStatement();
-                ResultSet rset = stmt.executeQuery(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES"));
-                entreprises = EntrepriseMapper.getInstanceEntrepriseMapper()
-                        .recuperationListResultatRequete(rset);
-                LOGGER.info("recherche de la liste d'entreprise effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            ResultSet rset = stmt
+                    .executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
+            entreprises = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
+                    .recuperationListResultatRequete(rset);
+            LOGGER.info("recherche de la liste d'entreprise effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec" + " de la requete de recherche d'entreprise");
-
-        } finally {
-
-            if (stmt != null) {
-
-                try {
-
-                    stmt.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'entreprise impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -155,11 +122,11 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public Optional<List<Optional<Entreprise>>> findEntrepriseByPage(
-            int numeroPage, int ligneParPage)
+    public List<Optional<Entreprise>> findEntrepriseByPage(int numeroPage,
+            int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<List<Optional<Entreprise>>> entreprises = Optional.empty();
+        List<Optional<Entreprise>> entreprises = new ArrayList<Optional<Entreprise>>();
 
         if (ligneParPage < 1) {
 
@@ -176,58 +143,25 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
         }
 
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement requete = null;
         LOGGER.info("recherche de la liste d'entreprise par page");
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"))))) {
 
-            if (con.isPresent()) {
-
-                requete = con.get().prepareStatement(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"));
-                requete.setInt(1, limit);
-                requete.setInt(2, offset);
-                ResultSet res = requete.executeQuery();
-                entreprises = EntrepriseMapper.getInstanceEntrepriseMapper()
-                        .recuperationListResultatRequete(res);
-                LOGGER.info(
-                        "recherche de la liste d'entreprise par page effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            stmt.setInt(1, limit);
+            stmt.setInt(2, offset);
+            ResultSet res = stmt.executeQuery();
+            entreprises = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
+                    .recuperationListResultatRequete(res);
+            LOGGER.info(
+                    "recherche de la liste d'entreprise par page effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de recherche par page d'entreprise");
-
-        } finally {
-
-            if (requete != null) {
-
-                try {
-
-                    requete.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'entreprise par page impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -250,57 +184,24 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             throws ConnexionDatabaseException, RequeteQueryException {
 
         Optional<Entreprise> entreprise = Optional.empty();
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement stmt = null;
         LOGGER.info("recherche d'une entreprise par id: " + index);
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"))))) {
 
-            if (con.isPresent()) {
-
-                stmt = con.get().prepareStatement(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"));
-                stmt.setLong(1, index);
-                ResultSet res = stmt.executeQuery();
-                entreprise = EntrepriseMapper.getInstanceEntrepriseMapper()
-                        .recupertationResultatRequete(res);
-                LOGGER.info("recherche d'une entreprise par id effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            stmt.setLong(1, index);
+            ResultSet res = stmt.executeQuery();
+            entreprise = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
+                    .recupertationResultatRequete(res);
+            LOGGER.info("recherche d'une entreprise par id effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de recherche de l'entreprise numero: "
                             + index);
-
-        } finally {
-
-            if (stmt != null) {
-
-                try {
-
-                    stmt.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'entreprise par ID impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
@@ -323,57 +224,24 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             throws ConnexionDatabaseException, RequeteQueryException {
 
         Optional<Entreprise> entreprise = Optional.empty();
-        Optional<Connection> con = ConnexionDatabase
-                .getInstanceConnexionDatabase().connectDatabase();
-        PreparedStatement stmt = null;
         LOGGER.info("recherche d'une entreprise par nom: " + name);
 
-        try {
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
+                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_NAME"))))) {
 
-            if (con.isPresent()) {
-
-                stmt = con.get().prepareStatement(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_NAME"));
-                stmt.setString(1, name);
-                ResultSet res = stmt.executeQuery();
-                entreprise = EntrepriseMapper.getInstanceEntrepriseMapper()
-                        .recupertationResultatRequete(res);
-                LOGGER.info("recherche d'une entreprise par nom effectuée");
-
-            } else {
-
-                LOGGER.info("echec de la connexion");
-
-            }
+            stmt.setString(1, name);
+            ResultSet res = stmt.executeQuery();
+            entreprise = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
+                    .recupertationResultatRequete(res);
+            LOGGER.info("recherche d'une entreprise par nom effectuée");
 
         } catch (SQLException e) {
 
             throw new RequeteQueryException(
                     "Echec de la requete de recherche de l'entreprise: "
                             + name);
-
-        } finally {
-
-            if (stmt != null) {
-
-                try {
-
-                    stmt.close();
-
-                } catch (SQLException e) {
-
-                    throw new RequeteQueryException(
-                            "Fermeture de la requete de recherche d'entreprise par nom impossible");
-
-                }
-
-            }
-            if (con.isPresent()) {
-
-                ConnexionDatabase.getInstanceConnexionDatabase()
-                        .closeConnexionDatabase(con.get());
-
-            }
 
         }
 
