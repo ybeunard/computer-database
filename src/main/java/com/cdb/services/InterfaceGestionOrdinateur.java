@@ -1,6 +1,6 @@
 package com.cdb.services;
 
-import com.cdb.DTO.OrdinateurDTO;
+import com.cdb.dto.OrdinateurDto;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.RequeteQueryException;
 
@@ -28,7 +28,7 @@ public interface InterfaceGestionOrdinateur {
      *            de l'ordinateur recherché
      * @return the list ordinateur
      */
-    List<OrdinateurDTO> findOrdinateurByName(String name);
+    List<OrdinateurDto> findOrdinateurByName(String name);
 
     /**
      * Find ordinateur by page.
@@ -39,7 +39,7 @@ public interface InterfaceGestionOrdinateur {
      *            the ligne par page
      * @return the optional
      */
-    List<OrdinateurDTO> findOrdinateurByPage(int numeroPage, int ligneParPage);
+    List<OrdinateurDto> findOrdinateurByPage(int numeroPage, int ligneParPage);
 
     /**
      * Update ordinateur.

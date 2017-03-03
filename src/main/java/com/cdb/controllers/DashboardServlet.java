@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cdb.DTO.OrdinateurDTO;
+import com.cdb.dto.OrdinateurDto;
 import com.cdb.services.Impl.GestionOrdinateur;
 
 /**
@@ -87,7 +87,7 @@ public class DashboardServlet extends HttpServlet {
             if (action.equals("Filter by name")) {
 
                 String nom = request.getParameter("search");
-                List<OrdinateurDTO> oSearch = GestionOrdinateur
+                List<OrdinateurDto> oSearch = GestionOrdinateur
                         .getInstanceGestionOrdinateur()
                         .findOrdinateurByName(nom);
                 request.setAttribute("allComputer", oSearch);

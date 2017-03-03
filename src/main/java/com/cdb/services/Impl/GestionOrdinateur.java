@@ -7,10 +7,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.DTO.OrdinateurDTO;
-import com.cdb.DTO.OrdinateurDTO.OrdinateurDTOBuilder;
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
+import com.cdb.dto.OrdinateurDto;
+import com.cdb.dto.OrdinateurDto.OrdinateurDtoBuilder;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
@@ -77,12 +77,12 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            de l'ordinateur recherché
      * @return une liste d'ordinateur
      */
-    public List<OrdinateurDTO> findOrdinateurByName(String name) {
+    public List<OrdinateurDto> findOrdinateurByName(String name) {
 
         Optional<List<Optional<Ordinateur>>> ordinateursOptional = Optional
                 .empty();
-        List<OrdinateurDTO> ordinateurs = new ArrayList<OrdinateurDTO>();
-        OrdinateurDTOBuilder ordinateur;
+        List<OrdinateurDto> ordinateurs = new ArrayList<OrdinateurDto>();
+        OrdinateurDtoBuilder ordinateur;
 
         try {
 
@@ -104,7 +104,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
                 if (c.isPresent()) {
 
-                    ordinateur = new OrdinateurDTOBuilder(c.get().getName())
+                    ordinateur = new OrdinateurDtoBuilder(c.get().getName())
                             .dateInterrompu(c.get().getDateInterrompu())
                             .dateIntroduit(c.get().getDateIntroduit());
 
@@ -136,13 +136,13 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            le nombre de ligne par page
      * @return une liste d'ordinateur
      */
-    public List<OrdinateurDTO> findOrdinateurByPage(int numeroPage,
+    public List<OrdinateurDto> findOrdinateurByPage(int numeroPage,
             int ligneParPage) {
 
         Optional<List<Optional<Ordinateur>>> ordinateursOptional = Optional
                 .empty();
-        List<OrdinateurDTO> ordinateurs = new ArrayList<OrdinateurDTO>();
-        OrdinateurDTOBuilder ordinateur;
+        List<OrdinateurDto> ordinateurs = new ArrayList<OrdinateurDto>();
+        OrdinateurDtoBuilder ordinateur;
 
         try {
 
@@ -165,7 +165,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
                 if (c.isPresent()) {
 
-                    ordinateur = new OrdinateurDTOBuilder(c.get().getName())
+                    ordinateur = new OrdinateurDtoBuilder(c.get().getName())
                             .dateInterrompu(c.get().getDateInterrompu())
                             .dateIntroduit(c.get().getDateIntroduit());
 

@@ -1,11 +1,8 @@
-package com.cdb.DTO;
+package com.cdb.dto;
 
 import java.time.LocalDate;
 
-/**
- * The Class OrdinateurDTO.
- */
-public class OrdinateurDTO {
+public class OrdinateurDto {
 
     /** The name. */
     private final String name;
@@ -25,7 +22,7 @@ public class OrdinateurDTO {
      * @param builder
      *            the builder
      */
-    private OrdinateurDTO(OrdinateurDTOBuilder builder) {
+    private OrdinateurDto(OrdinateurDtoBuilder builder) {
 
         this.name = builder.name;
         this.dateIntroduit = builder.dateIntroduit;
@@ -81,7 +78,7 @@ public class OrdinateurDTO {
     /**
      * The Class OrdinateurDTOBuilder.
      */
-    public static class OrdinateurDTOBuilder {
+    public static class OrdinateurDtoBuilder {
 
         /** The name. */
         private final String name;
@@ -101,7 +98,7 @@ public class OrdinateurDTO {
          * @param name
          *            the name
          */
-        public OrdinateurDTOBuilder(String name) {
+        public OrdinateurDtoBuilder(String name) {
 
             this.name = name;
 
@@ -114,7 +111,7 @@ public class OrdinateurDTO {
          *            the date introduit
          * @return the ordinateur DTO builder
          */
-        public OrdinateurDTOBuilder dateIntroduit(LocalDate dateIntroduit) {
+        public OrdinateurDtoBuilder dateIntroduit(LocalDate dateIntroduit) {
 
             this.dateIntroduit = dateIntroduit;
             return this;
@@ -128,7 +125,7 @@ public class OrdinateurDTO {
          *            the date interrompu
          * @return the ordinateur DTO builder
          */
-        public OrdinateurDTOBuilder dateInterrompu(LocalDate dateInterrompu) {
+        public OrdinateurDtoBuilder dateInterrompu(LocalDate dateInterrompu) {
 
             this.dateInterrompu = dateInterrompu;
             return this;
@@ -142,7 +139,7 @@ public class OrdinateurDTO {
          *            the factory
          * @return the ordinateur DTO builder
          */
-        public OrdinateurDTOBuilder factory(String factory) {
+        public OrdinateurDtoBuilder factory(String factory) {
 
             this.factory = factory;
             return this;
@@ -154,9 +151,9 @@ public class OrdinateurDTO {
          *
          * @return the ordinateur DTO
          */
-        public OrdinateurDTO build() {
+        public OrdinateurDto build() {
 
-            return new OrdinateurDTO(this);
+            return new OrdinateurDto(this);
 
         }
 
