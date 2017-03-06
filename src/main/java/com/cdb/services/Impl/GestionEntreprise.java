@@ -2,6 +2,11 @@ package com.cdb.services.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dto.EntrepriseDto;
 import com.cdb.entities.Entreprise;
@@ -24,6 +29,10 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     GestionEntreprise() {
 
     }
+
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(GestionEntreprise.class);
 
     /**
      * Find entreprise.
@@ -51,6 +60,33 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
 
         return EntrepriseDtoMapper.INSTANCE_ENTREPRISE_DTO_MAPPER
                 .recuperationListEntreprise(entreprises);
+
+    }
+
+    /**
+     * Find entreprise by id.
+     *
+     * @param id
+     *            the id
+     * @return the optional
+     */
+    public Optional<Entreprise> findEntrepriseById(long id) {
+
+        try {
+
+            return EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntrepriseByID(id);
+
+        } catch (ConnexionDatabaseException e) {
+
+            LOGGER.error("Entreprise : " + id + " introuvable");
+
+        } catch (RequeteQueryException e) {
+
+            LOGGER.error("Entreprise : " + id + " introuvable");
+
+        }
+
+        return Optional.empty();
 
     }
 

@@ -54,7 +54,8 @@ public class AddComputerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        request.setAttribute("companies", GestionEntreprise.INSTANCE_GESTION_ENTREPRISE.findEntreprise());
+        request.setAttribute("companies",
+                GestionEntreprise.INSTANCE_GESTION_ENTREPRISE.findEntreprise());
         request.getRequestDispatcher("views/addComputer.jsp").forward(request,
                 response);
 
@@ -77,147 +78,118 @@ public class AddComputerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        /*if (action != null) {
+        String name = request.getParameter("computerName");
 
-            if (action.equals("Add")) {
+        if (name == null || name.equals("")) {
 
-                String name = request.getParameter("computerName");
+            request.setAttribute("nameTest", 1);
+            doGet(request, response);
+            return;
 
-                if (name == null || name.equals("")) {
+        }
 
-                    request.setAttribute("nameTest", 1);
-                    request.setAttribute("companies", GestionEntreprise
-                            .getInstanceGestionEntreprise().findEntreprise());
-                    request.getRequestDispatcher("views/addComputer.jsp")
-                            .forward(request, response);
-                    return;
+        String introducedStr = request.getParameter("introduced");
+        LocalDate introduced = null;
 
-                }
+        if (introducedStr != null && !introducedStr.equals("")) {
 
-                String introducedStr = request.getParameter("introduced");
-                LocalDate introduced = null;
+            Optional<LocalDate> introducedOptional = DateValidation
+                    .parseDate(introducedStr);
 
-                if (introducedStr != null && !introducedStr.equals("")) {
+            if (!introducedOptional.isPresent()) {
 
-                    Optional<LocalDate> introducedOptional = DateValidation
-                            .parseDate(introducedStr);
-
-                    if (!introducedOptional.isPresent()) {
-
-                        request.setAttribute("introducedTest", 1);
-                        request.setAttribute("companies",
-                                GestionEntreprise.getInstanceGestionEntreprise()
-                                        .findEntreprise());
-                        request.getRequestDispatcher("views/addComputer.jsp")
-                                .forward(request, response);
-                        return;
-
-                    }
-
-                    introduced = introducedOptional.get();
-
-                }
-
-                String discontinuedStr = request.getParameter("discontinued");
-                LocalDate discontinued = null;
-
-                if (discontinuedStr != null && !discontinuedStr.equals("")) {
-
-                    Optional<LocalDate> discontinuedOptional = DateValidation
-                            .parseDate(discontinuedStr);
-
-                    if (!discontinuedOptional.isPresent()) {
-
-                        request.setAttribute("discontinuedTest", 1);
-                        request.setAttribute("companies",
-                                GestionEntreprise.getInstanceGestionEntreprise()
-                                        .findEntreprise());
-                        request.getRequestDispatcher("views/addComputer.jsp")
-                                .forward(request, response);
-                        return;
-
-                    }
-
-                    discontinued = discontinuedOptional.get();
-
-                }
-
-                if (introduced != null && discontinued != null) {
-
-                    if (!DateValidation.isValid(introduced, discontinued)) {
-
-                        request.setAttribute("incohérenceTest", 1);
-                        request.setAttribute("companies",
-                                GestionEntreprise.getInstanceGestionEntreprise()
-                                        .findEntreprise());
-                        request.getRequestDispatcher("views/addComputer.jsp")
-                                .forward(request, response);
-                        return;
-
-                    }
-
-                }
-
-                String company = request.getParameter("company");
-                Optional<Entreprise> factory = Optional.empty();
-
-                if (company != null && !company.equals("")) {
-
-                    factory = GestionEntreprise.getInstanceGestionEntreprise()
-                            .findEntrepriseByName(company);
-
-                }
-
-                try {
-
-                    if (!factory.isPresent()) {
-
-                        GestionOrdinateur.getInstanceGestionOrdinateur()
-                                .createOrdinateur(
-                                        new Ordinateur.OrdinateurBuilder(name)
-                                                .dateIntroduit(introduced)
-                                                .dateInterrompu(discontinued)
-                                                .build());
-
-                    } else {
-
-                        GestionOrdinateur.getInstanceGestionOrdinateur()
-                                .createOrdinateur(
-                                        new Ordinateur.OrdinateurBuilder(name)
-                                                .dateIntroduit(introduced)
-                                                .dateInterrompu(discontinued)
-                                                .fabricant(factory.get())
-                                                .build());
-
-                    }
-
-                } catch (RequeteQueryException e) {
-
-                    if (introduced != null) {
-
-                        request.setAttribute("introducedTest", 1);
-
-                    }
-
-                    if (discontinued != null) {
-
-                        request.setAttribute("discontinuedTest", 1);
-
-                    }
-
-                    request.setAttribute("companies", GestionEntreprise
-                            .getInstanceGestionEntreprise().findEntreprise());
-                    request.getRequestDispatcher("views/addComputer.jsp")
-                            .forward(request, response);
-                    return;
-
-                }
-
-                request.setAttribute("creationOk", 1);
+                request.setAttribute("introducedTest", 1);
+                doGet(request, response);
+                return;
 
             }
 
-        }*/
+            introduced = introducedOptional.get();
+
+        }
+
+        String discontinuedStr = request.getParameter("discontinued");
+        LocalDate discontinued = null;
+
+        if (discontinuedStr != null && !discontinuedStr.equals("")) {
+
+            Optional<LocalDate> discontinuedOptional = DateValidation
+                    .parseDate(discontinuedStr);
+
+            if (!discontinuedOptional.isPresent()) {
+
+                request.setAttribute("discontinuedTest", 1);
+                doGet(request, response);
+                return;
+
+            }
+
+            discontinued = discontinuedOptional.get();
+
+        }
+
+        if (introduced != null && discontinued != null) {
+
+            if (!DateValidation.isValid(introduced, discontinued)) {
+
+                request.setAttribute("incohérenceTest", 1);
+                doGet(request, response);
+                return;
+
+            }
+
+        }
+
+        String idStr = request.getParameter("company");
+        Optional<Entreprise> factory = Optional.empty();
+
+        if (idStr != null && !idStr.equals("")) {
+
+            long id = Long.parseLong(idStr);
+            factory = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                    .findEntrepriseById(id);
+
+        }
+
+        try {
+
+            if (!factory.isPresent()) {
+
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                        .createOrdinateur(new Ordinateur.OrdinateurBuilder(name)
+                                .dateIntroduit(introduced)
+                                .dateInterrompu(discontinued).build());
+
+            } else {
+
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                        .createOrdinateur(new Ordinateur.OrdinateurBuilder(name)
+                                .dateIntroduit(introduced)
+                                .dateInterrompu(discontinued)
+                                .fabricant(factory.get()).build());
+
+            }
+
+        } catch (RequeteQueryException e) {
+
+            if (introduced != null) {
+
+                request.setAttribute("introducedTest", 1);
+
+            }
+
+            if (discontinued != null) {
+
+                request.setAttribute("discontinuedTest", 1);
+
+            }
+
+            doGet(request, response);
+            return;
+
+        }
+
+        response.sendRedirect("DashboardServlet");
 
     }
 

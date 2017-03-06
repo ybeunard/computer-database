@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.dto.PageDto;
 import com.cdb.entities.Ordinateur;
@@ -31,7 +30,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
-            .getLogger(EntrepriseDao.class);
+            .getLogger(GestionOrdinateur.class);
 
     /**
      * Creates the ordinateur.

@@ -136,8 +136,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"))))) {
+                PreparedStatement stmt = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"))) {
 
             stmt.setInt(1, limit);
             stmt.setInt(2, offset);
@@ -177,8 +176,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"))))) {
+                PreparedStatement stmt = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"))) {
 
             stmt.setLong(1, index);
             ResultSet res = stmt.executeQuery();
@@ -217,8 +215,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement((prop.getProperty(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_NAME"))))) {
+                PreparedStatement stmt = con.prepareStatement(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_NAME"))) {
 
             stmt.setString(1, name);
             ResultSet res = stmt.executeQuery();
