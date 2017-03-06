@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cdb.controllers.validation.DateValidation;
+import com.cdb.controllers.validation.Parse;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.RequeteQueryException;
@@ -78,78 +79,69 @@ public class AddComputerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        if (addPost(request)) {
+
+            response.sendRedirect("DashboardServlet");
+
+        } else {
+
+            doGet(request, response);
+
+        }
+
+    }
+
+    /**
+     * Adds the post.
+     *
+     * @param request
+     *            the request
+     * @return true, if successful
+     */
+    public boolean addPost(HttpServletRequest request) {
+
         String name = request.getParameter("computerName");
 
         if (name == null || name.equals("")) {
 
             request.setAttribute("nameTest", 1);
-            doGet(request, response);
-            return;
+            return false;
 
         }
 
-        String introducedStr = request.getParameter("introduced");
-        LocalDate introduced = null;
+        Optional<LocalDate> introduced = Parse
+                .parseDate(request.getParameter("introduced"), request);
 
-        if (introducedStr != null && !introducedStr.equals("")) {
+        if (introduced == null) {
 
-            Optional<LocalDate> introducedOptional = DateValidation
-                    .parseDate(introducedStr);
-
-            if (!introducedOptional.isPresent()) {
-
-                request.setAttribute("introducedTest", 1);
-                doGet(request, response);
-                return;
-
-            }
-
-            introduced = introducedOptional.get();
+            request.setAttribute("introducedTest", 1);
+            return false;
 
         }
 
-        String discontinuedStr = request.getParameter("discontinued");
-        LocalDate discontinued = null;
+        Optional<LocalDate> discontinued = Parse
+                .parseDate(request.getParameter("discontinued"), request);
 
-        if (discontinuedStr != null && !discontinuedStr.equals("")) {
+        if (discontinued == null) {
 
-            Optional<LocalDate> discontinuedOptional = DateValidation
-                    .parseDate(discontinuedStr);
-
-            if (!discontinuedOptional.isPresent()) {
-
-                request.setAttribute("discontinuedTest", 1);
-                doGet(request, response);
-                return;
-
-            }
-
-            discontinued = discontinuedOptional.get();
+            request.setAttribute("discontinuedTest", 1);
+            return false;
 
         }
 
-        if (introduced != null && discontinued != null) {
+        if (introduced.isPresent() && discontinued.isPresent()) {
 
-            if (!DateValidation.isValid(introduced, discontinued)) {
+            if (!DateValidation.isValid(introduced.get(), discontinued.get())) {
 
                 request.setAttribute("incohérenceTest", 1);
-                doGet(request, response);
-                return;
+                return false;
 
             }
 
         }
 
-        String idStr = request.getParameter("company");
-        Optional<Entreprise> factory = Optional.empty();
-
-        if (idStr != null && !idStr.equals("")) {
-
-            long id = Long.parseLong(idStr);
-            factory = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                    .findEntrepriseById(id);
-
-        }
+        Optional<Entreprise> factory = Parse
+                .parseFactory(request.getParameter("company"));
 
         try {
 
@@ -157,15 +149,15 @@ public class AddComputerServlet extends HttpServlet {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .createOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .dateIntroduit(introduced)
-                                .dateInterrompu(discontinued).build());
+                                .dateIntroduit(introduced.get())
+                                .dateInterrompu(discontinued.get()).build());
 
             } else {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .createOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .dateIntroduit(introduced)
-                                .dateInterrompu(discontinued)
+                                .dateIntroduit(introduced.get())
+                                .dateInterrompu(discontinued.get())
                                 .fabricant(factory.get()).build());
 
             }
@@ -184,12 +176,11 @@ public class AddComputerServlet extends HttpServlet {
 
             }
 
-            doGet(request, response);
-            return;
+            return false;
 
         }
 
-        response.sendRedirect("DashboardServlet");
+        return true;
 
     }
 

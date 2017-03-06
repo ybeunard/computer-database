@@ -7,10 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.cdb.dto.DashboardDto;
 import com.cdb.dto.PageDto;
+import com.cdb.mappers.DashboardDtoMapper;
 import com.cdb.services.Impl.GestionOrdinateur;
 
 /**
@@ -32,10 +31,6 @@ public class DashboardServlet extends HttpServlet {
         super();
 
     }
-    
-    /** The Constant logger. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(DashboardServlet.class);
 
     /**
      * Do get.
@@ -54,62 +49,11 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        PageDto pageCourante = (PageDto) request.getSession()
-                .getAttribute("page");
-        int numPage;
-        int nbParPage;
-        String filtre;
-
-        if (pageCourante == null) {
-
-            numPage = 1;
-            nbParPage = 10;
-            filtre = "";
-
-        } else {
-
-            numPage = pageCourante.getNumPage();
-            nbParPage = pageCourante.getNbParPage();
-            filtre = pageCourante.getFiltre();
-            LOGGER.info("recuperation des informations de page courante : " + numPage + " , " + nbParPage + " , " + filtre);
-
-        }
-
-        String numPageStr = request.getParameter("numPage");
-
-        if (numPageStr != null && !numPageStr.equals("")) {
-
-            numPage = Integer.parseInt(numPageStr);
-
-        }
-
-        String nbParPageStr = request.getParameter("nbParPage");
-
-        if (nbParPageStr != null && !nbParPageStr.equals("")) {
-
-            nbParPage = Integer.parseInt(nbParPageStr);
-
-        }
-        
-        String filtreStr = request.getParameter("search");
-        
-        if (filtreStr != null && !filtreStr.equals("")) {
-            
-            filtre = filtreStr;
-            
-        }
-        
-        String resetFiltre = request.getParameter("resetFiltre");
-        
-        if(resetFiltre != null && resetFiltre.equals("OK")) {
-            
-            filtre = "";
-            numPage = 1;
-            
-        }
-        
+        DashboardDto dashboard = DashboardDtoMapper.INSTANCE_DASHBOARD_DTO_MAPPER
+                .recuperationDashboardRequestGet(request);
         PageDto page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                .findOrdinateurByPage(numPage, nbParPage, filtre);
+                .findOrdinateurByPage(dashboard.getNumPage(),
+                        dashboard.getNbParPage(), dashboard.getFiltre());
         request.setAttribute("page", page);
         request.getSession().setAttribute("page", page);
         request.getRequestDispatcher("views/dashboard.jsp").forward(request,
@@ -133,24 +77,25 @@ public class DashboardServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
+
         String selection = request.getParameter("selection");
-        String [] ASupprimer = selection.split(",");
-        
-        for(String supprimeStr : ASupprimer) {
-            
+        String[] aSupprimer = selection.split(",");
+
+        for (String supprimeStr : aSupprimer) {
+
             long supprime = 0;
-            
-            if(!supprimeStr.equals("")) {
-                
+
+            if (!supprimeStr.equals("")) {
+
                 supprime = Long.parseLong(supprimeStr);
-                
+
             }
-            
-            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.suppressionOrdinateur(supprime);
-            
+
+            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                    .suppressionOrdinateur(supprime);
+
         }
-        
+
         doGet(request, response);
 
     }

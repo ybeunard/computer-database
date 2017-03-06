@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cdb.controllers.validation.DateValidation;
+import com.cdb.controllers.validation.Parse;
 import com.cdb.dto.EntrepriseDto;
 import com.cdb.dto.OrdinateurDto;
 import com.cdb.entities.Entreprise;
@@ -21,147 +22,155 @@ import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 
 /**
- * Servlet implementation class EditComputerServlet
+ * Servlet implementation class EditComputerServlet.
  */
 @WebServlet("/EditComputerServlet")
 public class EditComputerServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
     /**
+     * Instantiates a new edits the computer servlet.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public EditComputerServlet() {
-        
+
         super();
 
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * Do get.
+     *
+     * @param request
+     *            the request
+     * @param response
+     *            the response
+     * @throws ServletException
+     *             the servlet exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
 
-	    String idStr = request.getParameter("ordinateur");
-	    long id = 0;
-	    
-	    if(idStr != null && !idStr.equals("")) {
-	        
-	        id = Long.parseLong(idStr);
-	        
-	    }
-
-	    OrdinateurDto ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.findOrdinateurById(id);
-	    List<EntrepriseDto> entreprises = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE.findEntreprise();
-	    request.setAttribute("computer", ordinateur);
-	    request.setAttribute("idCompany", GestionEntreprise.INSTANCE_GESTION_ENTREPRISE.findIdEntrepriseByName(ordinateur.getFactory(), entreprises));
-	    request.setAttribute("companies", entreprises);
+        long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
+        OrdinateurDto ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                .findOrdinateurById(id);
+        List<EntrepriseDto> entreprises = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                .findEntreprise();
+        request.setAttribute("computer", ordinateur);
+        request.setAttribute("idCompany",
+                GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                        .findIdEntrepriseByName(ordinateur.getFactory(),
+                                entreprises));
+        request.setAttribute("companies", entreprises);
         request.getRequestDispatcher("views/editComputer.jsp").forward(request,
                 response);
 
-	}
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * Do post.
+     *
+     * @param request
+     *            the request
+     * @param response
+     *            the response
+     * @throws ServletException
+     *             the servlet exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
 
-	    String name = request.getParameter("computerName");
+        if (editPost(request)) {
+
+            response.sendRedirect("DashboardServlet");
+
+        } else {
+
+            doGet(request, response);
+
+        }
+
+    }
+
+    /**
+     * Edits the post.
+     *
+     * @param request
+     *            the request
+     * @return true, if successful
+     */
+    public boolean editPost(HttpServletRequest request) {
+
+        String name = request.getParameter("computerName");
 
         if (name == null || name.equals("")) {
 
             request.setAttribute("nameTest", 1);
-            doGet(request, response);
-            return;
-
-        }
-        
-        String idStr = request.getParameter("ordinateur");
-        long id = 0;
-        
-        if(idStr != null && !idStr.equals("")) {
-            
-            id = Long.parseLong(idStr);
-            
-        }
-
-        String introducedStr = request.getParameter("introduced");
-        LocalDate introduced = null;
-
-        if (introducedStr != null && !introducedStr.equals("")) {
-
-            Optional<LocalDate> introducedOptional = DateValidation
-                    .parseDate(introducedStr);
-
-            if (!introducedOptional.isPresent()) {
-
-                request.setAttribute("introducedTest", 1);
-                doGet(request, response);
-                return;
-
-            }
-
-            introduced = introducedOptional.get();
+            return false;
 
         }
 
-        String discontinuedStr = request.getParameter("discontinued");
-        LocalDate discontinued = null;
+        long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
+        Optional<LocalDate> introduced = Parse
+                .parseDate(request.getParameter("introduced"), request);
 
-        if (discontinuedStr != null && !discontinuedStr.equals("")) {
+        if (introduced == null) {
 
-            Optional<LocalDate> discontinuedOptional = DateValidation
-                    .parseDate(discontinuedStr);
-
-            if (!discontinuedOptional.isPresent()) {
-
-                request.setAttribute("discontinuedTest", 1);
-                doGet(request, response);
-                return;
-
-            }
-
-            discontinued = discontinuedOptional.get();
+            request.setAttribute("introducedTest", 1);
+            return false;
 
         }
 
-        if (introduced != null && discontinued != null) {
+        Optional<LocalDate> discontinued = Parse
+                .parseDate(request.getParameter("discontinued"), request);
 
-            if (!DateValidation.isValid(introduced, discontinued)) {
+        if (discontinued == null) {
+
+            request.setAttribute("discontinuedTest", 1);
+            return false;
+
+        }
+
+        if (introduced.isPresent() && discontinued.isPresent()) {
+
+            if (!DateValidation.isValid(introduced.get(), discontinued.get())) {
 
                 request.setAttribute("incohérenceTest", 1);
-                doGet(request, response);
-                return;
+                return false;
 
             }
 
         }
 
-        String idCompanyStr = request.getParameter("company");
-        Optional<Entreprise> factory = Optional.empty();
-
-        if (idCompanyStr != null && !idCompanyStr.equals("")) {
-
-            long idCompany = Long.parseLong(idCompanyStr);
-            factory = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                    .findEntrepriseById(idCompany);
-
-        }
+        Optional<Entreprise> factory = Parse
+                .parseFactory(request.getParameter("company"));
 
         try {
 
             if (!factory.isPresent()) {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name).id(id)
-                                .dateIntroduit(introduced)
-                                .dateInterrompu(discontinued).build());
+                        .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name)
+                                .id(id).dateIntroduit(introduced.get())
+                                .dateInterrompu(discontinued.get()).build());
 
             } else {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name).id(id)
-                                .dateIntroduit(introduced)
-                                .dateInterrompu(discontinued)
+                        .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name)
+                                .id(id).dateIntroduit(introduced.get())
+                                .dateInterrompu(discontinued.get())
                                 .fabricant(factory.get()).build());
 
             }
@@ -180,13 +189,12 @@ public class EditComputerServlet extends HttpServlet {
 
             }
 
-            doGet(request, response);
-            return;
+            return false;
 
         }
 
-        response.sendRedirect("DashboardServlet");
+        return true;
 
-	}
+    }
 
 }

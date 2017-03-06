@@ -367,10 +367,10 @@ public class GestionEntryUser {
 
         }
 
-        OrdinateurBuilder builder = new OrdinateurBuilder(
-                ordinateur.getName()).id(ordinateur.getId())
-                        .dateIntroduit(ordinateur.getDateIntroduit())
-                        .dateInterrompu(ordinateur.getDateInterrompu());
+        OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName())
+                .id(ordinateur.getId())
+                .dateIntroduit(ordinateur.getDateIntroduit())
+                .dateInterrompu(ordinateur.getDateInterrompu());
 
         args = argArray[1];
 

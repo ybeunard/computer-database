@@ -2,6 +2,9 @@ package com.cdb.dto;
 
 import java.time.LocalDate;
 
+/**
+ * The Class OrdinateurDto.
+ */
 public class OrdinateurDto {
 
     /** The name. */
@@ -15,7 +18,8 @@ public class OrdinateurDto {
 
     /** The factory. */
     private final String factory;
-    
+
+    /** The id. */
     private final long id;
 
     /**
@@ -34,6 +38,11 @@ public class OrdinateurDto {
 
     }
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
@@ -98,7 +107,8 @@ public class OrdinateurDto {
 
         /** The factory. */
         private String factory;
-        
+
+        /** The id. */
         private long id;
 
         /**
@@ -154,12 +164,19 @@ public class OrdinateurDto {
             return this;
 
         }
-        
+
+        /**
+         * Id.
+         *
+         * @param id
+         *            the id
+         * @return the ordinateur dto builder
+         */
         public OrdinateurDtoBuilder id(long id) {
-            
+
             this.id = id;
             return this;
-            
+
         }
 
         /**

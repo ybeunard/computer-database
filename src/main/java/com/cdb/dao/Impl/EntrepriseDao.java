@@ -102,66 +102,6 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
     }
 
     /**
-     * Find entreprise by page.
-     *
-     * @param numeroPage
-     *            le numero de page
-     * @param ligneParPage
-     *            le nombre de ligne par page
-     * @return une liste d'entreprise
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
-     * @throws RequeteQueryException
-     *             if there is an issue
-     */
-    public List<Entreprise> findEntrepriseByPage(int numeroPage,
-            int ligneParPage)
-            throws ConnexionDatabaseException, RequeteQueryException {
-
-        List<Entreprise> entreprises = new ArrayList<Entreprise>();
-
-        if (ligneParPage < 1) {
-
-            return entreprises;
-
-        }
-
-        int limit = ligneParPage;
-        int offset = (numeroPage - 1) * ligneParPage;
-
-        if (offset < 0) {
-
-            return entreprises;
-
-        }
-
-        LOGGER.info("recherche de la liste d'entreprise par page");
-
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_PAGE"))) {
-
-            stmt.setInt(1, limit);
-            stmt.setInt(2, offset);
-            ResultSet res = stmt.executeQuery();
-            entreprises = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
-                    .recuperationListEntreprise(res);
-            LOGGER.info(
-                    "recherche de la liste d'entreprise par page effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de recherche par page d'entreprise");
-
-        }
-
-        return entreprises;
-
-    }
-
-    /**
      * Find entreprise by ID.
      *
      * @param index
@@ -194,46 +134,6 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             throw new RequeteQueryException(
                     "Echec de la requete de recherche de l'entreprise numero: "
                             + index);
-
-        }
-
-        return entreprise;
-
-    }
-
-    /**
-     * Find entreprise by name.
-     *
-     * @param name
-     *            le nom de l'entreprise à rechercher
-     * @return une entreprise
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
-     * @throws RequeteQueryException
-     *             if there is an issue
-     */
-    public Optional<Entreprise> findEntrepriseByName(String name)
-            throws ConnexionDatabaseException, RequeteQueryException {
-
-        Optional<Entreprise> entreprise = Optional.empty();
-        LOGGER.info("recherche d'une entreprise par nom: " + name);
-
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_NAME"))) {
-
-            stmt.setString(1, name);
-            ResultSet res = stmt.executeQuery();
-            entreprise = EntrepriseDaoMapper.INSTANCE_ENTREPRISE_DAO_MAPPER
-                    .recupertationEntreprise(res);
-            LOGGER.info("recherche d'une entreprise par nom effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de recherche de l'entreprise: "
-                            + name);
 
         }
 

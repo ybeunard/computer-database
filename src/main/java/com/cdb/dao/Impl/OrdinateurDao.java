@@ -22,6 +22,7 @@ import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Enum OrdinateurDao.
  */
@@ -220,9 +221,11 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
     /**
      * Find ordinateur by Name.
-     * @param ligneParPage 
-     * @param numeroPage 
      *
+     * @param numeroPage
+     *            the numero page
+     * @param ligneParPage
+     *            the ligne par page
      * @param name
      *            le nom de l'ordinateur recherché
      * @return une liste ordinateur
@@ -231,7 +234,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Ordinateur> findOrdinateurByName(int numeroPage, int ligneParPage, String name)
+    public List<Ordinateur> findOrdinateurByName(int numeroPage,
+            int ligneParPage, String name)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
@@ -244,7 +248,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             return ordinateurs;
 
         }
-        
+
         LOGGER.info("recherche de la liste d'ordinateur par nom");
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
@@ -408,8 +412,9 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     }
 
     /**
-     * @return le nombre d'ordinateur total
+     * Count ordinateur.
      *
+     * @return le nombre d'ordinateur total
      * @throws ConnexionDatabaseException
      *             if there is an issue
      * @throws RequeteQueryException
@@ -441,8 +446,20 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
     }
 
-    public int countOrdinateurByName(String filtre) throws ConnexionDatabaseException, RequeteQueryException {
-        
+    /**
+     * Count ordinateur by name.
+     *
+     * @param filtre
+     *            the filtre
+     * @return the int
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
+     */
+    public int countOrdinateurByName(String filtre)
+            throws ConnexionDatabaseException, RequeteQueryException {
+
         int count = 0;
         LOGGER.info("Comptage du nombre d'ordinateur");
 

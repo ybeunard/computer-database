@@ -1,5 +1,6 @@
 package com.cdb.services;
 
+import com.cdb.dto.OrdinateurDto;
 import com.cdb.dto.PageDto;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.RequeteQueryException;
@@ -26,16 +27,20 @@ public interface InterfaceGestionOrdinateur {
      *            the numero page
      * @param ligneParPage
      *            the ligne par page
+     * @param filtre
+     *            the filtre
      * @return the optional
      */
-    PageDto findOrdinateurByPage(int numeroPage, int ligneParPage, String filtre);
+    PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
+            String filtre);
 
     /**
      * Update ordinateur.
      *
      * @param ordinateur
      *            the ordinateur
-     * @throws RequeteQueryException 
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
     void updateOrdinateur(Ordinateur ordinateur) throws RequeteQueryException;
 
@@ -48,13 +53,12 @@ public interface InterfaceGestionOrdinateur {
     void suppressionOrdinateur(long id);
 
     /**
-     * Count.
+     * Find ordinateur by id.
      *
-     * @param pageActuelle
-     *            the page actuelle
-     * @param nbParPage
-     *            the nb par page
-     * @return the list
+     * @param id
+     *            the id
+     * @return the ordinateur dto
      */
+    OrdinateurDto findOrdinateurById(long id);
 
 }

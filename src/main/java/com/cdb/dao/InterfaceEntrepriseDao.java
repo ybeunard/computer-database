@@ -25,22 +25,6 @@ public interface InterfaceEntrepriseDao {
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
-     * Find entreprise by page.
-     *
-     * @param numeroPage
-     *            the numero page
-     * @param ligneParPage
-     *            the ligne par page
-     * @return the list
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
-     */
-    List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage)
-            throws ConnexionDatabaseException, RequeteQueryException;
-
-    /**
      * Find entreprise by ID.
      *
      * @param index
@@ -52,20 +36,6 @@ public interface InterfaceEntrepriseDao {
      *             the requete query exception
      */
     Optional<Entreprise> findEntrepriseByID(long index)
-            throws ConnexionDatabaseException, RequeteQueryException;
-
-    /**
-     * Find entreprise by name.
-     *
-     * @param name
-     *            the name
-     * @return the optional
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
-     */
-    Optional<Entreprise> findEntrepriseByName(String name)
             throws ConnexionDatabaseException, RequeteQueryException;
 
 }

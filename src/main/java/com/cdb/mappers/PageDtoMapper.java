@@ -33,10 +33,15 @@ public enum PageDtoMapper {
      *            the numero page
      * @param ligneParPage
      *            the ligne par page
+     * @param pageMax
+     *            the page max
+     * @param filtre
+     *            the filtre
      * @return the page dto
      */
     public PageDto recuperationPage(List<Ordinateur> ordinateurs,
-            int nombreTotal, int numeroPage, int ligneParPage, int pageMax, String filtre) {
+            int nombreTotal, int numeroPage, int ligneParPage, int pageMax,
+            String filtre) {
 
         PageDtoBuilder page = new PageDto.PageDtoBuilder();
         page.contenue(OrdinateurDtoMapper.INSTANCE_ORDINATEUR_DTO_MAPPER
@@ -65,11 +70,11 @@ public enum PageDtoMapper {
             page.pageSuiv(numeroPage + 1);
 
         }
-        
-        if(filtre != null && !filtre.equals("")) {
-            
+
+        if (filtre != null && !filtre.equals("")) {
+
             page.filtre(filtre);
-            
+
         }
 
         return page.build();

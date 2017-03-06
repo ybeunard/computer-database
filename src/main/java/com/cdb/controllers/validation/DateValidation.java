@@ -7,13 +7,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dao.Impl.EntrepriseDao;
-
 public class DateValidation {
 
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
-            .getLogger(EntrepriseDao.class);
+            .getLogger(DateValidation.class);
 
     /**
      * Parses the date.

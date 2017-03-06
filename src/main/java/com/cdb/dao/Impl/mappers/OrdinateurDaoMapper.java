@@ -87,10 +87,10 @@ public enum OrdinateurDaoMapper {
                             "Recuperation de la date d'interruption impossible");
 
                 }
-                
+
                 long fabricantID = res.getLong("company_id");
 
-                if(fabricantID > 0) {
+                if (fabricantID > 0) {
 
                     String fabricantName = res.getString("company_name");
                     builder.fabricant(
@@ -98,7 +98,7 @@ public enum OrdinateurDaoMapper {
                                     .id(fabricantID).build());
 
                 }
-                
+
                 ordinateur = builder.build();
 
             }
