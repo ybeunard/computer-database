@@ -15,6 +15,8 @@ public class OrdinateurDto {
 
     /** The factory. */
     private final String factory;
+    
+    private final long id;
 
     /**
      * Instantiates a new ordinateur DTO.
@@ -28,7 +30,12 @@ public class OrdinateurDto {
         this.dateIntroduit = builder.dateIntroduit;
         this.dateInterrompu = builder.dateInterrompu;
         this.factory = builder.factory;
+        this.id = builder.id;
 
+    }
+
+    public long getId() {
+        return id;
     }
 
     /**
@@ -91,6 +98,8 @@ public class OrdinateurDto {
 
         /** The factory. */
         private String factory;
+        
+        private long id;
 
         /**
          * Instantiates a new ordinateur DTO builder.
@@ -144,6 +153,13 @@ public class OrdinateurDto {
             this.factory = factory;
             return this;
 
+        }
+        
+        public OrdinateurDtoBuilder id(long id) {
+            
+            this.id = id;
+            return this;
+            
         }
 
         /**

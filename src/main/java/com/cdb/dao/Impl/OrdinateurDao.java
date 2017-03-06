@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -283,10 +282,10 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public Optional<Ordinateur> findOrdinateurById(long id)
+    public Ordinateur findOrdinateurById(long id)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        Ordinateur ordinateur = null;
         LOGGER.info("recherche d'ordinateur par id");
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE

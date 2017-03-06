@@ -90,4 +90,23 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
 
     }
 
+    public long findIdEntrepriseByName(String factory, List<EntrepriseDto> entreprises) {
+
+        long id = 0;
+        
+        for(EntrepriseDto entreprise : entreprises) {
+            
+            if(entreprise.getName().equals(factory)) {
+                
+                id = entreprise.getId();
+                break;
+                
+            }
+            
+        }
+        
+        return id;
+                
+    }
+
 }

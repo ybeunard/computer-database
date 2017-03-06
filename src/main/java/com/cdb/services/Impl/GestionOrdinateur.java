@@ -2,16 +2,16 @@ package com.cdb.services.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.Impl.OrdinateurDao;
+import com.cdb.dto.OrdinateurDto;
 import com.cdb.dto.PageDto;
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
+import com.cdb.mappers.OrdinateurDtoMapper;
 import com.cdb.mappers.PageDtoMapper;
 import com.cdb.services.InterfaceGestionOrdinateur;
 
@@ -53,7 +53,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
             e.printStackTrace();
 
-        }
+        } 
 
     }
 
@@ -131,18 +131,15 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *
      * @param ordinateur
      *            a update
+     * @throws RequeteQueryException 
      */
-    public void updateOrdinateur(Ordinateur ordinateur) {
+    public void updateOrdinateur(Ordinateur ordinateur) throws RequeteQueryException {
 
         try {
 
             OrdinateurDao.INSTANCE_ORDINATEUR_DAO.updateOrdinateur(ordinateur);
 
         } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        } catch (RequeteQueryException e) {
 
             e.printStackTrace();
 
@@ -181,13 +178,14 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            the id
      * @return the optional
      */
-    public Optional<Ordinateur> findOrdinateurById(long id) {
+    public OrdinateurDto findOrdinateurById(long id) {
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        Ordinateur ordinateurOptional = null;
+        OrdinateurDto ordinateur = null;
 
         try {
 
-            ordinateur = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+            ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurById(id);
 
         } catch (ConnexionDatabaseException e) {
@@ -199,7 +197,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             e.printStackTrace();
 
         }
-
+            
+        ordinateur = OrdinateurDtoMapper.INSTANCE_ORDINATEUR_DTO_MAPPER.recuperationOrdinateurDto(ordinateurOptional);
         return ordinateur;
 
     }

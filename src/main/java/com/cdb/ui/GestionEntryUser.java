@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.cdb.dto.OrdinateurDto;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 import com.cdb.entities.Ordinateur.OrdinateurBuilder;
@@ -198,7 +199,7 @@ public class GestionEntryUser {
      */
     private static void affichageOrdinateur(String arg) {
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        OrdinateurDto ordinateur = null;
 
         try {
 
@@ -213,14 +214,7 @@ public class GestionEntryUser {
 
         }
 
-        if (ordinateur.isPresent()) {
-
-            System.out.println(ordinateur.get());
-            return;
-
-        }
-
-        System.out.println(prop.getProperty("id_incorrect"));
+        System.out.println(ordinateur);
 
     }
 
@@ -358,20 +352,13 @@ public class GestionEntryUser {
 
         }
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        OrdinateurDto ordinateur = null;
 
         try {
 
             long id = Long.parseLong(argArray[0]);
             ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .findOrdinateurById(id);
-
-            if (!ordinateur.isPresent()) {
-
-                System.out.println(prop.getProperty("id_incorrect"));
-                return;
-
-            }
 
         } catch (NumberFormatException e) {
 
@@ -381,15 +368,9 @@ public class GestionEntryUser {
         }
 
         OrdinateurBuilder builder = new OrdinateurBuilder(
-                ordinateur.get().getName()).id(ordinateur.get().getId())
-                        .dateIntroduit(ordinateur.get().getDateIntroduit())
-                        .dateInterrompu(ordinateur.get().getDateInterrompu());
-
-        if (ordinateur.get().getFabricant().isPresent()) {
-
-            builder.fabricant(ordinateur.get().getFabricant().get());
-
-        }
+                ordinateur.getName()).id(ordinateur.getId())
+                        .dateIntroduit(ordinateur.getDateIntroduit())
+                        .dateInterrompu(ordinateur.getDateInterrompu());
 
         args = argArray[1];
 
@@ -409,17 +390,18 @@ public class GestionEntryUser {
                 argArray = argArray[1].split(" ", 2);
                 argArray = argArray[0].split("'", 3);
 
-                if (ordinateur.isPresent()) {
+                builder.name(argArray[1]);
 
-                    builder.name(argArray[1]);
+                if (argArray[2].isEmpty()) {
 
-                    if (argArray[2].isEmpty()) {
-
+                    try {
                         GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                                 .updateOrdinateur(builder.build());
-                        return;
-
+                    } catch (RequeteQueryException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
                     }
+                    return;
 
                 }
 
@@ -475,8 +457,13 @@ public class GestionEntryUser {
 
             if (argArray.length < 2) {
 
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .updateOrdinateur(builder.build());
+                try {
+                    GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                            .updateOrdinateur(builder.build());
+                } catch (RequeteQueryException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 return;
 
             }

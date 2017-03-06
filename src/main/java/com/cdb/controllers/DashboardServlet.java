@@ -104,6 +104,7 @@ public class DashboardServlet extends HttpServlet {
         if(resetFiltre != null && resetFiltre.equals("OK")) {
             
             filtre = "";
+            numPage = 1;
             
         }
         

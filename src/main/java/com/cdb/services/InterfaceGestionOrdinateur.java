@@ -35,8 +35,9 @@ public interface InterfaceGestionOrdinateur {
      *
      * @param ordinateur
      *            the ordinateur
+     * @throws RequeteQueryException 
      */
-    void updateOrdinateur(Ordinateur ordinateur);
+    void updateOrdinateur(Ordinateur ordinateur) throws RequeteQueryException;
 
     /**
      * Suppression ordinateur.

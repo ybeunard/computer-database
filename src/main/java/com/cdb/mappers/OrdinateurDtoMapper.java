@@ -48,6 +48,7 @@ public enum OrdinateurDtoMapper {
 
         OrdinateurDtoBuilder builder = new OrdinateurDto.OrdinateurDtoBuilder(
                 ordinateur.getName());
+        builder.id(ordinateur.getId());
         builder.dateIntroduit(ordinateur.getDateIntroduit());
         builder.dateInterrompu(ordinateur.getDateInterrompu());
 

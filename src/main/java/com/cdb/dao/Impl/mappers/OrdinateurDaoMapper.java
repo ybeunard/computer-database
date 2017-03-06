@@ -3,15 +3,11 @@ package com.cdb.dao.Impl.mappers;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 import com.cdb.entities.Ordinateur.OrdinateurBuilder;
@@ -31,7 +27,7 @@ public enum OrdinateurDaoMapper {
 
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
-            .getLogger(OrdinateurDao.class);
+            .getLogger(OrdinateurDaoMapper.class);
 
     /**
      * Recuperation resultat requete.
@@ -42,10 +38,10 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public Optional<Ordinateur> recuperationOrdinateur(ResultSet res)
+    public Ordinateur recuperationOrdinateur(ResultSet res)
             throws RequeteQueryException {
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
+        Ordinateur ordinateur = null;
 
         try {
 
@@ -55,15 +51,12 @@ public enum OrdinateurDaoMapper {
                 OrdinateurBuilder builder = new Ordinateur.OrdinateurBuilder(
                         name);
                 long id = res.getLong("id");
-                LocalDate dateIntroduit = null;
-                LocalDate dateInterrompu = null;
-                long fabricantID = res.getLong("company_id");
-                String fabricantName = res.getString("company_name");
+                builder.id(id);
                 Date date = null;
 
                 try {
 
-                    date = res.getDate("introduced");
+                    date = (java.sql.Date) res.getDate("introduced");
 
                     if (date != null) {
 
@@ -80,11 +73,11 @@ public enum OrdinateurDaoMapper {
 
                 try {
 
-                    date = res.getDate("discontinued");
+                    date = (java.sql.Date) res.getDate("discontinued");
 
                     if (date != null) {
 
-                        dateInterrompu = date.toLocalDate();
+                        builder.dateInterrompu(date.toLocalDate());
 
                     }
 
@@ -94,27 +87,19 @@ public enum OrdinateurDaoMapper {
                             "Recuperation de la date d'interruption impossible");
 
                 }
+                
+                long fabricantID = res.getLong("company_id");
 
-                if (fabricantID <= 0) {
+                if(fabricantID > 0) {
 
-                    ordinateur = Optional
-                            .ofNullable(new Ordinateur.OrdinateurBuilder(name)
-                                    .id(id).dateIntroduit(dateIntroduit)
-                                    .dateInterrompu(dateInterrompu)
-                                    .fabricant(null).build());
-
-                } else {
-
-                    ordinateur = Optional
-                            .ofNullable(new Ordinateur.OrdinateurBuilder(name)
-                                    .id(id).dateIntroduit(dateIntroduit)
-                                    .dateInterrompu(dateInterrompu)
-                                    .fabricant(new Entreprise.EntrepriseBuilder(
-                                            fabricantName).id(fabricantID)
-                                                    .build())
-                                    .build());
+                    String fabricantName = res.getString("company_name");
+                    builder.fabricant(
+                            new Entreprise.EntrepriseBuilder(fabricantName)
+                                    .id(fabricantID).build());
 
                 }
+                
+                ordinateur = builder.build();
 
             }
 
@@ -173,7 +158,7 @@ public enum OrdinateurDaoMapper {
 
                 try {
 
-                    date = res.getDate("discontinued");
+                    date = (java.sql.Date) res.getDate("discontinued");
 
                     if (date != null) {
 

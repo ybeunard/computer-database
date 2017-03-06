@@ -84,7 +84,7 @@
 	                            <input type="checkbox" name="cb" class="cb" value="0">
 	                        </td>
 	                        <td>
-	                            <a href="views/editComputer.jsp" onclick="">${computer.name}</a>
+	                            <a href="EditComputerServlet?ordinateur=${computer.id}" onclick="">${computer.name}</a>
 	                        </td>
 	                        <td>${computer.dateIntroduit}</td>
 	                        <td>${computer.dateInterrompu}</td>
