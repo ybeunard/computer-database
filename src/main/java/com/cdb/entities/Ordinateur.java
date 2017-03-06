@@ -171,16 +171,17 @@ public class Ordinateur {
          *            the date introduit
          * @return the ordinateur builder
          */
-        public OrdinateurBuilder dateIntroduit(Optional<LocalDate> dateIntroduit) {
+        public OrdinateurBuilder dateIntroduit(
+                Optional<LocalDate> dateIntroduit) {
 
-            if(dateIntroduit.isPresent()) {
-                
+            if (dateIntroduit.isPresent()) {
+
                 this.dateIntroduit = dateIntroduit.get();
-                
+
             } else {
-                
+
                 this.dateIntroduit = null;
-                
+
             }
 
             return this;
@@ -194,18 +195,19 @@ public class Ordinateur {
          *            the date interrompu
          * @return the ordinateur builder
          */
-        public OrdinateurBuilder dateInterrompu(Optional<LocalDate> dateInterrompu) {
+        public OrdinateurBuilder dateInterrompu(
+                Optional<LocalDate> dateInterrompu) {
 
-            if(dateInterrompu.isPresent()) {
-                
+            if (dateInterrompu.isPresent()) {
+
                 this.dateInterrompu = dateInterrompu.get();
-                
+
             } else {
-                
+
                 this.dateInterrompu = null;
-                
+
             }
-            
+
             return this;
 
         }

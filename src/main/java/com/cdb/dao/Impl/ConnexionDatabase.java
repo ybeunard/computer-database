@@ -41,7 +41,7 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
         String file = "connexion.properties";
 
         try (InputStream stream = ConnexionDatabase.class.getClassLoader()
-                .getResourceAsStream(file);) {
+                .getResourceAsStream("connexion.properties");) {
 
             prop.load(stream);
 
