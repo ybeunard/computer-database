@@ -16,9 +16,9 @@ $(function() {
             $("#selectall").prop("checked", false);
         }
         if ($(".cb:checked").length != 0) {
-            $("#deleteSelected").enable();
+            $("#deleteSelected").prop( "disabled", true );
         } else {
-            $("#deleteSelected").disable();
+            $("#deleteSelected").prop( "disabled", false );
         }
     });
 

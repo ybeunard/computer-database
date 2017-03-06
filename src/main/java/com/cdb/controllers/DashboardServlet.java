@@ -133,6 +133,25 @@ public class DashboardServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+        
+        String selection = request.getParameter("selection");
+        String [] ASupprimer = selection.split(",");
+        
+        for(String supprimeStr : ASupprimer) {
+            
+            long supprime = 0;
+            
+            if(!supprimeStr.equals("")) {
+                
+                supprime = Long.parseLong(supprimeStr);
+                
+            }
+            
+            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.suppressionOrdinateur(supprime);
+            
+        }
+        
+        doGet(request, response);
 
     }
 
