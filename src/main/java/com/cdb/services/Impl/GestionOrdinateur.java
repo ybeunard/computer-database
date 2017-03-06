@@ -2,6 +2,8 @@ package com.cdb.services.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,10 +75,12 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurByPage(numeroPage, ligneParPage);
-            LOGGER.info("Recuperation de la liste d'ordinateur " + ordinateurs.size());
+            LOGGER.info("Recuperation de la liste d'ordinateur "
+                    + ordinateurs.size());
             nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .countOrdinateur();
-            LOGGER.info("recuperation du nombre maximum d'ordinateur " + nombreTotal);
+            LOGGER.info("recuperation du nombre maximum d'ordinateur "
+                    + nombreTotal);
 
         } catch (ConnexionDatabaseException e) {
 
@@ -139,6 +143,36 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             e.printStackTrace();
 
         }
+
+    }
+
+    /**
+     * Find ordinateur by id.
+     *
+     * @param id
+     *            the id
+     * @return the optional
+     */
+    public Optional<Ordinateur> findOrdinateurById(long id) {
+
+        Optional<Ordinateur> ordinateur = Optional.empty();
+
+        try {
+
+            ordinateur = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                    .findOrdinateurById(id);
+
+        } catch (ConnexionDatabaseException e) {
+
+            e.printStackTrace();
+
+        } catch (RequeteQueryException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return ordinateur;
 
     }
 

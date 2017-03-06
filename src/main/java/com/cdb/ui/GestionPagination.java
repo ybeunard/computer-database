@@ -1,10 +1,9 @@
 package com.cdb.ui;
 
 import java.util.List;
-import java.util.Optional;
-
-import com.cdb.entities.Entreprise;
-import com.cdb.entities.Ordinateur;
+import com.cdb.dto.EntrepriseDto;
+import com.cdb.dto.OrdinateurDto;
+import com.cdb.dto.PageDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 
@@ -20,10 +19,10 @@ public class GestionPagination {
     private int ligneParPage;
 
     /** The page ordinateur. */
-    private Optional<List<Optional<Ordinateur>>> pageOrdinateur;
+    private PageDto pageOrdinateur;
 
     /** The page entreprise. */
-    private Optional<List<Optional<Entreprise>>> pageEntreprise;
+    private List<EntrepriseDto> pageEntreprise;
 
     /**
      * Instantiates a new gestion pagination.
@@ -63,32 +62,20 @@ public class GestionPagination {
      */
     public void pagination(int typePage) {
 
-        /*do {
+        do {
 
             switch (typePage) {
 
             case 1:
 
-                pageOrdinateur = Optional.empty();
-                pageOrdinateur = GestionOrdinateur
-                        .getInstanceGestionOrdinateur()
+                pageOrdinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .findOrdinateurByPage(numeroPage, ligneParPage);
 
-                if (pageOrdinateur.isPresent()) {
+                if (pageOrdinateur.getContenue().isEmpty()) {
 
-                    if (pageOrdinateur.get().isEmpty()) {
-
-                        numeroPage--;
-                        pageOrdinateur = GestionOrdinateur
-                                .getInstanceGestionOrdinateur()
-                                .findOrdinateurByPage(numeroPage, ligneParPage);
-
-                    }
-
-                } else {
-
-                    System.out.println("Aucune page à afficher");
-                    return;
+                    numeroPage--;
+                    pageOrdinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                            .findOrdinateurByPage(numeroPage, ligneParPage);
 
                 }
 
@@ -97,26 +84,14 @@ public class GestionPagination {
 
             case 2:
 
-                pageEntreprise = Optional.empty();
-                pageEntreprise = GestionEntreprise
-                        .getInstanceGestionEntreprise()
-                        .findEntrepriseByPage(numeroPage, ligneParPage);
+                pageEntreprise = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                        .findEntreprise();
 
-                if (pageEntreprise.isPresent()) {
+                if (pageEntreprise.isEmpty()) {
 
-                    if (pageEntreprise.get().isEmpty()) {
-
-                        numeroPage--;
-                        pageEntreprise = GestionEntreprise
-                                .getInstanceGestionEntreprise()
-                                .findEntrepriseByPage(numeroPage, ligneParPage);
-
-                    }
-
-                } else {
-
-                    System.out.println("Aucune page à afficher");
-                    return;
+                    numeroPage--;
+                    pageEntreprise = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                            .findEntreprise();
 
                 }
 
@@ -129,7 +104,7 @@ public class GestionPagination {
 
             }
 
-        } while (changementPage());*/
+        } while (changementPage());
 
     }
 
@@ -175,17 +150,9 @@ public class GestionPagination {
 
         case 1:
 
-            if (pageOrdinateur.isPresent()) {
+            for (OrdinateurDto ordinateur : pageOrdinateur.getContenue()) {
 
-                for (Optional<Ordinateur> ordinateur : pageOrdinateur.get()) {
-
-                    if (ordinateur.isPresent()) {
-
-                        System.out.println(ordinateur.get());
-
-                    }
-
-                }
+                System.out.println(ordinateur);
 
             }
 
@@ -193,17 +160,9 @@ public class GestionPagination {
 
         case 2:
 
-            if (pageEntreprise.isPresent()) {
+            for (EntrepriseDto entreprise : pageEntreprise) {
 
-                for (Optional<Entreprise> entreprise : pageEntreprise.get()) {
-
-                    if (entreprise.isPresent()) {
-
-                        System.out.println(entreprise.get());
-
-                    }
-
-                }
+                System.out.println(entreprise);
 
             }
 

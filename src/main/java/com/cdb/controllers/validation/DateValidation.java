@@ -24,7 +24,8 @@ public class DateValidation {
      */
     public static Optional<LocalDate> parseDate(String date) {
 
-        LocalDate d = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate d = LocalDate.parse(date,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         return Optional.ofNullable(d);
 

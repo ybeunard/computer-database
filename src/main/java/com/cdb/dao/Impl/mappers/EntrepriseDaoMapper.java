@@ -71,8 +71,8 @@ public enum EntrepriseDaoMapper {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Entreprise> recuperationListEntreprise(
-            ResultSet res) throws RequeteQueryException {
+    public List<Entreprise> recuperationListEntreprise(ResultSet res)
+            throws RequeteQueryException {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
 

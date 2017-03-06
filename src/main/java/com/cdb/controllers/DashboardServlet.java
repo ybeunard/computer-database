@@ -46,26 +46,26 @@ public class DashboardServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
+
         PageDto pageCourante = (PageDto) request.getSession()
                 .getAttribute("page");
         int numPage;
         int nbParPage;
-        
-        if(pageCourante == null) {
-            
+
+        if (pageCourante == null) {
+
             numPage = 1;
             nbParPage = 10;
-            
+
         } else {
-            
+
             numPage = pageCourante.getNumPage();
             nbParPage = pageCourante.getNbParPage();
-            
+
         }
 
         String numPageStr = request.getParameter("numPage");
-        
+
         if (numPageStr != null && !numPageStr.equals("")) {
 
             numPage = Integer.parseInt(numPageStr);
@@ -80,7 +80,9 @@ public class DashboardServlet extends HttpServlet {
 
         }
 
-        request.setAttribute("page", GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.findOrdinateurByPage(numPage, nbParPage));
+        request.setAttribute("page",
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                        .findOrdinateurByPage(numPage, nbParPage));
         request.getRequestDispatcher("views/dashboard.jsp").forward(request,
                 response);
 

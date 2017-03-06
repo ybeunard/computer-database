@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -36,7 +37,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     OrdinateurDao() {
 
     }
-    
+
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(OrdinateurDao.class);
@@ -190,7 +191,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
-        LOGGER.info("recherche de la liste d'ordinateur par page "+limit + " " + offset);
+        LOGGER.info("recherche de la liste d'ordinateur par page " + limit + " "
+                + offset);
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
@@ -252,6 +254,45 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
         }
 
         return ordinateurs;
+
+    }
+
+    /**
+     * Find ordinateur by id.
+     *
+     * @param id
+     *            the id
+     * @return the optional
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
+     */
+    public Optional<Ordinateur> findOrdinateurById(long id)
+            throws ConnexionDatabaseException, RequeteQueryException {
+
+        Optional<Ordinateur> ordinateur = Optional.empty();
+        LOGGER.info("recherche d'ordinateur par id");
+
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"))) {
+
+            stmt.setLong(1, id);
+            ResultSet res = stmt.executeQuery();
+            ordinateur = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
+                    .recuperationOrdinateur(res);
+            LOGGER.info("recherche de l'ordinateur effectuée");
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException(
+                    "Echec de la requete de recherche par id d'ordinateur");
+
+        }
+
+        return ordinateur;
 
     }
 

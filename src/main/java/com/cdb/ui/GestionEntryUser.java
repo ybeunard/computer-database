@@ -1,19 +1,19 @@
 package com.cdb.ui;
 
-import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+import com.cdb.entities.Entreprise;
 import com.cdb.entities.Ordinateur;
 import com.cdb.entities.Ordinateur.OrdinateurBuilder;
+import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
-import com.cdb.entities.Entreprise;
 
 /**
  * The Class GestionEntryUser.
@@ -85,7 +85,7 @@ public class GestionEntryUser {
 
             }
 
-            //createOrdinateur(splitArray[1]);
+            createOrdinateur(splitArray[1]);
 
         } else if (splitArray[0] == "update") {
 
@@ -96,7 +96,7 @@ public class GestionEntryUser {
 
             }
 
-            //updateOrdinateur(splitArray[1]);
+            updateOrdinateur(splitArray[1]);
 
         } else if (splitArray[0] == "delete") {
 
@@ -202,9 +202,9 @@ public class GestionEntryUser {
 
         try {
 
-            long id = Integer.parseInt(arg);
-            //ordinateur = GestionOrdinateur.getInstanceGestionOrdinateur()
-                    //.findOrdinateurByName(arg);
+            long id = Long.parseLong(arg);
+            ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                    .findOrdinateurById(id);
 
         } catch (NumberFormatException e) {
 
@@ -230,15 +230,25 @@ public class GestionEntryUser {
      * @param args
      *            the args
      */
-    /*private static void createOrdinateur(String args) {
+    private static void createOrdinateur(String args) {
 
         String[] argArray = args.split("'", 3);
-        OrdinateurBuilder ordinateur = new OrdinateurBuilder(argArray[1]);
+        OrdinateurBuilder ordinateur = new Ordinateur.OrdinateurBuilder(
+                argArray[1]);
 
         if (argArray[2].isEmpty()) {
 
-            //GestionOrdinateur.getInstanceGestionOrdinateur()
-                    //.createOrdinateur(ordinateur.build());
+            try {
+
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                        .createOrdinateur(ordinateur.build());
+
+            } catch (RequeteQueryException e) {
+
+                e.printStackTrace();
+
+            }
+
             return;
 
         }
@@ -259,41 +269,15 @@ public class GestionEntryUser {
 
             if (argArray[0] == "introduction") {
 
-                try {
-
-                    argArray = argArray[1].split(" ", 2);
-                    SimpleDateFormat format = new SimpleDateFormat(
-                            "yyyy/MM/dd");
-                    Date parsed = format.parse(argArray[0]);
-                    ordinateur.dateIntroduit(
-                            new java.sql.Date(parsed.getTime()).toLocalDate());
-
-                } catch (ParseException e) {
-
-                    System.out.println(
-                            "Format de date incorecte merci de respecter la syntaxe suivante : yyyy/MM/dd");
-                    return;
-
-                }
+                argArray = argArray[1].split(" ", 2);
+                ordinateur.dateIntroduit(LocalDate.parse(argArray[0],
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
             } else if (argArray[0] == "interruption") {
 
-                try {
-
-                    argArray = argArray[1].split(" ", 2);
-                    SimpleDateFormat format = new SimpleDateFormat(
-                            "yyyy/MM/dd");
-                    Date parsed = format.parse(argArray[0]);
-                    ordinateur.dateInterrompu(
-                            new java.sql.Date(parsed.getTime()).toLocalDate());
-
-                } catch (ParseException e) {
-
-                    System.out.println(
-                            "Format de date incorecte marci de respecter la syntaxe suivante : yyyy/MM/dd");
-                    return;
-
-                }
+                argArray = argArray[1].split(" ", 2);
+                ordinateur.dateInterrompu(LocalDate.parse(argArray[0],
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
             } else if (argArray[0] == "fabricant") {
 
@@ -301,9 +285,8 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = GestionEntreprise
-                            .INSTANCE_GESTION_ENTREPRISE
-                            .findEntrepriseByID(id);
+                    Optional<Entreprise> fabricant = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                            .findEntrepriseById(id);
 
                     if (fabricant.isPresent()) {
 
@@ -335,8 +318,16 @@ public class GestionEntryUser {
 
             if (argArray.length == 1) {
 
-                //GestionOrdinateur.getInstanceGestionOrdinateur()
-                        //.createOrdinateur(ordinateur.build());
+                try {
+
+                    GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                            .createOrdinateur(ordinateur.build());
+
+                } catch (RequeteQueryException e) {
+
+                    e.printStackTrace();
+                }
+
                 return;
 
             }
@@ -348,7 +339,7 @@ public class GestionEntryUser {
         System.out.println(prop.getProperty("nombre_arg"));
         return;
 
-    }*/
+    }
 
     /**
      * Update ordinateur.
@@ -356,7 +347,7 @@ public class GestionEntryUser {
      * @param args
      *            the args
      */
-    /*private static void updateOrdinateur(String args) {
+    private static void updateOrdinateur(String args) {
 
         String[] argArray = args.split(" ", 2);
 
@@ -371,9 +362,9 @@ public class GestionEntryUser {
 
         try {
 
-            int id = Integer.parseInt(argArray[0]);
-            //ordinateur = GestionOrdinateur.getInstanceGestionOrdinateur()
-                    //.findOrdinateurByID(id);
+            long id = Long.parseLong(argArray[0]);
+            ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                    .findOrdinateurById(id);
 
             if (!ordinateur.isPresent()) {
 
@@ -434,40 +425,15 @@ public class GestionEntryUser {
 
             } else if (argArray[0] == "introduction") {
 
-                try {
-
-                    argArray = argArray[1].split(" ", 2);
-                    SimpleDateFormat format = new SimpleDateFormat(
-                            "yyyy/MM/dd");
-                    Date parsed = format.parse(argArray[0]);
-                    builder.dateIntroduit(
-                            new java.sql.Date(parsed.getTime()).toLocalDate());
-
-                } catch (ParseException e) {
-
-                    System.out.println(prop.getProperty("date_incorrect"));
-                    return;
-
-                }
+                argArray = argArray[1].split(" ", 2);
+                builder.dateIntroduit(LocalDate.parse(argArray[0],
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
             } else if (argArray[0] == "interruption") {
 
-                try {
-
-                    argArray = argArray[1].split(" ", 2);
-                    SimpleDateFormat format = new SimpleDateFormat(
-                            "yyyy/MM/dd");
-                    Date parsed = format.parse(argArray[0]);
-                    builder.dateInterrompu(
-                            new java.sql.Date(parsed.getTime()).toLocalDate());
-
-                } catch (ParseException e) {
-
-                    System.out.println(prop.getProperty("date_incorrect"));
-                    return;
-
-                }
-
+                argArray = argArray[1].split(" ", 2);
+                builder.dateInterrompu(LocalDate.parse(argArray[0],
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                 break;
 
             } else if (argArray[0] == "fabricant") {
@@ -476,9 +442,8 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = GestionEntreprise
-                            .INSTANCE_GESTION_ENTREPRISE
-                            .findEntrepriseByID(id);
+                    Optional<Entreprise> fabricant = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                            .findEntrepriseById(id);
 
                     if (fabricant.isPresent()) {
 
@@ -523,7 +488,7 @@ public class GestionEntryUser {
         System.out.println(prop.getProperty("nombre_arg"));
         return;
 
-    }*/
+    }
 
     /**
      * Delete ordinateur.

@@ -37,8 +37,7 @@ public interface InterfaceEntrepriseDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    List<Entreprise> findEntrepriseByPage(int numeroPage,
-            int ligneParPage)
+    List<Entreprise> findEntrepriseByPage(int numeroPage, int ligneParPage)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
