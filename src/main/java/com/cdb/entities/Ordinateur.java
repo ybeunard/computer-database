@@ -171,9 +171,18 @@ public class Ordinateur {
          *            the date introduit
          * @return the ordinateur builder
          */
-        public OrdinateurBuilder dateIntroduit(LocalDate dateIntroduit) {
+        public OrdinateurBuilder dateIntroduit(Optional<LocalDate> dateIntroduit) {
 
-            this.dateIntroduit = dateIntroduit;
+            if(dateIntroduit.isPresent()) {
+                
+                this.dateIntroduit = dateIntroduit.get();
+                
+            } else {
+                
+                this.dateIntroduit = null;
+                
+            }
+
             return this;
 
         }
@@ -185,9 +194,18 @@ public class Ordinateur {
          *            the date interrompu
          * @return the ordinateur builder
          */
-        public OrdinateurBuilder dateInterrompu(LocalDate dateInterrompu) {
+        public OrdinateurBuilder dateInterrompu(Optional<LocalDate> dateInterrompu) {
 
-            this.dateInterrompu = dateInterrompu;
+            if(dateInterrompu.isPresent()) {
+                
+                this.dateInterrompu = dateInterrompu.get();
+                
+            } else {
+                
+                this.dateInterrompu = null;
+                
+            }
+            
             return this;
 
         }
@@ -199,9 +217,9 @@ public class Ordinateur {
          *            the fabricant
          * @return the ordinateur builder
          */
-        public OrdinateurBuilder fabricant(Entreprise fabricant) {
+        public OrdinateurBuilder fabricant(Optional<Entreprise> fabricant) {
 
-            this.fabricant = Optional.ofNullable(fabricant);
+            this.fabricant = fabricant;
             return this;
 
         }

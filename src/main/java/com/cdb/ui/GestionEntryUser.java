@@ -264,14 +264,16 @@ public class GestionEntryUser {
             if (argArray[0] == "introduction") {
 
                 argArray = argArray[1].split(" ", 2);
-                ordinateur.dateIntroduit(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                ordinateur.dateIntroduit(
+                        Optional.ofNullable(LocalDate.parse(argArray[0],
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 
             } else if (argArray[0] == "interruption") {
 
                 argArray = argArray[1].split(" ", 2);
-                ordinateur.dateInterrompu(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                ordinateur.dateInterrompu(
+                        Optional.ofNullable(LocalDate.parse(argArray[0],
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 
             } else if (argArray[0] == "fabricant") {
 
@@ -284,7 +286,7 @@ public class GestionEntryUser {
 
                     if (fabricant.isPresent()) {
 
-                        ordinateur.fabricant(fabricant.get());
+                        ordinateur.fabricant(fabricant);
 
                     } else {
 
@@ -369,8 +371,10 @@ public class GestionEntryUser {
 
         OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName())
                 .id(ordinateur.getId())
-                .dateIntroduit(ordinateur.getDateIntroduit())
-                .dateInterrompu(ordinateur.getDateInterrompu());
+                .dateIntroduit(
+                        Optional.ofNullable(ordinateur.getDateIntroduit()))
+                .dateInterrompu(
+                        Optional.ofNullable(ordinateur.getDateInterrompu()));
 
         args = argArray[1];
 
@@ -398,8 +402,9 @@ public class GestionEntryUser {
                         GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                                 .updateOrdinateur(builder.build());
                     } catch (RequeteQueryException e) {
-                        // TODO Auto-generated catch block
+
                         e.printStackTrace();
+
                     }
                     return;
 
@@ -408,14 +413,16 @@ public class GestionEntryUser {
             } else if (argArray[0] == "introduction") {
 
                 argArray = argArray[1].split(" ", 2);
-                builder.dateIntroduit(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                builder.dateIntroduit(
+                        Optional.ofNullable(LocalDate.parse(argArray[0],
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 
             } else if (argArray[0] == "interruption") {
 
                 argArray = argArray[1].split(" ", 2);
-                builder.dateInterrompu(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                builder.dateInterrompu(
+                        Optional.ofNullable(LocalDate.parse(argArray[0],
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
                 break;
 
             } else if (argArray[0] == "fabricant") {
@@ -429,7 +436,7 @@ public class GestionEntryUser {
 
                     if (fabricant.isPresent()) {
 
-                        builder.fabricant(fabricant.get());
+                        builder.fabricant(fabricant);
 
                     } else {
 
@@ -461,7 +468,7 @@ public class GestionEntryUser {
                     GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                             .updateOrdinateur(builder.build());
                 } catch (RequeteQueryException e) {
-                    // TODO Auto-generated catch block
+
                     e.printStackTrace();
                 }
                 return;

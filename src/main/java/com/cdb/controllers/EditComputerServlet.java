@@ -162,16 +162,16 @@ public class EditComputerServlet extends HttpServlet {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .id(id).dateIntroduit(introduced.get())
-                                .dateInterrompu(discontinued.get()).build());
+                                .id(id).dateIntroduit(introduced)
+                                .dateInterrompu(discontinued).build());
 
             } else {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .id(id).dateIntroduit(introduced.get())
-                                .dateInterrompu(discontinued.get())
-                                .fabricant(factory.get()).build());
+                                .id(id).dateIntroduit(introduced)
+                                .dateInterrompu(discontinued)
+                                .fabricant(factory).build());
 
             }
 

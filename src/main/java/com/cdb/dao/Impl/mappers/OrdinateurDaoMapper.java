@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +62,8 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateIntroduit(date.toLocalDate());
+                        builder.dateIntroduit(
+                                Optional.ofNullable(date.toLocalDate()));
 
                     }
 
@@ -77,7 +80,8 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateInterrompu(date.toLocalDate());
+                        builder.dateInterrompu(
+                                Optional.ofNullable(date.toLocalDate()));
 
                     }
 
@@ -93,9 +97,9 @@ public enum OrdinateurDaoMapper {
                 if (fabricantID > 0) {
 
                     String fabricantName = res.getString("company_name");
-                    builder.fabricant(
+                    builder.fabricant(Optional.ofNullable(
                             new Entreprise.EntrepriseBuilder(fabricantName)
-                                    .id(fabricantID).build());
+                                    .id(fabricantID).build()));
 
                 }
 
@@ -145,7 +149,8 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateIntroduit(date.toLocalDate());
+                        builder.dateIntroduit(
+                                Optional.ofNullable(date.toLocalDate()));
 
                     }
 
@@ -162,7 +167,8 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateInterrompu(date.toLocalDate());
+                        builder.dateInterrompu(
+                                Optional.ofNullable(date.toLocalDate()));
 
                     }
 
@@ -178,9 +184,9 @@ public enum OrdinateurDaoMapper {
                 if (fabricantID > 0) {
 
                     String fabricantName = res.getString("company_name");
-                    builder.fabricant(
+                    builder.fabricant(Optional.ofNullable(
                             new Entreprise.EntrepriseBuilder(fabricantName)
-                                    .id(fabricantID).build());
+                                    .id(fabricantID).build()));
 
                 }
 

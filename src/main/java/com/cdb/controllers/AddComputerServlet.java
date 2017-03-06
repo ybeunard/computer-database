@@ -149,16 +149,16 @@ public class AddComputerServlet extends HttpServlet {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .createOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .dateIntroduit(introduced.get())
-                                .dateInterrompu(discontinued.get()).build());
+                                .dateIntroduit(introduced)
+                                .dateInterrompu(discontinued).build());
 
             } else {
 
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .createOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .dateIntroduit(introduced.get())
-                                .dateInterrompu(discontinued.get())
-                                .fabricant(factory.get()).build());
+                                .dateIntroduit(introduced)
+                                .dateInterrompu(discontinued)
+                                .fabricant(factory).build());
 
             }
 
