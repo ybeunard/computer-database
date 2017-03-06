@@ -1,7 +1,7 @@
 package com.cdb.dao.Impl;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import com.cdb.dao.InterfaceConnexionDatabase;
@@ -29,30 +29,33 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 
     }
 
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(ConnexionDatabase.class);
+
     /** The prop. */
     private static Properties prop = new Properties();
 
     static {
 
-        FileInputStream stream = null;
+        String file = "connexion.properties";
 
-        try {
+        try (InputStream stream = ConnexionDatabase.class.getClassLoader()
+                .getResourceAsStream(file);) {
 
-            stream = new FileInputStream(
-                    "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/connexion.properties");
             prop.load(stream);
 
         } catch (IOException e) {
 
-            e.printStackTrace();
+            LOGGER.error("Fichier introuvable : " + file);
+
+        } catch (NullPointerException e) {
+
+            LOGGER.error("Fichier introuvable : " + file);
 
         }
 
     }
-
-    /** The Constant LOGGER. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(ConnexionDatabase.class);
 
     /**
      * Connect database.
@@ -61,8 +64,7 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
      * @throws ConnexionDatabaseException
      *             if there is an issue
      */
-    public Connection connectDatabase()
-            throws ConnexionDatabaseException {
+    public Connection connectDatabase() throws ConnexionDatabaseException {
 
         try {
 

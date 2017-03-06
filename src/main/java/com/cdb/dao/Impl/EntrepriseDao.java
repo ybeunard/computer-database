@@ -1,7 +1,7 @@
 package com.cdb.dao.Impl;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,31 +37,34 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
     EntrepriseDao() {
 
     }
+    
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(EntrepriseDao.class);
 
     /** The prop. */
     private static Properties prop = new Properties();
 
     static {
 
-        FileInputStream stream = null;
+        String file = "query.properties";
 
-        try {
+        try (InputStream stream = ConnexionDatabase.class.getClassLoader()
+                .getResourceAsStream(file);) {
 
-            stream = new FileInputStream(
-                    "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query.properties");
             prop.load(stream);
 
         } catch (IOException e) {
 
-            e.printStackTrace();
+            LOGGER.error("Fichier introuvable : " + file);
+
+        } catch (NullPointerException e) {
+
+            LOGGER.error("Fichier introuvable : " + file);
 
         }
 
     }
-
-    /** The Constant LOGGER. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(EntrepriseDao.class);
 
     /**
      * Find entreprise.

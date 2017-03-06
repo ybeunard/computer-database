@@ -1,9 +1,9 @@
 
 package com.cdb.dao.Impl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
 import com.mysql.jdbc.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -36,33 +36,34 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     OrdinateurDao() {
 
     }
+    
+    /** The Constant logger. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(OrdinateurDao.class);
 
     /** The prop. */
     private static Properties prop = new Properties();
 
     static {
 
-        File fProp = new File(
-                "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/query.properties");
+        String file = "query.properties";
 
-        FileInputStream stream = null;
+        try (InputStream stream = ConnexionDatabase.class.getClassLoader()
+                .getResourceAsStream(file);) {
 
-        try {
-
-            stream = new FileInputStream(fProp);
             prop.load(stream);
 
         } catch (IOException e) {
 
-            e.printStackTrace();
+            LOGGER.error("Fichier introuvable : " + file);
+
+        } catch (NullPointerException e) {
+
+            LOGGER.error("Fichier introuvable : " + file);
 
         }
 
     }
-
-    /** The Constant logger. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(OrdinateurDao.class);
 
     /**
      * Creates the ordinateur.
