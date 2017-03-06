@@ -28,7 +28,7 @@ public interface InterfaceGestionOrdinateur {
      *            the ligne par page
      * @return the optional
      */
-    PageDto findOrdinateurByPage(int numeroPage, int ligneParPage);
+    PageDto findOrdinateurByPage(int numeroPage, int ligneParPage, String filtre);
 
     /**
      * Update ordinateur.

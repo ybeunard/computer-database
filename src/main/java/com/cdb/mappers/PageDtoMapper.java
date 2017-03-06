@@ -36,34 +36,14 @@ public enum PageDtoMapper {
      * @return the page dto
      */
     public PageDto recuperationPage(List<Ordinateur> ordinateurs,
-            int nombreTotal, int numeroPage, int ligneParPage) {
+            int nombreTotal, int numeroPage, int ligneParPage, int pageMax, String filtre) {
 
         PageDtoBuilder page = new PageDto.PageDtoBuilder();
         page.contenue(OrdinateurDtoMapper.INSTANCE_ORDINATEUR_DTO_MAPPER
                 .recuperationListOrdinateurDto(ordinateurs));
         page.numPage(numeroPage);
         page.nbParPage(ligneParPage);
-        int pageMax;
-
-        if (ligneParPage == 0) {
-
-            LOGGER.error("Le nombre de ligne par page vaut 0, Impossible");
-            pageMax = 1;
-
-        } else {
-
-            if (nombreTotal % ligneParPage == 0) {
-
-                pageMax = nombreTotal / ligneParPage;
-
-            } else {
-
-                pageMax = nombreTotal / ligneParPage + 1;
-
-            }
-
-        }
-
+        page.nbComputer(nombreTotal);
         page.pagination(count(numeroPage, pageMax));
 
         if (numeroPage <= 1) {
@@ -84,6 +64,12 @@ public enum PageDtoMapper {
 
             page.pageSuiv(numeroPage + 1);
 
+        }
+        
+        if(filtre != null && !filtre.equals("")) {
+            
+            page.filtre(filtre);
+            
         }
 
         return page.build();

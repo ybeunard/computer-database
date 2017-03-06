@@ -66,21 +66,49 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            le nombre de ligne par page
      * @return une liste d'ordinateur
      */
-    public PageDto findOrdinateurByPage(int numeroPage, int ligneParPage) {
+    public PageDto findOrdinateurByPage(int numeroPage, int ligneParPage, String filtre) {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int nombreTotal = 0;
+        int pageMax = 1;
 
         try {
 
-            ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .findOrdinateurByPage(numeroPage, ligneParPage);
-            LOGGER.info("Recuperation de la liste d'ordinateur "
-                    + ordinateurs.size());
-            nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .countOrdinateur();
-            LOGGER.info("recuperation du nombre maximum d'ordinateur "
-                    + nombreTotal);
+            if (filtre == null || filtre.equals("")) {
+
+                nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                        .countOrdinateur();
+                LOGGER.info("recuperation du nombre maximum d'ordinateur "
+                        + nombreTotal);
+                pageMax = pageMax(ligneParPage, nombreTotal);
+                LOGGER.info("recuperation du nombre maximum de page "
+                        + pageMax);
+                numeroPage = verifNumPage(numeroPage, pageMax);
+                LOGGER.info("Verification du numero de page effectuer "
+                        + numeroPage);
+                ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                        .findOrdinateurByPage(numeroPage, ligneParPage);
+                LOGGER.info("Recuperation de la liste d'ordinateur "
+                        + ordinateurs.size());
+                
+            } else {
+                
+                nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                        .countOrdinateurByName(filtre);
+                LOGGER.info("recuperation du nombre maximum d'ordinateur "
+                        + nombreTotal);
+                pageMax = pageMax(ligneParPage, nombreTotal);
+                LOGGER.info("recuperation du nombre maximum de page "
+                        + pageMax);
+                numeroPage = verifNumPage(numeroPage, pageMax);
+                LOGGER.info("Verification du numero de page effectuer "
+                        + numeroPage);
+                ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                        .findOrdinateurByName(numeroPage, ligneParPage, filtre);
+                LOGGER.info("Recuperation de la liste d'ordinateur "
+                        + ordinateurs.size());
+                
+            }
 
         } catch (ConnexionDatabaseException e) {
 
@@ -93,7 +121,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
         }
 
         PageDto page = PageDtoMapper.INSTANCE_PAGE_DTO_MAPPER.recuperationPage(
-                ordinateurs, nombreTotal, numeroPage, ligneParPage);
+                ordinateurs, nombreTotal, numeroPage, ligneParPage, pageMax, filtre);
         return page;
 
     }
@@ -173,6 +201,47 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
         }
 
         return ordinateur;
+
+    }
+
+    private int pageMax(int nbParPage, int nombreTotal) {
+
+        int pageMax = 1;
+
+        if (nbParPage == 0) {
+
+            LOGGER.error("Le nombre de ligne par page vaut 0, Impossible");
+            pageMax = 1;
+
+        } else {
+
+            if (nombreTotal % nbParPage == 0) {
+
+                pageMax = nombreTotal / nbParPage;
+
+            } else {
+
+                pageMax = nombreTotal / nbParPage + 1;
+
+            }
+
+        }
+
+        return pageMax;
+
+    }
+
+    private int verifNumPage(int numeroPage, int pageMax) {
+
+        if (numeroPage > pageMax) {
+
+            return pageMax;
+
+        } else {
+
+            return numeroPage;
+
+        }
 
     }
 

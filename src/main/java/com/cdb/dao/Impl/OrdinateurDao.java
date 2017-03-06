@@ -187,6 +187,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         if (offset < 0) {
 
+            LOGGER.error("Offset negatif");
             return ordinateurs;
 
         }
@@ -220,6 +221,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
     /**
      * Find ordinateur by Name.
+     * @param ligneParPage 
+     * @param numeroPage 
      *
      * @param name
      *            le nom de l'ordinateur recherché
@@ -229,10 +232,20 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Ordinateur> findOrdinateurByName(String name)
+    public List<Ordinateur> findOrdinateurByName(int numeroPage, int ligneParPage, String name)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
+        int limit = ligneParPage;
+        int offset = (numeroPage - 1) * ligneParPage;
+
+        if (offset < 0) {
+
+            LOGGER.error("Offset negatif");
+            return ordinateurs;
+
+        }
+        
         LOGGER.info("recherche de la liste d'ordinateur par nom");
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
@@ -241,6 +254,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                         prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"))) {
 
             stmt.setString(1, "%" + name + "%");
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
             ResultSet res = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
                     .recuperationListOrdinateur(res);
@@ -412,6 +427,32 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                 PreparedStatement stmt = con.prepareStatement(
                         prop.getProperty("QUERY_COUNT_ORDINATEUR"))) {
 
+            ResultSet res = stmt.executeQuery();
+            count = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
+                    .recuperationInt(res);
+            LOGGER.info("Comptage du nombre d'ordinateur effectuée");
+
+        } catch (SQLException e) {
+
+            throw new RequeteQueryException("Echec de la requete count");
+
+        }
+
+        return count;
+
+    }
+
+    public int countOrdinateurByName(String filtre) throws ConnexionDatabaseException, RequeteQueryException {
+        
+        int count = 0;
+        LOGGER.info("Comptage du nombre d'ordinateur");
+
+        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
+                .connectDatabase();
+                PreparedStatement stmt = con.prepareStatement(
+                        prop.getProperty("QUERY_COUNT_ORDINATEUR_BY_NAME"))) {
+
+            stmt.setString(1, "%" + filtre + "%");
             ResultSet res = stmt.executeQuery();
             count = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
                     .recuperationInt(res);

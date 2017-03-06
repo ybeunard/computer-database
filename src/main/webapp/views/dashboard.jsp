@@ -15,21 +15,21 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="DashboardServlet"> Application - Computer Database </a>
+            <a class="navbar-brand" href="?resetFiltre=OK"> Application - Computer Database </a>
         </div>
     </header>
 
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                ${nbComputer} Computers found
+                ${page.nbComputer} Computers found
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" name="action" value="Filter by name"
+                        <input type="submit" id="searchsubmit" name="action" value="Filter"
                         class="btn btn-primary" />
                     </form>
                 </div>

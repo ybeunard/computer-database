@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.dto.PageDto;
 import com.cdb.services.Impl.GestionOrdinateur;
 
@@ -29,6 +32,10 @@ public class DashboardServlet extends HttpServlet {
         super();
 
     }
+    
+    /** The Constant logger. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(DashboardServlet.class);
 
     /**
      * Do get.
@@ -51,16 +58,20 @@ public class DashboardServlet extends HttpServlet {
                 .getAttribute("page");
         int numPage;
         int nbParPage;
+        String filtre;
 
         if (pageCourante == null) {
 
             numPage = 1;
             nbParPage = 10;
+            filtre = "";
 
         } else {
 
             numPage = pageCourante.getNumPage();
             nbParPage = pageCourante.getNbParPage();
+            filtre = pageCourante.getFiltre();
+            LOGGER.info("recuperation des informations de page courante : " + numPage + " , " + nbParPage + " , " + filtre);
 
         }
 
@@ -79,10 +90,27 @@ public class DashboardServlet extends HttpServlet {
             nbParPage = Integer.parseInt(nbParPageStr);
 
         }
-
-        request.setAttribute("page",
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .findOrdinateurByPage(numPage, nbParPage));
+        
+        String filtreStr = request.getParameter("search");
+        
+        if (filtreStr != null && !filtreStr.equals("")) {
+            
+            filtre = filtreStr;
+            
+        }
+        
+        String resetFiltre = request.getParameter("resetFiltre");
+        
+        if(resetFiltre != null && resetFiltre.equals("OK")) {
+            
+            filtre = "";
+            
+        }
+        
+        PageDto page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                .findOrdinateurByPage(numPage, nbParPage, filtre);
+        request.setAttribute("page", page);
+        request.getSession().setAttribute("page", page);
         request.getRequestDispatcher("views/dashboard.jsp").forward(request,
                 response);
 

@@ -16,6 +16,10 @@ public class PageDto {
 
     private final int nbParPage;
 
+    private final int nbComputer;
+    
+    private final String filtre;
+
     private PageDto(PageDtoBuilder builder) {
 
         this.contenue = builder.contenue;
@@ -30,6 +34,18 @@ public class PageDto {
 
         this.nbParPage = builder.nbParPage;
 
+        this.nbComputer = builder.nbComputer;
+        
+        this.filtre = builder.filtre;
+
+    }
+
+    public String getFiltre() {
+        return filtre;
+    }
+
+    public int getNbComputer() {
+        return nbComputer;
     }
 
     public List<OrdinateurDto> getContenue() {
@@ -69,6 +85,10 @@ public class PageDto {
         private int numPage;
 
         private int nbParPage;
+
+        private int nbComputer;
+        
+        private String filtre;
 
         public PageDtoBuilder contenue(List<OrdinateurDto> contenue) {
 
@@ -110,6 +130,20 @@ public class PageDto {
             this.nbParPage = nbParPage;
             return this;
 
+        }
+        
+        public PageDtoBuilder nbComputer(int nbComputer) {
+            
+            this.nbComputer = nbComputer;
+            return this;
+            
+        }
+        
+        public PageDtoBuilder filtre(String filtre) {
+            
+            this.filtre = filtre;
+            return this;
+            
         }
 
         public PageDto build() {
