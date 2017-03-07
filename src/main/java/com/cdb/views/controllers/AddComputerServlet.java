@@ -1,4 +1,4 @@
-package com.cdb.controllers;
+package com.cdb.views.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,31 +7,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cdb.controllers.validation.Parse;
-import com.cdb.controllers.validation.Validation;
-import com.cdb.dto.OrdinateurDto;
+import com.cdb.views.controllers.validation.Validation;
+import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.OrdinateurDtoMapper;
-import com.cdb.mappers.OrdinateurMapper;
+import com.cdb.model.mappers.OrdinateurDtoMapper;
+import com.cdb.model.mappers.OrdinateurMapper;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 
 /**
- * Servlet implementation class EditComputerServlet.
+ * Servlet implementation class AddComputerServlet.
  */
-@WebServlet("/EditComputerServlet")
-public class EditComputerServlet extends HttpServlet {
+@WebServlet("/AddComputerServlet")
+public class AddComputerServlet extends HttpServlet {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /**
-     * Instantiates a new edits the computer servlet.
+     * Instantiates a new adds the computer servlet.
      *
      * @see HttpServlet#HttpServlet()
      */
-    public EditComputerServlet() {
+    public AddComputerServlet() {
 
         super();
 
@@ -54,31 +53,19 @@ public class EditComputerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
-        
         try {
-            
-            OrdinateurDto ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .findOrdinateurById(id);
-            
-            if(ordinateur == null) {
-                
-                response.sendRedirect("DashboardServlet");
-                return;
-                
-            }
-            
-            request.setAttribute("computer", ordinateur);
-            request.setAttribute("companies", GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                    .findEntreprise());
-            
+
+            request.setAttribute("companies",
+                    GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                            .findEntreprise());
+
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
-            
+
             request.setAttribute("error", 1);
-            
+
         }
-        
-        request.getRequestDispatcher("views/editComputer.jsp").forward(request,
+
+        request.getRequestDispatcher("views/addComputer.jsp").forward(request,
                 response);
 
     }
@@ -99,20 +86,21 @@ public class EditComputerServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
-        OrdinateurDto ordinateur = OrdinateurDtoMapper.recuperationOrdinateurDto(request);
+
+        OrdinateurDto ordinateur = OrdinateurDtoMapper
+                .recuperationOrdinateurDto(request);
 
         if (Validation.validationOrdinateurDto(request, ordinateur)) {
 
             try {
-                
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                .updateOrdinateur(OrdinateurMapper.recuperationOrdinateur(ordinateur));
-                
+
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.createOrdinateur(
+                        OrdinateurMapper.recuperationOrdinateur(ordinateur));
+
             } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
                 request.setAttribute("error", 1);
-                doGet(request,response);
+                doGet(request, response);
                 return;
 
             }

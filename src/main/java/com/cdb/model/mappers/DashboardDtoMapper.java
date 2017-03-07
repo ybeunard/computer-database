@@ -1,14 +1,14 @@
-package com.cdb.mappers;
+package com.cdb.model.mappers;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.controllers.validation.Parse;
-import com.cdb.dto.DashboardDto;
-import com.cdb.dto.DashboardDto.DashboardDtoBuilder;
-import com.cdb.dto.PageDto;
+import com.cdb.views.controllers.validation.Parse;
+import com.cdb.model.dto.DashboardDto;
+import com.cdb.model.dto.DashboardDto.DashboardDtoBuilder;
+import com.cdb.model.dto.PageDto;
 
 /**
  * The Class DashboardDtoMapper.

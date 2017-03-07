@@ -1,4 +1,4 @@
-package com.cdb.dto;
+package com.cdb.model.dto;
 
 /**
  * The Class DashboardDto.

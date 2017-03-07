@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.Impl.OrdinateurDao;
-import com.cdb.entities.Entreprise;
+import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.RequeteQueryException;
 
 /**

@@ -1,7 +1,7 @@
 package com.cdb.services;
 
-import com.cdb.dto.EntrepriseDto;
-import com.cdb.entities.Entreprise;
+import com.cdb.model.dto.EntrepriseDto;
+import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 

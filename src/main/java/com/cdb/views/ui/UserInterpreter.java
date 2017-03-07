@@ -1,4 +1,4 @@
-package com.cdb.ui;
+package com.cdb.views.ui;
 
 import java.util.Scanner;
 

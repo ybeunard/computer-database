@@ -1,10 +1,10 @@
-package com.cdb.controllers.validation;
+package com.cdb.views.controllers.validation;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import com.cdb.entities.Entreprise;
+import com.cdb.model.entities.Entreprise;
 
 /**
  * The Class Parse.

@@ -1,4 +1,4 @@
-package com.cdb.entities;
+package com.cdb.model.entities;
 
 import java.time.LocalDate;
 import java.util.Optional;

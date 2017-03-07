@@ -1,4 +1,4 @@
-package com.cdb.entities;
+package com.cdb.model.entities;
 
 /**
  * The Class Entreprise.

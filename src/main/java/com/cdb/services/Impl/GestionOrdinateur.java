@@ -8,13 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.Impl.OrdinateurDao;
-import com.cdb.dto.OrdinateurDto;
-import com.cdb.dto.PageDto;
-import com.cdb.entities.Ordinateur;
+import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.PageDto;
+import com.cdb.model.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.OrdinateurDtoMapper;
-import com.cdb.mappers.PageDtoMapper;
+import com.cdb.model.mappers.OrdinateurDtoMapper;
+import com.cdb.model.mappers.PageDtoMapper;
 import com.cdb.services.InterfaceGestionOrdinateur;
 
 /**

@@ -1,4 +1,4 @@
-package com.cdb.ui;
+package com.cdb.views.ui;
 
 import java.util.Optional;
 import java.util.Properties;
@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.cdb.dto.OrdinateurDto;
-import com.cdb.entities.Entreprise;
-import com.cdb.entities.Ordinateur;
-import com.cdb.entities.Ordinateur.OrdinateurBuilder;
+import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.entities.Entreprise;
+import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.Ordinateur.OrdinateurBuilder;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.Impl.GestionEntreprise;

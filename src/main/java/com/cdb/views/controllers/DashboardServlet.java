@@ -1,4 +1,4 @@
-package com.cdb.controllers;
+package com.cdb.views.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cdb.dto.DashboardDto;
-import com.cdb.dto.PageDto;
+import com.cdb.model.dto.DashboardDto;
+import com.cdb.model.dto.PageDto;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.DashboardDtoMapper;
+import com.cdb.model.mappers.DashboardDtoMapper;
 import com.cdb.services.Impl.GestionOrdinateur;
 
 /**

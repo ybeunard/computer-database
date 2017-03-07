@@ -3,7 +3,7 @@ package com.cdb.dao;
 import java.util.List;
 import java.util.Optional;
 
-import com.cdb.entities.Entreprise;
+import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 

@@ -10,9 +10,9 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.entities.Entreprise;
-import com.cdb.entities.Ordinateur;
-import com.cdb.entities.Ordinateur.OrdinateurBuilder;
+import com.cdb.model.entities.Entreprise;
+import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.Ordinateur.OrdinateurBuilder;
 import com.cdb.exception.RequeteQueryException;
 
 /**

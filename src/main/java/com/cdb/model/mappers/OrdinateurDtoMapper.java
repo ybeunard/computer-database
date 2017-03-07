@@ -1,4 +1,4 @@
-package com.cdb.mappers;
+package com.cdb.model.mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.controllers.validation.Parse;
-import com.cdb.dto.OrdinateurDto;
-import com.cdb.dto.OrdinateurDto.OrdinateurDtoBuilder;
-import com.cdb.entities.Ordinateur;
+import com.cdb.views.controllers.validation.Parse;
+import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.OrdinateurDto.OrdinateurDtoBuilder;
+import com.cdb.model.entities.Ordinateur;
 
 /**
  * The Class OrdinateurDtoMapper.

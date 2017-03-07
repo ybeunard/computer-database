@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.InterfaceOrdinateurDao;
 import com.cdb.dao.Impl.mappers.OrdinateurDaoMapper;
-import com.cdb.entities.Ordinateur;
+import com.cdb.model.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 

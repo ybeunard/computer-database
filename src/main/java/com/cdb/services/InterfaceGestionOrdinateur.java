@@ -1,8 +1,8 @@
 package com.cdb.services;
 
-import com.cdb.dto.OrdinateurDto;
-import com.cdb.dto.PageDto;
-import com.cdb.entities.Ordinateur;
+import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.PageDto;
+import com.cdb.model.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 

@@ -1,4 +1,4 @@
-package com.cdb.mappers;
+package com.cdb.model.mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dto.EntrepriseDto;
-import com.cdb.dto.EntrepriseDto.EntrepriseDtoBuilder;
-import com.cdb.entities.Entreprise;
+import com.cdb.model.dto.EntrepriseDto;
+import com.cdb.model.dto.EntrepriseDto.EntrepriseDtoBuilder;
+import com.cdb.model.entities.Entreprise;
 
 /**
  * The Class EntrepriseDtoMapper.

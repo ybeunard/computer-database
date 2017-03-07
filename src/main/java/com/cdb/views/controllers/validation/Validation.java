@@ -1,4 +1,4 @@
-package com.cdb.controllers.validation;
+package com.cdb.views.controllers.validation;
 
 import java.time.LocalDate;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dto.OrdinateurDto;
+import com.cdb.model.dto.OrdinateurDto;
 
 /**
  * The Class Validation.

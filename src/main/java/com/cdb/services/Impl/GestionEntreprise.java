@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.Impl.EntrepriseDao;
-import com.cdb.dto.EntrepriseDto;
-import com.cdb.entities.Entreprise;
+import com.cdb.model.dto.EntrepriseDto;
+import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.mappers.EntrepriseDtoMapper;
+import com.cdb.model.mappers.EntrepriseDtoMapper;
 import com.cdb.services.InterfaceGestionEntreprise;
 
 /**

@@ -1,9 +1,9 @@
-package com.cdb.ui;
+package com.cdb.views.ui;
 
 import java.util.List;
-import com.cdb.dto.EntrepriseDto;
-import com.cdb.dto.OrdinateurDto;
-import com.cdb.dto.PageDto;
+import com.cdb.model.dto.EntrepriseDto;
+import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.PageDto;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.Impl.GestionEntreprise;

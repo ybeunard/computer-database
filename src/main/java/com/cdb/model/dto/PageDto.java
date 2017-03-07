@@ -1,4 +1,4 @@
-package com.cdb.dto;
+package com.cdb.model.dto;
 
 import java.util.List;
 

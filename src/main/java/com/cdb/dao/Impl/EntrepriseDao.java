@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.InterfaceEntrepriseDao;
 import com.cdb.dao.Impl.mappers.EntrepriseDaoMapper;
-import com.cdb.entities.Entreprise;
+import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.mysql.jdbc.Connection;

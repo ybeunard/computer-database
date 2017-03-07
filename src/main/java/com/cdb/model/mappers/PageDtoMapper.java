@@ -1,4 +1,4 @@
-package com.cdb.mappers;
+package com.cdb.model.mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dto.PageDto;
-import com.cdb.dto.PageDto.PageDtoBuilder;
-import com.cdb.entities.Ordinateur;
+import com.cdb.model.dto.PageDto;
+import com.cdb.model.dto.PageDto.PageDtoBuilder;
+import com.cdb.model.entities.Ordinateur;
 
 /**
  * The Class PageDtoMapper.
