@@ -106,6 +106,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                 stmt.setDate(3, null);
 
             }
+
             if (ordinateur.getFabricant().isPresent()) {
 
                 stmt.setLong(4, ordinateur.getFabricant().get().getId());

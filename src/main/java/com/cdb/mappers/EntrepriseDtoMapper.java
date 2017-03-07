@@ -3,6 +3,9 @@ package com.cdb.mappers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.dto.EntrepriseDto;
 import com.cdb.dto.EntrepriseDto.EntrepriseDtoBuilder;
 import com.cdb.entities.Entreprise;
@@ -18,6 +21,10 @@ public class EntrepriseDtoMapper {
     private EntrepriseDtoMapper() {
 
     }
+    
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(EntrepriseDtoMapper.class);
 
     /**
      * Recuperation list entreprise.
@@ -29,6 +36,7 @@ public class EntrepriseDtoMapper {
     public static List<EntrepriseDto> recuperationListEntreprise(
             List<Entreprise> entreprises) {
 
+        LOGGER.info("Mapping List EntrepriseDto depuis List Entreprise");
         List<EntrepriseDto> entreprisesDto = new ArrayList<EntrepriseDto>();
 
         for (Entreprise entreprise : entreprises) {
@@ -37,6 +45,7 @@ public class EntrepriseDtoMapper {
 
         }
 
+        LOGGER.info("Mapping terminé");
         return entreprisesDto;
     }
 
@@ -49,8 +58,10 @@ public class EntrepriseDtoMapper {
      */
     private static EntrepriseDto recuperationEntreprise(Entreprise entreprise) {
 
+        LOGGER.info("Mapping EntrepriseDto depuis Entreprise");
         EntrepriseDtoBuilder builder = new EntrepriseDto.EntrepriseDtoBuilder(
                 entreprise.getId(), entreprise.getName());
+        LOGGER.info("Mapping terminé");
         return builder.build();
 
     }

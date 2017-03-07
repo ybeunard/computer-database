@@ -47,6 +47,7 @@ public class PageDtoMapper {
             int nombreTotal, int numeroPage, int ligneParPage, int pageMax,
             String filtre) {
 
+        LOGGER.info("Mapping de PageDto");
         PageDtoBuilder page = new PageDto.PageDtoBuilder();
         page.contenue(
                 OrdinateurDtoMapper.recuperationListOrdinateurDto(ordinateurs));
@@ -81,6 +82,7 @@ public class PageDtoMapper {
 
         }
 
+        LOGGER.info("Mapping terminé");
         return page.build();
 
     }

@@ -81,7 +81,7 @@
                 	<c:forEach items="${page.contenue}" var="computer" >
 	                    <tr>
 	                        <td class="editMode">
-	                            <input type="checkbox" name="cb" class="cb" value="${computer.id}">
+	                            <input id="cb" type="checkbox" name="cb" class="cb" value="${computer.id}"/>
 	                        </td>
 	                        <td>
 	                            <a href="EditComputerServlet?ordinateur=${computer.id}" onclick="">${computer.name}</a>

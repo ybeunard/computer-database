@@ -36,6 +36,7 @@ public class DashboardDtoMapper {
     public static DashboardDto recuperationDashboardRequestGet(
             HttpServletRequest request) {
 
+        LOGGER.info("Mapping DashboardDto depuis RequestServlet");
         DashboardDtoBuilder builder = new DashboardDto.DashboardDtoBuilder();
         PageDto pageCourante = (PageDto) request.getSession()
                 .getAttribute("page");
@@ -66,6 +67,7 @@ public class DashboardDtoMapper {
 
         }
 
+        LOGGER.info("Mapping terminé");
         return builder.build();
 
     }

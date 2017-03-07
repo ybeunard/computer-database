@@ -54,16 +54,17 @@ public class AddComputerServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            
+
             request.setAttribute("companies",
-                    GestionEntreprise.INSTANCE_GESTION_ENTREPRISE.findEntreprise());
-            
+                    GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                            .findEntreprise());
+
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
-            
+
             request.setAttribute("error", 1);
-            
+
         }
-        
+
         request.getRequestDispatcher("views/addComputer.jsp").forward(request,
                 response);
 
@@ -86,19 +87,20 @@ public class AddComputerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        OrdinateurDto ordinateur = OrdinateurDtoMapper.recuperationOrdinateurDto(request);
+        OrdinateurDto ordinateur = OrdinateurDtoMapper
+                .recuperationOrdinateurDto(request);
 
         if (Validation.validationOrdinateurDto(request, ordinateur)) {
 
             try {
-                
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                .createOrdinateur(OrdinateurMapper.recuperationOrdinateur(ordinateur));
-                
+
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.createOrdinateur(
+                        OrdinateurMapper.recuperationOrdinateur(ordinateur));
+
             } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
                 request.setAttribute("error", 1);
-                doGet(request,response);
+                doGet(request, response);
                 return;
 
             }

@@ -220,4 +220,126 @@ public class OrdinateurDto {
 
     }
 
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((dateInterrompu == null) ? 0 : dateInterrompu.hashCode());
+        result = prime * result
+                + ((dateIntroduit == null) ? 0 : dateIntroduit.hashCode());
+        result = prime * result + ((factory == null) ? 0 : factory.hashCode());
+        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + (int) (idFactory ^ (idFactory >>> 32));
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+
+            return true;
+
+        }
+
+        if (obj == null) {
+
+            return false;
+
+        }
+
+        if (getClass() != obj.getClass()) {
+
+            return false;
+
+        }
+
+        OrdinateurDto other = (OrdinateurDto) obj;
+
+        if (dateInterrompu == null) {
+
+            if (other.dateInterrompu != null) {
+
+                return false;
+
+            }
+
+        } else if (!dateInterrompu.equals(other.dateInterrompu)) {
+
+            return false;
+
+        }
+
+        if (dateIntroduit == null) {
+
+            if (other.dateIntroduit != null) {
+
+                return false;
+
+            }
+
+        } else if (!dateIntroduit.equals(other.dateIntroduit)) {
+
+            return false;
+
+        }
+
+        if (factory == null) {
+
+            if (other.factory != null) {
+
+                return false;
+
+            }
+
+        } else if (!factory.equals(other.factory)) {
+
+            return false;
+
+        }
+
+        if (id != other.id) {
+
+            return false;
+
+        }
+
+        if (idFactory != other.idFactory) {
+
+            return false;
+
+        }
+
+        if (name == null) {
+
+            if (other.name != null) {
+
+                return false;
+
+            }
+
+        } else if (!name.equals(other.name)) {
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public String toString() {
+
+        return "OrdinateurDto [name=" + name + ", dateIntroduit="
+                + dateIntroduit + ", dateInterrompu=" + dateInterrompu
+                + ", factory=" + factory + ", idFactory=" + idFactory + ", id="
+                + id + "]";
+
+    }
+
 }

@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.controllers.validation.Parse;
 import com.cdb.dto.OrdinateurDto;
 import com.cdb.dto.OrdinateurDto.OrdinateurDtoBuilder;
@@ -21,6 +24,10 @@ public class OrdinateurDtoMapper {
     private OrdinateurDtoMapper() {
 
     }
+    
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(OrdinateurDtoMapper.class);
 
     /**
      * Recuperation list ordinateur dto.
@@ -32,6 +39,7 @@ public class OrdinateurDtoMapper {
     public static List<OrdinateurDto> recuperationListOrdinateurDto(
             List<Ordinateur> ordinateurs) {
 
+        LOGGER.info("Mapping OrdinateurDto depuis List Ordinateur");
         List<OrdinateurDto> ordinateursDto = new ArrayList<OrdinateurDto>();
 
         for (Ordinateur ordinateur : ordinateurs) {
@@ -40,6 +48,7 @@ public class OrdinateurDtoMapper {
 
         }
 
+        LOGGER.info("Mapping terminé");
         return ordinateursDto;
 
     }
@@ -54,6 +63,7 @@ public class OrdinateurDtoMapper {
     public static OrdinateurDto recuperationOrdinateurDto(
             Ordinateur ordinateur) {
 
+        LOGGER.info("Mapping OrdinateurDto depuis ordinateur");
         OrdinateurDtoBuilder builder = new OrdinateurDto.OrdinateurDtoBuilder(
                 ordinateur.getName());
         builder.id(ordinateur.getId());
@@ -77,6 +87,7 @@ public class OrdinateurDtoMapper {
 
         }
 
+        LOGGER.info("Mapping terminé");
         return builder.build();
 
     }
@@ -91,6 +102,7 @@ public class OrdinateurDtoMapper {
     public static OrdinateurDto recuperationOrdinateurDto(
             HttpServletRequest request) {
 
+        LOGGER.info("Mapping OrdinateurDto depuis RequestServlet");
         OrdinateurDtoBuilder builder = new OrdinateurDtoBuilder(
                 request.getParameter("computerName"));
         builder.id(Parse.parseLong(request.getParameter("ordinateur"), 0));

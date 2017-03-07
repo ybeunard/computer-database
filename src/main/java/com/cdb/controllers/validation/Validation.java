@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cdb.dto.OrdinateurDto;
 
 /**
@@ -17,6 +20,10 @@ public class Validation {
     private Validation() {
 
     }
+    
+    /** The Constant logger. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(Validation.class);
 
     /**
      * Validation ordinateur dto.
@@ -27,29 +34,35 @@ public class Validation {
      * @return true, if successful
      */
     public static boolean validationOrdinateurDto(HttpServletRequest request, OrdinateurDto ordinateur) {
+        
+        LOGGER.info("" + ordinateur);
 
         if (ordinateur.getName() == null || ordinateur.getName().equals("")) {
-
+            
+            LOGGER.info("Nom Incorrecte " + ordinateur.getName());
             request.setAttribute("error", 1);
             return false;
 
         }
 
-        if (ordinateur.getId() <= 0) {
+        if (ordinateur.getId() < 0) {
 
+            LOGGER.info("ID Incorrecte " + ordinateur.getId());
             return false;
 
         }
 
         if (!validationDate(ordinateur.getDateIntroduit())) {
 
+            LOGGER.info("Date introduction Incorrecte " + ordinateur.getDateIntroduit());
             request.setAttribute("error", 1);
             return false;
 
         }
 
-        if (validationDate(ordinateur.getDateInterrompu())) {
+        if (!validationDate(ordinateur.getDateInterrompu())) {
 
+            LOGGER.info("Date interruption Incorrecte " + ordinateur.getDateInterrompu());
             request.setAttribute("error", 1);
             return false;
 
@@ -58,6 +71,7 @@ public class Validation {
         if (!isValid(ordinateur.getDateIntroduit(),
                 ordinateur.getDateInterrompu())) {
 
+            LOGGER.info("Dates Inccohérente");
             request.setAttribute("error", 1);
             return false;
 
@@ -65,10 +79,12 @@ public class Validation {
 
         if (ordinateur.getIdFactory() < 0) {
 
+            LOGGER.info("Id Company Incorrecte " + ordinateur.getIdFactory());
             return false;
 
         }
 
+        LOGGER.info("Validation OK");
         return true;
 
     }
@@ -90,7 +106,7 @@ public class Validation {
 
             }
 
-            return date.matches("yyyy-MM-dd");
+            return date.matches("\\d{4}-\\d{2}-\\d{2}");
 
         }
 
@@ -109,7 +125,7 @@ public class Validation {
      */
     public static boolean isValid(String introduced, String discontinued) {
 
-        if (introduced.equals("") && !discontinued.equals("")) {
+        if (!introduced.equals("") && !discontinued.equals("")) {
 
             LocalDate before = Parse.parseDate(introduced);
             LocalDate after = Parse.parseDate(discontinued);
