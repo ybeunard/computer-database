@@ -34,11 +34,14 @@ public interface InterfaceGestionOrdinateur {
      * @param filtre
      *            the filtre
      * @return the optional
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
     PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
-            String filtre) throws ConnexionDatabaseException, RequeteQueryException;
+            String filtre)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Update ordinateur.
@@ -47,19 +50,24 @@ public interface InterfaceGestionOrdinateur {
      *            the ordinateur
      * @throws RequeteQueryException
      *             the requete query exception
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
      */
-    void updateOrdinateur(Ordinateur ordinateur) throws RequeteQueryException, ConnexionDatabaseException;
+    void updateOrdinateur(Ordinateur ordinateur)
+            throws RequeteQueryException, ConnexionDatabaseException;
 
     /**
      * Suppression ordinateur.
      *
      * @param id
      *            the id
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    void suppressionOrdinateur(long id) throws ConnexionDatabaseException, RequeteQueryException;
+    void suppressionOrdinateur(long id)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Find ordinateur by id.
@@ -67,9 +75,12 @@ public interface InterfaceGestionOrdinateur {
      * @param id
      *            the id
      * @return the ordinateur dto
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    OrdinateurDto findOrdinateurById(long id) throws ConnexionDatabaseException, RequeteQueryException;
+    OrdinateurDto findOrdinateurById(long id)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
 }

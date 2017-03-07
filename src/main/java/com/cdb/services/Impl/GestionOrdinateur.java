@@ -43,7 +43,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            à créer
      * @throws RequeteQueryException
      *             if there is an issue
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
      */
     public void createOrdinateur(Ordinateur ordinateur)
             throws RequeteQueryException, ConnexionDatabaseException {
@@ -62,11 +63,14 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @param filtre
      *            the filtre
      * @return une liste d'ordinateur
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
     public PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
-            String filtre) throws ConnexionDatabaseException, RequeteQueryException {
+            String filtre)
+            throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int nombreTotal = 0;
@@ -79,11 +83,10 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             LOGGER.info("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
-            LOGGER.info(
-                    "recuperation du nombre maximum de page " + pageMax);
+            LOGGER.info("recuperation du nombre maximum de page " + pageMax);
             numeroPage = verifNumPage(numeroPage, pageMax);
-            LOGGER.info("Verification du numero de page effectuer "
-                    + numeroPage);
+            LOGGER.info(
+                    "Verification du numero de page effectuer " + numeroPage);
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurByPage(numeroPage, ligneParPage);
             LOGGER.info("Recuperation de la liste d'ordinateur "
@@ -96,11 +99,10 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             LOGGER.info("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
-            LOGGER.info(
-                    "recuperation du nombre maximum de page " + pageMax);
+            LOGGER.info("recuperation du nombre maximum de page " + pageMax);
             numeroPage = verifNumPage(numeroPage, pageMax);
-            LOGGER.info("Verification du numero de page effectuer "
-                    + numeroPage);
+            LOGGER.info(
+                    "Verification du numero de page effectuer " + numeroPage);
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurByName(numeroPage, ligneParPage, filtre);
             LOGGER.info("Recuperation de la liste d'ordinateur "
@@ -108,9 +110,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         }
 
-        PageDto page = PageDtoMapper.recuperationPage(
-                ordinateurs, nombreTotal, numeroPage, ligneParPage, pageMax,
-                filtre);
+        PageDto page = PageDtoMapper.recuperationPage(ordinateurs, nombreTotal,
+                numeroPage, ligneParPage, pageMax, filtre);
         return page;
 
     }
@@ -122,7 +123,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            a update
      * @throws RequeteQueryException
      *             the requete query exception
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
      */
     public void updateOrdinateur(Ordinateur ordinateur)
             throws RequeteQueryException, ConnexionDatabaseException {
@@ -136,10 +138,13 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *
      * @param id
      *            de l'ordinateur a supprimé
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    public void suppressionOrdinateur(long id) throws ConnexionDatabaseException, RequeteQueryException {
+    public void suppressionOrdinateur(long id)
+            throws ConnexionDatabaseException, RequeteQueryException {
 
         OrdinateurDao.INSTANCE_ORDINATEUR_DAO.suppressionOrdinateur(id);
 
@@ -151,22 +156,25 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @param id
      *            the id
      * @return the optional
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    public OrdinateurDto findOrdinateurById(long id) throws ConnexionDatabaseException, RequeteQueryException {
+    public OrdinateurDto findOrdinateurById(long id)
+            throws ConnexionDatabaseException, RequeteQueryException {
 
         OrdinateurDto ordinateur = null;
         Optional<Ordinateur> ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .findOrdinateurById(id);
-        
-        if(ordinateurOptional.isPresent()) {
-            
+                .findOrdinateurById(id);
+
+        if (ordinateurOptional.isPresent()) {
+
             ordinateur = OrdinateurDtoMapper
                     .recuperationOrdinateurDto(ordinateurOptional.get());
-        
+
         }
-        
+
         return ordinateur;
 
     }

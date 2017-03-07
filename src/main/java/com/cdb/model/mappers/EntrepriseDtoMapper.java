@@ -21,7 +21,7 @@ public class EntrepriseDtoMapper {
     private EntrepriseDtoMapper() {
 
     }
-    
+
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(EntrepriseDtoMapper.class);

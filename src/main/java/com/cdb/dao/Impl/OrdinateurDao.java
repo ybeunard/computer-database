@@ -297,7 +297,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
             stmt.setLong(1, id);
             ResultSet res = stmt.executeQuery();
-            ordinateur = Optional.ofNullable(OrdinateurDaoMapper.recuperationOrdinateur(res));
+            ordinateur = Optional.ofNullable(
+                    OrdinateurDaoMapper.recuperationOrdinateur(res));
             LOGGER.info("recherche de l'ordinateur effectuée");
 
         } catch (SQLException e) {

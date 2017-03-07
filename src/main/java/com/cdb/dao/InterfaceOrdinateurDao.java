@@ -71,7 +71,18 @@ public interface InterfaceOrdinateurDao {
     List<Ordinateur> findOrdinateurByName(int numPage, int nbParPage,
             String name)
             throws ConnexionDatabaseException, RequeteQueryException;
-    
+
+    /**
+     * Find ordinateur by id.
+     *
+     * @param id
+     *            the id
+     * @return the optional
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
+     */
     Optional<Ordinateur> findOrdinateurById(long id)
             throws ConnexionDatabaseException, RequeteQueryException;
 

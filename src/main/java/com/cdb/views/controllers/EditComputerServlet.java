@@ -55,29 +55,30 @@ public class EditComputerServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
-        
+
         try {
-            
+
             OrdinateurDto ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .findOrdinateurById(id);
-            
-            if(ordinateur == null) {
-                
+
+            if (ordinateur == null) {
+
                 response.sendRedirect("DashboardServlet");
                 return;
-                
+
             }
-            
+
             request.setAttribute("computer", ordinateur);
-            request.setAttribute("companies", GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                    .findEntreprise());
-            
+            request.setAttribute("companies",
+                    GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                            .findEntreprise());
+
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
-            
+
             request.setAttribute("error", 1);
-            
+
         }
-        
+
         request.getRequestDispatcher("views/editComputer.jsp").forward(request,
                 response);
 
@@ -99,20 +100,21 @@ public class EditComputerServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
-        OrdinateurDto ordinateur = OrdinateurDtoMapper.recuperationOrdinateurDto(request);
+
+        OrdinateurDto ordinateur = OrdinateurDtoMapper
+                .recuperationOrdinateurDto(request);
 
         if (Validation.validationOrdinateurDto(request, ordinateur)) {
 
             try {
-                
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                .updateOrdinateur(OrdinateurMapper.recuperationOrdinateur(ordinateur));
-                
+
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.updateOrdinateur(
+                        OrdinateurMapper.recuperationOrdinateur(ordinateur));
+
             } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
                 request.setAttribute("error", 1);
-                doGet(request,response);
+                doGet(request, response);
                 return;
 
             }

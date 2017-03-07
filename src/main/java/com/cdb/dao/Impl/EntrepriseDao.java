@@ -86,8 +86,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
             ResultSet rset = stmt
                     .executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
-            entreprises = EntrepriseDaoMapper
-                    .recuperationListEntreprise(rset);
+            entreprises = EntrepriseDaoMapper.recuperationListEntreprise(rset);
             LOGGER.info("recherche de la liste d'entreprise effectuée");
 
         } catch (SQLException e) {
@@ -125,8 +124,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
             stmt.setLong(1, index);
             ResultSet res = stmt.executeQuery();
-            entreprise = EntrepriseDaoMapper
-                    .recupertationEntreprise(res);
+            entreprise = EntrepriseDaoMapper.recupertationEntreprise(res);
             LOGGER.info("recherche d'une entreprise par id effectuée");
 
         } catch (SQLException e) {

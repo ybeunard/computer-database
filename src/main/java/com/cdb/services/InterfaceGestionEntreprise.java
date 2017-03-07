@@ -17,10 +17,13 @@ public interface InterfaceGestionEntreprise {
      * Find entreprise.
      *
      * @return the list
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    List<EntrepriseDto> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException;
+    List<EntrepriseDto> findEntreprise()
+            throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Find entreprise by id.
@@ -28,10 +31,13 @@ public interface InterfaceGestionEntreprise {
      * @param id
      *            the id
      * @return the optional
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    Optional<Entreprise> findEntrepriseById(long id) throws ConnexionDatabaseException, RequeteQueryException;
+    Optional<Entreprise> findEntrepriseById(long id)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Find id entreprise by name.

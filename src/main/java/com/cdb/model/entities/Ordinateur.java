@@ -171,8 +171,7 @@ public class Ordinateur {
          *            the date introduit
          * @return the ordinateur builder
          */
-        public OrdinateurBuilder dateIntroduit(
-                LocalDate dateIntroduit) {
+        public OrdinateurBuilder dateIntroduit(LocalDate dateIntroduit) {
 
             this.dateIntroduit = dateIntroduit;
             return this;
@@ -186,8 +185,7 @@ public class Ordinateur {
          *            the date interrompu
          * @return the ordinateur builder
          */
-        public OrdinateurBuilder dateInterrompu(
-                LocalDate dateInterrompu) {
+        public OrdinateurBuilder dateInterrompu(LocalDate dateInterrompu) {
 
             this.dateInterrompu = dateInterrompu;
             return this;

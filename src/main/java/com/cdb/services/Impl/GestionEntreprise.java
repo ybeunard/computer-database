@@ -38,16 +38,17 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
      * Find entreprise.
      *
      * @return the list
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    public List<EntrepriseDto> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException {
+    public List<EntrepriseDto> findEntreprise()
+            throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
-        entreprises = EntrepriseDao.INSTANCE_ENTREPRISE_DAO
-                    .findEntreprise();
-        return EntrepriseDtoMapper
-                .recuperationListEntreprise(entreprises);
+        entreprises = EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntreprise();
+        return EntrepriseDtoMapper.recuperationListEntreprise(entreprises);
 
     }
 
@@ -57,10 +58,13 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
      * @param id
      *            the id
      * @return the optional
-     * @throws RequeteQueryException 
-     * @throws ConnexionDatabaseException 
+     * @throws ConnexionDatabaseException
+     *             the connexion database exception
+     * @throws RequeteQueryException
+     *             the requete query exception
      */
-    public Optional<Entreprise> findEntrepriseById(long id) throws ConnexionDatabaseException, RequeteQueryException {
+    public Optional<Entreprise> findEntrepriseById(long id)
+            throws ConnexionDatabaseException, RequeteQueryException {
 
         return EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntrepriseByID(id);
 

@@ -218,7 +218,8 @@ public class GestionEntryUser {
             ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .findOrdinateurById(id);
 
-        } catch (NumberFormatException | ConnexionDatabaseException | RequeteQueryException e) {
+        } catch (NumberFormatException | ConnexionDatabaseException
+                | RequeteQueryException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;
@@ -276,13 +277,13 @@ public class GestionEntryUser {
 
                 argArray = argArray[1].split(" ", 2);
                 ordinateur.dateIntroduit(LocalDate.parse(argArray[0],
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
             } else if (argArray[0] == "interruption") {
 
                 argArray = argArray[1].split(" ", 2);
                 ordinateur.dateInterrompu(LocalDate.parse(argArray[0],
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
             } else if (argArray[0] == "fabricant") {
 
@@ -305,7 +306,8 @@ public class GestionEntryUser {
 
                     }
 
-                } catch (NumberFormatException | ConnexionDatabaseException | RequeteQueryException e) {
+                } catch (NumberFormatException | ConnexionDatabaseException
+                        | RequeteQueryException e) {
 
                     System.out.println(
                             "Veuillez donner un id d'entreprise correct");
@@ -371,7 +373,8 @@ public class GestionEntryUser {
             ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .findOrdinateurById(id);
 
-        } catch (NumberFormatException | ConnexionDatabaseException | RequeteQueryException e) {
+        } catch (NumberFormatException | ConnexionDatabaseException
+                | RequeteQueryException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;
@@ -380,10 +383,11 @@ public class GestionEntryUser {
 
         OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName())
                 .id(ordinateur.getId());
-                /*.dateIntroduit(
-                        Optional.ofNullable(ordinateur.getDateIntroduit()))
-                .dateInterrompu(
-                        Optional.ofNullable(ordinateur.getDateInterrompu()));*/
+        /*
+         * .dateIntroduit( Optional.ofNullable(ordinateur.getDateIntroduit()))
+         * .dateInterrompu(
+         * Optional.ofNullable(ordinateur.getDateInterrompu()));
+         */
 
         args = argArray[1];
 
@@ -410,7 +414,8 @@ public class GestionEntryUser {
                     try {
                         GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                                 .updateOrdinateur(builder.build());
-                    } catch (RequeteQueryException | ConnexionDatabaseException e) {
+                    } catch (RequeteQueryException
+                            | ConnexionDatabaseException e) {
 
                         e.printStackTrace();
 
@@ -423,13 +428,13 @@ public class GestionEntryUser {
 
                 argArray = argArray[1].split(" ", 2);
                 builder.dateIntroduit(LocalDate.parse(argArray[0],
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
             } else if (argArray[0] == "interruption") {
 
                 argArray = argArray[1].split(" ", 2);
                 builder.dateInterrompu(LocalDate.parse(argArray[0],
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                 break;
 
             } else if (argArray[0] == "fabricant") {
@@ -453,7 +458,8 @@ public class GestionEntryUser {
 
                     }
 
-                } catch (NumberFormatException | ConnexionDatabaseException | RequeteQueryException e) {
+                } catch (NumberFormatException | ConnexionDatabaseException
+                        | RequeteQueryException e) {
 
                     System.out.println(
                             prop.getProperty("id_entreprise_incorrect"));
@@ -505,7 +511,8 @@ public class GestionEntryUser {
             GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .suppressionOrdinateur(id);
 
-        } catch (NumberFormatException | ConnexionDatabaseException | RequeteQueryException e) {
+        } catch (NumberFormatException | ConnexionDatabaseException
+                | RequeteQueryException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;

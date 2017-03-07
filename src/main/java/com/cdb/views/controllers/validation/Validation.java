@@ -20,25 +20,27 @@ public class Validation {
     private Validation() {
 
     }
-    
+
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(Validation.class);
 
     /**
      * Validation ordinateur dto.
-     * @param request 
      *
+     * @param request
+     *            the request
      * @param ordinateur
      *            the ordinateur
      * @return true, if successful
      */
-    public static boolean validationOrdinateurDto(HttpServletRequest request, OrdinateurDto ordinateur) {
-        
+    public static boolean validationOrdinateurDto(HttpServletRequest request,
+            OrdinateurDto ordinateur) {
+
         LOGGER.info("" + ordinateur);
 
         if (ordinateur.getName() == null || ordinateur.getName().equals("")) {
-            
+
             LOGGER.info("Nom Incorrecte " + ordinateur.getName());
             request.setAttribute("error", 1);
             return false;
@@ -54,7 +56,8 @@ public class Validation {
 
         if (!validationDate(ordinateur.getDateIntroduit())) {
 
-            LOGGER.info("Date introduction Incorrecte " + ordinateur.getDateIntroduit());
+            LOGGER.info("Date introduction Incorrecte "
+                    + ordinateur.getDateIntroduit());
             request.setAttribute("error", 1);
             return false;
 
@@ -62,7 +65,8 @@ public class Validation {
 
         if (!validationDate(ordinateur.getDateInterrompu())) {
 
-            LOGGER.info("Date interruption Incorrecte " + ordinateur.getDateInterrompu());
+            LOGGER.info("Date interruption Incorrecte "
+                    + ordinateur.getDateInterrompu());
             request.setAttribute("error", 1);
             return false;
 

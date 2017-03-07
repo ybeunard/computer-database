@@ -86,18 +86,16 @@ public class Parse {
      *
      * @param date
      *            the date
-     * @param request
-     *            the request
      * @return the optional
      */
     public static LocalDate parseDate(String date) {
-        
+
         LocalDate value = null;
 
         if (date != null && !date.equals("")) {
 
             value = LocalDate.parse(date,
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         }
 
@@ -108,20 +106,25 @@ public class Parse {
     /**
      * Parses the factory.
      *
-     * @param entreprise
-     *            the entreprise
+     * @param entrepriseId
+     *            the entreprise id
+     * @param entrepriseName
+     *            the entreprise name
      * @return the optional
      */
-    public static Optional<Entreprise> parseFactory(long entrepriseId, String entrepriseName) {
+    public static Optional<Entreprise> parseFactory(long entrepriseId,
+            String entrepriseName) {
 
         Optional<Entreprise> factory = Optional.empty();
-        
-        if(entrepriseId > 0) {
-            
-            factory = Optional.ofNullable(new Entreprise.EntrepriseBuilder(entrepriseName).id(entrepriseId).build());
-        
+
+        if (entrepriseId > 0) {
+
+            factory = Optional
+                    .ofNullable(new Entreprise.EntrepriseBuilder(entrepriseName)
+                            .id(entrepriseId).build());
+
         }
-    
+
         return factory;
 
     }

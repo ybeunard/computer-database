@@ -54,19 +54,19 @@ public class DashboardServlet extends HttpServlet {
         DashboardDto dashboard = DashboardDtoMapper
                 .recuperationDashboardRequestGet(request);
         PageDto page = null;
-        
+
         try {
-            
+
             page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .findOrdinateurByPage(dashboard.getNumPage(),
                             dashboard.getNbParPage(), dashboard.getFiltre());
-            
+
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
-            
+
             request.setAttribute("error", 1);
-            
+
         }
-        
+
         request.setAttribute("page", page);
         request.getSession().setAttribute("page", page);
         request.getRequestDispatcher("views/dashboard.jsp").forward(request,
@@ -105,14 +105,14 @@ public class DashboardServlet extends HttpServlet {
             }
 
             try {
-                
+
                 GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                         .suppressionOrdinateur(supprime);
-                
+
             } catch (ConnexionDatabaseException | RequeteQueryException e) {
-                
+
                 request.setAttribute("error", 1);
-                
+
             }
 
         }

@@ -24,7 +24,7 @@ public class OrdinateurDtoMapper {
     private OrdinateurDtoMapper() {
 
     }
-    
+
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(OrdinateurDtoMapper.class);
