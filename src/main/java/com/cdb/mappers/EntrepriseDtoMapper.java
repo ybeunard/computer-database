@@ -8,12 +8,16 @@ import com.cdb.dto.EntrepriseDto.EntrepriseDtoBuilder;
 import com.cdb.entities.Entreprise;
 
 /**
- * The Enum EntrepriseDtoMapper.
+ * The Class EntrepriseDtoMapper.
  */
-public enum EntrepriseDtoMapper {
+public class EntrepriseDtoMapper {
 
-    /** The instance entreprise dto mapper. */
-    INSTANCE_ENTREPRISE_DTO_MAPPER;
+    /**
+     * Instantiates a new entreprise dto mapper.
+     */
+    private EntrepriseDtoMapper() {
+
+    }
 
     /**
      * Recuperation list entreprise.
@@ -22,7 +26,7 @@ public enum EntrepriseDtoMapper {
      *            the entreprises
      * @return the list
      */
-    public List<EntrepriseDto> recuperationListEntreprise(
+    public static List<EntrepriseDto> recuperationListEntreprise(
             List<Entreprise> entreprises) {
 
         List<EntrepriseDto> entreprisesDto = new ArrayList<EntrepriseDto>();
@@ -43,7 +47,7 @@ public enum EntrepriseDtoMapper {
      *            the entreprise
      * @return the entreprise dto
      */
-    private EntrepriseDto recuperationEntreprise(Entreprise entreprise) {
+    private static EntrepriseDto recuperationEntreprise(Entreprise entreprise) {
 
         EntrepriseDtoBuilder builder = new EntrepriseDto.EntrepriseDtoBuilder(
                 entreprise.getId(), entreprise.getName());

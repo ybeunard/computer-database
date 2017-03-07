@@ -22,12 +22,12 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <div class="label label-default pull-right">
-                        id: 0
+                        id: ${computer.id}
                     </div>
                     <h1>Edit Computer</h1>
 
                     <form action="EditComputerServlet" method="POST">
-                        <input type="hidden" name="ordinateur" value="${computer.id}" id="id"/> <!-- TODO: Change this value with the computer id -->
+                        <input type="hidden" name="ordinateur" value="${computer.id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -49,14 +49,17 @@
                             <div class="form-group">
                                 <label for="companyId">Company</label>
                                 <select class="form-control" name="company" id="companyId" >
-                                    <option value="${idCompany}">${computer.factory}</option>
-                                    <option value="0">----</option>
+                                    <option value="${computer.idFactory},${computer.factory}">${computer.factory}</option>
+                                    <option value="0,">----</option>
                                 	<c:forEach items="${companies}" var="company">
-                                    	<option value="${company.id}">${company.name}</option>
+                                    	<option value="${company.id},${company.name}">${company.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>            
                         </fieldset>
+                        <c:if test="${not empty error}">
+                        	<div class="alert alert-danger">${error}</div>
+                        </c:if>
                         <div class="actions pull-right">
                             <input type="submit" value="Edit" class="btn btn-primary">
                             or

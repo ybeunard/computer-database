@@ -11,12 +11,16 @@ import com.cdb.dto.PageDto.PageDtoBuilder;
 import com.cdb.entities.Ordinateur;
 
 /**
- * The Enum PageDtoMapper.
+ * The Class PageDtoMapper.
  */
-public enum PageDtoMapper {
+public class PageDtoMapper {
 
-    /** The instance page dto mapper. */
-    INSTANCE_PAGE_DTO_MAPPER;
+    /**
+     * Instantiates a new page dto mapper.
+     */
+    private PageDtoMapper() {
+
+    }
 
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
@@ -39,13 +43,13 @@ public enum PageDtoMapper {
      *            the filtre
      * @return the page dto
      */
-    public PageDto recuperationPage(List<Ordinateur> ordinateurs,
+    public static PageDto recuperationPage(List<Ordinateur> ordinateurs,
             int nombreTotal, int numeroPage, int ligneParPage, int pageMax,
             String filtre) {
 
         PageDtoBuilder page = new PageDto.PageDtoBuilder();
-        page.contenue(OrdinateurDtoMapper.INSTANCE_ORDINATEUR_DTO_MAPPER
-                .recuperationListOrdinateurDto(ordinateurs));
+        page.contenue(
+                OrdinateurDtoMapper.recuperationListOrdinateurDto(ordinateurs));
         page.numPage(numeroPage);
         page.nbParPage(ligneParPage);
         page.nbComputer(nombreTotal);
@@ -90,7 +94,7 @@ public enum PageDtoMapper {
      *            the nombre total
      * @return the list
      */
-    private List<Integer> count(int pageActuelle, int nombreTotal) {
+    private static List<Integer> count(int pageActuelle, int nombreTotal) {
 
         List<Integer> entiers = new ArrayList<Integer>();
 

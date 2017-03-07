@@ -15,15 +15,15 @@ import com.cdb.entities.Ordinateur;
 import com.cdb.entities.Ordinateur.OrdinateurBuilder;
 import com.cdb.exception.RequeteQueryException;
 
-public enum OrdinateurDaoMapper {
-
-    /** The instance ordinateur mapper. */
-    INSTANCE_ORDINATEUR_DAO_MAPPER;
+/**
+ * The Class OrdinateurDaoMapper.
+ */
+public class OrdinateurDaoMapper {
 
     /**
-     * Instantiates a new ordinateur mapper.
+     * Instantiates a new ordinateur dao mapper.
      */
-    OrdinateurDaoMapper() {
+    private OrdinateurDaoMapper() {
 
     }
 
@@ -40,7 +40,7 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public Ordinateur recuperationOrdinateur(ResultSet res)
+    public static Ordinateur recuperationOrdinateur(ResultSet res)
             throws RequeteQueryException {
 
         Ordinateur ordinateur = null;
@@ -62,8 +62,7 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateIntroduit(
-                                Optional.ofNullable(date.toLocalDate()));
+                        builder.dateIntroduit(date.toLocalDate());
 
                     }
 
@@ -80,8 +79,7 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateInterrompu(
-                                Optional.ofNullable(date.toLocalDate()));
+                        builder.dateInterrompu(date.toLocalDate());
 
                     }
 
@@ -127,7 +125,7 @@ public enum OrdinateurDaoMapper {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public List<Ordinateur> recuperationListOrdinateur(ResultSet res)
+    public static List<Ordinateur> recuperationListOrdinateur(ResultSet res)
             throws RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
@@ -149,8 +147,7 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateIntroduit(
-                                Optional.ofNullable(date.toLocalDate()));
+                        builder.dateIntroduit(date.toLocalDate());
 
                     }
 
@@ -167,8 +164,7 @@ public enum OrdinateurDaoMapper {
 
                     if (date != null) {
 
-                        builder.dateInterrompu(
-                                Optional.ofNullable(date.toLocalDate()));
+                        builder.dateInterrompu(date.toLocalDate());
 
                     }
 
@@ -206,13 +202,16 @@ public enum OrdinateurDaoMapper {
     }
 
     /**
+     * Recuperation int.
+     *
      * @param res
      *            the res
      * @return un entier
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public int recuperationInt(ResultSet res) throws RequeteQueryException {
+    public static int recuperationInt(ResultSet res)
+            throws RequeteQueryException {
 
         int count = 0;
 

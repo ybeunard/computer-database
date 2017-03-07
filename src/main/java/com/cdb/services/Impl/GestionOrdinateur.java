@@ -41,19 +41,12 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            à créer
      * @throws RequeteQueryException
      *             if there is an issue
+     * @throws ConnexionDatabaseException 
      */
     public void createOrdinateur(Ordinateur ordinateur)
-            throws RequeteQueryException {
+            throws RequeteQueryException, ConnexionDatabaseException {
 
-        try {
-
-            OrdinateurDao.INSTANCE_ORDINATEUR_DAO.createOrdinateur(ordinateur);
-
-        } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        }
+        OrdinateurDao.INSTANCE_ORDINATEUR_DAO.createOrdinateur(ordinateur);
 
     }
 
@@ -67,63 +60,53 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @param filtre
      *            the filtre
      * @return une liste d'ordinateur
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
     public PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
-            String filtre) {
+            String filtre) throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int nombreTotal = 0;
         int pageMax = 1;
 
-        try {
+        if (filtre == null || filtre.equals("")) {
 
-            if (filtre == null || filtre.equals("")) {
+            nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                    .countOrdinateur();
+            LOGGER.info("recuperation du nombre maximum d'ordinateur "
+                    + nombreTotal);
+            pageMax = pageMax(ligneParPage, nombreTotal);
+            LOGGER.info(
+                    "recuperation du nombre maximum de page " + pageMax);
+            numeroPage = verifNumPage(numeroPage, pageMax);
+            LOGGER.info("Verification du numero de page effectuer "
+                    + numeroPage);
+            ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                    .findOrdinateurByPage(numeroPage, ligneParPage);
+            LOGGER.info("Recuperation de la liste d'ordinateur "
+                    + ordinateurs.size());
 
-                nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                        .countOrdinateur();
-                LOGGER.info("recuperation du nombre maximum d'ordinateur "
-                        + nombreTotal);
-                pageMax = pageMax(ligneParPage, nombreTotal);
-                LOGGER.info(
-                        "recuperation du nombre maximum de page " + pageMax);
-                numeroPage = verifNumPage(numeroPage, pageMax);
-                LOGGER.info("Verification du numero de page effectuer "
-                        + numeroPage);
-                ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                        .findOrdinateurByPage(numeroPage, ligneParPage);
-                LOGGER.info("Recuperation de la liste d'ordinateur "
-                        + ordinateurs.size());
+        } else {
 
-            } else {
-
-                nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                        .countOrdinateurByName(filtre);
-                LOGGER.info("recuperation du nombre maximum d'ordinateur "
-                        + nombreTotal);
-                pageMax = pageMax(ligneParPage, nombreTotal);
-                LOGGER.info(
-                        "recuperation du nombre maximum de page " + pageMax);
-                numeroPage = verifNumPage(numeroPage, pageMax);
-                LOGGER.info("Verification du numero de page effectuer "
-                        + numeroPage);
-                ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                        .findOrdinateurByName(numeroPage, ligneParPage, filtre);
-                LOGGER.info("Recuperation de la liste d'ordinateur "
-                        + ordinateurs.size());
-
-            }
-
-        } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        } catch (RequeteQueryException e) {
-
-            e.printStackTrace();
+            nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                    .countOrdinateurByName(filtre);
+            LOGGER.info("recuperation du nombre maximum d'ordinateur "
+                    + nombreTotal);
+            pageMax = pageMax(ligneParPage, nombreTotal);
+            LOGGER.info(
+                    "recuperation du nombre maximum de page " + pageMax);
+            numeroPage = verifNumPage(numeroPage, pageMax);
+            LOGGER.info("Verification du numero de page effectuer "
+                    + numeroPage);
+            ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+                    .findOrdinateurByName(numeroPage, ligneParPage, filtre);
+            LOGGER.info("Recuperation de la liste d'ordinateur "
+                    + ordinateurs.size());
 
         }
 
-        PageDto page = PageDtoMapper.INSTANCE_PAGE_DTO_MAPPER.recuperationPage(
+        PageDto page = PageDtoMapper.recuperationPage(
                 ordinateurs, nombreTotal, numeroPage, ligneParPage, pageMax,
                 filtre);
         return page;
@@ -137,19 +120,12 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            a update
      * @throws RequeteQueryException
      *             the requete query exception
+     * @throws ConnexionDatabaseException 
      */
     public void updateOrdinateur(Ordinateur ordinateur)
-            throws RequeteQueryException {
+            throws RequeteQueryException, ConnexionDatabaseException {
 
-        try {
-
-            OrdinateurDao.INSTANCE_ORDINATEUR_DAO.updateOrdinateur(ordinateur);
-
-        } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        }
+        OrdinateurDao.INSTANCE_ORDINATEUR_DAO.updateOrdinateur(ordinateur);
 
     }
 
@@ -158,22 +134,12 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *
      * @param id
      *            de l'ordinateur a supprimé
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
-    public void suppressionOrdinateur(long id) {
+    public void suppressionOrdinateur(long id) throws ConnexionDatabaseException, RequeteQueryException {
 
-        try {
-
-            OrdinateurDao.INSTANCE_ORDINATEUR_DAO.suppressionOrdinateur(id);
-
-        } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        } catch (RequeteQueryException e) {
-
-            e.printStackTrace();
-
-        }
+        OrdinateurDao.INSTANCE_ORDINATEUR_DAO.suppressionOrdinateur(id);
 
     }
 
@@ -183,28 +149,16 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @param id
      *            the id
      * @return the optional
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
-    public OrdinateurDto findOrdinateurById(long id) {
+    public OrdinateurDto findOrdinateurById(long id) throws ConnexionDatabaseException, RequeteQueryException {
 
         Ordinateur ordinateurOptional = null;
         OrdinateurDto ordinateur = null;
-
-        try {
-
-            ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+        ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurById(id);
-
-        } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        } catch (RequeteQueryException e) {
-
-            e.printStackTrace();
-
-        }
-
-        ordinateur = OrdinateurDtoMapper.INSTANCE_ORDINATEUR_DTO_MAPPER
+        ordinateur = OrdinateurDtoMapper
                 .recuperationOrdinateurDto(ordinateurOptional);
         return ordinateur;
 

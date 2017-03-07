@@ -1,17 +1,22 @@
 package com.cdb.controllers.validation;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.cdb.entities.Entreprise;
-import com.cdb.services.Impl.GestionEntreprise;
 
 /**
  * The Class Parse.
  */
 public class Parse {
+
+    /**
+     * Instantiates a new parses the.
+     */
+    private Parse() {
+
+    }
 
     /**
      * Parses the entier.
@@ -85,24 +90,18 @@ public class Parse {
      *            the request
      * @return the optional
      */
-    public static Optional<LocalDate> parseDate(String date,
-            HttpServletRequest request) {
+    public static LocalDate parseDate(String date) {
+        
+        LocalDate value = null;
 
         if (date != null && !date.equals("")) {
 
-            Optional<LocalDate> dateOptional = DateValidation.parseDate(date);
-
-            if (!dateOptional.isPresent()) {
-
-                return null;
-
-            }
-
-            return dateOptional;
+            value = LocalDate.parse(date,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         }
 
-        return Optional.empty();
+        return value;
 
     }
 
@@ -113,19 +112,17 @@ public class Parse {
      *            the entreprise
      * @return the optional
      */
-    public static Optional<Entreprise> parseFactory(String entreprise) {
+    public static Optional<Entreprise> parseFactory(long entrepriseId, String entrepriseName) {
 
-        Optional<Entreprise> factory = Optional.empty();
+        Entreprise factory = null;
 
-        if (entreprise != null && !entreprise.equals("")) {
+        if (!entrepriseName.equals("")) {
 
-            long idCompany = Long.parseLong(entreprise);
-            factory = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                    .findEntrepriseById(idCompany);
+            factory = new Entreprise.EntrepriseBuilder(entrepriseName).id(entrepriseId).build();
 
         }
 
-        return factory;
+        return Optional.ofNullable(factory);
 
     }
 

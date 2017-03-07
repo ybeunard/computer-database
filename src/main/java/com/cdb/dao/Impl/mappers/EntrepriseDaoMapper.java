@@ -13,15 +13,15 @@ import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.entities.Entreprise;
 import com.cdb.exception.RequeteQueryException;
 
-public enum EntrepriseDaoMapper {
-
-    /** The instance entreprise mapper. */
-    INSTANCE_ENTREPRISE_DAO_MAPPER;
+/**
+ * The Class EntrepriseDaoMapper.
+ */
+public class EntrepriseDaoMapper {
 
     /**
-     * Instantiates a new entreprise mapper.
+     * Instantiates a new entreprise dao mapper.
      */
-    EntrepriseDaoMapper() {
+    private EntrepriseDaoMapper() {
 
     }
 
@@ -30,13 +30,15 @@ public enum EntrepriseDaoMapper {
             .getLogger(OrdinateurDao.class);
 
     /**
+     * Recupertation entreprise.
+     *
      * @param res
      *            le resultat de la requete à traiter
      * @return une entreprise
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    public Optional<Entreprise> recupertationEntreprise(ResultSet res)
+    public static Optional<Entreprise> recupertationEntreprise(ResultSet res)
             throws RequeteQueryException {
 
         Optional<Entreprise> entreprise = Optional.empty();
@@ -71,7 +73,7 @@ public enum EntrepriseDaoMapper {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public List<Entreprise> recuperationListEntreprise(ResultSet res)
+    public static List<Entreprise> recuperationListEntreprise(ResultSet res)
             throws RequeteQueryException {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();

@@ -1,7 +1,5 @@
 package com.cdb.dto;
 
-import java.time.LocalDate;
-
 /**
  * The Class OrdinateurDto.
  */
@@ -11,13 +9,16 @@ public class OrdinateurDto {
     private final String name;
 
     /** The date introduit. */
-    private final LocalDate dateIntroduit;
+    private final String dateIntroduit;
 
     /** The date interrompu. */
-    private final LocalDate dateInterrompu;
+    private final String dateInterrompu;
 
     /** The factory. */
     private final String factory;
+
+    /** The id factory. */
+    private final long idFactory;
 
     /** The id. */
     private final long id;
@@ -35,7 +36,17 @@ public class OrdinateurDto {
         this.dateInterrompu = builder.dateInterrompu;
         this.factory = builder.factory;
         this.id = builder.id;
+        this.idFactory = builder.idFactory;
 
+    }
+
+    /**
+     * Gets the id factory.
+     *
+     * @return the id factory
+     */
+    public long getIdFactory() {
+        return idFactory;
     }
 
     /**
@@ -63,7 +74,7 @@ public class OrdinateurDto {
      *
      * @return the date introduit
      */
-    public LocalDate getDateIntroduit() {
+    public String getDateIntroduit() {
 
         return dateIntroduit;
 
@@ -74,7 +85,7 @@ public class OrdinateurDto {
      *
      * @return the date interrompu
      */
-    public LocalDate getDateInterrompu() {
+    public String getDateInterrompu() {
 
         return dateInterrompu;
 
@@ -100,13 +111,16 @@ public class OrdinateurDto {
         private final String name;
 
         /** The date introduit. */
-        private LocalDate dateIntroduit;
+        private String dateIntroduit;
 
         /** The date interrompu. */
-        private LocalDate dateInterrompu;
+        private String dateInterrompu;
 
         /** The factory. */
         private String factory;
+
+        /** The id factory. */
+        private long idFactory;
 
         /** The id. */
         private long id;
@@ -130,7 +144,7 @@ public class OrdinateurDto {
          *            the date introduit
          * @return the ordinateur DTO builder
          */
-        public OrdinateurDtoBuilder dateIntroduit(LocalDate dateIntroduit) {
+        public OrdinateurDtoBuilder dateIntroduit(String dateIntroduit) {
 
             this.dateIntroduit = dateIntroduit;
             return this;
@@ -144,7 +158,7 @@ public class OrdinateurDto {
          *            the date interrompu
          * @return the ordinateur DTO builder
          */
-        public OrdinateurDtoBuilder dateInterrompu(LocalDate dateInterrompu) {
+        public OrdinateurDtoBuilder dateInterrompu(String dateInterrompu) {
 
             this.dateInterrompu = dateInterrompu;
             return this;
@@ -175,6 +189,20 @@ public class OrdinateurDto {
         public OrdinateurDtoBuilder id(long id) {
 
             this.id = id;
+            return this;
+
+        }
+
+        /**
+         * Id factory.
+         *
+         * @param idFactory
+         *            the id factory
+         * @return the ordinateur dto builder
+         */
+        public OrdinateurDtoBuilder idFactory(long idFactory) {
+
+            this.idFactory = idFactory;
             return this;
 
         }

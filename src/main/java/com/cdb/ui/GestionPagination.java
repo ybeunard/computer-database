@@ -4,6 +4,8 @@ import java.util.List;
 import com.cdb.dto.EntrepriseDto;
 import com.cdb.dto.OrdinateurDto;
 import com.cdb.dto.PageDto;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 
@@ -59,8 +61,10 @@ public class GestionPagination {
     /**
      * @param typePage
      *            indique si la page est une page entreprise ou ordinateur
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
-    public void pagination(int typePage) {
+    public void pagination(int typePage) throws ConnexionDatabaseException, RequeteQueryException {
 
         do {
 

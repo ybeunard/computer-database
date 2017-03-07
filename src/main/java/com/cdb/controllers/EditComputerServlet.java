@@ -1,23 +1,19 @@
 package com.cdb.controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cdb.controllers.validation.DateValidation;
 import com.cdb.controllers.validation.Parse;
-import com.cdb.dto.EntrepriseDto;
+import com.cdb.controllers.validation.Validation;
 import com.cdb.dto.OrdinateurDto;
-import com.cdb.entities.Entreprise;
-import com.cdb.entities.Ordinateur;
+import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
+import com.cdb.mappers.OrdinateurDtoMapper;
+import com.cdb.mappers.OrdinateurMapper;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 
@@ -59,16 +55,20 @@ public class EditComputerServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
-        OrdinateurDto ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                .findOrdinateurById(id);
-        List<EntrepriseDto> entreprises = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                .findEntreprise();
-        request.setAttribute("computer", ordinateur);
-        request.setAttribute("idCompany",
-                GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                        .findIdEntrepriseByName(ordinateur.getFactory(),
-                                entreprises));
-        request.setAttribute("companies", entreprises);
+        
+        try {
+            
+            request.setAttribute("computer", GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                    .findOrdinateurById(id));
+            request.setAttribute("companies", GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
+                    .findEntreprise());
+            
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
+            
+            request.setAttribute("error", 1);
+            
+        }
+        
         request.getRequestDispatcher("views/editComputer.jsp").forward(request,
                 response);
 
@@ -90,8 +90,23 @@ public class EditComputerServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+        
+        OrdinateurDto ordinateur = OrdinateurDtoMapper.recuperationOrdinateurDto(request);
 
-        if (editPost(request)) {
+        if (Validation.validationOrdinateurDto(request, ordinateur)) {
+
+            try {
+                
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                .updateOrdinateur(OrdinateurMapper.recuperationOrdinateur(ordinateur));
+                
+            } catch (RequeteQueryException | ConnexionDatabaseException e) {
+
+                request.setAttribute("error", 1);
+                doGet(request,response);
+                return;
+
+            }
 
             response.sendRedirect("DashboardServlet");
 
@@ -100,100 +115,6 @@ public class EditComputerServlet extends HttpServlet {
             doGet(request, response);
 
         }
-
-    }
-
-    /**
-     * Edits the post.
-     *
-     * @param request
-     *            the request
-     * @return true, if successful
-     */
-    public boolean editPost(HttpServletRequest request) {
-
-        String name = request.getParameter("computerName");
-
-        if (name == null || name.equals("")) {
-
-            request.setAttribute("nameTest", 1);
-            return false;
-
-        }
-
-        long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
-        Optional<LocalDate> introduced = Parse
-                .parseDate(request.getParameter("introduced"), request);
-
-        if (introduced == null) {
-
-            request.setAttribute("introducedTest", 1);
-            return false;
-
-        }
-
-        Optional<LocalDate> discontinued = Parse
-                .parseDate(request.getParameter("discontinued"), request);
-
-        if (discontinued == null) {
-
-            request.setAttribute("discontinuedTest", 1);
-            return false;
-
-        }
-
-        if (introduced.isPresent() && discontinued.isPresent()) {
-
-            if (!DateValidation.isValid(introduced.get(), discontinued.get())) {
-
-                request.setAttribute("incohérenceTest", 1);
-                return false;
-
-            }
-
-        }
-
-        Optional<Entreprise> factory = Parse
-                .parseFactory(request.getParameter("company"));
-
-        try {
-
-            if (!factory.isPresent()) {
-
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .id(id).dateIntroduit(introduced)
-                                .dateInterrompu(discontinued).build());
-
-            } else {
-
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .updateOrdinateur(new Ordinateur.OrdinateurBuilder(name)
-                                .id(id).dateIntroduit(introduced)
-                                .dateInterrompu(discontinued)
-                                .fabricant(factory).build());
-
-            }
-
-        } catch (RequeteQueryException e) {
-
-            if (introduced != null) {
-
-                request.setAttribute("introducedTest", 1);
-
-            }
-
-            if (discontinued != null) {
-
-                request.setAttribute("discontinuedTest", 1);
-
-            }
-
-            return false;
-
-        }
-
-        return true;
 
     }
 

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cdb.dto.DashboardDto;
 import com.cdb.dto.PageDto;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 import com.cdb.mappers.DashboardDtoMapper;
 import com.cdb.services.Impl.GestionOrdinateur;
 
@@ -49,11 +51,22 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        DashboardDto dashboard = DashboardDtoMapper.INSTANCE_DASHBOARD_DTO_MAPPER
+        DashboardDto dashboard = DashboardDtoMapper
                 .recuperationDashboardRequestGet(request);
-        PageDto page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                .findOrdinateurByPage(dashboard.getNumPage(),
-                        dashboard.getNbParPage(), dashboard.getFiltre());
+        PageDto page = null;
+        
+        try {
+            
+            page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                    .findOrdinateurByPage(dashboard.getNumPage(),
+                            dashboard.getNbParPage(), dashboard.getFiltre());
+            
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
+            
+            request.setAttribute("error", 1);
+            
+        }
+        
         request.setAttribute("page", page);
         request.getSession().setAttribute("page", page);
         request.getRequestDispatcher("views/dashboard.jsp").forward(request,
@@ -91,8 +104,16 @@ public class DashboardServlet extends HttpServlet {
 
             }
 
-            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .suppressionOrdinateur(supprime);
+            try {
+                
+                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                        .suppressionOrdinateur(supprime);
+                
+            } catch (ConnexionDatabaseException | RequeteQueryException e) {
+                
+                request.setAttribute("error", 1);
+                
+            }
 
         }
 

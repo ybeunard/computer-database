@@ -10,10 +10,17 @@ import com.cdb.dto.DashboardDto;
 import com.cdb.dto.DashboardDto.DashboardDtoBuilder;
 import com.cdb.dto.PageDto;
 
-public enum DashboardDtoMapper {
+/**
+ * The Class DashboardDtoMapper.
+ */
+public class DashboardDtoMapper {
 
-    /** The instance entreprise dto mapper. */
-    INSTANCE_DASHBOARD_DTO_MAPPER;
+    /**
+     * Instantiates a new dashboard dto mapper.
+     */
+    private DashboardDtoMapper() {
+
+    }
 
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
@@ -26,7 +33,7 @@ public enum DashboardDtoMapper {
      *            the request
      * @return the dashboard dto
      */
-    public DashboardDto recuperationDashboardRequestGet(
+    public static DashboardDto recuperationDashboardRequestGet(
             HttpServletRequest request) {
 
         DashboardDtoBuilder builder = new DashboardDto.DashboardDtoBuilder();

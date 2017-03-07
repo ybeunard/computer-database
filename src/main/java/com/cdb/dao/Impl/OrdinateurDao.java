@@ -22,7 +22,6 @@ import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum OrdinateurDao.
  */
@@ -149,8 +148,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                         prop.getProperty("QUERY_FIND_ORDINATEURS"))) {
 
             ResultSet rset = stmt.executeQuery();
-            ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationListOrdinateur(rset);
+            ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(rset);
             LOGGER.info("recherche de la liste d'ordinateur effectuée");
 
         } catch (SQLException e) {
@@ -203,8 +201,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             stmt.setInt(1, limit);
             stmt.setInt(2, offset);
             ResultSet res = stmt.executeQuery();
-            ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationListOrdinateur(res);
+            ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(res);
             LOGGER.info(
                     "recherche de la liste d'ordinateur par page effectuée");
 
@@ -260,8 +257,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             stmt.setInt(2, limit);
             stmt.setInt(3, offset);
             ResultSet res = stmt.executeQuery();
-            ordinateurs = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationListOrdinateur(res);
+            ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(res);
             LOGGER.info("recherche de la liste d'ordinateur par nom effectuée");
 
         } catch (SQLException e) {
@@ -299,8 +295,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
             stmt.setLong(1, id);
             ResultSet res = stmt.executeQuery();
-            ordinateur = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationOrdinateur(res);
+            ordinateur = OrdinateurDaoMapper.recuperationOrdinateur(res);
             LOGGER.info("recherche de l'ordinateur effectuée");
 
         } catch (SQLException e) {
@@ -432,8 +427,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                         prop.getProperty("QUERY_COUNT_ORDINATEUR"))) {
 
             ResultSet res = stmt.executeQuery();
-            count = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationInt(res);
+            count = OrdinateurDaoMapper.recuperationInt(res);
             LOGGER.info("Comptage du nombre d'ordinateur effectuée");
 
         } catch (SQLException e) {
@@ -470,8 +464,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
             stmt.setString(1, "%" + filtre + "%");
             ResultSet res = stmt.executeQuery();
-            count = OrdinateurDaoMapper.INSTANCE_ORDINATEUR_DAO_MAPPER
-                    .recuperationInt(res);
+            count = OrdinateurDaoMapper.recuperationInt(res);
             LOGGER.info("Comptage du nombre d'ordinateur effectuée");
 
         } catch (SQLException e) {

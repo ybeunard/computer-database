@@ -2,6 +2,8 @@ package com.cdb.services;
 
 import com.cdb.dto.EntrepriseDto;
 import com.cdb.entities.Entreprise;
+import com.cdb.exception.ConnexionDatabaseException;
+import com.cdb.exception.RequeteQueryException;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +17,10 @@ public interface InterfaceGestionEntreprise {
      * Find entreprise.
      *
      * @return the list
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
-    List<EntrepriseDto> findEntreprise();
+    List<EntrepriseDto> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Find entreprise by id.
@@ -24,8 +28,10 @@ public interface InterfaceGestionEntreprise {
      * @param id
      *            the id
      * @return the optional
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
-    Optional<Entreprise> findEntrepriseById(long id);
+    Optional<Entreprise> findEntrepriseById(long id) throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Find id entreprise by name.

@@ -38,27 +38,15 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
      * Find entreprise.
      *
      * @return the list
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
-    public List<EntrepriseDto> findEntreprise() {
+    public List<EntrepriseDto> findEntreprise() throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
-
-        try {
-
-            entreprises = EntrepriseDao.INSTANCE_ENTREPRISE_DAO
+        entreprises = EntrepriseDao.INSTANCE_ENTREPRISE_DAO
                     .findEntreprise();
-
-        } catch (ConnexionDatabaseException e) {
-
-            e.printStackTrace();
-
-        } catch (RequeteQueryException e) {
-
-            e.printStackTrace();
-
-        }
-
-        return EntrepriseDtoMapper.INSTANCE_ENTREPRISE_DTO_MAPPER
+        return EntrepriseDtoMapper
                 .recuperationListEntreprise(entreprises);
 
     }
@@ -69,24 +57,12 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
      * @param id
      *            the id
      * @return the optional
+     * @throws RequeteQueryException 
+     * @throws ConnexionDatabaseException 
      */
-    public Optional<Entreprise> findEntrepriseById(long id) {
+    public Optional<Entreprise> findEntrepriseById(long id) throws ConnexionDatabaseException, RequeteQueryException {
 
-        try {
-
-            return EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntrepriseByID(id);
-
-        } catch (ConnexionDatabaseException e) {
-
-            LOGGER.error("Entreprise : " + id + " introuvable");
-
-        } catch (RequeteQueryException e) {
-
-            LOGGER.error("Entreprise : " + id + " introuvable");
-
-        }
-
-        return Optional.empty();
+        return EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntrepriseByID(id);
 
     }
 
