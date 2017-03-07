@@ -31,28 +31,23 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <c:if test="${nameTest == 1}"><p>Nom requis</p></c:if>
                                 <input type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name" value="${computer.name}" onfocus="if(this.value=='${computer.name}'){this.value=''}" onblur="if(this.value==''){this.value = '${computer.name}'}"/>
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <c:if test="${introducedTest == 1}"><p>date invalide</p></c:if>
-                                <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être antérieur à la date d'interruption</p></c:if>
                                 <input type="date" class="form-control" id="introduced" name="introduced" placeholder="Introduced date" value="${computer.dateIntroduit}"/>
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <c:if test="${discontinuedTest == 1}"><p>date invalide</p></c:if>
-                                <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être postérieur à la date d'introduction</p></c:if>
                                 <input type="date" class="form-control" id="discontinued" name="discontinued" placeholder="Discontinued date" value="${computer.dateInterrompu}"/>
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
                                 <select class="form-control" name="company" id="companyId" >
-                                    <option value="${computer.idFactory},${computer.factory}">${computer.factory}</option>
-                                    <option value="0,">----</option>
+                                    <option value="${computer.idFactory}">${computer.factory}</option>
+                                    <option value="0">----</option>
                                 	<c:forEach items="${companies}" var="company">
-                                    	<option value="${company.id},${company.name}">${company.name}</option>
+                                    	<option value="${company.id}">${company.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>            

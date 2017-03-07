@@ -2,6 +2,8 @@ package com.cdb.services.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,12 +156,17 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      */
     public OrdinateurDto findOrdinateurById(long id) throws ConnexionDatabaseException, RequeteQueryException {
 
-        Ordinateur ordinateurOptional = null;
         OrdinateurDto ordinateur = null;
-        ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
+        Optional<Ordinateur> ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurById(id);
-        ordinateur = OrdinateurDtoMapper
-                .recuperationOrdinateurDto(ordinateurOptional);
+        
+        if(ordinateurOptional.isPresent()) {
+            
+            ordinateur = OrdinateurDtoMapper
+                    .recuperationOrdinateurDto(ordinateurOptional.get());
+        
+        }
+        
         return ordinateur;
 
     }

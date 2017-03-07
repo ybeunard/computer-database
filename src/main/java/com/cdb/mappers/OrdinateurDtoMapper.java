@@ -96,9 +96,8 @@ public class OrdinateurDtoMapper {
         builder.id(Parse.parseLong(request.getParameter("ordinateur"), 0));
         builder.dateIntroduit(request.getParameter("introduced"));
         builder.dateInterrompu(request.getParameter("discontinued"));
-        String[] company = request.getParameter("company").split(",");
-        builder.idFactory(Parse.parseLong(company[0], 0));
-        builder.factory(company[1]);
+        builder.idFactory(Parse.parseLong(request.getParameter("company"), 0));
+        builder.factory("");
         return builder.build();
 
     }

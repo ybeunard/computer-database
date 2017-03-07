@@ -35,8 +35,9 @@
         	</ul>  
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default"><a href="?nbParPage=10">10</a></button>
-            <button type="button" class="btn btn-default"><a href="?nbParPage=50">50</a></button>
-            <button type="button" class="btn btn-default"><a href="?nbParPage=100">100</a></button>
+            <a href="?nbParPage=10"><button type="button" class="btn btn-default">10</button></a>
+            <a href="?nbParPage=50"><button type="button" class="btn btn-default">50</button></a>
+            <a href="?nbParPage=100"><button type="button" class="btn btn-default">100</button></a>
         </div>
+     </div>
 </body>

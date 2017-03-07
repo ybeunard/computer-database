@@ -114,14 +114,7 @@ public class Parse {
      */
     public static Optional<Entreprise> parseFactory(long entrepriseId, String entrepriseName) {
 
-        Entreprise factory = null;
-
-        if (!entrepriseName.equals("")) {
-
-            factory = new Entreprise.EntrepriseBuilder(entrepriseName).id(entrepriseId).build();
-
-        }
-
+        Entreprise factory = new Entreprise.EntrepriseBuilder(entrepriseName).id(entrepriseId).build();
         return Optional.ofNullable(factory);
 
     }

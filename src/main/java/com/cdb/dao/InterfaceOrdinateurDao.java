@@ -1,6 +1,8 @@
 package com.cdb.dao;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.cdb.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
@@ -68,6 +70,9 @@ public interface InterfaceOrdinateurDao {
      */
     List<Ordinateur> findOrdinateurByName(int numPage, int nbParPage,
             String name)
+            throws ConnexionDatabaseException, RequeteQueryException;
+    
+    Optional<Ordinateur> findOrdinateurById(long id)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**

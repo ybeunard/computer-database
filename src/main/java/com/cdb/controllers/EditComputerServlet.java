@@ -58,8 +58,17 @@ public class EditComputerServlet extends HttpServlet {
         
         try {
             
-            request.setAttribute("computer", GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .findOrdinateurById(id));
+            OrdinateurDto ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                    .findOrdinateurById(id);
+            
+            if(ordinateur == null) {
+                
+                response.sendRedirect("DashboardServlet");
+                return;
+                
+            }
+            
+            request.setAttribute("computer", ordinateur);
             request.setAttribute("companies", GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
                     .findEntreprise());
             
