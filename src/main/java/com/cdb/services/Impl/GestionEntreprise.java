@@ -46,6 +46,7 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     public List<EntrepriseDto> findEntreprise()
             throws ConnexionDatabaseException, RequeteQueryException {
 
+        LOGGER.info("Recherche de toutes les entreprises");
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
         entreprises = EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntreprise();
         return EntrepriseDtoMapper.recuperationListEntreprise(entreprises);
@@ -66,6 +67,7 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     public Optional<Entreprise> findEntrepriseById(long id)
             throws ConnexionDatabaseException, RequeteQueryException {
 
+        LOGGER.info("Service: Recherche d'une entreprise par id");
         return EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntrepriseByID(id);
 
     }
@@ -82,6 +84,7 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
     public long findIdEntrepriseByName(String factory,
             List<EntrepriseDto> entreprises) {
 
+        LOGGER.info("Service: Recherche d'une entreprise par nom");
         long id = 0;
 
         for (EntrepriseDto entreprise : entreprises) {

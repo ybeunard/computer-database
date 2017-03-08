@@ -45,7 +45,6 @@ public class EntrepriseDtoMapper {
 
         }
 
-        LOGGER.info("Mapping terminé");
         return entreprisesDto;
     }
 
@@ -61,7 +60,6 @@ public class EntrepriseDtoMapper {
         LOGGER.info("Mapping EntrepriseDto depuis Entreprise");
         EntrepriseDtoBuilder builder = new EntrepriseDto.EntrepriseDtoBuilder(
                 entreprise.getId(), entreprise.getName());
-        LOGGER.info("Mapping terminé");
         return builder.build();
 
     }

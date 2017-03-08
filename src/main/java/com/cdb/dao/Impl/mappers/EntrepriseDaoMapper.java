@@ -42,7 +42,8 @@ public class EntrepriseDaoMapper {
             throws RequeteQueryException {
 
         Optional<Entreprise> entreprise = Optional.empty();
-
+        LOGGER.info("Mapping Optional Entreprise depuis resultSet");
+        
         try {
 
             if (res.next()) {
@@ -77,7 +78,8 @@ public class EntrepriseDaoMapper {
             throws RequeteQueryException {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
-
+        LOGGER.info("Mapping List Entreprise depuis resultSet");
+        
         try {
 
             while (res.next()) {

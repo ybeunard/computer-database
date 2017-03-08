@@ -48,22 +48,22 @@ public class TestOrdinateurDao extends TestCase {
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
 
         IDatabaseTester databaseTester = new JdbcDatabaseTester(
-                prop.getProperty("nameDriver"), prop.getProperty("URL"),
-                prop.getProperty("LOGIN"), prop.getProperty("PASSWORD"));
+                prop.getProperty("dataSourceClassName"), prop.getProperty("dataSource.url"),
+                prop.getProperty("dataSource.user"), prop.getProperty("dataSource.password"));
         databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
         databaseTester.setDataSet(dataSet);
         databaseTester.onSetup();
 
     }
 
-    private IDataSet readDataSet1() throws Exception {
+    private IDataSet readDataSet2() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
                 new File("src/test/resources/dataTestOrdinateurDao.xml"));
 
     }
 
-    private IDataSet readDataSet2() throws Exception {
+    private IDataSet readDataSet1() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
                 new File("src/test/resources/dataTestEntrepriseDao.xml"));

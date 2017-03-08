@@ -44,6 +44,7 @@ public class OrdinateurDaoMapper {
             throws RequeteQueryException {
 
         Ordinateur ordinateur = null;
+        LOGGER.info("Mapping ordinateur depuis resultSet");
 
         try {
 
@@ -129,7 +130,8 @@ public class OrdinateurDaoMapper {
             throws RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
-
+        LOGGER.info("Mappping List Ordinateur depuis resultSet");
+        
         try {
 
             while (res.next()) {

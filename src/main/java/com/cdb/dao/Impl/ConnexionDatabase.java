@@ -2,11 +2,13 @@ package com.cdb.dao.Impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.DriverManager;
+import java.sql.Connection;
 import java.sql.SQLException;
 import com.cdb.dao.InterfaceConnexionDatabase;
 import com.cdb.exception.ConnexionDatabaseException;
-import com.mysql.jdbc.Connection;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.util.Properties;
 import org.slf4j.Logger;
@@ -22,21 +24,21 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
     /** The instance connexion database. */
     INSTANCE_CONNEXION_DATABASE;
 
+    /** The prop. */
+    private final Properties prop = new Properties();
+    
+    private final HikariDataSource ds;
+    
+    private static final ThreadLocal<Connection> myThreadLocal = new ThreadLocal<Connection>();
+    
+    /** The Constant LOGGER. */
+    public final Logger LOGGER = LoggerFactory
+            .getLogger(ConnexionDatabase.class);
+    
     /**
      * Instantiates a new connexion database.
      */
     ConnexionDatabase() {
-
-    }
-
-    /** The Constant LOGGER. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(ConnexionDatabase.class);
-
-    /** The prop. */
-    private static Properties prop = new Properties();
-
-    static {
 
         String file = "connexion.properties";
 
@@ -55,6 +57,10 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 
         }
 
+        HikariConfig config = new HikariConfig(prop);
+        config.setMaximumPoolSize(400);
+        ds = new HikariDataSource(config);
+
     }
 
     /**
@@ -66,30 +72,6 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
      */
     public Connection connectDatabase() throws ConnexionDatabaseException {
 
-        try {
-
-            Class.forName(prop.getProperty("nameDriver")).newInstance();
-
-        } catch (InstantiationException e) {
-
-            throw new ConnexionDatabaseException(
-                    "Impossible de charger le Driver "
-                            + prop.getProperty("nameDriver"));
-
-        } catch (IllegalAccessException e) {
-
-            throw new ConnexionDatabaseException(
-                    "Impossible de charger le Driver "
-                            + prop.getProperty("nameDriver"));
-
-        } catch (ClassNotFoundException e) {
-
-            throw new ConnexionDatabaseException(
-                    "Impossible de charger le Driver "
-                            + prop.getProperty("nameDriver"));
-
-        }
-
         /**
          *
          */
@@ -98,14 +80,12 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 
         try {
 
-            con = (Connection) DriverManager.getConnection(
-                    prop.getProperty("URL"), prop.getProperty("LOGIN"),
-                    prop.getProperty("PASSWORD"));
+            con = getMyConnection();
 
         } catch (SQLException e) {
 
             throw new ConnexionDatabaseException("Connexion au serveur "
-                    + prop.getProperty("URL") + " impossible", con);
+                    + prop.getProperty("dataSource.url") + " impossible", con);
 
         }
 
@@ -145,5 +125,19 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
         }
 
     }
+    
+    private Connection getMyConnection() throws SQLException {
+        
+        Connection con = myThreadLocal.get();
+
+        if(con == null || con.isClosed()) {
+            
+            myThreadLocal.set(con = ds.getConnection());
+            
+        }
+
+        return con;
+
+    } 
 
 }

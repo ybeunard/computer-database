@@ -29,8 +29,7 @@
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" name="action" value="Filter"
-                        class="btn btn-primary" />
+                        <input type="submit" id="searchsubmit" name="action" value="Filter" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
@@ -84,7 +83,7 @@
 	                            <input id="cb" type="checkbox" name="cb" class="cb" value="${computer.id}"/>
 	                        </td>
 	                        <td>
-	                            <a href="EditComputerServlet?ordinateur=${computer.id}" onclick="">${computer.name}</a>
+	                            <a href="EditComputerServlet?ordinateur=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
 	                        </td>
 	                        <td>${computer.dateIntroduit}</td>
 	                        <td>${computer.dateInterrompu}</td>

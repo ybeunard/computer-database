@@ -1,7 +1,8 @@
 package com.cdb.dao;
 
+import java.sql.Connection;
+
 import com.cdb.exception.ConnexionDatabaseException;
-import com.mysql.jdbc.Connection;
 
 /**
  * The Interface InterfaceConnexionDatabase.

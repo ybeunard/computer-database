@@ -82,7 +82,6 @@ public class PageDtoMapper {
 
         }
 
-        LOGGER.info("Mapping terminé");
         return page.build();
 
     }

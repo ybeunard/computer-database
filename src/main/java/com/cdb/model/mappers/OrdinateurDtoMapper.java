@@ -39,7 +39,7 @@ public class OrdinateurDtoMapper {
     public static List<OrdinateurDto> recuperationListOrdinateurDto(
             List<Ordinateur> ordinateurs) {
 
-        LOGGER.info("Mapping OrdinateurDto depuis List Ordinateur");
+        LOGGER.info("Mapping List OrdinateurDto depuis List Ordinateur");
         List<OrdinateurDto> ordinateursDto = new ArrayList<OrdinateurDto>();
 
         for (Ordinateur ordinateur : ordinateurs) {
@@ -48,7 +48,6 @@ public class OrdinateurDtoMapper {
 
         }
 
-        LOGGER.info("Mapping terminé");
         return ordinateursDto;
 
     }
@@ -87,7 +86,6 @@ public class OrdinateurDtoMapper {
 
         }
 
-        LOGGER.info("Mapping terminé");
         return builder.build();
 
     }

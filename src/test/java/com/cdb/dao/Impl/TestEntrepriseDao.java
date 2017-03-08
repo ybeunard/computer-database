@@ -47,8 +47,8 @@ public class TestEntrepriseDao extends TestCase {
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
 
         IDatabaseTester databaseTester = new JdbcDatabaseTester(
-                prop.getProperty("nameDriver"), prop.getProperty("URL"),
-                prop.getProperty("LOGIN"), prop.getProperty("PASSWORD"));
+                prop.getProperty("dataSourceClassName"), prop.getProperty("dataSource.url"),
+                prop.getProperty("dataSource.user"), prop.getProperty("dataSource.password"));
         databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
         databaseTester.setDataSet(dataSet);
         databaseTester.onSetup();

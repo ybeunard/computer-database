@@ -1,9 +1,9 @@
 package com.cdb.exception;
 
+import java.sql.Connection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mysql.jdbc.Connection;
 
 /**
  * The Class ConnexionDatabaseException.

@@ -40,7 +40,6 @@ public class OrdinateurMapper {
         builder.dateInterrompu(Parse.parseDate(ordinateur.getDateInterrompu()));
         builder.fabricant(Parse.parseFactory(ordinateur.getIdFactory(),
                 ordinateur.getFactory()));
-        LOGGER.info("Mapping terminé");
         return builder.build();
 
     }

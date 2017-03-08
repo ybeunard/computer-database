@@ -3,8 +3,7 @@ package com.cdb.dao.Impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,21 +30,17 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     /** The instance ordinateur dao. */
     INSTANCE_ORDINATEUR_DAO;
 
+    /** The Constant logger. */
+    public final Logger LOGGER = LoggerFactory
+            .getLogger(OrdinateurDao.class);
+
+    /** The prop. */
+    private final Properties prop = new Properties();
+    
     /**
      * Instantiates a new ordinateur dao.
      */
     OrdinateurDao() {
-
-    }
-
-    /** The Constant logger. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(OrdinateurDao.class);
-
-    /** The prop. */
-    private static Properties prop = new Properties();
-
-    static {
 
         String file = "query.properties";
 
@@ -79,7 +74,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     public void createOrdinateur(Ordinateur ordinateur)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        LOGGER.info("Création d'un " + ordinateur);
+        LOGGER.info("Création d'un ordinateur");
+        LOGGER.debug("" + ordinateur);
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
@@ -192,8 +188,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
-        LOGGER.info("recherche de la liste d'ordinateur par page " + limit + " "
-                + offset);
+        LOGGER.info("recherche de la liste d'ordinateur par page ");
+        LOGGER.debug(""  + limit + " " + offset);
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
@@ -325,7 +321,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     public void updateOrdinateur(Ordinateur ordinateur)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        LOGGER.info("update d'un " + ordinateur);
+        LOGGER.info("update d'un ordinateur");
+        LOGGER.debug(""  + ordinateur);
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
@@ -388,7 +385,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     public void suppressionOrdinateur(long id)
             throws ConnexionDatabaseException, RequeteQueryException {
 
-        LOGGER.info("suppression de l'ordinateur numero " + id);
+        LOGGER.info("suppression de l'ordinateur");
+        LOGGER.debug("" + id);
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();

@@ -2,6 +2,7 @@ package com.cdb.dao.Impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,6 @@ import com.cdb.dao.Impl.mappers.EntrepriseDaoMapper;
 import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.mysql.jdbc.Connection;
 
 /**
  * The Enum EntrepriseDao.
@@ -30,22 +30,18 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
     /** The instance entreprise dao. */
     INSTANCE_ENTREPRISE_DAO;
+    
+    /** The Constant LOGGER. */
+    public final Logger LOGGER = LoggerFactory
+            .getLogger(EntrepriseDao.class);
+
+    /** The prop. */
+    private final Properties prop = new Properties();
 
     /**
      * Instantiates a new entreprise dao.
      */
     EntrepriseDao() {
-
-    }
-
-    /** The Constant LOGGER. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(EntrepriseDao.class);
-
-    /** The prop. */
-    private static Properties prop = new Properties();
-
-    static {
 
         String file = "query.properties";
 
@@ -63,7 +59,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             LOGGER.error("Fichier introuvable : " + file);
 
         }
-
+        
     }
 
     /**

@@ -37,11 +37,11 @@ public class Validation {
     public static boolean validationOrdinateurDto(HttpServletRequest request,
             OrdinateurDto ordinateur) {
 
-        LOGGER.info("" + ordinateur);
+        LOGGER.info("Validation d'un ordinateur DTO");
 
         if (ordinateur.getName() == null || ordinateur.getName().equals("")) {
 
-            LOGGER.info("Nom Incorrecte " + ordinateur.getName());
+            LOGGER.debug("Nom Incorrecte " + ordinateur.getName());
             request.setAttribute("error", 1);
             return false;
 
@@ -49,14 +49,14 @@ public class Validation {
 
         if (ordinateur.getId() < 0) {
 
-            LOGGER.info("ID Incorrecte " + ordinateur.getId());
+            LOGGER.debug("ID Incorrecte " + ordinateur.getId());
             return false;
 
         }
 
         if (!validationDate(ordinateur.getDateIntroduit())) {
 
-            LOGGER.info("Date introduction Incorrecte "
+            LOGGER.debug("Date introduction Incorrecte "
                     + ordinateur.getDateIntroduit());
             request.setAttribute("error", 1);
             return false;
@@ -65,7 +65,7 @@ public class Validation {
 
         if (!validationDate(ordinateur.getDateInterrompu())) {
 
-            LOGGER.info("Date interruption Incorrecte "
+            LOGGER.debug("Date interruption Incorrecte "
                     + ordinateur.getDateInterrompu());
             request.setAttribute("error", 1);
             return false;
@@ -75,7 +75,7 @@ public class Validation {
         if (!isValid(ordinateur.getDateIntroduit(),
                 ordinateur.getDateInterrompu())) {
 
-            LOGGER.info("Dates Inccohérente");
+            LOGGER.debug("Dates Inccohérente");
             request.setAttribute("error", 1);
             return false;
 
@@ -83,12 +83,11 @@ public class Validation {
 
         if (ordinateur.getIdFactory() < 0) {
 
-            LOGGER.info("Id Company Incorrecte " + ordinateur.getIdFactory());
+            LOGGER.debug("Id Company Incorrecte " + ordinateur.getIdFactory());
             return false;
 
         }
 
-        LOGGER.info("Validation OK");
         return true;
 
     }
@@ -100,7 +99,7 @@ public class Validation {
      *            the date
      * @return true, if successful
      */
-    public static boolean validationDate(String date) {
+    private static boolean validationDate(String date) {
 
         if (date != null) {
 
@@ -127,7 +126,7 @@ public class Validation {
      *            the discontinued
      * @return true, if is valid
      */
-    public static boolean isValid(String introduced, String discontinued) {
+    private static boolean isValid(String introduced, String discontinued) {
 
         if (!introduced.equals("") && !discontinued.equals("")) {
 

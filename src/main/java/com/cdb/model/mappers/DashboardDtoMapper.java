@@ -67,7 +67,6 @@ public class DashboardDtoMapper {
 
         }
 
-        LOGGER.info("Mapping terminé");
         return builder.build();
 
     }

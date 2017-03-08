@@ -75,37 +75,38 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int nombreTotal = 0;
         int pageMax = 1;
+        LOGGER.info("Service : Recherche ordinateur par page");
 
         if (filtre == null || filtre.equals("")) {
 
             nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .countOrdinateur();
-            LOGGER.info("recuperation du nombre maximum d'ordinateur "
+            LOGGER.debug("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
-            LOGGER.info("recuperation du nombre maximum de page " + pageMax);
+            LOGGER.debug("recuperation du nombre maximum de page " + pageMax);
             numeroPage = verifNumPage(numeroPage, pageMax);
-            LOGGER.info(
+            LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurByPage(numeroPage, ligneParPage);
-            LOGGER.info("Recuperation de la liste d'ordinateur "
+            LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
         } else {
 
             nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .countOrdinateurByName(filtre);
-            LOGGER.info("recuperation du nombre maximum d'ordinateur "
+            LOGGER.debug("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
-            LOGGER.info("recuperation du nombre maximum de page " + pageMax);
+            LOGGER.debug("recuperation du nombre maximum de page " + pageMax);
             numeroPage = verifNumPage(numeroPage, pageMax);
-            LOGGER.info(
+            LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                     .findOrdinateurByName(numeroPage, ligneParPage, filtre);
-            LOGGER.info("Recuperation de la liste d'ordinateur "
+            LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
         }
@@ -129,6 +130,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     public void updateOrdinateur(Ordinateur ordinateur)
             throws RequeteQueryException, ConnexionDatabaseException {
 
+        LOGGER.info("Service: Update d'un ordinateur");
         OrdinateurDao.INSTANCE_ORDINATEUR_DAO.updateOrdinateur(ordinateur);
 
     }
@@ -146,6 +148,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     public void suppressionOrdinateur(long id)
             throws ConnexionDatabaseException, RequeteQueryException {
 
+        LOGGER.info("Service: Suppression d'un ordinateur");
         OrdinateurDao.INSTANCE_ORDINATEUR_DAO.suppressionOrdinateur(id);
 
     }
@@ -164,6 +167,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
     public OrdinateurDto findOrdinateurById(long id)
             throws ConnexionDatabaseException, RequeteQueryException {
 
+        LOGGER.info("Service: Recherche d'un ordinateur par id");
         OrdinateurDto ordinateur = null;
         Optional<Ordinateur> ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
                 .findOrdinateurById(id);
@@ -226,10 +230,14 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      */
     private int verifNumPage(int numeroPage, int pageMax) {
 
-        if (numeroPage > pageMax) {
+        if (numeroPage >= pageMax) {
 
             return pageMax;
 
+        } else if(numeroPage == 0){
+            
+            return 1;
+            
         } else {
 
             return numeroPage;
