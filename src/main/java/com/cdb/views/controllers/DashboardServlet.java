@@ -91,29 +91,14 @@ public class DashboardServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        String selection = request.getParameter("selection");
-        String[] aSupprimer = selection.split(",");
+        try {
 
-        for (String supprimeStr : aSupprimer) {
+            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
+                    .suppressionOrdinateur(DashboardDtoMapper.recuperationListSuppresionRequestPost(request));
 
-            long supprime = 0;
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
 
-            if (!supprimeStr.equals("")) {
-
-                supprime = Long.parseLong(supprimeStr);
-
-            }
-
-            try {
-
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .suppressionOrdinateur(supprime);
-
-            } catch (ConnexionDatabaseException | RequeteQueryException e) {
-
-                request.setAttribute("error", 1);
-
-            }
+            request.setAttribute("error", 1);
 
         }
 

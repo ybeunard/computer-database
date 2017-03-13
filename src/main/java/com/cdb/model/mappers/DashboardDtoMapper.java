@@ -1,5 +1,8 @@
 package com.cdb.model.mappers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -69,6 +72,29 @@ public class DashboardDtoMapper {
 
         return builder.build();
 
+    }
+    
+    public static List<Long> recuperationListSuppresionRequestPost(HttpServletRequest request) {
+        
+        String selection = request.getParameter("selection");
+        String[] aSupprimer = selection.split(",");
+        List<Long> identifiants = new ArrayList<Long>();
+
+        for (String supprimeStr : aSupprimer) {
+
+            long supprime = 0;
+
+            if (!supprimeStr.equals("")) {
+
+                supprime = Long.parseLong(supprimeStr);
+                identifiants.add(supprime);
+
+            }
+            
+        }
+        
+        return identifiants;
+        
     }
 
 }

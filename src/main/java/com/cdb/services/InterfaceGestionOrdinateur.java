@@ -3,6 +3,9 @@ package com.cdb.services;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.entities.Ordinateur;
+
+import java.util.List;
+
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 
@@ -66,7 +69,7 @@ public interface InterfaceGestionOrdinateur {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    void suppressionOrdinateur(long id)
+    void suppressionOrdinateur(List<Long> id)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**

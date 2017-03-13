@@ -31,12 +31,11 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
     INSTANCE_ORDINATEUR_DAO;
 
     /** The Constant logger. */
-    public final Logger LOGGER = LoggerFactory
-            .getLogger(OrdinateurDao.class);
+    public final Logger LOGGER = LoggerFactory.getLogger(OrdinateurDao.class);
 
     /** The prop. */
     private final Properties prop = new Properties();
-    
+
     /**
      * Instantiates a new ordinateur dao.
      */
@@ -66,21 +65,21 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      *
      * @param ordinateur
      *            à créer
+     * @param con
+     *            the con
      * @throws ConnexionDatabaseException
      *             if there is an issue
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public void createOrdinateur(Ordinateur ordinateur)
+    public void createOrdinateur(Ordinateur ordinateur, Connection con)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         LOGGER.info("Création d'un ordinateur");
         LOGGER.debug("" + ordinateur);
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_INSERT_ORDINATEUR"))) {
+        try (PreparedStatement stmt = con.prepareStatement(
+                prop.getProperty("QUERY_INSERT_ORDINATEUR"))) {
 
             stmt.setString(1, ordinateur.getName());
 
@@ -189,7 +188,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
         }
 
         LOGGER.info("recherche de la liste d'ordinateur par page ");
-        LOGGER.debug(""  + limit + " " + offset);
+        LOGGER.debug("" + limit + " " + offset);
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
@@ -313,21 +312,21 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      *
      * @param ordinateur
      *            à update
+     * @param con
+     *            the con
      * @throws ConnexionDatabaseException
      *             if there is an issue
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public void updateOrdinateur(Ordinateur ordinateur)
+    public void updateOrdinateur(Ordinateur ordinateur, Connection con)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         LOGGER.info("update d'un ordinateur");
-        LOGGER.debug(""  + ordinateur);
+        LOGGER.debug("" + ordinateur);
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_UPDATE_ORDINATEUR"))) {
+        try (PreparedStatement stmt = con.prepareStatement(
+                prop.getProperty("QUERY_UPDATE_ORDINATEUR"))) {
 
             stmt.setString(1, ordinateur.getName());
 
@@ -377,21 +376,21 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      *
      * @param id
      *            Identifiant de l'ordinateur à supprimer
+     * @param con
+     *            the con
      * @throws ConnexionDatabaseException
      *             if there is an issue
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public void suppressionOrdinateur(long id)
+    public void suppressionOrdinateur(long id, Connection con)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         LOGGER.info("suppression de l'ordinateur");
         LOGGER.debug("" + id);
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_DELETE_ORDINATEUR"))) {
+        try (PreparedStatement stmt = con.prepareStatement(
+                prop.getProperty("QUERY_DELETE_ORDINATEUR"))) {
 
             stmt.setLong(1, id);
             stmt.executeUpdate();

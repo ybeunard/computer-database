@@ -58,7 +58,8 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
         }
 
         HikariConfig config = new HikariConfig(prop);
-        config.setMaximumPoolSize(400);
+        config.setMaximumPoolSize(10);
+        config.setAutoCommit(false);
         ds = new HikariDataSource(config);
 
     }

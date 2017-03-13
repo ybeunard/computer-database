@@ -1,5 +1,6 @@
 package com.cdb.dao;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,14 @@ public interface InterfaceOrdinateurDao {
      *
      * @param ordinateur
      *            the ordinateur
+     * @param con
+     *            the con
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    void createOrdinateur(Ordinateur ordinateur)
+    void createOrdinateur(Ordinateur ordinateur, Connection con)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
@@ -91,12 +94,14 @@ public interface InterfaceOrdinateurDao {
      *
      * @param ordinateur
      *            the ordinateur
+     * @param con
+     *            the con
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    void updateOrdinateur(Ordinateur ordinateur)
+    void updateOrdinateur(Ordinateur ordinateur, Connection con)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
@@ -104,12 +109,14 @@ public interface InterfaceOrdinateurDao {
      *
      * @param index
      *            the index
+     * @param con
+     *            the con
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    void suppressionOrdinateur(long index)
+    void suppressionOrdinateur(long index, Connection con)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
