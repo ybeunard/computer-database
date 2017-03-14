@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.dbunit.DBTestCase;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
@@ -17,13 +18,13 @@ import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 
-import junit.framework.TestCase;
-
-public class TestEntrepriseDao extends TestCase {
+public class TestEntrepriseDao extends DBTestCase {
 
     private EntrepriseDao dao;
 
     private Properties prop = new Properties();
+    
+    private IDatabaseTester databaseTester;
 
     @Override
     protected void setUp() throws Exception {
@@ -32,7 +33,7 @@ public class TestEntrepriseDao extends TestCase {
                 .getResourceAsStream("connexion.properties");
         prop.load(stream);
         dao = EntrepriseDao.INSTANCE_ENTREPRISE_DAO;
-        IDataSet dataSet = readDataSet();
+        IDataSet dataSet = getDataSet();
         cleanlyInsertDataset(dataSet);
 
     }
@@ -41,12 +42,13 @@ public class TestEntrepriseDao extends TestCase {
     protected void tearDown() throws Exception {
 
         dao = null;
+        databaseTester.onTearDown();
 
     }
 
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
 
-        IDatabaseTester databaseTester = new JdbcDatabaseTester(
+        databaseTester = new JdbcDatabaseTester(
                 prop.getProperty("dataSourceClassName"), prop.getProperty("dataSource.url"),
                 prop.getProperty("dataSource.user"), prop.getProperty("dataSource.password"));
         databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
@@ -54,12 +56,14 @@ public class TestEntrepriseDao extends TestCase {
         databaseTester.onSetup();
 
     }
+    
 
-    private IDataSet readDataSet() throws Exception {
+    @Override
+    protected IDataSet getDataSet() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
                 new File("src/test/resources/dataTestEntrepriseDao.xml"));
-
+        
     }
 
     @Test

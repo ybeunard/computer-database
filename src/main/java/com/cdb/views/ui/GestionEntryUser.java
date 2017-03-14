@@ -1,5 +1,7 @@
 package com.cdb.views.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.io.File;
@@ -505,11 +507,13 @@ public class GestionEntryUser {
      */
     private static void deleteOrdinateur(String arg) {
 
+        List<Long> identifiant = new ArrayList<Long>();
+        
         try {
 
-            long id = Integer.parseInt(arg);
+            identifiant.add(Long.parseLong(arg));
             GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .suppressionOrdinateur(id);
+                    .suppressionOrdinateur(identifiant);
 
         } catch (NumberFormatException | ConnexionDatabaseException
                 | RequeteQueryException e) {
