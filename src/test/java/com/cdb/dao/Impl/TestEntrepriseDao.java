@@ -30,7 +30,7 @@ public class TestEntrepriseDao extends DBTestCase {
     protected void setUp() throws Exception {
 
         InputStream stream = ConnexionDatabase.class.getClassLoader()
-                .getResourceAsStream("connexion.properties");
+                .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
         dao = EntrepriseDao.INSTANCE_ENTREPRISE_DAO;
         IDataSet dataSet = getDataSet();

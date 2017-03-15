@@ -28,7 +28,7 @@ public class TestOrdinateurDao extends TestCase {
     protected void setUp() throws Exception {
 
         InputStream stream = ConnexionDatabase.class.getClassLoader()
-                .getResourceAsStream("connexion.properties");
+                .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
         dao = OrdinateurDao.INSTANCE_ORDINATEUR_DAO;
         IDataSet dataSet1 = readDataSet1();
