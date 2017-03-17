@@ -251,8 +251,9 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                         prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"))) {
 
             stmt.setString(1, "%" + name + "%");
-            stmt.setInt(2, limit);
-            stmt.setInt(3, offset);
+            stmt.setString(2, "%" + name + "%");
+            stmt.setInt(3, limit);
+            stmt.setInt(4, offset);
             ResultSet res = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(res);
             LOGGER.info("recherche de la liste d'ordinateur par nom effectuée");
