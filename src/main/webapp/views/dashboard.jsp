@@ -59,18 +59,18 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                            <a href="?trie=name">Computer name</a>
                         </th>
                         <th>
-                            Introduced date
+                            <a href="?trie=introduced">Introduced date</a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            Discontinued date
+                            <a href="?trie=discontinued">Discontinued date</a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            Company
+                            <a href="?trie=company_name">Company</a>
                         </th>
 
                     </tr>

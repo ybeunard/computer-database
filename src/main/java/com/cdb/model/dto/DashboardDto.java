@@ -13,6 +13,10 @@ public class DashboardDto {
 
     /** The filtre. */
     private final String filtre;
+    
+    private final String trie;
+    
+    private final Boolean desc;
 
     /**
      * Instantiates a new dashboard dto.
@@ -25,6 +29,8 @@ public class DashboardDto {
         this.numPage = builder.numPage;
         this.nbParPage = builder.nbParPage;
         this.filtre = builder.filtre;
+        this.trie = builder.trie;
+        this.desc = builder.desc;
 
     }
 
@@ -55,6 +61,14 @@ public class DashboardDto {
         return filtre;
     }
 
+    public String getTrie() {
+        return trie;
+    }
+
+    public Boolean getDesc() {
+        return desc;
+    }
+
     /**
      * The Class DashboardDtoBuilder.
      */
@@ -68,6 +82,10 @@ public class DashboardDto {
 
         /** The filtre. */
         private String filtre;
+        
+        private String trie;
+        
+        private Boolean desc;
 
         /**
          * Num page.
@@ -109,6 +127,20 @@ public class DashboardDto {
             this.filtre = filtre;
             return this;
 
+        }
+        
+        public DashboardDtoBuilder trie(String trie) {
+            
+            this.trie = trie;
+            return this;
+            
+        }
+        
+        public DashboardDtoBuilder desc(Boolean desc) {
+            
+            this.desc = desc;
+            return this;
+            
         }
 
         /**

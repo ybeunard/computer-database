@@ -30,6 +30,10 @@ public class PageDto {
 
     /** The filtre. */
     private final String filtre;
+    
+    private final String trie;
+    
+    private final boolean desc;
 
     /**
      * Instantiates a new page dto.
@@ -54,7 +58,19 @@ public class PageDto {
         this.nbComputer = builder.nbComputer;
 
         this.filtre = builder.filtre;
+        
+        this.trie = builder.trie;
+        
+        this.desc = builder.desc;
 
+    }
+
+    public String getTrie() {
+        return trie;
+    }
+
+    public boolean getDesc() {
+        return desc;
     }
 
     /**
@@ -157,6 +173,10 @@ public class PageDto {
 
         /** The filtre. */
         private String filtre;
+        
+        private String trie;
+        
+        private boolean desc;
 
         /**
          * Contenue.
@@ -268,6 +288,20 @@ public class PageDto {
             this.filtre = filtre;
             return this;
 
+        }
+        
+        public PageDtoBuilder trie(String trie) {
+            
+            this.trie = trie;
+            return this;
+            
+        }
+        
+        public PageDtoBuilder desc(boolean desc) {
+            
+            this.desc = desc;
+            return this;
+            
         }
 
         /**

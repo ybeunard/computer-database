@@ -43,7 +43,7 @@ public interface InterfaceGestionOrdinateur {
      *             the requete query exception
      */
     PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
-            String filtre)
+            String filtre, String trie, boolean desc)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**

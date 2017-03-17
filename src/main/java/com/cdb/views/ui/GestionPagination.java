@@ -78,13 +78,13 @@ public class GestionPagination {
             case 1:
 
                 pageOrdinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .findOrdinateurByPage(numeroPage, ligneParPage, "");
+                        .findOrdinateurByPage(numeroPage, ligneParPage, "", "", false);
 
                 if (pageOrdinateur.getContenue().isEmpty()) {
 
                     numeroPage--;
                     pageOrdinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                            .findOrdinateurByPage(numeroPage, ligneParPage, "");
+                            .findOrdinateurByPage(numeroPage, ligneParPage, "", "", false);
 
                 }
 

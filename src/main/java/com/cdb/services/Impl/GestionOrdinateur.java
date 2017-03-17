@@ -98,7 +98,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *             the requete query exception
      */
     public PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
-            String filtre)
+            String filtre, String trie, boolean desc)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
@@ -118,7 +118,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .findOrdinateurByPage(numeroPage, ligneParPage);
+                    .findOrdinateurByPage(numeroPage, ligneParPage, trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
@@ -134,14 +134,14 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .findOrdinateurByName(numeroPage, ligneParPage, filtre);
+                    .findOrdinateurByName(numeroPage, ligneParPage, filtre, trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
         }
 
         PageDto page = PageDtoMapper.recuperationPage(ordinateurs, nombreTotal,
-                numeroPage, ligneParPage, pageMax, filtre);
+                numeroPage, ligneParPage, pageMax, filtre, trie, desc);
         return page;
 
     }

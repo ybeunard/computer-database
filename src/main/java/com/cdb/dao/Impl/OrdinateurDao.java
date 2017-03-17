@@ -173,12 +173,13 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      *             if there is an issue
      */
     public List<Ordinateur> findOrdinateurByPage(int numeroPage,
-            int ligneParPage)
+            int ligneParPage, String trie, boolean desc)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
+        String requete = prop.getProperty("QUERY_FIND_ORDINATEURS_BY_PAGE");
 
         if (offset < 0) {
 
@@ -189,14 +190,31 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         LOGGER.info("recherche de la liste d'ordinateur par page ");
         LOGGER.debug("" + limit + " " + offset);
+        
+        if (trie != null && !trie.equals("")) {
+            
+            if (desc) {
+                
+                requete = String.format(requete, trie + " DESC");
+                
+            } else {
+                
+                requete = String.format(requete, trie + " ASC");
+                
+            }
+            
+        } else {
+            
+            requete = String.format(requete, "name");
+            
+        }
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_PAGE"))) {
+                PreparedStatement stmt = con.prepareStatement(requete)) {
 
             stmt.setInt(1, limit);
-            stmt.setInt(2, offset);
+            stmt.setInt(2, offset); 
             ResultSet res = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(res);
             LOGGER.info(
@@ -229,12 +247,13 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      *             if there is an issue
      */
     public List<Ordinateur> findOrdinateurByName(int numeroPage,
-            int ligneParPage, String name)
+            int ligneParPage, String name, String trie, boolean desc)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
+        String requete = prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME");
 
         if (offset < 0) {
 
@@ -242,13 +261,30 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             return ordinateurs;
 
         }
+        
+        if (trie != null && !trie.equals("")) {
+            
+            if (desc) {
+                
+                requete = String.format(requete, trie + " DESC");
+                
+            } else {
+                
+                requete = String.format(requete, trie + " ASC");
+                
+            }
+            
+        } else {
+            
+            requete = String.format(requete, "name");
+            
+        }
 
         LOGGER.info("recherche de la liste d'ordinateur par nom");
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
                 .connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME"))) {
+                PreparedStatement stmt = con.prepareStatement(requete)) {
 
             stmt.setString(1, "%" + name + "%");
             stmt.setString(2, "%" + name + "%");

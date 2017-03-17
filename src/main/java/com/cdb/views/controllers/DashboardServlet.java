@@ -59,7 +59,7 @@ public class DashboardServlet extends HttpServlet {
 
             page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .findOrdinateurByPage(dashboard.getNumPage(),
-                            dashboard.getNbParPage(), dashboard.getFiltre());
+                            dashboard.getNbParPage(), dashboard.getFiltre(), dashboard.getTrie(), dashboard.getDesc());
 
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
 

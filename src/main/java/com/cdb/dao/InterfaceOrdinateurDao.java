@@ -53,7 +53,7 @@ public interface InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage)
+    List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage, String trie, boolean desc)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
@@ -72,7 +72,7 @@ public interface InterfaceOrdinateurDao {
      *             if there is an issue
      */
     List<Ordinateur> findOrdinateurByName(int numPage, int nbParPage,
-            String name)
+            String name, String trie, boolean desc)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**

@@ -46,12 +46,16 @@ public class DashboardDtoMapper {
         int numPage = 1;
         int nbParPage = 10;
         String filtre = "";
+        String trie = "";
+        boolean desc = false;
 
         if (pageCourante != null) {
 
             numPage = pageCourante.getNumPage();
             nbParPage = pageCourante.getNbParPage();
             filtre = pageCourante.getFiltre();
+            desc = pageCourante.getDesc();
+            trie = pageCourante.getTrie();
 
         }
 
@@ -69,7 +73,18 @@ public class DashboardDtoMapper {
             builder.numPage(1);
 
         }
-
+        
+        String newTrie = Parse.parseString(request.getParameter("trie"), "");
+        
+        if (newTrie != null && !newTrie.equals("")) {
+            
+            desc = Boolean.logicalXor(desc, true);
+            trie = newTrie;
+            
+        }
+        
+        builder.trie(trie);
+        builder.desc(desc);
         return builder.build();
 
     }
