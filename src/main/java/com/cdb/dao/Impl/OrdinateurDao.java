@@ -464,6 +464,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                         prop.getProperty("QUERY_COUNT_ORDINATEUR_BY_NAME"))) {
 
             stmt.setString(1, "%" + filtre + "%");
+            stmt.setString(2, "%" + filtre + "%");
             ResultSet res = stmt.executeQuery();
             count = OrdinateurDaoMapper.recuperationInt(res);
             LOGGER.info("Comptage du nombre d'ordinateur effectuée");
