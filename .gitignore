@@ -12,6 +12,8 @@ local.properties
 .recommenders
 WebContent/WEB-INF/lib/
 docker/
+dockercloud
+dockercloud.pub
 
 # Eclipse Core
 .project
