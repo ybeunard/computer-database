@@ -77,8 +77,13 @@ public class DashboardDtoMapper {
         String newTrie = Parse.parseString(request.getParameter("trie"), "");
         
         if (newTrie != null && !newTrie.equals("")) {
+
+            if (trie == newTrie) {
             
-            desc = Boolean.logicalXor(desc, true);
+                desc = Boolean.logicalXor(desc, true);
+                
+            }
+            
             trie = newTrie;
             
         }
