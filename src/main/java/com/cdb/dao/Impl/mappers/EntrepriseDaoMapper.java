@@ -43,7 +43,7 @@ public class EntrepriseDaoMapper {
 
         Optional<Entreprise> entreprise = Optional.empty();
         LOGGER.info("Mapping Optional Entreprise depuis resultSet");
-        
+
         try {
 
             if (res.next()) {
@@ -79,7 +79,7 @@ public class EntrepriseDaoMapper {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
         LOGGER.info("Mapping List Entreprise depuis resultSet");
-        
+
         try {
 
             while (res.next()) {

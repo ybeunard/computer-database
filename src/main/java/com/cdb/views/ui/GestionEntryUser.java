@@ -508,7 +508,7 @@ public class GestionEntryUser {
     private static void deleteOrdinateur(String arg) {
 
         List<Long> identifiant = new ArrayList<Long>();
-        
+
         try {
 
             identifiant.add(Long.parseLong(arg));

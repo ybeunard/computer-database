@@ -131,7 +131,7 @@ public class OrdinateurDaoMapper {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         LOGGER.info("Mappping List Ordinateur depuis resultSet");
-        
+
         try {
 
             while (res.next()) {

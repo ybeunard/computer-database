@@ -30,10 +30,9 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
 
     /** The instance entreprise dao. */
     INSTANCE_ENTREPRISE_DAO;
-    
+
     /** The Constant LOGGER. */
-    public final Logger LOGGER = LoggerFactory
-            .getLogger(EntrepriseDao.class);
+    public final Logger LOGGER = LoggerFactory.getLogger(EntrepriseDao.class);
 
     /** The prop. */
     private final Properties prop = new Properties();
@@ -59,7 +58,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             LOGGER.error("Fichier introuvable : " + file);
 
         }
-        
+
     }
 
     /**

@@ -166,6 +166,10 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      *            le numero de la page
      * @param ligneParPage
      *            le nombre de ligne par page
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
      * @return une liste d'ordinateur
      * @throws ConnexionDatabaseException
      *             if there is an issue
@@ -190,23 +194,23 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         LOGGER.info("recherche de la liste d'ordinateur par page ");
         LOGGER.debug("" + limit + " " + offset);
-        
+
         if (trie != null && !trie.equals("")) {
-            
+
             if (desc) {
-                
+
                 requete = String.format(requete, trie + " DESC");
-                
+
             } else {
-                
+
                 requete = String.format(requete, trie + " ASC");
-                
+
             }
-            
+
         } else {
-            
+
             requete = String.format(requete, "name");
-            
+
         }
 
         try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
@@ -214,7 +218,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
                 PreparedStatement stmt = con.prepareStatement(requete)) {
 
             stmt.setInt(1, limit);
-            stmt.setInt(2, offset); 
+            stmt.setInt(2, offset);
             ResultSet res = stmt.executeQuery();
             ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(res);
             LOGGER.info(
@@ -240,6 +244,10 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
      *            the ligne par page
      * @param name
      *            le nom de l'ordinateur recherché
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
      * @return une liste ordinateur
      * @throws ConnexionDatabaseException
      *             if there is an issue
@@ -261,23 +269,23 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             return ordinateurs;
 
         }
-        
+
         if (trie != null && !trie.equals("")) {
-            
+
             if (desc) {
-                
+
                 requete = String.format(requete, trie + " DESC");
-                
+
             } else {
-                
+
                 requete = String.format(requete, trie + " ASC");
-                
+
             }
-            
+
         } else {
-            
+
             requete = String.format(requete, "name");
-            
+
         }
 
         LOGGER.info("recherche de la liste d'ordinateur par nom");

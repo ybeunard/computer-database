@@ -13,9 +13,9 @@ public class DashboardDto {
 
     /** The filtre. */
     private final String filtre;
-    
+
     private final String trie;
-    
+
     private final Boolean desc;
 
     /**
@@ -82,9 +82,9 @@ public class DashboardDto {
 
         /** The filtre. */
         private String filtre;
-        
+
         private String trie;
-        
+
         private Boolean desc;
 
         /**
@@ -128,19 +128,33 @@ public class DashboardDto {
             return this;
 
         }
-        
+
+        /**
+         * Trie.
+         *
+         * @param trie
+         *            the trie
+         * @return the dashboard dto builder
+         */
         public DashboardDtoBuilder trie(String trie) {
-            
+
             this.trie = trie;
             return this;
-            
+
         }
-        
+
+        /**
+         * Desc.
+         *
+         * @param desc
+         *            the desc
+         * @return the dashboard dto builder
+         */
         public DashboardDtoBuilder desc(Boolean desc) {
-            
+
             this.desc = desc;
             return this;
-            
+
         }
 
         /**

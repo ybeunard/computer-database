@@ -73,29 +73,37 @@ public class DashboardDtoMapper {
             builder.numPage(1);
 
         }
-        
+
         String newTrie = Parse.parseString(request.getParameter("trie"), "");
-        
+
         if (newTrie != null && !newTrie.equals("")) {
 
             if (trie.equals(newTrie)) {
-            
+
                 desc = Boolean.logicalXor(desc, true);
-                
+
             }
-            
+
             trie = newTrie;
-            
+
         }
-        
+
         builder.trie(trie);
         builder.desc(desc);
         return builder.build();
 
     }
-    
-    public static List<Long> recuperationListSuppresionRequestPost(HttpServletRequest request) {
-        
+
+    /**
+     * Recuperation list suppresion request post.
+     *
+     * @param request
+     *            the request
+     * @return the list
+     */
+    public static List<Long> recuperationListSuppresionRequestPost(
+            HttpServletRequest request) {
+
         String selection = request.getParameter("selection");
         String[] aSupprimer = selection.split(",");
         List<Long> identifiants = new ArrayList<Long>();
@@ -110,11 +118,11 @@ public class DashboardDtoMapper {
                 identifiants.add(supprime);
 
             }
-            
+
         }
-        
+
         return identifiants;
-        
+
     }
 
 }

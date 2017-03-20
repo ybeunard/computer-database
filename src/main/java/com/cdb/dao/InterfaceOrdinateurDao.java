@@ -47,13 +47,18 @@ public interface InterfaceOrdinateurDao {
      *            the numero page
      * @param ligneParPage
      *            the ligne par page
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
      * @return the list
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage, String trie, boolean desc)
+    List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage,
+            String trie, boolean desc)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
@@ -65,6 +70,10 @@ public interface InterfaceOrdinateurDao {
      *            the nb par page
      * @param name
      *            le nom de l'ordinateur recherché
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
      * @return une liste ordinateur
      * @throws ConnexionDatabaseException
      *             if there is an issue

@@ -26,15 +26,15 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
 
     /** The prop. */
     private final Properties prop = new Properties();
-    
+
     private final HikariDataSource ds;
-    
-    private static final ThreadLocal<Connection> myThreadLocal = new ThreadLocal<Connection>();
-    
+
+    private static final ThreadLocal<Connection> MYTHREADLOCAL = new ThreadLocal<Connection>();
+
     /** The Constant LOGGER. */
     public final Logger LOGGER = LoggerFactory
             .getLogger(ConnexionDatabase.class);
-    
+
     /**
      * Instantiates a new connexion database.
      */
@@ -126,19 +126,26 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
         }
 
     }
-    
-    private Connection getMyConnection() throws SQLException {
-        
-        Connection con = myThreadLocal.get();
 
-        if(con == null || con.isClosed()) {
-            
-            myThreadLocal.set(con = ds.getConnection());
-            
+    /**
+     * Gets the my connection.
+     *
+     * @return the my connection
+     * @throws SQLException
+     *             the SQL exception
+     */
+    private Connection getMyConnection() throws SQLException {
+
+        Connection con = MYTHREADLOCAL.get();
+
+        if (con == null || con.isClosed()) {
+
+            MYTHREADLOCAL.set(con = ds.getConnection());
+
         }
 
         return con;
 
-    } 
+    }
 
 }

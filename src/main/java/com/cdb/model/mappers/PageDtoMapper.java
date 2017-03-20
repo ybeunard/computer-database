@@ -29,14 +29,22 @@ public class PageDtoMapper {
     /**
      * Recuperation page.
      *
-     * @param ordinateurs            the ordinateurs
-     * @param nombreTotal            the nombre total
-     * @param numeroPage            the numero page
-     * @param ligneParPage            the ligne par page
-     * @param pageMax            the page max
-     * @param filtre            the filtre
-     * @param trie the trie
-     * @param desc the desc
+     * @param ordinateurs
+     *            the ordinateurs
+     * @param nombreTotal
+     *            the nombre total
+     * @param numeroPage
+     *            the numero page
+     * @param ligneParPage
+     *            the ligne par page
+     * @param pageMax
+     *            the page max
+     * @param filtre
+     *            the filtre
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
      * @return the page dto
      */
     public static PageDto recuperationPage(List<Ordinateur> ordinateurs,
@@ -77,11 +85,11 @@ public class PageDtoMapper {
             page.filtre(filtre);
 
         }
-        
+
         if (trie != null && !trie.equals("")) {
-            
+
             page.trie(trie).desc(desc);
-            
+
         }
 
         return page.build();

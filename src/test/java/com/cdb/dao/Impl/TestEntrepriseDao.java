@@ -23,7 +23,7 @@ public class TestEntrepriseDao extends DBTestCase {
     private EntrepriseDao dao;
 
     private Properties prop = new Properties();
-    
+
     private IDatabaseTester databaseTester;
 
     @Override
@@ -49,21 +49,22 @@ public class TestEntrepriseDao extends DBTestCase {
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
 
         databaseTester = new JdbcDatabaseTester(
-                prop.getProperty("dataSourceClassName"), prop.getProperty("dataSource.url"),
-                prop.getProperty("dataSource.user"), prop.getProperty("dataSource.password"));
+                prop.getProperty("dataSourceClassName"),
+                prop.getProperty("dataSource.url"),
+                prop.getProperty("dataSource.user"),
+                prop.getProperty("dataSource.password"));
         databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
         databaseTester.setDataSet(dataSet);
         databaseTester.onSetup();
 
     }
-    
 
     @Override
     protected IDataSet getDataSet() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
                 new File("src/test/resources/dataTestEntrepriseDao.xml"));
-        
+
     }
 
     @Test

@@ -36,6 +36,10 @@ public interface InterfaceGestionOrdinateur {
      *            the ligne par page
      * @param filtre
      *            the filtre
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
      * @return the optional
      * @throws ConnexionDatabaseException
      *             the connexion database exception

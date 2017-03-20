@@ -59,7 +59,8 @@ public class DashboardServlet extends HttpServlet {
 
             page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
                     .findOrdinateurByPage(dashboard.getNumPage(),
-                            dashboard.getNbParPage(), dashboard.getFiltre(), dashboard.getTrie(), dashboard.getDesc());
+                            dashboard.getNbParPage(), dashboard.getFiltre(),
+                            dashboard.getTrie(), dashboard.getDesc());
 
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
 
@@ -94,7 +95,8 @@ public class DashboardServlet extends HttpServlet {
         try {
 
             GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .suppressionOrdinateur(DashboardDtoMapper.recuperationListSuppresionRequestPost(request));
+                    .suppressionOrdinateur(DashboardDtoMapper
+                            .recuperationListSuppresionRequestPost(request));
 
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
 

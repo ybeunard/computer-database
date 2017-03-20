@@ -91,6 +91,10 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            le nombre de ligne par page
      * @param filtre
      *            the filtre
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
      * @return une liste d'ordinateur
      * @throws ConnexionDatabaseException
      *             the connexion database exception
@@ -134,7 +138,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
             ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .findOrdinateurByName(numeroPage, ligneParPage, filtre, trie, desc);
+                    .findOrdinateurByName(numeroPage, ligneParPage, filtre,
+                            trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
