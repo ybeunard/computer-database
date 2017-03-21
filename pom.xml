@@ -18,6 +18,7 @@
         <logVersion>1.7.23</logVersion>
         <springVersion>4.3.7.RELEASE</springVersion>
         <aspectJ>1.8.9</aspectJ>
+        <seleniumVersion>2.53.1</seleniumVersion>
     </properties>
  
     <build>
@@ -104,6 +105,22 @@
           <version>4.12</version>
           <scope>test</scope>
         </dependency>
+        <dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+		    <version>${seleniumVersion}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-firefox-driver</artifactId>
+		    <version>${seleniumVersion}</version>
+		</dependency>		
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-server</artifactId>
+		    <version>${seleniumVersion}</version>
+		</dependency> 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
