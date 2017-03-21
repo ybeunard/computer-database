@@ -78,7 +78,7 @@ public class DashboardDtoMapper {
 
         if (newTrie != null && !newTrie.equals("")) {
 
-            if (trie.equals(newTrie)) {
+            if (newTrie.equals(trie)) {
 
                 desc = Boolean.logicalXor(desc, true);
 

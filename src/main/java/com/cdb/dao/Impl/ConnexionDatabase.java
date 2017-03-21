@@ -1,18 +1,17 @@
 package com.cdb.dao.Impl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.cdb.dao.InterfaceConnexionDatabase;
 import com.cdb.exception.ConnexionDatabaseException;
 
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * The Enum ConnexionDatabase.
@@ -27,8 +26,15 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
     
     /** The prop. */
     private final Properties prop = new Properties();
-
-    private final HikariDataSource ds;
+    
+    @Autowired
+    private HikariDataSource hikariDataSource;
+    
+    public HikariDataSource getHikariDataSource() {
+        
+        return hikariDataSource;
+        
+    }
 
     private static final ThreadLocal<Connection> MYTHREADLOCAL = new ThreadLocal<Connection>();
 
@@ -37,27 +43,6 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
      */
     ConnexionDatabase() {
 
-        String file = "connexion.properties";
-
-        try (InputStream stream = ConnexionDatabase.class.getClassLoader()
-                .getResourceAsStream("connexion.properties");) {
-
-            prop.load(stream);
-
-        } catch (IOException e) {
-
-            LOGGER.error("Fichier introuvable : " + file);
-
-        } catch (NullPointerException e) {
-
-            LOGGER.error("Fichier introuvable : " + file);
-
-        }
-
-        HikariConfig config = new HikariConfig(prop);
-        config.setMaximumPoolSize(10);
-        config.setAutoCommit(false);
-        ds = new HikariDataSource(config);
         LOGGER.info("ConnexionDatabase instancié");
 
     }
@@ -138,7 +123,7 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
 
         if (con == null || con.isClosed()) {
 
-            MYTHREADLOCAL.set(con = ds.getConnection());
+            MYTHREADLOCAL.set(con = hikariDataSource.getConnection());
 
         }
 

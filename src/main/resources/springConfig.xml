@@ -8,14 +8,29 @@
    http://www.springframework.org/schema/context
    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
    <context:annotation-config/>
-	<bean name="gestionOrdinateur" class="com.cdb.services.Impl.GestionOrdinateur" scope="singleton">    
+   <context:property-placeholder location="classpath:connexion.properties"/> 
+	<bean name="gestionOrdinateur" class="com.cdb.services.Impl.GestionOrdinateur" scope="singleton">
 	</bean>
-	<bean name="gestionEntreprise" class="com.cdb.services.Impl.GestionEntreprise" scope="singleton">    
+	<bean name="gestionEntreprise" class="com.cdb.services.Impl.GestionEntreprise" scope="singleton">
 	</bean>
-	<bean name="ordinateurDao" class="com.cdb.dao.Impl.OrdinateurDao" scope="singleton">    
+	<bean id="ordinateurDao" name="ordinateurDao" class="com.cdb.dao.Impl.OrdinateurDao" scope="singleton">
 	</bean>
-	<bean name="entrepriseDao" class="com.cdb.dao.Impl.EntrepriseDao" scope="singleton">    
+	<bean id="entrepriseDao" name="entrepriseDao" class="com.cdb.dao.Impl.EntrepriseDao" scope="singleton">
 	</bean>
-	<bean name="connexionDatabase" class="com.cdb.dao.Impl.ConnexionDatabase" scope="singleton">    
+	<bean id="connexionDatabase" name="connexionDatabase" class="com.cdb.dao.Impl.ConnexionDatabase" scope="singleton">
+	</bean>
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	    <property name="poolName" value="springHikariCP" />
+	    <property name="dataSourceClassName" value="${dataSourceClassName}" />
+	    <property name="dataSourceProperties">
+	        <props>
+	            <prop key="url">${dataSource.url}</prop>
+	            <prop key="user">${dataSource.user}</prop>
+	            <prop key="password">${dataSource.password}</prop>
+	        </props>
+	    </property>
+	</bean>
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	    <constructor-arg ref="hikariConfig" />
 	</bean>
 </beans>
