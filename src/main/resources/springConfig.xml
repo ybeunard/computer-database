@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context = "http://www.springframework.org/schema/context"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+   <context:annotation-config/>
+	<bean name="gestionOrdinateur" class="com.cdb.services.Impl.GestionOrdinateur" scope="singleton">    
+	</bean>
+	<bean name="gestionEntreprise" class="com.cdb.services.Impl.GestionEntreprise" scope="singleton">    
+	</bean>
+	<bean name="ordinateurDao" class="com.cdb.dao.Impl.OrdinateurDao" scope="singleton">    
+	</bean>
+	<bean name="entrepriseDao" class="com.cdb.dao.Impl.EntrepriseDao" scope="singleton">    
+	</bean>
+	<bean name="connexionDatabase" class="com.cdb.dao.Impl.ConnexionDatabase" scope="singleton">    
+	</bean>
+</beans>

@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cdb.dao.InterfaceOrdinateurDao;
 import com.cdb.dao.Impl.mappers.OrdinateurDaoMapper;
@@ -25,21 +26,27 @@ import com.cdb.exception.RequeteQueryException;
 /**
  * The Enum OrdinateurDao.
  */
-public enum OrdinateurDao implements InterfaceOrdinateurDao {
-
-    /** The instance ordinateur dao. */
-    INSTANCE_ORDINATEUR_DAO;
+public class OrdinateurDao implements InterfaceOrdinateurDao {
 
     /** The Constant logger. */
     public final Logger LOGGER = LoggerFactory.getLogger(OrdinateurDao.class);
 
+    @Autowired
+    private ConnexionDatabase connexionDatabase;
+    
+    public ConnexionDatabase getConnexionDatabase() {
+        
+        return connexionDatabase;
+        
+    }
+    
     /** The prop. */
     private final Properties prop = new Properties();
 
     /**
      * Instantiates a new ordinateur dao.
      */
-    OrdinateurDao() {
+    public OrdinateurDao() {
 
         String file = "query.properties";
 
@@ -57,6 +64,8 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
             LOGGER.error("Fichier introuvable : " + file);
 
         }
+        
+        LOGGER.info("OrdinateurDao instancié");
 
     }
 
@@ -139,8 +148,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         LOGGER.info("recherche de la liste d'ordinateur");
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
+        try (Connection con = connexionDatabase.connectDatabase();
                 PreparedStatement stmt = con.prepareStatement(
                         prop.getProperty("QUERY_FIND_ORDINATEURS"))) {
 
@@ -213,8 +221,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
+        try (Connection con = connexionDatabase.connectDatabase();
                 PreparedStatement stmt = con.prepareStatement(requete)) {
 
             stmt.setInt(1, limit);
@@ -290,8 +297,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
 
         LOGGER.info("recherche de la liste d'ordinateur par nom");
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
+        try (Connection con = connexionDatabase.connectDatabase();
                 PreparedStatement stmt = con.prepareStatement(requete)) {
 
             stmt.setString(1, "%" + name + "%");
@@ -330,8 +336,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
         Optional<Ordinateur> ordinateur = Optional.empty();
         LOGGER.info("recherche d'ordinateur par id");
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
+        try (Connection con = connexionDatabase.connectDatabase();
                 PreparedStatement stmt = con.prepareStatement(
                         prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"))) {
 
@@ -466,8 +471,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
         int count = 0;
         LOGGER.info("Comptage du nombre d'ordinateur");
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
+        try (Connection con = connexionDatabase.connectDatabase();
                 PreparedStatement stmt = con.prepareStatement(
                         prop.getProperty("QUERY_COUNT_ORDINATEUR"))) {
 
@@ -502,8 +506,7 @@ public enum OrdinateurDao implements InterfaceOrdinateurDao {
         int count = 0;
         LOGGER.info("Comptage du nombre d'ordinateur");
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
+        try (Connection con = connexionDatabase.connectDatabase();
                 PreparedStatement stmt = con.prepareStatement(
                         prop.getProperty("QUERY_COUNT_ORDINATEUR_BY_NAME"))) {
 

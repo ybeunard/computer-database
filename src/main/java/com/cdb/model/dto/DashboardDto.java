@@ -14,8 +14,10 @@ public class DashboardDto {
     /** The filtre. */
     private final String filtre;
 
+    /** The trie. */
     private final String trie;
 
+    /** The desc. */
     private final Boolean desc;
 
     /**
@@ -61,10 +63,20 @@ public class DashboardDto {
         return filtre;
     }
 
+    /**
+     * Gets the trie.
+     *
+     * @return the trie
+     */
     public String getTrie() {
         return trie;
     }
 
+    /**
+     * Gets the desc.
+     *
+     * @return the desc
+     */
     public Boolean getDesc() {
         return desc;
     }
@@ -83,8 +95,10 @@ public class DashboardDto {
         /** The filtre. */
         private String filtre;
 
+        /** The trie. */
         private String trie;
 
+        /** The desc. */
         private Boolean desc;
 
         /**
@@ -167,6 +181,126 @@ public class DashboardDto {
             return new DashboardDto(this);
 
         }
+
+    }
+
+    /**
+     * Hash code.
+     *
+     * @return entier du ascode
+     */
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((desc == null) ? 0 : desc.hashCode());
+        result = prime * result + ((filtre == null) ? 0 : filtre.hashCode());
+        result = prime * result + nbParPage;
+        result = prime * result + numPage;
+        result = prime * result + ((trie == null) ? 0 : trie.hashCode());
+        return result;
+
+    }
+
+    /**
+     * Equals.
+     *
+     * @param obj
+     *            de comparaison
+     * @return vrai ou faux
+     */
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+
+            return true;
+
+        }
+
+        if (obj == null) {
+
+            return false;
+
+        }
+
+        if (getClass() != obj.getClass()) {
+
+            return false;
+
+        }
+
+        DashboardDto other = (DashboardDto) obj;
+
+        if (desc == null) {
+
+            if (other.desc != null) {
+
+                return false;
+
+            }
+
+        } else if (!desc.equals(other.desc)) {
+
+            return false;
+
+        }
+
+        if (filtre == null) {
+
+            if (other.filtre != null) {
+
+                return false;
+
+            }
+
+        } else if (!filtre.equals(other.filtre)) {
+
+            return false;
+
+        }
+
+        if (nbParPage != other.nbParPage) {
+
+            return false;
+
+        }
+
+        if (numPage != other.numPage) {
+
+            return false;
+
+        }
+
+        if (trie == null) {
+
+            if (other.trie != null) {
+
+                return false;
+
+            }
+
+        } else if (!trie.equals(other.trie)) {
+
+            return false;
+
+        }
+
+        return true;
+    }
+
+    /**
+     * To string.
+     *
+     * @return la chaine de caractere a afficher
+     */
+    @Override
+    public String toString() {
+
+        return "DashboardDto [numPage=" + numPage + ", nbParPage=" + nbParPage
+                + ", filtre=" + filtre + ", trie=" + trie + ", desc=" + desc
+                + "]";
 
     }
 

@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.model.dto.EntrepriseDto;
@@ -18,22 +20,31 @@ import com.cdb.services.InterfaceGestionEntreprise;
 /**
  * The Enum GestionEntreprise.
  */
-public enum GestionEntreprise implements InterfaceGestionEntreprise {
+@Component
+public class GestionEntreprise implements InterfaceGestionEntreprise {
 
-    /** The instance gestion entreprise. */
-    INSTANCE_GESTION_ENTREPRISE;
-
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(GestionEntreprise.class);
+    
+    @Autowired
+    private EntrepriseDao entrepriseDao;
+    
+    public EntrepriseDao getEntrepriseDao() {
+        
+        return entrepriseDao;
+        
+    }
+    
     /**
      * Instantiates a new gestion entreprise.
      */
     GestionEntreprise() {
 
+        LOGGER.info("GestionEntreprise instancié");
+        
     }
-
-    /** The Constant LOGGER. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(GestionEntreprise.class);
-
+    
     /**
      * Find entreprise.
      *
@@ -48,7 +59,7 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
 
         LOGGER.info("Recherche de toutes les entreprises");
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
-        entreprises = EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntreprise();
+        entreprises = entrepriseDao.findEntreprise();
         return EntrepriseDtoMapper.recuperationListEntreprise(entreprises);
 
     }
@@ -68,7 +79,7 @@ public enum GestionEntreprise implements InterfaceGestionEntreprise {
             throws ConnexionDatabaseException, RequeteQueryException {
 
         LOGGER.info("Service: Recherche d'une entreprise par id");
-        return EntrepriseDao.INSTANCE_ENTREPRISE_DAO.findEntrepriseByID(id);
+        return entrepriseDao.findEntrepriseByID(id);
 
     }
 

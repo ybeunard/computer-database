@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,7 +30,11 @@ public class GestionEntryUser {
 
     /** The prop. */
     private static Properties prop = new Properties();
-
+    
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
+    private static GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context.getBean("GestionOrdinateur");
+    private static GestionEntreprise gestionEntreprise = (GestionEntreprise) context.getBean("GestionEntreprise");
+    
     static {
 
         File fProp = new File(
@@ -217,8 +225,7 @@ public class GestionEntryUser {
         try {
 
             long id = Long.parseLong(arg);
-            ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .findOrdinateurById(id);
+            ordinateur = gestionOrdinateur.findOrdinateurById(id);
 
         } catch (NumberFormatException | ConnexionDatabaseException
                 | RequeteQueryException e) {
@@ -248,8 +255,7 @@ public class GestionEntryUser {
 
             try {
 
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .createOrdinateur(ordinateur.build());
+                gestionOrdinateur.createOrdinateur(ordinateur.build());
 
             } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
@@ -293,8 +299,7 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                            .findEntrepriseById(id);
+                    Optional<Entreprise> fabricant = gestionEntreprise.findEntrepriseById(id);
 
                     if (fabricant.isPresent()) {
 
@@ -329,8 +334,7 @@ public class GestionEntryUser {
 
                 try {
 
-                    GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                            .createOrdinateur(ordinateur.build());
+                    gestionOrdinateur.createOrdinateur(ordinateur.build());
 
                 } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
@@ -372,8 +376,7 @@ public class GestionEntryUser {
         try {
 
             long id = Long.parseLong(argArray[0]);
-            ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .findOrdinateurById(id);
+            ordinateur = gestionOrdinateur.findOrdinateurById(id);
 
         } catch (NumberFormatException | ConnexionDatabaseException
                 | RequeteQueryException e) {
@@ -414,8 +417,7 @@ public class GestionEntryUser {
                 if (argArray[2].isEmpty()) {
 
                     try {
-                        GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                                .updateOrdinateur(builder.build());
+                        gestionOrdinateur.updateOrdinateur(builder.build());
                     } catch (RequeteQueryException
                             | ConnexionDatabaseException e) {
 
@@ -445,8 +447,7 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                            .findEntrepriseById(id);
+                    Optional<Entreprise> fabricant = gestionEntreprise.findEntrepriseById(id);
 
                     if (fabricant.isPresent()) {
 
@@ -480,8 +481,7 @@ public class GestionEntryUser {
             if (argArray.length < 2) {
 
                 try {
-                    GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                            .updateOrdinateur(builder.build());
+                    gestionOrdinateur.updateOrdinateur(builder.build());
                 } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
                     e.printStackTrace();
@@ -512,8 +512,7 @@ public class GestionEntryUser {
         try {
 
             identifiant.add(Long.parseLong(arg));
-            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .suppressionOrdinateur(identifiant);
+            gestionOrdinateur.suppressionOrdinateur(identifiant);
 
         } catch (NumberFormatException | ConnexionDatabaseException
                 | RequeteQueryException e) {

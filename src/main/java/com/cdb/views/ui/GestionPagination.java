@@ -1,6 +1,10 @@
 package com.cdb.views.ui;
 
 import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.cdb.model.dto.EntrepriseDto;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.model.dto.PageDto;
@@ -25,6 +29,10 @@ public class GestionPagination {
 
     /** The page entreprise. */
     private List<EntrepriseDto> pageEntreprise;
+    
+    private ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
+    private GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context.getBean("GestionOrdinateur");
+    private GestionEntreprise gestionEntreprise = (GestionEntreprise) context.getBean("GestionEntreprise");
 
     /**
      * Instantiates a new gestion pagination.
@@ -77,15 +85,13 @@ public class GestionPagination {
 
             case 1:
 
-                pageOrdinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                        .findOrdinateurByPage(numeroPage, ligneParPage, "", "",
+                pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(numeroPage, ligneParPage, "", "",
                                 false);
 
                 if (pageOrdinateur.getContenue().isEmpty()) {
 
                     numeroPage--;
-                    pageOrdinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                            .findOrdinateurByPage(numeroPage, ligneParPage, "",
+                    pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(numeroPage, ligneParPage, "",
                                     "", false);
 
                 }
@@ -95,14 +101,12 @@ public class GestionPagination {
 
             case 2:
 
-                pageEntreprise = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                        .findEntreprise();
+                pageEntreprise = gestionEntreprise.findEntreprise();
 
                 if (pageEntreprise.isEmpty()) {
 
                     numeroPage--;
-                    pageEntreprise = GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                            .findEntreprise();
+                    pageEntreprise = gestionEntreprise.findEntreprise();
 
                 }
 

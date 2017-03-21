@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.cdb.model.dto.DashboardDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -50,15 +53,16 @@ public class DashboardServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-
+                
+        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) ctx.getBean("gestionOrdinateur");
         DashboardDto dashboard = DashboardDtoMapper
                 .recuperationDashboardRequestGet(request);
         PageDto page = null;
 
         try {
 
-            page = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .findOrdinateurByPage(dashboard.getNumPage(),
+            page = gestionOrdinateur.findOrdinateurByPage(dashboard.getNumPage(),
                             dashboard.getNbParPage(), dashboard.getFiltre(),
                             dashboard.getTrie(), dashboard.getDesc());
 
@@ -92,10 +96,12 @@ public class DashboardServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) ctx.getBean("gestionOrdinateur");
+        
         try {
 
-            GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .suppressionOrdinateur(DashboardDtoMapper
+            gestionOrdinateur.suppressionOrdinateur(DashboardDtoMapper
                             .recuperationListSuppresionRequestPost(request));
 
         } catch (ConnexionDatabaseException | RequeteQueryException e) {

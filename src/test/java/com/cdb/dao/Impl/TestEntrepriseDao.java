@@ -13,6 +13,8 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -20,11 +22,11 @@ import com.cdb.exception.RequeteQueryException;
 
 public class TestEntrepriseDao extends DBTestCase {
 
+    private ApplicationContext context;
+    
     private EntrepriseDao dao;
 
     private Properties prop = new Properties();
-
-    private IDatabaseTester databaseTester;
 
     @Override
     protected void setUp() throws Exception {
@@ -32,7 +34,8 @@ public class TestEntrepriseDao extends DBTestCase {
         InputStream stream = ConnexionDatabase.class.getClassLoader()
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
-        dao = EntrepriseDao.INSTANCE_ENTREPRISE_DAO;
+        context = new ClassPathXmlApplicationContext("springConfig.xml");
+        dao = (EntrepriseDao) context.getBean("entrepriseDao");;
         IDataSet dataSet = getDataSet();
         cleanlyInsertDataset(dataSet);
 
@@ -42,13 +45,12 @@ public class TestEntrepriseDao extends DBTestCase {
     protected void tearDown() throws Exception {
 
         dao = null;
-        databaseTester.onTearDown();
 
     }
 
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
 
-        databaseTester = new JdbcDatabaseTester(
+        IDatabaseTester databaseTester = new JdbcDatabaseTester(
                 prop.getProperty("dataSourceClassName"),
                 prop.getProperty("dataSource.url"),
                 prop.getProperty("dataSource.user"),

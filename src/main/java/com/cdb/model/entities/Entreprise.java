@@ -107,7 +107,7 @@ public class Entreprise {
     /**
      * Hash code.
      *
-     * @return entier du ascode
+     * @return entier du hascode
      */
     @Override
     public int hashCode() {

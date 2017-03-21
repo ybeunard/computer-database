@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.cdb.views.controllers.validation.Parse;
 import com.cdb.views.controllers.validation.Validation;
 import com.cdb.model.dto.OrdinateurDto;
@@ -54,12 +57,14 @@ public class EditComputerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) ctx.getBean("gestionOrdinateur");
+        GestionEntreprise gestionEntreprise = (GestionEntreprise) ctx.getBean("gestionEntreprise");
         long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
 
         try {
 
-            OrdinateurDto ordinateur = GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR
-                    .findOrdinateurById(id);
+            OrdinateurDto ordinateur = gestionOrdinateur.findOrdinateurById(id);
 
             if (ordinateur == null) {
 
@@ -70,8 +75,7 @@ public class EditComputerServlet extends HttpServlet {
 
             request.setAttribute("computer", ordinateur);
             request.setAttribute("companies",
-                    GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                            .findEntreprise());
+                    gestionEntreprise.findEntreprise());
 
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
 
@@ -101,6 +105,8 @@ public class EditComputerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) ctx.getBean("gestionOrdinateur");
         OrdinateurDto ordinateur = OrdinateurDtoMapper
                 .recuperationOrdinateurDto(request);
 
@@ -108,7 +114,7 @@ public class EditComputerServlet extends HttpServlet {
 
             try {
 
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.updateOrdinateur(
+                gestionOrdinateur.updateOrdinateur(
                         OrdinateurMapper.recuperationOrdinateur(ordinateur));
 
             } catch (RequeteQueryException | ConnexionDatabaseException e) {

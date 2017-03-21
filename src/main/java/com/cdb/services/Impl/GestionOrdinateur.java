@@ -20,24 +20,43 @@ import com.cdb.model.mappers.OrdinateurDtoMapper;
 import com.cdb.model.mappers.PageDtoMapper;
 import com.cdb.services.InterfaceGestionOrdinateur;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * The Enum GestionOrdinateur.
  */
-public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
-
-    /** The instance gestion ordinateur. */
-    INSTANCE_GESTION_ORDINATEUR;
-
-    /**
-     * Instantiates a new gestion ordinateur.
-     */
-    GestionOrdinateur() {
-
-    }
+public class GestionOrdinateur implements InterfaceGestionOrdinateur {
 
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(GestionOrdinateur.class);
+    
+    @Autowired
+    private OrdinateurDao ordinateurDao;
+    
+    public OrdinateurDao getOrdinateurDao( ){
+        
+        return ordinateurDao;
+        
+     }
+    
+    @Autowired
+    private ConnexionDatabase connexionDatabase;
+    
+    public ConnexionDatabase getConnexionDatabase() {
+        
+        return connexionDatabase;
+        
+    }
+    
+    /**
+     * Instantiates a new gestion ordinateur.
+     */ 
+    public GestionOrdinateur(){
+        
+        LOGGER.info("GestionOrdinateur instancié");
+        
+    }
 
     /**
      * Creates the ordinateur.
@@ -57,9 +76,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         try {
 
-            con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                    .connectDatabase();
-            OrdinateurDao.INSTANCE_ORDINATEUR_DAO.createOrdinateur(ordinateur,
+            con = connexionDatabase.connectDatabase();
+            ordinateurDao.createOrdinateur(ordinateur,
                     con);
             con.commit();
 
@@ -112,8 +130,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         if (filtre == null || filtre.equals("")) {
 
-            nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .countOrdinateur();
+            nombreTotal = ordinateurDao.countOrdinateur();
             LOGGER.debug("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
@@ -121,15 +138,13 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             numeroPage = verifNumPage(numeroPage, pageMax);
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
-            ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .findOrdinateurByPage(numeroPage, ligneParPage, trie, desc);
+            ordinateurs = ordinateurDao.findOrdinateurByPage(numeroPage, ligneParPage, trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
         } else {
 
-            nombreTotal = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .countOrdinateurByName(filtre);
+            nombreTotal = ordinateurDao.countOrdinateurByName(filtre);
             LOGGER.debug("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
@@ -137,8 +152,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
             numeroPage = verifNumPage(numeroPage, pageMax);
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
-            ordinateurs = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                    .findOrdinateurByName(numeroPage, ligneParPage, filtre,
+            ordinateurs = ordinateurDao.findOrdinateurByName(numeroPage, ligneParPage, filtre,
                             trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
@@ -169,9 +183,8 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         try {
 
-            con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                    .connectDatabase();
-            OrdinateurDao.INSTANCE_ORDINATEUR_DAO.updateOrdinateur(ordinateur,
+            con = connexionDatabase.connectDatabase();
+            ordinateurDao.updateOrdinateur(ordinateur,
                     con);
             con.commit();
 
@@ -211,13 +224,11 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         try {
 
-            con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                    .connectDatabase();
+            con = connexionDatabase.connectDatabase();
 
             for (long identifiant : id) {
 
-                OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                        .suppressionOrdinateur(identifiant, con);
+                ordinateurDao.suppressionOrdinateur(identifiant, con);
 
             }
 
@@ -257,8 +268,7 @@ public enum GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         LOGGER.info("Service: Recherche d'un ordinateur par id");
         OrdinateurDto ordinateur = null;
-        Optional<Ordinateur> ordinateurOptional = OrdinateurDao.INSTANCE_ORDINATEUR_DAO
-                .findOrdinateurById(id);
+        Optional<Ordinateur> ordinateurOptional = ordinateurDao.findOrdinateurById(id);
 
         if (ordinateurOptional.isPresent()) {
 

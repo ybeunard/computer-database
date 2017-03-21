@@ -220,6 +220,11 @@ public class OrdinateurDto {
 
     }
 
+    /**
+     * Hash code.
+     *
+     * @return entier du hascode
+     */
     @Override
     public int hashCode() {
 
@@ -237,6 +242,13 @@ public class OrdinateurDto {
 
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj
+     *            de comparaison
+     * @return vrai ou faux
+     */
     @Override
     public boolean equals(Object obj) {
 
@@ -332,6 +344,11 @@ public class OrdinateurDto {
 
     }
 
+    /**
+     * To string.
+     *
+     * @return la chaine de caractere a afficher
+     */
     @Override
     public String toString() {
 

@@ -19,21 +19,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author excilys
  */
-public enum ConnexionDatabase implements InterfaceConnexionDatabase {
+public class ConnexionDatabase implements InterfaceConnexionDatabase {
 
-    /** The instance connexion database. */
-    INSTANCE_CONNEXION_DATABASE;
-
+    /** The Constant LOGGER. */
+    public final Logger LOGGER = LoggerFactory
+            .getLogger(ConnexionDatabase.class);
+    
     /** The prop. */
     private final Properties prop = new Properties();
 
     private final HikariDataSource ds;
 
     private static final ThreadLocal<Connection> MYTHREADLOCAL = new ThreadLocal<Connection>();
-
-    /** The Constant LOGGER. */
-    public final Logger LOGGER = LoggerFactory
-            .getLogger(ConnexionDatabase.class);
 
     /**
      * Instantiates a new connexion database.
@@ -61,6 +58,7 @@ public enum ConnexionDatabase implements InterfaceConnexionDatabase {
         config.setMaximumPoolSize(10);
         config.setAutoCommit(false);
         ds = new HikariDataSource(config);
+        LOGGER.info("ConnexionDatabase instancié");
 
     }
 

@@ -11,6 +11,8 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.cdb.model.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -20,6 +22,8 @@ import junit.framework.TestCase;
 
 public class TestOrdinateurDao extends TestCase {
 
+    private ApplicationContext context;
+    
     private OrdinateurDao dao;
 
     private Properties prop = new Properties();
@@ -30,7 +34,8 @@ public class TestOrdinateurDao extends TestCase {
         InputStream stream = ConnexionDatabase.class.getClassLoader()
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
-        dao = OrdinateurDao.INSTANCE_ORDINATEUR_DAO;
+        context = new ClassPathXmlApplicationContext("springConfig.xml");
+        dao = (OrdinateurDao) context.getBean("ordinateurDao");;
         IDataSet dataSet1 = readDataSet1();
         IDataSet dataSet2 = readDataSet2();
         cleanlyInsertDataset(dataSet1);

@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cdb.dao.InterfaceEntrepriseDao;
 import com.cdb.dao.Impl.mappers.EntrepriseDaoMapper;
@@ -26,13 +27,19 @@ import com.cdb.exception.RequeteQueryException;
  *
  * @author excilys
  */
-public enum EntrepriseDao implements InterfaceEntrepriseDao {
-
-    /** The instance entreprise dao. */
-    INSTANCE_ENTREPRISE_DAO;
+public class EntrepriseDao implements InterfaceEntrepriseDao {
 
     /** The Constant LOGGER. */
     public final Logger LOGGER = LoggerFactory.getLogger(EntrepriseDao.class);
+    
+    @Autowired
+    private ConnexionDatabase connexionDatabase;
+    
+    public ConnexionDatabase getConnexionDatabase() {
+        
+        return connexionDatabase;
+        
+    }
 
     /** The prop. */
     private final Properties prop = new Properties();
@@ -58,6 +65,8 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
             LOGGER.error("Fichier introuvable : " + file);
 
         }
+        
+        LOGGER.info("EntrepriseDao instancié");
 
     }
 
@@ -76,8 +85,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
         LOGGER.info("recherche de la liste d'entreprise");
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase(); Statement stmt = con.createStatement()) {
+        try (Connection con = connexionDatabase.connectDatabase(); Statement stmt = con.createStatement()) {
 
             ResultSet rset = stmt
                     .executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
@@ -112,8 +120,7 @@ public enum EntrepriseDao implements InterfaceEntrepriseDao {
         Optional<Entreprise> entreprise = Optional.empty();
         LOGGER.info("recherche d'une entreprise par id: " + index);
 
-        try (Connection con = ConnexionDatabase.INSTANCE_CONNEXION_DATABASE
-                .connectDatabase();
+        try (Connection con = connexionDatabase.connectDatabase();
                 PreparedStatement stmt = con.prepareStatement(
                         prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"))) {
 

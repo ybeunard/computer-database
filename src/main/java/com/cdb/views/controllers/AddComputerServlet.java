@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.cdb.views.controllers.validation.Validation;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -53,11 +56,13 @@ public class AddComputerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        GestionEntreprise gestionEntreprise = (GestionEntreprise) ctx.getBean("gestionEntreprise");
+        
         try {
 
             request.setAttribute("companies",
-                    GestionEntreprise.INSTANCE_GESTION_ENTREPRISE
-                            .findEntreprise());
+                    gestionEntreprise.findEntreprise());
 
         } catch (ConnexionDatabaseException | RequeteQueryException e) {
 
@@ -87,6 +92,8 @@ public class AddComputerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) ctx.getBean("gestionOrdinateur");
         OrdinateurDto ordinateur = OrdinateurDtoMapper
                 .recuperationOrdinateurDto(request);
 
@@ -94,7 +101,7 @@ public class AddComputerServlet extends HttpServlet {
 
             try {
 
-                GestionOrdinateur.INSTANCE_GESTION_ORDINATEUR.createOrdinateur(
+                gestionOrdinateur.createOrdinateur(
                         OrdinateurMapper.recuperationOrdinateur(ordinateur));
 
             } catch (RequeteQueryException | ConnexionDatabaseException e) {
