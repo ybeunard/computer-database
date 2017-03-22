@@ -22,6 +22,8 @@
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 	    <property name="poolName" value="springHikariCP" />
 	    <property name="dataSourceClassName" value="${dataSourceClassName}" />
+	    <property name="maximumPoolSize" value="${dataSource.maximumPoolSize}"/>
+	    <property name="autoCommit" value="false"/>
 	    <property name="dataSourceProperties">
 	        <props>
 	            <prop key="url">${dataSource.url}</prop>
