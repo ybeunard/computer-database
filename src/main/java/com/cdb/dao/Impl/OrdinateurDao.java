@@ -3,11 +3,7 @@ package com.cdb.dao.Impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +12,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.dao.InterfaceOrdinateurDao;
 import com.cdb.dao.Impl.mappers.OrdinateurDaoMapper;
@@ -70,70 +67,6 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
     }
 
     /**
-     * Creates the ordinateur.
-     *
-     * @param ordinateur
-     *            à créer
-     * @param con
-     *            the con
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
-     * @throws RequeteQueryException
-     *             if there is an issue
-     */
-    public void createOrdinateur(Ordinateur ordinateur, Connection con)
-            throws ConnexionDatabaseException, RequeteQueryException {
-
-        LOGGER.info("Création d'un ordinateur");
-        LOGGER.debug("" + ordinateur);
-
-        try (PreparedStatement stmt = con.prepareStatement(
-                prop.getProperty("QUERY_INSERT_ORDINATEUR"))) {
-
-            stmt.setString(1, ordinateur.getName());
-
-            if (ordinateur.getDateIntroduit() != null) {
-
-                stmt.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
-
-            } else {
-
-                stmt.setDate(2, null);
-
-            }
-            if (ordinateur.getDateInterrompu() != null) {
-
-                stmt.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
-
-            } else {
-
-                stmt.setDate(3, null);
-
-            }
-
-            if (ordinateur.getFabricant().isPresent()) {
-
-                stmt.setLong(4, ordinateur.getFabricant().get().getId());
-
-            } else {
-
-                stmt.setString(4, null);
-
-            }
-
-            stmt.executeUpdate();
-            LOGGER.info("Creation d'un ordinateur effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de creation de l'" + ordinateur);
-
-        }
-
-    }
-
-    /**
      * Find ordinateur.
      *
      * @return une liste d'ordinateur
@@ -147,22 +80,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         LOGGER.info("recherche de la liste d'ordinateur");
-
-        try (Connection con = connexionDatabase.connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS"))) {
-
-            ResultSet rset = stmt.executeQuery();
-            ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(rset);
-            LOGGER.info("recherche de la liste d'ordinateur effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de recherche d'ordinateur");
-
-        }
-
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        ordinateurs = jdbcTemplate.query(prop.getProperty("QUERY_FIND_ORDINATEURS"), new OrdinateurDaoMapper());
         return ordinateurs;
 
     }
@@ -220,24 +139,9 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
             requete = String.format(requete, "name");
 
         }
-
-        try (Connection con = connexionDatabase.connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(requete)) {
-
-            stmt.setInt(1, limit);
-            stmt.setInt(2, offset);
-            ResultSet res = stmt.executeQuery();
-            ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(res);
-            LOGGER.info(
-                    "recherche de la liste d'ordinateur par page effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de recherche par page d'ordinateur");
-
-        }
-
+        
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        ordinateurs = jdbcTemplate.query(requete, new Object[]{limit, offset}, new OrdinateurDaoMapper());
         return ordinateurs;
 
     }
@@ -296,25 +200,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
         }
 
         LOGGER.info("recherche de la liste d'ordinateur par nom");
-
-        try (Connection con = connexionDatabase.connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(requete)) {
-
-            stmt.setString(1, "%" + name + "%");
-            stmt.setString(2, "%" + name + "%");
-            stmt.setInt(3, limit);
-            stmt.setInt(4, offset);
-            ResultSet res = stmt.executeQuery();
-            ordinateurs = OrdinateurDaoMapper.recuperationListOrdinateur(res);
-            LOGGER.info("recherche de la liste d'ordinateur par nom effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de recherche par nom d'ordinateur");
-
-        }
-
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        ordinateurs = jdbcTemplate.query(requete, new Object[]{"%" + name + "%","%" + name + "%",limit, offset}, new OrdinateurDaoMapper());
         return ordinateurs;
 
     }
@@ -335,25 +222,89 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         Optional<Ordinateur> ordinateur = Optional.empty();
         LOGGER.info("recherche d'ordinateur par id");
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        ordinateur = Optional.ofNullable(jdbcTemplate.queryForObject(prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"), new Object[]{id}, new OrdinateurDaoMapper()));
+        return ordinateur;
 
-        try (Connection con = connexionDatabase.connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"))) {
+    }
+    
+    /**
+     * Creates the ordinateur.
+     *
+     * @param ordinateur
+     *            à créer
+     * @param con
+     *            the con
+     * @throws ConnexionDatabaseException
+     *             if there is an issue
+     * @throws RequeteQueryException
+     *             if there is an issue
+     */
+    public void createOrdinateur(Ordinateur ordinateur, JdbcTemplate jdbcTemplate)
+            throws ConnexionDatabaseException, RequeteQueryException {
 
-            stmt.setLong(1, id);
-            ResultSet res = stmt.executeQuery();
-            ordinateur = Optional.ofNullable(
-                    OrdinateurDaoMapper.recuperationOrdinateur(res));
-            LOGGER.info("recherche de l'ordinateur effectuée");
+        LOGGER.info("Création d'un ordinateur");
+        LOGGER.debug("" + ordinateur);
+        
+        if (ordinateur.getDateIntroduit() != null) {
 
-        } catch (SQLException e) {
+            if(ordinateur.getDateInterrompu() != null) {
+                
+                if(ordinateur.getFabricant().isPresent()) {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), Date.valueOf(ordinateur.getDateInterrompu()), ordinateur.getFabricant().get().getId());
+                    
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), Date.valueOf(ordinateur.getDateInterrompu()), null);
+                    
+                }
+                
+            } else {
+                
+                if(ordinateur.getFabricant().isPresent()) {
+                
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), null, ordinateur.getFabricant().get().getId());
+                
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), null, null);
+                
+                }
+                
+            }
 
-            throw new RequeteQueryException(
-                    "Echec de la requete de recherche par id d'ordinateur");
+        } else {
+            
+            if(ordinateur.getDateInterrompu() != null) {
+                
+                if(ordinateur.getFabricant().isPresent()) {
+            
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), null, Date.valueOf(ordinateur.getDateInterrompu()), ordinateur.getFabricant().get().getId());
+
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), null, Date.valueOf(ordinateur.getDateInterrompu()), null);
+                    
+                }
+                
+            } else {
+                
+                if(ordinateur.getFabricant().isPresent()) {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), null, null, ordinateur.getFabricant().get().getId());
+
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_INSERT_ORDINATEUR"), ordinateur.getName(), null, null, null);
+                    
+                }
+                
+            }
 
         }
 
-        return ordinateur;
+        LOGGER.info("Creation d'un ordinateur effectuée");
 
     }
 
@@ -369,55 +320,71 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public void updateOrdinateur(Ordinateur ordinateur, Connection con)
+    public void updateOrdinateur(Ordinateur ordinateur, JdbcTemplate jdbcTemplate)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         LOGGER.info("update d'un ordinateur");
         LOGGER.debug("" + ordinateur);
 
-        try (PreparedStatement stmt = con.prepareStatement(
-                prop.getProperty("QUERY_UPDATE_ORDINATEUR"))) {
+        if (ordinateur.getDateIntroduit() != null) {
 
-            stmt.setString(1, ordinateur.getName());
-
-            if (ordinateur.getDateIntroduit() != null) {
-
-                stmt.setDate(2, Date.valueOf(ordinateur.getDateIntroduit()));
-
+            if(ordinateur.getDateInterrompu() != null) {
+                
+                if(ordinateur.getFabricant().isPresent()) {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), Date.valueOf(ordinateur.getDateInterrompu()), ordinateur.getFabricant().get().getId(), ordinateur.getId());
+                    
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), Date.valueOf(ordinateur.getDateInterrompu()), null, ordinateur.getId());
+                    
+                }
+                
             } else {
-
-                stmt.setDate(2, null);
-
-            }
-            if (ordinateur.getDateInterrompu() != null) {
-
-                stmt.setDate(3, Date.valueOf(ordinateur.getDateInterrompu()));
-
-            } else {
-
-                stmt.setDate(3, null);
-
-            }
-            if (ordinateur.getFabricant().isPresent()) {
-
-                stmt.setLong(4, ordinateur.getFabricant().get().getId());
-
-            } else {
-
-                stmt.setString(4, null);
-
+                
+                if(ordinateur.getFabricant().isPresent()) {
+                
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), null, ordinateur.getFabricant().get().getId(), ordinateur.getId());
+                
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), Date.valueOf(ordinateur.getDateIntroduit()), null, null, ordinateur.getId());
+                
+                }
+                
             }
 
-            stmt.setLong(5, ordinateur.getId());
-            stmt.executeUpdate();
-            LOGGER.info("update d'un ordinateur effectuée");
+        } else {
+            
+            if(ordinateur.getDateInterrompu() != null) {
+                
+                if(ordinateur.getFabricant().isPresent()) {
+            
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), null, Date.valueOf(ordinateur.getDateInterrompu()), ordinateur.getFabricant().get().getId(), ordinateur.getId());
 
-        } catch (SQLException e) {
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), null, Date.valueOf(ordinateur.getDateInterrompu()), null, ordinateur.getId());
+                    
+                }
+                
+            } else {
+                
+                if(ordinateur.getFabricant().isPresent()) {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), null, null, ordinateur.getFabricant().get().getId(), ordinateur.getId());
 
-            throw new RequeteQueryException(
-                    "Echec de la requete de mise à jour de l'" + ordinateur);
+                } else {
+                    
+                    jdbcTemplate.update(prop.getProperty("QUERY_UPDATE_ORDINATEUR"), ordinateur.getName(), null, null, null, ordinateur.getId());
+                    
+                }
+                
+            }
 
         }
+        
+        LOGGER.info("update d'un ordinateur effectuée");
 
     }
 
@@ -433,26 +400,12 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             if there is an issue
      */
-    public void suppressionOrdinateur(long id, Connection con)
+    public void suppressionOrdinateur(long id, JdbcTemplate jdbcTemplate)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         LOGGER.info("suppression de l'ordinateur");
         LOGGER.debug("" + id);
-
-        try (PreparedStatement stmt = con.prepareStatement(
-                prop.getProperty("QUERY_DELETE_ORDINATEUR"))) {
-
-            stmt.setLong(1, id);
-            stmt.executeUpdate();
-            LOGGER.info("suppression d'un ordinateur effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de suppression de l'ordinateur: "
-                            + id);
-
-        }
+        jdbcTemplate.update(prop.getProperty("QUERY_DELETE_ORDINATEUR"), id);
 
     }
 
@@ -470,21 +423,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         int count = 0;
         LOGGER.info("Comptage du nombre d'ordinateur");
-
-        try (Connection con = connexionDatabase.connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_COUNT_ORDINATEUR"))) {
-
-            ResultSet res = stmt.executeQuery();
-            count = OrdinateurDaoMapper.recuperationInt(res);
-            LOGGER.info("Comptage du nombre d'ordinateur effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException("Echec de la requete count");
-
-        }
-
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        count = jdbcTemplate.queryForObject(prop.getProperty("QUERY_COUNT_ORDINATEUR"), Integer.class);
         return count;
 
     }
@@ -505,23 +445,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         int count = 0;
         LOGGER.info("Comptage du nombre d'ordinateur");
-
-        try (Connection con = connexionDatabase.connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_COUNT_ORDINATEUR_BY_NAME"))) {
-
-            stmt.setString(1, "%" + filtre + "%");
-            stmt.setString(2, "%" + filtre + "%");
-            ResultSet res = stmt.executeQuery();
-            count = OrdinateurDaoMapper.recuperationInt(res);
-            LOGGER.info("Comptage du nombre d'ordinateur effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException("Echec de la requete count");
-
-        }
-
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        count = jdbcTemplate.queryForObject(prop.getProperty("QUERY_COUNT_ORDINATEUR_BY_NAME"), new Object[]{"%" + filtre + "%", "%" + filtre + "%"}, Integer.class);
         return count;
 
     }

@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <form id="deleteForm" action="DashboardServlet" method="POST">
+        <form id="deleteForm" action="dashboard.htm" method="POST">
             <input type="hidden" name="selection" value="">
         </form>
 

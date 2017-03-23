@@ -1,8 +1,9 @@
 package com.cdb.dao;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.model.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
@@ -12,21 +13,6 @@ import com.cdb.exception.RequeteQueryException;
  * The Interface InterfaceOrdinateurDao.
  */
 public interface InterfaceOrdinateurDao {
-
-    /**
-     * Creates the ordinateur.
-     *
-     * @param ordinateur
-     *            the ordinateur
-     * @param con
-     *            the con
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
-     */
-    void createOrdinateur(Ordinateur ordinateur, Connection con)
-            throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Find ordinateur.
@@ -97,6 +83,17 @@ public interface InterfaceOrdinateurDao {
      */
     Optional<Ordinateur> findOrdinateurById(long id)
             throws ConnexionDatabaseException, RequeteQueryException;
+    
+    /**
+     * Creates the ordinateur.
+     *
+     * @param ordinateur            the ordinateur
+     * @param jdbcTemplate the jdbc template
+     * @throws ConnexionDatabaseException             the connexion database exception
+     * @throws RequeteQueryException             the requete query exception
+     */
+    void createOrdinateur(Ordinateur ordinateur, JdbcTemplate jdbcTemplate)
+            throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
      * Update ordinateur.
@@ -110,7 +107,7 @@ public interface InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    void updateOrdinateur(Ordinateur ordinateur, Connection con)
+    void updateOrdinateur(Ordinateur ordinateur, JdbcTemplate jdbcTemplate)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**
@@ -125,7 +122,7 @@ public interface InterfaceOrdinateurDao {
      * @throws RequeteQueryException
      *             the requete query exception
      */
-    void suppressionOrdinateur(long index, Connection con)
+    void suppressionOrdinateur(long index, JdbcTemplate jdbcTemplate)
             throws ConnexionDatabaseException, RequeteQueryException;
 
     /**

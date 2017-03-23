@@ -34,7 +34,7 @@ public class TestOrdinateurDao extends TestCase {
         InputStream stream = ConnexionDatabase.class.getClassLoader()
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
-        context = new ClassPathXmlApplicationContext("springConfig.xml");
+        context = new ClassPathXmlApplicationContext("dispatcher-data.xml");
         dao = (OrdinateurDao) context.getBean("ordinateurDao");;
         IDataSet dataSet1 = readDataSet1();
         IDataSet dataSet2 = readDataSet2();

@@ -34,7 +34,7 @@ public class TestEntrepriseDao extends DBTestCase {
         InputStream stream = ConnexionDatabase.class.getClassLoader()
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
-        context = new ClassPathXmlApplicationContext("springConfig.xml");
+        context = new ClassPathXmlApplicationContext("dispatcher-data.xml");
         dao = (EntrepriseDao) context.getBean("entrepriseDao");;
         IDataSet dataSet = getDataSet();
         cleanlyInsertDataset(dataSet);

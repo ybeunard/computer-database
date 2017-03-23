@@ -1,7 +1,5 @@
 package com.cdb.services.Impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +19,7 @@ import com.cdb.model.mappers.PageDtoMapper;
 import com.cdb.services.InterfaceGestionOrdinateur;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Enum GestionOrdinateur.
@@ -68,35 +67,13 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      */
+    @Transactional
     public void createOrdinateur(Ordinateur ordinateur)
             throws RequeteQueryException, ConnexionDatabaseException {
 
         LOGGER.info("Service : Creation d'un ordinateur");
-        Connection con = null;
-
-        try {
-
-            con = connexionDatabase.connectDatabase();
-            ordinateurDao.createOrdinateur(ordinateur,
-                    con);
-            con.commit();
-
-        } catch (RequeteQueryException | SQLException e) {
-
-            try {
-
-                con.rollback();
-
-            } catch (SQLException e1) {
-
-                throw new RequeteQueryException(
-                        "Echec du rollback de Creation");
-
-            }
-
-            throw new RequeteQueryException("Echec de la transaction Creation");
-
-        }
+        ordinateurDao.createOrdinateur(ordinateur,
+                    connexionDatabase.getJdbcTemplate());
 
     }
 
@@ -175,34 +152,13 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @throws ConnexionDatabaseException
      *             the connexion database exception
      */
+    @Transactional
     public void updateOrdinateur(Ordinateur ordinateur)
             throws RequeteQueryException, ConnexionDatabaseException {
 
         LOGGER.info("Service: Update d'un ordinateur");
-        Connection con = null;
-
-        try {
-
-            con = connexionDatabase.connectDatabase();
-            ordinateurDao.updateOrdinateur(ordinateur,
-                    con);
-            con.commit();
-
-        } catch (RequeteQueryException | SQLException e) {
-
-            try {
-
-                con.rollback();
-
-            } catch (SQLException el) {
-
-                throw new RequeteQueryException("Echec du rollback de Update");
-
-            }
-
-            throw new RequeteQueryException("Echec de la transaction Update");
-
-        }
+        ordinateurDao.updateOrdinateur(ordinateur,
+                    connexionDatabase.getJdbcTemplate());
 
     }
 
@@ -216,37 +172,15 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @throws RequeteQueryException
      *             the requete query exception
      */
+    @Transactional
     public void suppressionOrdinateur(List<Long> id)
             throws ConnexionDatabaseException, RequeteQueryException {
 
         LOGGER.info("Service: Suppression d'ordinateur");
-        Connection con = null;
 
-        try {
+        for (long identifiant : id) {
 
-            con = connexionDatabase.connectDatabase();
-
-            for (long identifiant : id) {
-
-                ordinateurDao.suppressionOrdinateur(identifiant, con);
-
-            }
-
-            con.commit();
-
-        } catch (RequeteQueryException | SQLException e) {
-
-            try {
-
-                con.rollback();
-
-            } catch (SQLException el) {
-
-                throw new RequeteQueryException("Echec du rollback de Delete");
-
-            }
-
-            throw new RequeteQueryException("Echec de la transaction Delete");
+            ordinateurDao.suppressionOrdinateur(identifiant, connexionDatabase.getJdbcTemplate());
 
         }
 

@@ -2,11 +2,6 @@ package com.cdb.dao.Impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +10,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.dao.InterfaceEntrepriseDao;
 import com.cdb.dao.Impl.mappers.EntrepriseDaoMapper;
@@ -84,21 +80,8 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
         LOGGER.info("recherche de la liste d'entreprise");
-
-        try (Connection con = connexionDatabase.connectDatabase(); Statement stmt = con.createStatement()) {
-
-            ResultSet rset = stmt
-                    .executeQuery(prop.getProperty("QUERY_FIND_ENTREPRISES"));
-            entreprises = EntrepriseDaoMapper.recuperationListEntreprise(rset);
-            LOGGER.info("recherche de la liste d'entreprise effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec" + " de la requete de recherche d'entreprise");
-
-        }
-
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        entreprises = jdbcTemplate.query(prop.getProperty("QUERY_FIND_ENTREPRISES"), new EntrepriseDaoMapper());
         return entreprises;
 
     }
@@ -119,24 +102,15 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
 
         Optional<Entreprise> entreprise = Optional.empty();
         LOGGER.info("recherche d'une entreprise par id: " + index);
-
-        try (Connection con = connexionDatabase.connectDatabase();
-                PreparedStatement stmt = con.prepareStatement(
-                        prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"))) {
-
-            stmt.setLong(1, index);
-            ResultSet res = stmt.executeQuery();
-            entreprise = EntrepriseDaoMapper.recupertationEntreprise(res);
-            LOGGER.info("recherche d'une entreprise par id effectuée");
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "Echec de la requete de recherche de l'entreprise numero: "
-                            + index);
-
+        
+        if(index <= 0){
+            
+            return entreprise;
+            
         }
-
+        
+        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
+        entreprise = Optional.ofNullable(jdbcTemplate.queryForObject(prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"), new Object[]{index}, new EntrepriseDaoMapper()));
         return entreprise;
 
     }

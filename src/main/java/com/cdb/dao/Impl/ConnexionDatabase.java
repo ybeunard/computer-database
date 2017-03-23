@@ -1,17 +1,14 @@
 package com.cdb.dao.Impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import com.cdb.dao.InterfaceConnexionDatabase;
 import com.cdb.exception.ConnexionDatabaseException;
 
-import com.zaxxer.hikari.HikariDataSource;
-
-import java.util.Properties;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * The Enum ConnexionDatabase.
@@ -24,19 +21,15 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
     public final Logger LOGGER = LoggerFactory
             .getLogger(ConnexionDatabase.class);
     
-    /** The prop. */
-    private final Properties prop = new Properties();
-    
+    private JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private HikariDataSource hikariDataSource;
-    
-    public HikariDataSource getHikariDataSource() {
+    public void setDataSource(DataSource dataSource) {
         
-        return hikariDataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        LOGGER.info("jdbcTemplate instancié");
         
     }
-
-    private static final ThreadLocal<Connection> MYTHREADLOCAL = new ThreadLocal<Connection>();
 
     /**
      * Instantiates a new connexion database.
@@ -46,7 +39,7 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
         LOGGER.info("ConnexionDatabase instancié");
 
     }
-
+    
     /**
      * Connect database.
      *
@@ -54,80 +47,10 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
      * @throws ConnexionDatabaseException
      *             if there is an issue
      */
-    public Connection connectDatabase() throws ConnexionDatabaseException {
+    public JdbcTemplate getJdbcTemplate() {
 
-        /**
-         *
-         */
-        LOGGER.info("Tentative de connexion");
-        Connection con = null;
-
-        try {
-
-            con = getMyConnection();
-
-        } catch (SQLException e) {
-
-            throw new ConnexionDatabaseException("Connexion au serveur "
-                    + prop.getProperty("dataSource.url") + " impossible", con);
-
-        }
-
-        LOGGER.info("connexion effectuée");
-        return con;
-
-    }
-
-    /**
-     * Close connexion database.
-     *
-     * @param con
-     *            to close her
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
-     */
-    public void closeConnexionDatabase(Connection con)
-            throws ConnexionDatabaseException {
-
-        if (con != null) {
-
-            LOGGER.info("tentative de deconnexion");
-
-            try {
-
-                con.close();
-
-            } catch (SQLException e) {
-
-                throw new ConnexionDatabaseException(
-                        "Deconnexion du serveur impossible");
-
-            }
-
-            LOGGER.info("deconnexion effectuée");
-
-        }
-
-    }
-
-    /**
-     * Gets the my connection.
-     *
-     * @return the my connection
-     * @throws SQLException
-     *             the SQL exception
-     */
-    private Connection getMyConnection() throws SQLException {
-
-        Connection con = MYTHREADLOCAL.get();
-
-        if (con == null || con.isClosed()) {
-
-            MYTHREADLOCAL.set(con = hikariDataSource.getConnection());
-
-        }
-
-        return con;
+        LOGGER.info("recuperation du template JDBC");
+        return jdbcTemplate;
 
     }
 
