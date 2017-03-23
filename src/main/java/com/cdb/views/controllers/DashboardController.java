@@ -73,7 +73,19 @@ public class DashboardController {
             HttpServletResponse response) throws Exception {
         
         LOGGER.info("DashboardController: POST");
-        return new ModelAndView("dashboard");
+        
+        try {
+
+            gestionOrdinateur.suppressionOrdinateur(DashboardDtoMapper
+                            .recuperationListSuppresionRequestPost(request));
+
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
+
+            request.setAttribute("error", 1);
+
+        }
+
+        return dashboardGet(request, response);
         
     }
 

@@ -14,7 +14,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="DashboardServlet?resetFiltre=OK"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
         </div>
     </header>
     <section id="main">
@@ -26,7 +26,7 @@
                     </div>
                     <h1>Edit Computer</h1>
 
-                    <form action="EditComputerServlet" method="POST">
+                    <form action="editComputer.htm" method="POST">
                         <input type="hidden" name="ordinateur" value="${computer.id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
@@ -58,7 +58,7 @@
                         <div class="actions pull-right">
                             <input type="submit" value="Edit" class="btn btn-primary"/>
                             or
-                            <a href="DashboardServlet" class="btn btn-default">Cancel</a>
+                            <a href="dashboard.htm" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

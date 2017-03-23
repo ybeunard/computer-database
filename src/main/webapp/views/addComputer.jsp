@@ -14,7 +14,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="DashboardServlet?resetFiltre=OK"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="AddComputerServlet" name="newComputer" method="POST">
+                    <form action="addComputer.htm" name="newComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -52,10 +52,13 @@
                                 </select>
                             </div>                  
                         </fieldset>
+                        <c:if test="${not empty error}">
+                        	<div class="alert alert-danger">${error}</div>
+                        </c:if>
                         <div class="actions pull-right">
                             <input type="submit" name="action" value="Add" class="btn btn-primary">
                             or
-                            <a href="DashboardServlet" class="btn btn-default">Cancel</a>
+                            <a href="dashboard.htm" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

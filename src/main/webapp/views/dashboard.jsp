@@ -15,7 +15,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="?resetFiltre=OK"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -26,14 +26,14 @@
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
-                    <form id="searchForm" action="#" method="GET" class="form-inline">
+                    <form id="searchForm" action="dashboard.htm" method="GET" class="form-inline">
 
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
                         <input type="submit" id="searchsubmit" name="action" value="Filter" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="AddComputerServlet">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputer.htm">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -59,18 +59,18 @@
                             </span>
                         </th>
                         <th>
-                            <a href="?trie=name">Computer name</a>
+                            <a href="dashboard.htm?trie=name">Computer name</a>
                         </th>
                         <th>
-                            <a href="?trie=introduced">Introduced date</a>
+                            <a href="dashboard.htm?trie=introduced">Introduced date</a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <a href="?trie=discontinued">Discontinued date</a>
+                            <a href="dashboard.htm?trie=discontinued">Discontinued date</a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href="?trie=company_name">Company</a>
+                            <a href="dashboard.htm?trie=company_name">Company</a>
                         </th>
 
                     </tr>
