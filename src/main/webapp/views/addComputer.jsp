@@ -23,11 +23,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
+                	Language : <a href="addComputer.htm?locale=en">English</a>|<a href="addComputer.htm?locale=fr">Francais</a>
                     <h1>Add Computer</h1>
                     <form:form action="addComputer.htm" modelAttribute="ordinateurDto" name="newComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
+                                <label for="computerName"><spring:message code="name.springmvc" text="default text" /></label>
                                 <form:input path="name" type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name"/>
 								<form:errors path="name" />
                             </div>
