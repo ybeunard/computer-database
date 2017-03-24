@@ -29,7 +29,7 @@
                     <h1>Edit Computer</h1>
 
                     <form:form action="editComputer.htm" modelAttribute="ordinateurDto" method="POST">
-                        <input type="hidden" name="ordinateur" value="${computer.id}" id="id"/>
+                        <form:input path="id" type="hidden" name="ordinateur" value="${computer.id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>

@@ -6,10 +6,7 @@ import com.cdb.model.entities.Ordinateur;
 
 import java.util.List;
 
-import org.springframework.dao.EmptyResultDataAccessException;
-
-import com.cdb.exception.ConnexionDatabaseException;
-import com.cdb.exception.RequeteQueryException;
+import org.springframework.dao.DataAccessException;
 
 /**
  * The Interface InterfaceGestionOrdinateur.
@@ -21,13 +18,10 @@ public interface InterfaceGestionOrdinateur {
      *
      * @param ordinateur
      *            the ordinateur
-     * @throws RequeteQueryException
-     *             the requete query exception
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    void createOrdinateur(Ordinateur ordinateur)
-            throws RequeteQueryException, ConnexionDatabaseException;
+    void createOrdinateur(Ordinateur ordinateur) throws DataAccessException;
 
     /**
      * Find ordinateur by page.
@@ -43,40 +37,32 @@ public interface InterfaceGestionOrdinateur {
      * @param desc
      *            the desc
      * @return the optional
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
     PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
             String filtre, String trie, boolean desc)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            throws DataAccessException;
 
     /**
      * Update ordinateur.
      *
      * @param ordinateur
      *            the ordinateur
-     * @throws RequeteQueryException
-     *             the requete query exception
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    void updateOrdinateur(Ordinateur ordinateur)
-            throws RequeteQueryException, ConnexionDatabaseException;
+    void updateOrdinateur(Ordinateur ordinateur) throws DataAccessException;
 
     /**
      * Suppression ordinateur.
      *
      * @param id
      *            the id
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    void suppressionOrdinateur(List<Long> id)
-            throws ConnexionDatabaseException, RequeteQueryException;
+    void suppressionOrdinateur(List<Long> id) throws DataAccessException;
 
     /**
      * Find ordinateur by id.
@@ -84,12 +70,9 @@ public interface InterfaceGestionOrdinateur {
      * @param id
      *            the id
      * @return the ordinateur dto
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    OrdinateurDto findOrdinateurById(long id)
-            throws ConnexionDatabaseException, EmptyResultDataAccessException;
+    OrdinateurDto findOrdinateurById(long id) throws DataAccessException;
 
 }

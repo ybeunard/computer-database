@@ -12,14 +12,12 @@ import com.cdb.dao.Impl.OrdinateurDao;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.entities.Ordinateur;
-import com.cdb.exception.ConnexionDatabaseException;
-import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.InterfaceGestionOrdinateur;
 import com.cdb.utils.mappers.OrdinateurDtoMapper;
 import com.cdb.utils.mappers.PageDtoMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,51 +28,43 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(GestionOrdinateur.class);
-    
+
+    /** The ordinateur dao. */
     @Autowired
     private OrdinateurDao ordinateurDao;
-    
-    public OrdinateurDao getOrdinateurDao( ){
-        
+
+    /**
+     * Gets the ordinateur dao.
+     *
+     * @return the ordinateur dao
+     */
+    public OrdinateurDao getOrdinateurDao() {
+
         return ordinateurDao;
-        
-     }
-    
+
+    }
+
+    /** The connexion database. */
     @Autowired
     private ConnexionDatabase connexionDatabase;
-    
+
+    /**
+     * Gets the connexion database.
+     *
+     * @return the connexion database
+     */
     public ConnexionDatabase getConnexionDatabase() {
-        
+
         return connexionDatabase;
-        
+
     }
-    
+
     /**
      * Instantiates a new gestion ordinateur.
-     */ 
-    public GestionOrdinateur(){
-        
-        LOGGER.info("GestionOrdinateur instancié");
-        
-    }
-
-    /**
-     * Creates the ordinateur.
-     *
-     * @param ordinateur
-     *            à créer
-     * @throws RequeteQueryException
-     *             if there is an issue
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
      */
-    @Transactional
-    public void createOrdinateur(Ordinateur ordinateur)
-            throws RequeteQueryException, ConnexionDatabaseException {
+    public GestionOrdinateur() {
 
-        LOGGER.info("Service : Creation d'un ordinateur");
-        ordinateurDao.createOrdinateur(ordinateur,
-                    connexionDatabase.getJdbcTemplate());
+        LOGGER.info("GestionOrdinateur instancié");
 
     }
 
@@ -92,14 +82,12 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @param desc
      *            the desc
      * @return une liste d'ordinateur
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
     public PageDto findOrdinateurByPage(int numeroPage, int ligneParPage,
             String filtre, String trie, boolean desc)
-            throws ConnexionDatabaseException, RequeteQueryException {
+            throws DataAccessException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int nombreTotal = 0;
@@ -116,7 +104,8 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             numeroPage = verifNumPage(numeroPage, pageMax);
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
-            ordinateurs = ordinateurDao.findOrdinateurByPage(numeroPage, ligneParPage, trie, desc);
+            ordinateurs = ordinateurDao.findOrdinateurByPage(numeroPage,
+                    ligneParPage, trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
@@ -130,8 +119,8 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             numeroPage = verifNumPage(numeroPage, pageMax);
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
-            ordinateurs = ordinateurDao.findOrdinateurByName(numeroPage, ligneParPage, filtre,
-                            trie, desc);
+            ordinateurs = ordinateurDao.findOrdinateurByName(numeroPage,
+                    ligneParPage, filtre, trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
@@ -144,66 +133,21 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
     }
 
     /**
-     * Update ordinateur.
-     *
-     * @param ordinateur
-     *            a update
-     * @throws RequeteQueryException
-     *             the requete query exception
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     */
-    @Transactional
-    public void updateOrdinateur(Ordinateur ordinateur)
-            throws RequeteQueryException, ConnexionDatabaseException {
-
-        LOGGER.info("Service: Update d'un ordinateur");
-        ordinateurDao.updateOrdinateur(ordinateur,
-                    connexionDatabase.getJdbcTemplate());
-
-    }
-
-    /**
-     * Suppression ordinateur.
-     *
-     * @param id
-     *            de l'ordinateur a supprimé
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
-     */
-    @Transactional
-    public void suppressionOrdinateur(List<Long> id)
-            throws ConnexionDatabaseException, RequeteQueryException {
-
-        LOGGER.info("Service: Suppression d'ordinateur");
-
-        for (long identifiant : id) {
-
-            ordinateurDao.suppressionOrdinateur(identifiant, connexionDatabase.getJdbcTemplate());
-
-        }
-
-    }
-
-    /**
      * Find ordinateur by id.
      *
      * @param id
      *            the id
      * @return the optional
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
     public OrdinateurDto findOrdinateurById(long id)
-            throws ConnexionDatabaseException, EmptyResultDataAccessException {
+            throws DataAccessException {
 
         LOGGER.info("Service: Recherche d'un ordinateur par id");
         OrdinateurDto ordinateur = new OrdinateurDto();
-        Optional<Ordinateur> ordinateurOptional = ordinateurDao.findOrdinateurById(id);
+        Optional<Ordinateur> ordinateurOptional = ordinateurDao
+                .findOrdinateurById(id);
 
         if (ordinateurOptional.isPresent()) {
 
@@ -213,6 +157,65 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
         }
 
         return ordinateur;
+
+    }
+
+    /**
+     * Creates the ordinateur.
+     *
+     * @param ordinateur
+     *            à créer
+     * @throws DataAccessException
+     *             the data access exception
+     */
+    @Transactional
+    public void createOrdinateur(Ordinateur ordinateur)
+            throws DataAccessException {
+
+        LOGGER.info("Service : Creation d'un ordinateur");
+        ordinateurDao.createOrdinateur(ordinateur,
+                connexionDatabase.getJdbcTemplate());
+
+    }
+
+    /**
+     * Update ordinateur.
+     *
+     * @param ordinateur
+     *            a update
+     * @throws DataAccessException
+     *             the data access exception
+     */
+    @Transactional
+    public void updateOrdinateur(Ordinateur ordinateur)
+            throws DataAccessException {
+
+        LOGGER.info("Service: Update d'un ordinateur");
+        ordinateurDao.updateOrdinateur(ordinateur,
+                connexionDatabase.getJdbcTemplate());
+
+    }
+
+    /**
+     * Suppression ordinateur.
+     *
+     * @param id
+     *            de l'ordinateur a supprimé
+     * @throws DataAccessException
+     *             the data access exception
+     */
+    @Transactional
+    public void suppressionOrdinateur(List<Long> id)
+            throws DataAccessException {
+
+        LOGGER.info("Service: Suppression d'ordinateur");
+
+        for (long identifiant : id) {
+
+            ordinateurDao.suppressionOrdinateur(identifiant,
+                    connexionDatabase.getJdbcTemplate());
+
+        }
 
     }
 

@@ -1,8 +1,5 @@
 package com.cdb.dao.Impl;
-
 import com.cdb.dao.InterfaceConnexionDatabase;
-import com.cdb.exception.ConnexionDatabaseException;
-
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -21,8 +18,14 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
     public final Logger LOGGER = LoggerFactory
             .getLogger(ConnexionDatabase.class);
     
+    /** The jdbc template. */
     private JdbcTemplate jdbcTemplate;
 
+    /**
+     * Sets the data source.
+     *
+     * @param dataSource the new data source
+     */
     @Autowired
     public void setDataSource(DataSource dataSource) {
         
@@ -44,12 +47,10 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
      * Connect database.
      *
      * @return Connection
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
      */
     public JdbcTemplate getJdbcTemplate() {
 
-        LOGGER.info("recuperation du template JDBC");
+        LOGGER.info("JDBC: recuperation du template JDBC");
         return jdbcTemplate;
 
     }

@@ -7,6 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public interface InterfaceConnexionDatabase {
 
+    /**
+     * Gets the jdbc template.
+     *
+     * @return the jdbc template
+     */
     public JdbcTemplate getJdbcTemplate();
 
 }

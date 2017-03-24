@@ -227,7 +227,7 @@ public class GestionEntryUser {
             long id = Long.parseLong(arg);
             ordinateur = gestionOrdinateur.findOrdinateurById(id);
 
-        } catch (NumberFormatException | ConnexionDatabaseException e) {
+        } catch (NumberFormatException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;
@@ -252,15 +252,7 @@ public class GestionEntryUser {
 
         if (argArray[2].isEmpty()) {
 
-            try {
-
-                gestionOrdinateur.createOrdinateur(ordinateur.build());
-
-            } catch (RequeteQueryException | ConnexionDatabaseException e) {
-
-                e.printStackTrace();
-
-            }
+            gestionOrdinateur.createOrdinateur(ordinateur.build());
 
             return;
 
@@ -312,8 +304,7 @@ public class GestionEntryUser {
 
                     }
 
-                } catch (NumberFormatException | ConnexionDatabaseException
-                        | RequeteQueryException e) {
+                } catch (NumberFormatException e) {
 
                     System.out.println(
                             "Veuillez donner un id d'entreprise correct");
@@ -331,14 +322,7 @@ public class GestionEntryUser {
 
             if (argArray.length == 1) {
 
-                try {
-
-                    gestionOrdinateur.createOrdinateur(ordinateur.build());
-
-                } catch (RequeteQueryException | ConnexionDatabaseException e) {
-
-                    e.printStackTrace();
-                }
+                gestionOrdinateur.createOrdinateur(ordinateur.build());
 
                 return;
 
@@ -377,7 +361,7 @@ public class GestionEntryUser {
             long id = Long.parseLong(argArray[0]);
             ordinateur = gestionOrdinateur.findOrdinateurById(id);
 
-        } catch (NumberFormatException | ConnexionDatabaseException e) {
+        } catch (NumberFormatException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;
@@ -414,14 +398,7 @@ public class GestionEntryUser {
 
                 if (argArray[2].isEmpty()) {
 
-                    try {
-                        gestionOrdinateur.updateOrdinateur(builder.build());
-                    } catch (RequeteQueryException
-                            | ConnexionDatabaseException e) {
-
-                        e.printStackTrace();
-
-                    }
+                    gestionOrdinateur.updateOrdinateur(builder.build());
                     return;
 
                 }
@@ -459,8 +436,7 @@ public class GestionEntryUser {
 
                     }
 
-                } catch (NumberFormatException | ConnexionDatabaseException
-                        | RequeteQueryException e) {
+                } catch (NumberFormatException e) {
 
                     System.out.println(
                             prop.getProperty("id_entreprise_incorrect"));
@@ -478,12 +454,7 @@ public class GestionEntryUser {
 
             if (argArray.length < 2) {
 
-                try {
-                    gestionOrdinateur.updateOrdinateur(builder.build());
-                } catch (RequeteQueryException | ConnexionDatabaseException e) {
-
-                    e.printStackTrace();
-                }
+                gestionOrdinateur.updateOrdinateur(builder.build());
                 return;
 
             }
@@ -512,8 +483,7 @@ public class GestionEntryUser {
             identifiant.add(Long.parseLong(arg));
             gestionOrdinateur.suppressionOrdinateur(identifiant);
 
-        } catch (NumberFormatException | ConnexionDatabaseException
-                | RequeteQueryException e) {
+        } catch (NumberFormatException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;

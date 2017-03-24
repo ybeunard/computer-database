@@ -13,97 +13,73 @@ import org.springframework.jdbc.core.RowMapper;
 import com.cdb.model.entities.Entreprise;
 import com.cdb.model.entities.Ordinateur;
 import com.cdb.model.entities.Ordinateur.OrdinateurBuilder;
-import com.cdb.exception.RequeteQueryException;
 
 /**
  * The Class OrdinateurDaoMapper.
  */
-public class OrdinateurDaoMapper implements RowMapper<Ordinateur>, Serializable {
+public class OrdinateurDaoMapper
+        implements RowMapper<Ordinateur>, Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(OrdinateurDaoMapper.class);
 
     /**
-     * Recuperation int.
+     * Map Ordinateur.
      *
      * @param res
-     *            the res
-     * @return un entier
-     * @throws RequeteQueryException
-     *             the requete query exception
+     *            the result set
+     * @param arg
+     *            the arg
+     * @return ordinateur
+     * @throws SQLException
+     *             if there is an issue
      */
-    public static int recuperationInt(ResultSet res)
-            throws RequeteQueryException {
-
-        int count = 0;
-
-        try {
-
-            if (res.next()) {
-
-                count = res.getInt("count");
-
-            }
-
-        } catch (SQLException e) {
-
-            throw new RequeteQueryException(
-                    "L'extraction des données du résultat de la requete ne s'est pas déroulé correctement");
-
-        }
-
-        return count;
-
-    }
-
     @Override
-    public Ordinateur mapRow(ResultSet res, int arg1) throws SQLException {
-        
+    public Ordinateur mapRow(ResultSet res, int arg) throws SQLException {
+
         Ordinateur ordinateur = null;
-        LOGGER.info("Mapping ordinateur depuis resultSet");
+        LOGGER.debug("Mapping ordinateur depuis resultSet");
         String name = res.getString("name");
-        OrdinateurBuilder builder = new Ordinateur.OrdinateurBuilder(
-                name);
+        OrdinateurBuilder builder = new Ordinateur.OrdinateurBuilder(name);
         long id = res.getLong("id");
         builder.id(id);
         Date date = null;
+        date = (java.sql.Date) res.getDate("introduced");
 
-            date = (java.sql.Date) res.getDate("introduced");
+        if (date != null) {
 
-            if (date != null) {
+            builder.dateIntroduit(date.toLocalDate());
 
-                builder.dateIntroduit(date.toLocalDate());
+        }
 
-            }
-            
-            date = (java.sql.Date) res.getDate("discontinued");
+        date = (java.sql.Date) res.getDate("discontinued");
 
-            if (date != null) {
+        if (date != null) {
 
-                builder.dateInterrompu(date.toLocalDate());
+            builder.dateInterrompu(date.toLocalDate());
 
-            }
+        }
 
         long fabricantID = res.getLong("company_id");
 
         if (fabricantID > 0) {
 
             String fabricantName = res.getString("company_name");
-            builder.fabricant(Optional.ofNullable(
-                    new Entreprise.EntrepriseBuilder(fabricantName)
+            builder.fabricant(Optional
+                    .ofNullable(new Entreprise.EntrepriseBuilder(fabricantName)
                             .id(fabricantID).build()));
 
         }
 
         ordinateur = builder.build();
         return ordinateur;
-        
+
     }
 
 }

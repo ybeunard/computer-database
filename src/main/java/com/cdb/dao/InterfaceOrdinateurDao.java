@@ -3,12 +3,10 @@ package com.cdb.dao;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.model.entities.Ordinateur;
-import com.cdb.exception.ConnexionDatabaseException;
-import com.cdb.exception.RequeteQueryException;
 
 /**
  * The Interface InterfaceOrdinateurDao.
@@ -19,13 +17,10 @@ public interface InterfaceOrdinateurDao {
      * Find ordinateur.
      *
      * @return the list
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    List<Ordinateur> findOrdinateur()
-            throws ConnexionDatabaseException, RequeteQueryException;
+    List<Ordinateur> findOrdinateur() throws DataAccessException;
 
     /**
      * Find ordinateur by page.
@@ -39,14 +34,11 @@ public interface InterfaceOrdinateurDao {
      * @param desc
      *            the desc
      * @return the list
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
     List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage,
-            String trie, boolean desc)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            String trie, boolean desc) throws DataAccessException;
 
     /**
      * Find ordinateur by Name.
@@ -62,14 +54,11 @@ public interface InterfaceOrdinateurDao {
      * @param desc
      *            the desc
      * @return une liste ordinateur
-     * @throws ConnexionDatabaseException
-     *             if there is an issue
-     * @throws RequeteQueryException
-     *             if there is an issue
+     * @throws DataAccessException
+     *             the data access exception
      */
     List<Ordinateur> findOrdinateurByName(int numPage, int nbParPage,
-            String name, String trie, boolean desc)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            String name, String trie, boolean desc) throws DataAccessException;
 
     /**
      * Find ordinateur by id.
@@ -77,65 +66,57 @@ public interface InterfaceOrdinateurDao {
      * @param id
      *            the id
      * @return the optional
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    Optional<Ordinateur> findOrdinateurById(long id)
-            throws ConnexionDatabaseException, EmptyResultDataAccessException;
-    
+    Optional<Ordinateur> findOrdinateurById(long id) throws DataAccessException;
+
     /**
      * Creates the ordinateur.
      *
-     * @param ordinateur            the ordinateur
-     * @param jdbcTemplate the jdbc template
-     * @throws ConnexionDatabaseException             the connexion database exception
-     * @throws RequeteQueryException             the requete query exception
+     * @param ordinateur
+     *            the ordinateur
+     * @param jdbcTemplate
+     *            the jdbc template
+     * @throws DataAccessException
+     *             the data access exception
      */
     void createOrdinateur(Ordinateur ordinateur, JdbcTemplate jdbcTemplate)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            throws DataAccessException;
 
     /**
      * Update ordinateur.
      *
      * @param ordinateur
      *            the ordinateur
-     * @param con
-     *            the con
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @param jdbcTemplate
+     *            the jdbc template
+     * @throws DataAccessException
+     *             the data access exception
      */
     void updateOrdinateur(Ordinateur ordinateur, JdbcTemplate jdbcTemplate)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            throws DataAccessException;
 
     /**
      * Suppression ordinateur.
      *
      * @param index
      *            the index
-     * @param con
-     *            the con
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @param jdbcTemplate
+     *            the jdbc template
+     * @throws DataAccessException
+     *             the data access exception
      */
     void suppressionOrdinateur(long index, JdbcTemplate jdbcTemplate)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            throws DataAccessException;
 
     /**
      * Count ordinateur.
      *
      * @return the int
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    int countOrdinateur()
-            throws ConnexionDatabaseException, RequeteQueryException;
+    int countOrdinateur() throws DataAccessException;
 
 }

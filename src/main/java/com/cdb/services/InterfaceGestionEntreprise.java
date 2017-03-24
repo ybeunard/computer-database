@@ -2,11 +2,11 @@ package com.cdb.services;
 
 import com.cdb.model.dto.EntrepriseDto;
 import com.cdb.model.entities.Entreprise;
-import com.cdb.exception.ConnexionDatabaseException;
-import com.cdb.exception.RequeteQueryException;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.dao.DataAccessException;
 
 /**
  * The Interface InterfaceGestionEntreprise.
@@ -17,13 +17,10 @@ public interface InterfaceGestionEntreprise {
      * Find entreprise.
      *
      * @return the list
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    List<EntrepriseDto> findEntreprise()
-            throws ConnexionDatabaseException, RequeteQueryException;
+    List<EntrepriseDto> findEntreprise() throws DataAccessException;
 
     /**
      * Find entreprise by id.
@@ -31,24 +28,9 @@ public interface InterfaceGestionEntreprise {
      * @param id
      *            the id
      * @return the optional
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
+     * @throws DataAccessException
+     *             the data access exception
      */
-    Optional<Entreprise> findEntrepriseById(long id)
-            throws ConnexionDatabaseException, RequeteQueryException;
-
-    /**
-     * Find id entreprise by name.
-     *
-     * @param factory
-     *            the factory
-     * @param entreprises
-     *            the entreprises
-     * @return the long
-     */
-    long findIdEntrepriseByName(String factory,
-            List<EntrepriseDto> entreprises);
+    Optional<Entreprise> findEntrepriseById(long id) throws DataAccessException;
 
 }

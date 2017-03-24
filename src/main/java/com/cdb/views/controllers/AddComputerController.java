@@ -3,6 +3,7 @@ package com.cdb.views.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cdb.exception.ConnexionDatabaseException;
-import com.cdb.exception.RequeteQueryException;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
@@ -84,15 +83,14 @@ public class AddComputerController {
         if (!result.hasErrors()) {
 
             try {
-
+            
                 gestionOrdinateur.createOrdinateur(
-                        OrdinateurMapper.recuperationOrdinateur(ordinateurDto));
-
-            } catch (RequeteQueryException | ConnexionDatabaseException e) {
-
-                model.addAttribute("error", "L ordinateur n'a pas été créer");
-                return addComputerGet(model);
-
+                    OrdinateurMapper.recuperationOrdinateur(ordinateurDto));
+                
+            } catch(DataAccessException e) {
+                
+                model.addAttribute("error", "Erreur: l'ordinateur n'a pas été créer");
+                
             }
 
             return new ModelAndView("redirect:/dashboard.htm");
@@ -109,14 +107,14 @@ public class AddComputerController {
     private void recuperationModelAffichageAddComputer(Model model) {
         
         try {
-
+            
             model.addAttribute("companies",
-                    gestionEntreprise.findEntreprise());
-
-        } catch (ConnexionDatabaseException | RequeteQueryException e) {
-
-            model.addAttribute("error", "Erreur lors du chargement des noms d'entreprise");
-
+                gestionEntreprise.findEntreprise());
+            
+        } catch (DataAccessException e) {
+            
+            model.addAttribute("error", "Erreur lors du chargement des entreprises");
+            
         }
         
     }
