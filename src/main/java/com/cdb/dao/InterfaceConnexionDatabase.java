@@ -12,6 +12,6 @@ public interface InterfaceConnexionDatabase {
      *
      * @return the jdbc template
      */
-    public JdbcTemplate getJdbcTemplate();
+    JdbcTemplate getJdbcTemplate();
 
 }

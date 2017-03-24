@@ -140,7 +140,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
         ordinateurs = jdbcTemplate.query(requete,
-                new Object[] { limit, offset }, new OrdinateurDaoMapper());
+                new Object[] {limit, offset}, new OrdinateurDaoMapper());
         return ordinateurs;
 
     }
@@ -224,7 +224,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
         JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
         ordinateur = Optional.ofNullable(jdbcTemplate.queryForObject(
                 prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"),
-                new Object[] { id }, new OrdinateurDaoMapper()));
+                new Object[] {id}, new OrdinateurDaoMapper()));
         return ordinateur;
 
     }
@@ -503,7 +503,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
         JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
         count = jdbcTemplate.queryForObject(
                 prop.getProperty("QUERY_COUNT_ORDINATEUR_BY_NAME"),
-                new Object[] { "%" + filtre + "%", "%" + filtre + "%" },
+                new Object[] {"%" + filtre + "%", "%" + filtre + "%"},
                 Integer.class);
         return count;
 

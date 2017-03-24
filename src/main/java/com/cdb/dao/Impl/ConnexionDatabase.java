@@ -1,4 +1,5 @@
 package com.cdb.dao.Impl;
+
 import com.cdb.dao.InterfaceConnexionDatabase;
 import javax.sql.DataSource;
 
@@ -17,21 +18,22 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
     /** The Constant LOGGER. */
     public final Logger LOGGER = LoggerFactory
             .getLogger(ConnexionDatabase.class);
-    
+
     /** The jdbc template. */
     private JdbcTemplate jdbcTemplate;
 
     /**
      * Sets the data source.
      *
-     * @param dataSource the new data source
+     * @param dataSource
+     *            the new data source
      */
     @Autowired
     public void setDataSource(DataSource dataSource) {
-        
+
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         LOGGER.info("jdbcTemplate instancié");
-        
+
     }
 
     /**
@@ -42,7 +44,7 @@ public class ConnexionDatabase implements InterfaceConnexionDatabase {
         LOGGER.info("ConnexionDatabase instancié");
 
     }
-    
+
     /**
      * Connect database.
      *

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 public class TestOrdinateurDao extends TestCase {
 
     private ApplicationContext context;
-    
+
     private OrdinateurDao dao;
 
     private Properties prop = new Properties();
@@ -35,7 +35,8 @@ public class TestOrdinateurDao extends TestCase {
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
         context = new ClassPathXmlApplicationContext("dispatcher-data.xml");
-        dao = (OrdinateurDao) context.getBean("ordinateurDao");;
+        dao = (OrdinateurDao) context.getBean("ordinateurDao");
+        ;
         IDataSet dataSet1 = readDataSet1();
         IDataSet dataSet2 = readDataSet2();
         cleanlyInsertDataset(dataSet1);

@@ -110,7 +110,7 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
         JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
         entreprise = Optional.ofNullable(jdbcTemplate.queryForObject(
                 prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"),
-                new Object[] { index }, new EntrepriseDaoMapper()));
+                new Object[] {index}, new EntrepriseDaoMapper()));
         return entreprise;
 
     }

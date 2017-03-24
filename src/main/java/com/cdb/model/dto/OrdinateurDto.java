@@ -21,11 +21,13 @@ public class OrdinateurDto {
     private long idFactory;
 
     /** The id. */
-    private  long id;
-    
+    private long id;
+
+    /**
+     * Instantiates a new ordinateur dto.
+     */
     public OrdinateurDto() {
-        
-        
+
     }
 
     /**

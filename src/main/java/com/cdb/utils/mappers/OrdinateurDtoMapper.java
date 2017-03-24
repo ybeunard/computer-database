@@ -85,6 +85,6 @@ public class OrdinateurDtoMapper {
 
         return builder.build();
 
-    } 
+    }
 
 }

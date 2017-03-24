@@ -16,6 +16,9 @@ import com.cdb.model.dto.PageDto;
 import com.cdb.services.Impl.GestionOrdinateur;
 import com.cdb.utils.mappers.DashboardDtoMapper;
 
+/**
+ * The Class DashboardController.
+ */
 @Controller
 @RequestMapping("/dashboard.htm")
 public class DashboardController {
@@ -24,21 +27,39 @@ public class DashboardController {
     public static final Logger LOGGER = LoggerFactory
             .getLogger(DashboardController.class);
 
+    /** The gestion ordinateur. */
     @Autowired
     GestionOrdinateur gestionOrdinateur;
 
+    /**
+     * Gets the gestion ordinateur.
+     *
+     * @return the gestion ordinateur
+     */
     public GestionOrdinateur getGestionOrdinateur() {
 
         return gestionOrdinateur;
 
     }
 
+    /**
+     * Instantiates a new dashboard controller.
+     */
     public DashboardController() {
 
         LOGGER.info("DashboardController instancié");
 
     }
 
+    /**
+     * Dashboard get.
+     *
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     * @return the model and view
+     */
     @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView dashboardGet(HttpServletRequest request,
             Model model) {
@@ -49,6 +70,15 @@ public class DashboardController {
 
     }
 
+    /**
+     * Dashboard post.
+     *
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     * @return the model and view
+     */
     @RequestMapping(method = RequestMethod.POST)
     protected ModelAndView dashboardPost(HttpServletRequest request,
             Model model) {
@@ -71,6 +101,14 @@ public class DashboardController {
 
     }
 
+    /**
+     * Recuperation model affichage add computer.
+     *
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     */
     private void recuperationModelAffichageAddComputer(
             HttpServletRequest request, Model model) {
 

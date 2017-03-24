@@ -29,10 +29,13 @@ public class GestionPagination {
 
     /** The page entreprise. */
     private List<EntrepriseDto> pageEntreprise;
-    
-    private ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
-    private GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context.getBean("GestionOrdinateur");
-    private GestionEntreprise gestionEntreprise = (GestionEntreprise) context.getBean("GestionEntreprise");
+
+    private ApplicationContext context = new ClassPathXmlApplicationContext(
+            "springConfig.xml");
+    private GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context
+            .getBean("GestionOrdinateur");
+    private GestionEntreprise gestionEntreprise = (GestionEntreprise) context
+            .getBean("GestionEntreprise");
 
     /**
      * Instantiates a new gestion pagination.
@@ -85,14 +88,14 @@ public class GestionPagination {
 
             case 1:
 
-                pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(numeroPage, ligneParPage, "", "",
-                                false);
+                pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(
+                        numeroPage, ligneParPage, "", "", false);
 
                 if (pageOrdinateur.getContenue().isEmpty()) {
 
                     numeroPage--;
-                    pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(numeroPage, ligneParPage, "",
-                                    "", false);
+                    pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(
+                            numeroPage, ligneParPage, "", "", false);
 
                 }
 

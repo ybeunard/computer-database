@@ -17,7 +17,7 @@ public class EntrepriseDaoMapper
         implements RowMapper<Entreprise>, Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 

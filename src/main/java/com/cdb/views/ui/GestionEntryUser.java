@@ -30,11 +30,14 @@ public class GestionEntryUser {
 
     /** The prop. */
     private static Properties prop = new Properties();
-    
-    private static ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
-    private static GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context.getBean("GestionOrdinateur");
-    private static GestionEntreprise gestionEntreprise = (GestionEntreprise) context.getBean("GestionEntreprise");
-    
+
+    private static ApplicationContext context = new ClassPathXmlApplicationContext(
+            "springConfig.xml");
+    private static GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context
+            .getBean("GestionOrdinateur");
+    private static GestionEntreprise gestionEntreprise = (GestionEntreprise) context
+            .getBean("GestionEntreprise");
+
     static {
 
         File fProp = new File(
@@ -290,7 +293,8 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = gestionEntreprise.findEntrepriseById(id);
+                    Optional<Entreprise> fabricant = gestionEntreprise
+                            .findEntrepriseById(id);
 
                     if (fabricant.isPresent()) {
 
@@ -422,7 +426,8 @@ public class GestionEntryUser {
 
                     argArray = argArray[1].split(" ", 2);
                     int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = gestionEntreprise.findEntrepriseById(id);
+                    Optional<Entreprise> fabricant = gestionEntreprise
+                            .findEntrepriseById(id);
 
                     if (fabricant.isPresent()) {
 

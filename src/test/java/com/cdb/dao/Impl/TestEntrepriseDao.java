@@ -23,7 +23,7 @@ import com.cdb.exception.RequeteQueryException;
 public class TestEntrepriseDao extends DBTestCase {
 
     private ApplicationContext context;
-    
+
     private EntrepriseDao dao;
 
     private Properties prop = new Properties();
@@ -35,7 +35,8 @@ public class TestEntrepriseDao extends DBTestCase {
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
         context = new ClassPathXmlApplicationContext("dispatcher-data.xml");
-        dao = (EntrepriseDao) context.getBean("entrepriseDao");;
+        dao = (EntrepriseDao) context.getBean("entrepriseDao");
+        ;
         IDataSet dataSet = getDataSet();
         cleanlyInsertDataset(dataSet);
 

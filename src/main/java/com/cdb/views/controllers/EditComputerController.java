@@ -23,6 +23,9 @@ import com.cdb.utils.Parse;
 import com.cdb.utils.mappers.OrdinateurMapper;
 import com.cdb.views.controllers.validation.OrdinateurDtoValidation;
 
+/**
+ * The Class EditComputerController.
+ */
 @Controller
 @RequestMapping("/editComputer.htm")
 public class EditComputerController {
@@ -30,85 +33,140 @@ public class EditComputerController {
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(EditComputerController.class);
-    
+
+    /** The gestion ordinateur. */
     @Autowired
     GestionOrdinateur gestionOrdinateur;
-    
-    public GestionOrdinateur getGestionOrdinateur( ){
-        
+
+    /**
+     * Gets the gestion ordinateur.
+     *
+     * @return the gestion ordinateur
+     */
+    public GestionOrdinateur getGestionOrdinateur() {
+
         return gestionOrdinateur;
-        
-     }
-    
+
+    }
+
+    /** The gestion entreprise. */
     @Autowired
     GestionEntreprise gestionEntreprise;
-    
-    public GestionEntreprise getGestionEntreprise( ){
-        
+
+    /**
+     * Gets the gestion entreprise.
+     *
+     * @return the gestion entreprise
+     */
+    public GestionEntreprise getGestionEntreprise() {
+
         return gestionEntreprise;
-        
-     }
-    
+
+    }
+
+    /** The ordinateur dto validation. */
     @Autowired
     OrdinateurDtoValidation ordinateurDtoValidation;
-    
+
+    /**
+     * Inits the binder.
+     *
+     * @param binder
+     *            the binder
+     */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        
+
         binder.setValidator(ordinateurDtoValidation);
-        
+
     }
-    
+
+    /**
+     * Instantiates a new edits the computer controller.
+     */
     public EditComputerController() {
-        
+
         LOGGER.info("EditComputerController instancié");
-        
+
     }
-    
-    @RequestMapping(method=RequestMethod.GET)
-    public ModelAndView editComputerGet(HttpServletRequest request, Model model) {
-        
+
+    /**
+     * Edits the computer get.
+     *
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     * @return the model and view
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView editComputerGet(HttpServletRequest request,
+            Model model) {
+
         LOGGER.info("EditComputerController: GET");
         recuperationModelAffichageEditComputer(request, model);
         model.addAttribute("ordinateurDto", new OrdinateurDto());
         return new ModelAndView("editComputer");
-        
+
     }
-    
-    @RequestMapping(method=RequestMethod.POST)
-    public ModelAndView editComputerPost(@ModelAttribute("ordinateurDto") @Validated OrdinateurDto ordinateurDto,
-            BindingResult result, HttpServletRequest request,Model model) {
+
+    /**
+     * Edits the computer post.
+     *
+     * @param ordinateurDto
+     *            the ordinateur dto
+     * @param result
+     *            the result
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     * @return the model and view
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView editComputerPost(
+            @ModelAttribute("ordinateurDto") @Validated OrdinateurDto ordinateurDto,
+            BindingResult result, HttpServletRequest request, Model model) {
 
         LOGGER.info("EditComputerController: POST");
 
         if (!result.hasErrors()) {
 
             try {
-                
+
                 gestionOrdinateur.updateOrdinateur(
                         OrdinateurMapper.recuperationOrdinateur(ordinateurDto));
-                
+
             } catch (DataAccessException e) {
 
-                model.addAttribute("error", "Erreur: l'ordinateur n'a pas été modifié");
+                model.addAttribute("error",
+                        "Erreur: l'ordinateur n'a pas été modifié");
                 return new ModelAndView("editComputer");
 
             }
-            
 
             return new ModelAndView("redirect:/dashboard.htm");
 
         } else {
-            
+
             recuperationModelAffichageEditComputer(request, model);
             return new ModelAndView("editComputer");
 
         }
 
     }
-    
-    private void recuperationModelAffichageEditComputer(HttpServletRequest request, Model model) {
-        
+
+    /**
+     * Recuperation model affichage edit computer.
+     *
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     */
+    private void recuperationModelAffichageEditComputer(
+            HttpServletRequest request, Model model) {
+
         long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
 
         try {
@@ -118,21 +176,22 @@ public class EditComputerController {
 
         } catch (DataAccessException e) {
 
-            model.addAttribute("error", "Erreur lors du chargement de l'ordinateur");
+            model.addAttribute("error",
+                    "Erreur lors du chargement de l'ordinateur");
 
         }
-        
+
         try {
 
-            model.addAttribute("companies",
-                    gestionEntreprise.findEntreprise());
+            model.addAttribute("companies", gestionEntreprise.findEntreprise());
 
         } catch (DataAccessException e) {
 
-            model.addAttribute("error", "Erreur lors du chargement des entreprises");
+            model.addAttribute("error",
+                    "Erreur lors du chargement des entreprises");
 
-        }       
-        
+        }
+
     }
-    
+
 }

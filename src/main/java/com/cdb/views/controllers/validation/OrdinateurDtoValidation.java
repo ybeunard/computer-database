@@ -12,40 +12,58 @@ import org.springframework.validation.Validator;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.utils.Parse;
 
+/**
+ * The Class OrdinateurDtoValidation.
+ */
 @Component
 public class OrdinateurDtoValidation implements Validator {
 
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(OrdinateurDtoValidation.class);
-    
+
+    /**
+     * Instantiates a new ordinateur dto validation.
+     */
     public OrdinateurDtoValidation() {
-    
+
         LOGGER.info("OrdinateurDtoValidation instancié");
-        
-    }
-    
-    @Override
-    public boolean supports(Class<?> clazz) {
-        
-        return OrdinateurDto.class.equals(clazz);
-        
+
     }
 
+    /**
+     * @param clazz
+     *      this clazz
+     * @return boolean
+     */
+    @Override
+    public boolean supports(Class<?> clazz) {
+
+        return OrdinateurDto.class.equals(clazz);
+
+    }
+
+    /**
+     * @param target
+     *      the target
+     * @param errors
+     *      the errors
+     */
     @Override
     public void validate(Object target, Errors errors) {
 
         LOGGER.info("Validation d'un ordinateur DTO");
         OrdinateurDto ordinateurDto = (OrdinateurDto) target;
-        
-        if(ordinateurDto.getName()==null){
-            
+
+        if (ordinateurDto.getName() == null) {
+
             errors.rejectValue("name", "NotEmpty.ordinateurDtoForm.name");
-            
+
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.ordinateurDtoForm.name");
-        
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name",
+                "NotEmpty.ordinateurDtoForm.name");
+
         if (ordinateurDto.getId() < 0) {
 
             LOGGER.debug("ID Incorrecte " + ordinateurDto.getId());
@@ -57,7 +75,8 @@ public class OrdinateurDtoValidation implements Validator {
 
             LOGGER.debug("Date introduction Incorrecte "
                     + ordinateurDto.getDateIntroduit());
-            errors.rejectValue("dateIntroduit", "NotValid.ordinateurDtoForm.dateIntroduit");
+            errors.rejectValue("dateIntroduit",
+                    "NotValid.ordinateurDtoForm.dateIntroduit");
 
         }
 
@@ -65,7 +84,8 @@ public class OrdinateurDtoValidation implements Validator {
 
             LOGGER.debug("Date interruption Incorrecte "
                     + ordinateurDto.getDateInterrompu());
-            errors.rejectValue("dateInterrompu", "NotValid.ordinateurDtoForm.dateInterrompu");
+            errors.rejectValue("dateInterrompu",
+                    "NotValid.ordinateurDtoForm.dateInterrompu");
 
         }
 
@@ -73,20 +93,24 @@ public class OrdinateurDtoValidation implements Validator {
                 ordinateurDto.getDateInterrompu())) {
 
             LOGGER.debug("Dates Inccohérente");
-            errors.rejectValue("dateIntroduit", "Incoherence.ordinateurDtoForm.dateIntroduit");
-            errors.reject("dateInterrompu", "Incoherence.ordinateurDtoForm.dateInterrompu");
+            errors.rejectValue("dateIntroduit",
+                    "Incoherence.ordinateurDtoForm.dateIntroduit");
+            errors.reject("dateInterrompu",
+                    "Incoherence.ordinateurDtoForm.dateInterrompu");
 
         }
 
         if (ordinateurDto.getIdFactory() < 0) {
 
-            LOGGER.debug("Id Company Incorrecte " + ordinateurDto.getIdFactory());
-            errors.rejectValue("idFactory", "NotNegatif.ordinateurDtoForm.idFactory");
+            LOGGER.debug(
+                    "Id Company Incorrecte " + ordinateurDto.getIdFactory());
+            errors.rejectValue("idFactory",
+                    "NotNegatif.ordinateurDtoForm.idFactory");
 
         }
 
     }
-    
+
     /**
      * Validation date.
      *
@@ -123,7 +147,8 @@ public class OrdinateurDtoValidation implements Validator {
      */
     private static boolean isValid(String introduced, String discontinued) {
 
-        if (!introduced.equals("") && !discontinued.equals("") && validationDate(introduced) && validationDate(discontinued)) {
+        if (!introduced.equals("") && !discontinued.equals("")
+                && validationDate(introduced) && validationDate(discontinued)) {
 
             LocalDate before = Parse.parseDate(introduced);
             LocalDate after = Parse.parseDate(discontinued);
