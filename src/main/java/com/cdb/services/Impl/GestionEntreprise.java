@@ -14,8 +14,8 @@ import com.cdb.model.dto.EntrepriseDto;
 import com.cdb.model.entities.Entreprise;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.model.mappers.EntrepriseDtoMapper;
 import com.cdb.services.InterfaceGestionEntreprise;
+import com.cdb.utils.mappers.EntrepriseDtoMapper;
 
 /**
  * The Enum GestionEntreprise.

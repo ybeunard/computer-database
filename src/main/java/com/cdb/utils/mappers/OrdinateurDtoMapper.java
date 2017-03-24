@@ -1,14 +1,11 @@
-package com.cdb.model.mappers;
+package com.cdb.utils.mappers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.views.controllers.validation.Parse;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.model.dto.OrdinateurDto.OrdinateurDtoBuilder;
 import com.cdb.model.entities.Ordinateur;
@@ -88,28 +85,6 @@ public class OrdinateurDtoMapper {
 
         return builder.build();
 
-    }
-
-    /**
-     * Recuperation ordinateur dto.
-     *
-     * @param request
-     *            the request
-     * @return the ordinateur dto
-     */
-    public static OrdinateurDto recuperationOrdinateurDto(
-            HttpServletRequest request) {
-
-        LOGGER.info("Mapping OrdinateurDto depuis RequestServlet");
-        OrdinateurDtoBuilder builder = new OrdinateurDtoBuilder(
-                request.getParameter("computerName"));
-        builder.id(Parse.parseLong(request.getParameter("ordinateur"), 0));
-        builder.dateIntroduit(request.getParameter("introduced"));
-        builder.dateInterrompu(request.getParameter("discontinued"));
-        builder.idFactory(Parse.parseLong(request.getParameter("company"), 0));
-        builder.factory("");
-        return builder.build();
-
-    }
+    } 
 
 }

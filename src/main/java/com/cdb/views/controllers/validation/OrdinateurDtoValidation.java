@@ -10,6 +10,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.utils.Parse;
 
 @Component
 public class OrdinateurDtoValidation implements Validator {

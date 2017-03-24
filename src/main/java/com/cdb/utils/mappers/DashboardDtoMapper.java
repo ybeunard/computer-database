@@ -1,4 +1,4 @@
-package com.cdb.model.mappers;
+package com.cdb.utils.mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.views.controllers.validation.Parse;
 import com.cdb.model.dto.DashboardDto;
 import com.cdb.model.dto.DashboardDto.DashboardDtoBuilder;
 import com.cdb.model.dto.PageDto;
+import com.cdb.utils.Parse;
 
 /**
  * The Class DashboardDtoMapper.

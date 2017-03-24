@@ -17,9 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.model.dto.OrdinateurDto;
-import com.cdb.model.mappers.OrdinateurMapper;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
+import com.cdb.utils.mappers.OrdinateurMapper;
 import com.cdb.views.controllers.validation.OrdinateurDtoValidation;
 
 

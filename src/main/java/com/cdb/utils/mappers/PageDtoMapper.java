@@ -1,4 +1,4 @@
-package com.cdb.model.mappers;
+package com.cdb.utils.mappers;
 
 import java.util.ArrayList;
 import java.util.List;

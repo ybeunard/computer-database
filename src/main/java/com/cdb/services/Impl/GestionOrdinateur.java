@@ -14,9 +14,9 @@ import com.cdb.model.dto.PageDto;
 import com.cdb.model.entities.Ordinateur;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
-import com.cdb.model.mappers.OrdinateurDtoMapper;
-import com.cdb.model.mappers.PageDtoMapper;
 import com.cdb.services.InterfaceGestionOrdinateur;
+import com.cdb.utils.mappers.OrdinateurDtoMapper;
+import com.cdb.utils.mappers.PageDtoMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

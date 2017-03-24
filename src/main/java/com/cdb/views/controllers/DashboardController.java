@@ -14,8 +14,8 @@ import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.model.dto.DashboardDto;
 import com.cdb.model.dto.PageDto;
-import com.cdb.model.mappers.DashboardDtoMapper;
 import com.cdb.services.Impl.GestionOrdinateur;
+import com.cdb.utils.mappers.DashboardDtoMapper;
 
 @Controller
 @RequestMapping("/dashboard.htm")
