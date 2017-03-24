@@ -83,7 +83,7 @@
 	                            <input id="cb" type="checkbox" name="cb" class="cb" value="${computer.id}"/>
 	                        </td>
 	                        <td>
-	                            <a href="EditComputerServlet?ordinateur=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
+	                            <a href="editComputer.htm?ordinateur=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
 	                        </td>
 	                        <td>${computer.dateIntroduit}</td>
 	                        <td>${computer.dateInterrompu}</td>

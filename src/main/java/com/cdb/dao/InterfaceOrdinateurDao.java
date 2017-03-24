@@ -3,6 +3,7 @@ package com.cdb.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.model.entities.Ordinateur;
@@ -82,7 +83,7 @@ public interface InterfaceOrdinateurDao {
      *             the requete query exception
      */
     Optional<Ordinateur> findOrdinateurById(long id)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            throws ConnexionDatabaseException, EmptyResultDataAccessException;
     
     /**
      * Creates the ordinateur.

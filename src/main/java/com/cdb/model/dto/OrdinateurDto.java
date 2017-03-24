@@ -6,22 +6,27 @@ package com.cdb.model.dto;
 public class OrdinateurDto {
 
     /** The name. */
-    private final String name;
+    private String name;
 
     /** The date introduit. */
-    private final String dateIntroduit;
+    private String dateIntroduit;
 
     /** The date interrompu. */
-    private final String dateInterrompu;
+    private String dateInterrompu;
 
     /** The factory. */
-    private final String factory;
+    private String factory;
 
     /** The id factory. */
-    private final long idFactory;
+    private long idFactory;
 
     /** The id. */
-    private final long id;
+    private  long id;
+    
+    public OrdinateurDto() {
+        
+        
+    }
 
     /**
      * Instantiates a new ordinateur DTO.
@@ -38,6 +43,30 @@ public class OrdinateurDto {
         this.id = builder.id;
         this.idFactory = builder.idFactory;
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDateIntroduit(String dateIntroduit) {
+        this.dateIntroduit = dateIntroduit;
+    }
+
+    public void setDateInterrompu(String dateInterrompu) {
+        this.dateInterrompu = dateInterrompu;
+    }
+
+    public void setFactory(String factory) {
+        this.factory = factory;
+    }
+
+    public void setIdFactory(long idFactory) {
+        this.idFactory = idFactory;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**

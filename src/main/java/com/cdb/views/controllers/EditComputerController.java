@@ -1,12 +1,17 @@
 package com.cdb.views.controllers;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,12 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.model.dto.OrdinateurDto;
-import com.cdb.model.mappers.OrdinateurDtoMapper;
 import com.cdb.model.mappers.OrdinateurMapper;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
+import com.cdb.views.controllers.validation.OrdinateurDtoValidation;
 import com.cdb.views.controllers.validation.Parse;
-import com.cdb.views.controllers.validation.Validation;
 
 @Controller
 @RequestMapping("/editComputer.htm")
@@ -47,6 +51,16 @@ public class EditComputerController {
         
      }
     
+    @Autowired
+    OrdinateurDtoValidation ordinateurDtoValidation;
+    
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        
+        binder.setValidator(ordinateurDtoValidation);
+        
+    }
+    
     public EditComputerController() {
         
         LOGGER.info("EditComputerController instancié");
@@ -54,64 +68,60 @@ public class EditComputerController {
     }
     
     @RequestMapping(method=RequestMethod.GET)
-    protected ModelAndView editComputerGet(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ModelAndView editComputerGet(HttpServletRequest request, Model model) {
         
         LOGGER.info("EditComputerController: GET");
-        long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
-
-        try {
-
-            OrdinateurDto ordinateur = gestionOrdinateur.findOrdinateurById(id);
-
-            if (ordinateur == null) {
-
-                return new ModelAndView("dashboard");
-
-            }
-
-            request.setAttribute("computer", ordinateur);
-            request.setAttribute("companies",
-                    gestionEntreprise.findEntreprise());
-
-        } catch (ConnexionDatabaseException | RequeteQueryException e) {
-
-            request.setAttribute("error", 1);
-
-        }
-        
+        recuperationModelAffichageEditComputer(request, model);
+        model.addAttribute("ordinateurDto", new OrdinateurDto());
         return new ModelAndView("editComputer");
         
     }
     
     @RequestMapping(method=RequestMethod.POST)
-    protected ModelAndView editComputerPost(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        LOGGER.info("EditComputerController: POST");
-        OrdinateurDto ordinateur = OrdinateurDtoMapper
-                .recuperationOrdinateurDto(request);
+    public ModelAndView editComputerPost(@ModelAttribute("ordinateurDto") @Validated OrdinateurDto ordinateurDto,
+            BindingResult result, HttpServletRequest request,Model model) {
 
-        if (Validation.validationOrdinateurDto(request, ordinateur)) {
+        LOGGER.info("EditComputerController: POST");
+
+        if (!result.hasErrors()) {
 
             try {
 
-                gestionOrdinateur.updateOrdinateur(
-                        OrdinateurMapper.recuperationOrdinateur(ordinateur));
+                gestionOrdinateur.createOrdinateur(
+                        OrdinateurMapper.recuperationOrdinateur(ordinateurDto));
 
             } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
-                request.setAttribute("error", 1);
-                return editComputerGet(request, response);
+                model.addAttribute("error", "L ordinateur n'a pas été modifié");
+                return editComputerGet(request, model);
 
             }
 
-            response.sendRedirect("dashboard.htm");
-            return new ModelAndView("dashboard");
+            return new ModelAndView("redirect:/dashboard.htm");
 
         } else {
+            
+            recuperationModelAffichageEditComputer(request, model);
+            return new ModelAndView("editComputer");
 
-            return editComputerGet(request, response);
+        }
+
+    }
+    
+    private void recuperationModelAffichageEditComputer(HttpServletRequest request, Model model) {
+        
+        long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
+
+        try {
+
+            OrdinateurDto ordinateur = gestionOrdinateur.findOrdinateurById(id);
+            model.addAttribute("computer", ordinateur);
+            model.addAttribute("companies",
+                    gestionEntreprise.findEntreprise());
+
+        } catch (ConnexionDatabaseException | EmptyResultDataAccessException | RequeteQueryException e) {
+
+            model.addAttribute("error", "Erreur lors du chargement de l'ordinateur");
 
         }
         

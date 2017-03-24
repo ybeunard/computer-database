@@ -227,8 +227,7 @@ public class GestionEntryUser {
             long id = Long.parseLong(arg);
             ordinateur = gestionOrdinateur.findOrdinateurById(id);
 
-        } catch (NumberFormatException | ConnexionDatabaseException
-                | RequeteQueryException e) {
+        } catch (NumberFormatException | ConnexionDatabaseException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;
@@ -378,8 +377,7 @@ public class GestionEntryUser {
             long id = Long.parseLong(argArray[0]);
             ordinateur = gestionOrdinateur.findOrdinateurById(id);
 
-        } catch (NumberFormatException | ConnexionDatabaseException
-                | RequeteQueryException e) {
+        } catch (NumberFormatException | ConnexionDatabaseException e) {
 
             System.out.println(prop.getProperty("id_incorrect"));
             return;

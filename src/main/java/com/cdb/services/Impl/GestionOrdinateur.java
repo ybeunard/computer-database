@@ -19,6 +19,7 @@ import com.cdb.model.mappers.PageDtoMapper;
 import com.cdb.services.InterfaceGestionOrdinateur;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -198,10 +199,10 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      *             the requete query exception
      */
     public OrdinateurDto findOrdinateurById(long id)
-            throws ConnexionDatabaseException, RequeteQueryException {
+            throws ConnexionDatabaseException, EmptyResultDataAccessException {
 
         LOGGER.info("Service: Recherche d'un ordinateur par id");
-        OrdinateurDto ordinateur = null;
+        OrdinateurDto ordinateur = new OrdinateurDto();
         Optional<Ordinateur> ordinateurOptional = ordinateurDao.findOrdinateurById(id);
 
         if (ordinateurOptional.isPresent()) {

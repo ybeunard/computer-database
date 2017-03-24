@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,39 +19,37 @@
             <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
         </div>
     </header>
-
     <section id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="addComputer.htm" name="newComputer" method="POST">
+                    <form:form action="addComputer.htm" modelAttribute="ordinateurDto" name="newComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <c:if test="${nameTest == 1}"><p>Nom requis</p></c:if>
-                                <input type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name">
+                                <form:input path="name" type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name"/>
+								<form:errors path="name" />
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <c:if test="${introducedTest == 1}"><p>date invalide</p></c:if>
-                                <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être antérieur à la date d'interruption</p></c:if>
-                                <input type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd">
+                                <form:input path="dateIntroduit" type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd"/>
+								<form:errors path="dateIntroduit" />
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <c:if test="${discontinuedTest == 1}"><p>date invalide</p></c:if>
-                                <c:if test="${incohérenceTest == 1}"><p>Attention la date doit être postérieur à la date d'introduction</p></c:if>
-                                <input type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd">
+                                <form:input path="dateInterrompu" type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd"/>
+								<form:errors path="dateInterrompu" />
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" name="company" id="companyId" >
+                                <form:select path="idFactory" class="form-control" name="company" id="companyId" >
                                 	<option value="0">---</option>
                                 	<c:forEach items="${companies}" var="company">
                                     	<option value="${company.id}">${company.name}</option>
                                     </c:forEach>
-                                </select>
+                                </form:select>
+                                <form:errors path="idFactory" />
                             </div>                  
                         </fieldset>
                         <c:if test="${not empty error}">
@@ -60,7 +60,7 @@
                             or
                             <a href="dashboard.htm" class="btn btn-default">Cancel</a>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

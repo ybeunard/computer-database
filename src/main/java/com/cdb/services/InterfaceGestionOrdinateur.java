@@ -6,6 +6,8 @@ import com.cdb.model.entities.Ordinateur;
 
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 
@@ -88,6 +90,6 @@ public interface InterfaceGestionOrdinateur {
      *             the requete query exception
      */
     OrdinateurDto findOrdinateurById(long id)
-            throws ConnexionDatabaseException, RequeteQueryException;
+            throws ConnexionDatabaseException, EmptyResultDataAccessException;
 
 }

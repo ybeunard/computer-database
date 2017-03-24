@@ -1,12 +1,15 @@
 package com.cdb.views.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,11 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.model.dto.OrdinateurDto;
-import com.cdb.model.mappers.OrdinateurDtoMapper;
 import com.cdb.model.mappers.OrdinateurMapper;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
-import com.cdb.views.controllers.validation.Validation;
+import com.cdb.views.controllers.validation.OrdinateurDtoValidation;
 
 
 @Controller
@@ -47,62 +49,73 @@ public class AddComputerController {
         
      }
     
+    @Autowired
+    OrdinateurDtoValidation ordinateurDtoValidation;
+    
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        
+        binder.setValidator(ordinateurDtoValidation);
+        
+    }
+    
     public AddComputerController() {
         
         LOGGER.info("AddComputerController instancié");
         
     }
-    
+
     @RequestMapping(method=RequestMethod.GET)
-    protected ModelAndView addComputerGet(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ModelAndView addComputerGet(Model model) {
         
         LOGGER.info("AddComputerController: GET");
-        
-        try {
-
-            request.setAttribute("companies",
-                    gestionEntreprise.findEntreprise());
-
-        } catch (ConnexionDatabaseException | RequeteQueryException e) {
-
-            request.setAttribute("error", 1);
-
-        }
-
+        recuperationModelAffichageAddComputer(model);
+        model.addAttribute("ordinateurDto", new OrdinateurDto());
         return new ModelAndView("addComputer");
         
     }
     
     @RequestMapping(method=RequestMethod.POST)
-    protected ModelAndView addComputerPost(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        LOGGER.info("AddComputerController: POST");
-        OrdinateurDto ordinateur = OrdinateurDtoMapper
-                .recuperationOrdinateurDto(request);
+    public ModelAndView addComputerPost(@ModelAttribute("ordinateurDto") @Validated OrdinateurDto ordinateurDto,
+            BindingResult result, Model model) {
 
-        if (Validation.validationOrdinateurDto(request, ordinateur)) {
+        LOGGER.info("AddComputerController: POST");
+
+        if (!result.hasErrors()) {
 
             try {
 
                 gestionOrdinateur.createOrdinateur(
-                        OrdinateurMapper.recuperationOrdinateur(ordinateur));
+                        OrdinateurMapper.recuperationOrdinateur(ordinateurDto));
 
             } catch (RequeteQueryException | ConnexionDatabaseException e) {
 
-                request.setAttribute("error", 1);
-                return addComputerGet(request, response);
+                model.addAttribute("error", "L ordinateur n'a pas été créer");
+                return addComputerGet(model);
 
             }
 
-            response.sendRedirect("dashboard.htm");
-            return new ModelAndView("dashboard");
+            return new ModelAndView("redirect:/dashboard.htm");
 
         } else {
+            
+            recuperationModelAffichageAddComputer(model);
+            return new ModelAndView("addComputer");
 
-            request.setAttribute("error", 1);
-            return addComputerGet(request, response);
+        }
+
+    }
+    
+    private void recuperationModelAffichageAddComputer(Model model) {
+        
+        try {
+
+            model.addAttribute("companies",
+                    gestionEntreprise.findEntreprise());
+
+        } catch (ConnexionDatabaseException | RequeteQueryException e) {
+
+            model.addAttribute("error", "Erreur lors du chargement des noms d'entreprise");
 
         }
         

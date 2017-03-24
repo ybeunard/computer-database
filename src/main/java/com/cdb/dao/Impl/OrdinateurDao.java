@@ -12,6 +12,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.dao.InterfaceOrdinateurDao;
@@ -218,7 +219,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *             the requete query exception
      */
     public Optional<Ordinateur> findOrdinateurById(long id)
-            throws ConnexionDatabaseException, RequeteQueryException {
+            throws ConnexionDatabaseException, EmptyResultDataAccessException {
 
         Optional<Ordinateur> ordinateur = Optional.empty();
         LOGGER.info("recherche d'ordinateur par id");
