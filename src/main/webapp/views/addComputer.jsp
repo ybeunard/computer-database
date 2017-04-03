@@ -24,26 +24,26 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                 	Language : <a href="addComputer.htm?locale=en">English</a>|<a href="addComputer.htm?locale=fr">Francais</a>
-                    <h1>Add Computer</h1>
+                    <h1><spring:message code="add.springmvc" text="default text" /></h1>
                     <form:form action="addComputer.htm" modelAttribute="ordinateurDto" name="newComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName"><spring:message code="name.springmvc" text="default text" /></label>
-                                <form:input path="name" type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name"/>
+                                <form:input path="name" type="text" name="computerName" class="form-control" id="computerName"/>
 								<form:errors path="name" />
                             </div>
                             <div class="form-group">
-                                <label for="introduced">Introduced date</label>
+                                <label for="introduced"><spring:message code="introduced.springmvc" text="default text" /></label>
                                 <form:input path="dateIntroduit" type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd"/>
 								<form:errors path="dateIntroduit" />
                             </div>
                             <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
+                                <label for="discontinued"><spring:message code="discontinued.springmvc" text="default text" /></label>
                                 <form:input path="dateInterrompu" type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd"/>
 								<form:errors path="dateInterrompu" />
                             </div>
                             <div class="form-group">
-                                <label for="companyId">Company</label>
+                                <label for="companyId"><spring:message code="company.springmvc" text="default text" /></label>
                                 <form:select path="idFactory" class="form-control" name="company" id="companyId" >
                                 	<option value="0">---</option>
                                 	<c:forEach items="${companies}" var="company">
@@ -57,9 +57,9 @@
                         	<div class="alert alert-danger">${error}</div>
                         </c:if>
                         <div class="actions pull-right">
-                            <input type="submit" name="action" value="Add" class="btn btn-primary">
-                            or
-                            <a href="dashboard.htm" class="btn btn-default">Cancel</a>
+                            <input type="submit" name="action" class="btn btn-primary" value="<spring:message code="boutonAdd.springmvc" text="default text" />"/>
+                            <spring:message code="or.springmvc" text="default text" />
+                            <a href="dashboard.htm" class="btn btn-default"><spring:message code="cancel.springmvc" text="default text" /></a>
                         </div>
                     </form:form>
                 </div>

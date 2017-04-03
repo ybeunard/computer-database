@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE jsp>
 <html>
 <head>
@@ -18,23 +20,28 @@
             <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
         </div>
     </header>
-
     <section id="main">
         <div class="container">
+        	Language : <a href="dashboard.htm?locale=en">English</a>|<a href="dashboard.htm?locale=fr">Francais</a>
             <h1 id="homeTitle">
-                ${page.nbComputer} Computers found
+                ${page.nbComputer} <spring:message code="found.springmvc" text="default text" />
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="dashboard.htm" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" name="action" value="Filter" class="btn btn-primary" />
+                        <input type="search" id="searchbox" name="search" class="form-control" />
+                        <input type="submit" id="searchsubmit" name="action" value="<spring:message code="filterButton.springmvc" text="default text" />" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.htm">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="addComputer.htm"><spring:message code="boutonAdd.springmvc" text="default text" /></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
+                    	<spring:message code="boutonEdit.springmvc" text="default text" />
+                   	</a>
+                   	<a class="btn btn-default" id="viewComputer" style="display: none" href="#" onclick="$.fn.toggleEditMode();">
+                    	<spring:message code="boutonView.springmvc" text="default text" />
+                   	</a>
                 </div>
             </div>
         </div>
@@ -59,18 +66,18 @@
                             </span>
                         </th>
                         <th>
-                            <a href="dashboard.htm?trie=name">Computer name</a>
+                            <a href="dashboard.htm?trie=name"><spring:message code="name.springmvc" text="default text" /></a>
                         </th>
                         <th>
-                            <a href="dashboard.htm?trie=introduced">Introduced date</a>
+                            <a href="dashboard.htm?trie=introduced"><spring:message code="introduced.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <a href="dashboard.htm?trie=discontinued">Discontinued date</a>
+                            <a href="dashboard.htm?trie=discontinued"><spring:message code="discontinued.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href="dashboard.htm?trie=company_name">Company</a>
+                            <a href="dashboard.htm?trie=company_name"><spring:message code="company.springmvc" text="default text" /></a>
                         </th>
 
                     </tr>

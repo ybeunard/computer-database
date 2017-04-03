@@ -23,31 +23,32 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
+                	Language : <a href="editComputer.htm?locale=en&ordinateur=${computer.id}">English</a>|<a href="editComputer.htm?locale=fr&ordinateur=${computer.id}">Francais</a>
                     <div class="label label-default pull-right">
                         id: ${computer.id}
                     </div>
-                    <h1>Edit Computer</h1>
+                    <h1><spring:message code="edit.springmvc" text="default text" /></h1>
 
                     <form:form action="editComputer.htm" modelAttribute="ordinateurDto" method="POST">
                         <form:input path="id" type="hidden" name="ordinateur" value="${computer.id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
-                                <form:input path="name" type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name" value="${computer.name}" onfocus="if(this.value=='${computer.name}'){this.value=''}" onblur="if(this.value==''){this.value = '${computer.name}'}"/>
+                                <label for="computerName"><spring:message code="name.springmvc" text="default text" /></label>
+                                <form:input path="name" type="text" name="computerName" class="form-control" id="computerName" value="${computer.name}" onfocus="if(this.value=='${computer.name}'){this.value=''}" onblur="if(this.value==''){this.value = '${computer.name}'}"/>
 								<form:errors path="name" />
                             </div>
                             <div class="form-group">
-                                <label for="introduced">Introduced date</label>
+                                <label for="introduced"><spring:message code="introduced.springmvc" text="default text" /></label>
                                 <form:input path="dateIntroduit" type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd" value="${computer.dateIntroduit}"/>
 								<form:errors path="dateIntroduit" />
                             </div>
                             <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
+                                <label for="discontinued"><spring:message code="discontinued.springmvc" text="default text" /></label>
                                 <form:input path="dateInterrompu" type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd" value="${computer.dateInterrompu}"/>
 								<form:errors path="dateInterrompu" />
                             </div>
                             <div class="form-group">
-                                <label for="companyId">Company</label>
+                                <label for="companyId"><spring:message code="company.springmvc" text="default text" /></label>
                                 <form:select path="idFactory" class="form-control" name="company" id="companyId" >
                                     <option value="${computer.idFactory}">${computer.factory}</option>
                                     <option value="0">----</option>
@@ -62,9 +63,9 @@
                         	<div class="alert alert-danger">${error}</div>
                         </c:if>
                         <div class="actions pull-right">
-                            <input type="submit" name="action" value="Edit" class="btn btn-primary"/>
-                            or
-                            <a href="dashboard.htm" class="btn btn-default">Cancel</a>
+                            <input type="submit" name="action" class="btn btn-primary" value="<spring:message code="boutonEdit.springmvc" text="default text" />"/>
+                            <spring:message code="or.springmvc" text="default text" />
+                            <a href="dashboard.htm" class="btn btn-default"><spring:message code="cancel.springmvc" text="default text" /></a>
                         </div>
                     </form:form>
                 </div>

@@ -65,7 +65,7 @@ public class DashboardController {
             Model model) {
 
         LOGGER.info("DashboardController: GET");
-        recuperationModelAffichageAddComputer(request, model);
+        recuperationModelAffichageDashboard(request, model);
         return new ModelAndView("dashboard");
 
     }
@@ -96,7 +96,7 @@ public class DashboardController {
 
         }
 
-        recuperationModelAffichageAddComputer(request, model);
+        recuperationModelAffichageDashboard(request, model);
         return new ModelAndView("dashboard");
 
     }
@@ -109,8 +109,8 @@ public class DashboardController {
      * @param model
      *            the model
      */
-    private void recuperationModelAffichageAddComputer(
-            HttpServletRequest request, Model model) {
+    private void recuperationModelAffichageDashboard(HttpServletRequest request,
+            Model model) {
 
         try {
 
