@@ -366,45 +366,118 @@ public class PageDto {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
+
             return true;
-        if (obj == null)
+
+        }
+
+        if (obj == null) {
+
             return false;
-        if (getClass() != obj.getClass())
+
+        }
+
+        if (getClass() != obj.getClass()) {
+
             return false;
+
+        }
+
         PageDto other = (PageDto) obj;
+
         if (contenue == null) {
-            if (other.contenue != null)
+
+            if (other.contenue != null) {
+
                 return false;
-        } else if (!contenue.equals(other.contenue))
+
+            }
+
+        } else if (!contenue.equals(other.contenue)) {
+
             return false;
-        if (desc != other.desc)
+
+        }
+
+        if (desc != other.desc) {
+
             return false;
+
+        }
+
         if (filtre == null) {
-            if (other.filtre != null)
+
+            if (other.filtre != null) {
+
                 return false;
-        } else if (!filtre.equals(other.filtre))
+
+            }
+
+        } else if (!filtre.equals(other.filtre)) {
+
             return false;
-        if (nbComputer != other.nbComputer)
+
+        }
+
+        if (nbComputer != other.nbComputer) {
+
             return false;
-        if (nbParPage != other.nbParPage)
+
+        }
+
+        if (nbParPage != other.nbParPage) {
+
             return false;
-        if (numPage != other.numPage)
+
+        }
+
+        if (numPage != other.numPage) {
+
             return false;
-        if (pagePrec != other.pagePrec)
+
+        }
+
+        if (pagePrec != other.pagePrec) {
+
             return false;
-        if (pageSuiv != other.pageSuiv)
+
+        }
+
+        if (pageSuiv != other.pageSuiv) {
+
             return false;
+
+        }
+
         if (pagination == null) {
-            if (other.pagination != null)
+
+            if (other.pagination != null) {
+
                 return false;
-        } else if (!pagination.equals(other.pagination))
+
+            }
+
+        } else if (!pagination.equals(other.pagination)) {
+
             return false;
+
+        }
+
         if (trie == null) {
-            if (other.trie != null)
+
+            if (other.trie != null) {
+
                 return false;
-        } else if (!trie.equals(other.trie))
+
+            }
+
+        } else if (!trie.equals(other.trie)) {
+
             return false;
+
+        }
+
         return true;
     }
 

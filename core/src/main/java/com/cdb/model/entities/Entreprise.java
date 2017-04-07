@@ -10,20 +10,21 @@ import javax.persistence.Table;
  * The Class Entreprise.
  */
 @Entity
-@Table(name="company")
+@Table(name = "company")
 public class Entreprise {
 
     /** The id. */
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     /** The name. */
     private String name;
-    
-    public Entreprise(){
-        
-    }
+
+    /**
+     * Instantiates a new entreprise.
+     */
+    public Entreprise() { }
 
     /**
      * Instantiates a new entreprise.

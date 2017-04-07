@@ -356,11 +356,11 @@ public class GestionEntryUser {
 
         /*OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName())
                 .id(ordinateur.getId());
-        
+
          .dateIntroduit( Optional.ofNullable(ordinateur.getDateIntroduit()))
          .dateInterrompu(
          Optional.ofNullable(ordinateur.getDateInterrompu()));
-         
+
 
         args = argArray[1];
 

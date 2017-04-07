@@ -15,17 +15,17 @@ import javax.persistence.Table;
  * The Class Ordinateur.
  */
 @Entity
-@Table(name="computer")
+@Table(name = "computer")
 public class Ordinateur implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
     /** The id. */
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     /** The name. */
@@ -63,17 +63,17 @@ public class Ordinateur implements Serializable {
         return name;
 
     }
-    
+
     public LocalDate getIntroduced() {
-        
+
         return introduced;
-        
+
     }
 
     public LocalDate getDiscontinued() {
-        
+
         return discontinued;
-        
+
     }
 
     /**
@@ -88,33 +88,33 @@ public class Ordinateur implements Serializable {
     }
 
     public void setId(long id) {
-        
+
         this.id = id;
-        
+
     }
 
     public void setName(String name) {
-        
+
         this.name = name;
-        
+
     }
 
     public void setIntroduced(LocalDate introduced) {
-        
+
         this.introduced = introduced;
-        
+
     }
 
     public void setDiscontinued(LocalDate discontinued) {
-        
+
         this.discontinued = discontinued;
-        
+
     }
 
     public void setFabricant(Entreprise fabricant) {
-        
+
         this.fabricant = fabricant;
-        
+
     }
 
     /**

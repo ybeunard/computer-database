@@ -3,8 +3,6 @@ package com.cdb.dao;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.dao.DataAccessException;
-
 import com.cdb.model.entities.Entreprise;
 
 /**
@@ -16,10 +14,8 @@ public interface InterfaceEntrepriseDao {
      * Find entreprise.
      *
      * @return the list
-     * @throws DataAccessException
-     *             the data access exception
      */
-    List<Entreprise> findEntreprise() throws DataAccessException;
+    List<Entreprise> findEntreprise();
 
     /**
      * Find entreprise by ID.
@@ -27,10 +23,7 @@ public interface InterfaceEntrepriseDao {
      * @param index
      *            the index
      * @return the entreprise
-     * @throws DataAccessException
-     *             the data access exception
      */
-    Optional<Entreprise> findEntrepriseByID(long index)
-            throws DataAccessException;
+    Optional<Entreprise> findEntrepriseByID(long index);
 
 }

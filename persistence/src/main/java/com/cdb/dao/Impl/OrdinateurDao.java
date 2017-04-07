@@ -8,9 +8,6 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
-
 import com.cdb.dao.InterfaceOrdinateurDao;
 import com.cdb.model.entities.Ordinateur;
 import com.cdb.model.entities.QEntreprise;
@@ -26,15 +23,25 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
     /** The Constant logger. */
     public final Logger LOGGER = LoggerFactory.getLogger(OrdinateurDao.class);
 
+    /** The session factory. */
     private SessionFactory sessionFactory;
 
+    /**
+     * Sets the session factory.
+     *
+     * @param sessionFactory
+     *            the new session factory
+     */
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
         LOGGER.info("session factory instancié");
     }
 
+    /** The ordinateur. */
     QOrdinateur ordinateur;
+
+    /** The entreprise. */
     QEntreprise entreprise;
 
     /**
@@ -52,8 +59,6 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * Find ordinateur.
      *
      * @return une liste d'ordinateur
-     * @throws DataAccessException
-     *             the data access exception
      */
     public List<Ordinateur> findOrdinateur() {
 
@@ -77,8 +82,6 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @param desc
      *            the desc
      * @return une liste d'ordinateur
-     * @throws DataAccessException
-     *             the data access exception
      */
     public List<Ordinateur> findOrdinateurByPage(int numeroPage,
             int ligneParPage, String trie, boolean desc) {
@@ -116,8 +119,6 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @param desc
      *            the desc
      * @return une liste ordinateur
-     * @throws DataAccessException
-     *             the data access exception
      */
     public List<Ordinateur> findOrdinateurByName(int numeroPage,
             int ligneParPage, String name, String trie, boolean desc) {
@@ -152,17 +153,13 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @param id
      *            the id
      * @return the optional
-     * @throws DataAccessException
-     *             the data access exception
-     * @throws EmptyResultDataAccessException
-     *             the empty result data access exception
      */
     public Ordinateur findOrdinateurById(long id) {
 
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        return query.select(ordinateur)
-                .from(ordinateur).where(ordinateur.id.eq(id)).fetchOne();
+        return query.select(ordinateur).from(ordinateur)
+                .where(ordinateur.id.eq(id)).fetchOne();
 
     }
 
@@ -171,13 +168,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *
      * @param ordinateur
      *            à créer
-     * @param jdbcTemplate
-     *            the jdbc template
-     * @throws DataAccessException
-     *             the data access exception
      */
-    public void createOrdinateur(Ordinateur ordinateur)
-            throws DataAccessException {
+    public void createOrdinateur(Ordinateur ordinateur) {
 
         LOGGER.info("Dao: Création d'un ordinateur");
         LOGGER.debug("" + ordinateur);
@@ -191,12 +183,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
     /**
      * Update ordinateur.
      *
-     * @param ordinateur
-     *            à update
-     * @param jdbcTemplate
-     *            the jdbc template
-     * @throws DataAccessException
-     *             the data access exception
+     * @param ordinateurUpdate
+     *            the ordinateur update
      */
     public void updateOrdinateur(Ordinateur ordinateurUpdate) {
 
@@ -210,7 +198,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
                 .set(ordinateur.introduced, ordinateurUpdate.getIntroduced())
                 .set(ordinateur.discontinued,
                         ordinateurUpdate.getDiscontinued())
-                .set(ordinateur.fabricant, ordinateurUpdate.getFabricant()).execute();
+                .set(ordinateur.fabricant, ordinateurUpdate.getFabricant())
+                .execute();
         LOGGER.info("Dao: update d'un ordinateur effectuée");
 
     }
@@ -220,10 +209,6 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *
      * @param id
      *            Identifiant de l'ordinateur à supprimer
-     * @param jdbcTemplate
-     *            the jdbc template
-     * @throws DataAccessException
-     *             the data access exception
      */
     public void suppressionOrdinateur(long id) {
 
@@ -239,10 +224,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * Count ordinateur.
      *
      * @return le nombre d'ordinateur total
-     * @throws DataAccessException
-     *             the data access exception
      */
-    public long countOrdinateur() throws DataAccessException {
+    public long countOrdinateur() {
 
         long count = 0;
         LOGGER.info("Dao: Comptage du nombre d'ordinateur");
@@ -259,21 +242,33 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @param filtre
      *            the filtre
      * @return the int
-     * @throws DataAccessException
-     *             the data access exception
      */
-    public long countOrdinateurByName(String filtre) throws DataAccessException {
+    public long countOrdinateurByName(String filtre) {
 
         long count = 0;
         LOGGER.info("Dao: Comptage du nombre d'ordinateur");
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        count = query.from(ordinateur).leftJoin(ordinateur.fabricant, entreprise).where(ordinateur.name.like("%" + filtre + "%")
-                .or(entreprise.name.like("%" + filtre + "%"))).fetchCount();
+        count = query.from(ordinateur)
+                .leftJoin(ordinateur.fabricant, entreprise)
+                .where(ordinateur.name.like("%" + filtre + "%")
+                        .or(entreprise.name.like("%" + filtre + "%")))
+                .fetchCount();
         return count;
 
     }
 
+    /**
+     * Order query.
+     *
+     * @param trie
+     *            the trie
+     * @param desc
+     *            the desc
+     * @param query
+     *            the query
+     * @return the hibernate query
+     */
     private HibernateQuery<Ordinateur> orderQuery(String trie, boolean desc,
             HibernateQuery<Ordinateur> query) {
 

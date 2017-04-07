@@ -72,10 +72,6 @@ public class GestionPagination {
      *
      * @param typePage
      *            indique si la page est une page entreprise ou ordinateur
-     * @throws ConnexionDatabaseException
-     *             the connexion database exception
-     * @throws RequeteQueryException
-     *             the requete query exception
      */
     public void pagination(int typePage) {
 
