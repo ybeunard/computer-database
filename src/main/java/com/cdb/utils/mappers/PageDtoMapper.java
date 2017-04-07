@@ -48,7 +48,7 @@ public class PageDtoMapper {
      * @return the page dto
      */
     public static PageDto recuperationPage(List<Ordinateur> ordinateurs,
-            int nombreTotal, int numeroPage, int ligneParPage, int pageMax,
+            long nombreTotal, int numeroPage, int ligneParPage, long pageMax,
             String filtre, String trie, boolean desc) {
 
         LOGGER.info("Mapping de PageDto");
@@ -105,13 +105,13 @@ public class PageDtoMapper {
      *            the nombre total
      * @return the list
      */
-    private static List<Integer> count(int pageActuelle, int nombreTotal) {
+    private static List<Integer> count(int pageActuelle, long nombreTotal) {
 
         List<Integer> entiers = new ArrayList<Integer>();
 
         if (nombreTotal > 7 && pageActuelle > nombreTotal - 4) {
 
-            for (int i = nombreTotal - 6; i < nombreTotal + 1; i++) {
+            for (int i = (int) (nombreTotal - 6); i < nombreTotal + 1; i++) {
 
                 entiers.add(i);
 

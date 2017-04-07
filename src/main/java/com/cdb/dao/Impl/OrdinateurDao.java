@@ -2,12 +2,13 @@ package com.cdb.dao.Impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.dao.InterfaceOrdinateurDao;
-import com.cdb.dao.Impl.mappers.OrdinateurDaoMapper;
 import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.QEntreprise;
+import com.cdb.model.entities.QOrdinateur;
+import com.querydsl.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 /**
  * The Enum OrdinateurDao.
@@ -42,8 +46,18 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
     }
 
+    private SessionFactory sessionFactory;
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+        LOGGER.info("session factory instancié");
+    }
+
     /** The prop. */
     private final Properties prop = new Properties();
+    QOrdinateur ordinateur;
+    QEntreprise entreprise;
 
     /**
      * Instantiates a new ordinateur dao.
@@ -63,6 +77,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
+        ordinateur = QOrdinateur.ordinateur;
+        entreprise = QEntreprise.entreprise;
         LOGGER.info("OrdinateurDao instancié");
 
     }
@@ -77,11 +93,9 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
     public List<Ordinateur> findOrdinateur() throws DataAccessException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
-        LOGGER.info("Dao: recherche de la liste d'ordinateur");
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        ordinateurs = jdbcTemplate.query(
-                prop.getProperty("QUERY_FIND_ORDINATEURS"),
-                new OrdinateurDaoMapper());
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        ordinateurs = query.select(ordinateur).from(ordinateur).fetch();
         return ordinateurs;
 
     }
@@ -108,39 +122,18 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
-        String requete = prop.getProperty("QUERY_FIND_ORDINATEURS_BY_PAGE");
 
         if (offset < 0) {
 
-            LOGGER.error("Offset negatif");
             return ordinateurs;
 
         }
 
-        LOGGER.info("Dao: recherche de la liste d'ordinateur par page ");
-        LOGGER.debug("" + limit + " " + offset);
-
-        if (trie != null && !trie.equals("")) {
-
-            if (desc) {
-
-                requete = String.format(requete, trie + " DESC");
-
-            } else {
-
-                requete = String.format(requete, trie + " ASC");
-
-            }
-
-        } else {
-
-            requete = String.format(requete, "name");
-
-        }
-
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        ordinateurs = jdbcTemplate.query(requete,
-                new Object[] {limit, offset}, new OrdinateurDaoMapper());
+        HibernateQuery<Ordinateur> query = new HibernateQueryFactory(
+                sessionFactory.openSession()).select(ordinateur)
+                        .from(ordinateur).limit(limit).offset(offset);
+        query = orderQuery(trie, desc, query);
+        ordinateurs = query.fetch();
         return ordinateurs;
 
     }
@@ -169,38 +162,23 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
-        String requete = prop.getProperty("QUERY_FIND_ORDINATEURS_BY_NAME");
 
         if (offset < 0) {
 
-            LOGGER.error("Offset negatif");
             return ordinateurs;
 
         }
 
-        if (trie != null && !trie.equals("")) {
-
-            if (desc) {
-
-                requete = String.format(requete, trie + " DESC");
-
-            } else {
-
-                requete = String.format(requete, trie + " ASC");
-
-            }
-
-        } else {
-
-            requete = String.format(requete, "name");
-
-        }
-
-        LOGGER.info("Dao: recherche de la liste d'ordinateur par nom");
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        ordinateurs = jdbcTemplate.query(requete, new Object[] {
-                "%" + name + "%", "%" + name + "%", limit, offset },
-                new OrdinateurDaoMapper());
+        HibernateQuery<Ordinateur> query = new HibernateQueryFactory(
+                sessionFactory.openSession()).select(ordinateur)
+                        .from(ordinateur)
+                        .leftJoin(ordinateur.fabricant, entreprise).limit(limit)
+                        .offset(offset);
+        query = orderQuery(trie, desc, query);
+        ordinateurs = query.from(ordinateur)
+                .where(ordinateur.name.like("%" + name + "%")
+                        .or(entreprise.name.like("%" + name + "%")))
+                .fetch();
         return ordinateurs;
 
     }
@@ -219,13 +197,12 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
     public Optional<Ordinateur> findOrdinateurById(long id)
             throws DataAccessException {
 
-        Optional<Ordinateur> ordinateur = Optional.empty();
-        LOGGER.info("Dao: recherche d'ordinateur par id");
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        ordinateur = Optional.ofNullable(jdbcTemplate.queryForObject(
-                prop.getProperty("QUERY_FIND_ORDINATEURS_BY_ID"),
-                new Object[] {id}, new OrdinateurDaoMapper()));
-        return ordinateur;
+        Optional<Ordinateur> ordinateurOptional = Optional.empty();
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        ordinateurOptional = Optional.ofNullable(query.select(ordinateur)
+                .from(ordinateur).where(ordinateur.id.eq(id)).fetchOne());
+        return ordinateurOptional;
 
     }
 
@@ -239,99 +216,14 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws DataAccessException
      *             the data access exception
      */
-    public void createOrdinateur(Ordinateur ordinateur,
-            JdbcTemplate jdbcTemplate) throws DataAccessException {
+    public void createOrdinateur(Ordinateur ordinateur)
+            throws DataAccessException {
 
         LOGGER.info("Dao: Création d'un ordinateur");
         LOGGER.debug("" + ordinateur);
-
-        if (ordinateur.getDateIntroduit() != null) {
-
-            if (ordinateur.getDateInterrompu() != null) {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()),
-                            Date.valueOf(ordinateur.getDateInterrompu()),
-                            ordinateur.getFabricant().get().getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()),
-                            Date.valueOf(ordinateur.getDateInterrompu()), null);
-
-                }
-
-            } else {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()), null,
-                            ordinateur.getFabricant().get().getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()), null,
-                            null);
-
-                }
-
-            }
-
-        } else {
-
-            if (ordinateur.getDateInterrompu() != null) {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(), null,
-                            Date.valueOf(ordinateur.getDateInterrompu()),
-                            ordinateur.getFabricant().get().getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(), null,
-                            Date.valueOf(ordinateur.getDateInterrompu()), null);
-
-                }
-
-            } else {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(), null, null,
-                            ordinateur.getFabricant().get().getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_INSERT_ORDINATEUR"),
-                            ordinateur.getName(), null, null, null);
-
-                }
-
-            }
-
-        }
-
+        Session session = this.sessionFactory.openSession();
+        session.save(ordinateur);
+        session.close();
         LOGGER.info("Dao: Creation d'un ordinateur effectuée");
 
     }
@@ -346,106 +238,20 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws DataAccessException
      *             the data access exception
      */
-    public void updateOrdinateur(Ordinateur ordinateur,
+    public void updateOrdinateur(Ordinateur ordinateurUpdate,
             JdbcTemplate jdbcTemplate) throws DataAccessException {
 
         LOGGER.info("Dao: update d'un ordinateur");
         LOGGER.debug("" + ordinateur);
-
-        if (ordinateur.getDateIntroduit() != null) {
-
-            if (ordinateur.getDateInterrompu() != null) {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()),
-                            Date.valueOf(ordinateur.getDateInterrompu()),
-                            ordinateur.getFabricant().get().getId(),
-                            ordinateur.getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()),
-                            Date.valueOf(ordinateur.getDateInterrompu()), null,
-                            ordinateur.getId());
-
-                }
-
-            } else {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()), null,
-                            ordinateur.getFabricant().get().getId(),
-                            ordinateur.getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(),
-                            Date.valueOf(ordinateur.getDateIntroduit()), null,
-                            null, ordinateur.getId());
-
-                }
-
-            }
-
-        } else {
-
-            if (ordinateur.getDateInterrompu() != null) {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(), null,
-                            Date.valueOf(ordinateur.getDateInterrompu()),
-                            ordinateur.getFabricant().get().getId(),
-                            ordinateur.getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(), null,
-                            Date.valueOf(ordinateur.getDateInterrompu()), null,
-                            ordinateur.getId());
-
-                }
-
-            } else {
-
-                if (ordinateur.getFabricant().isPresent()) {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(), null, null,
-                            ordinateur.getFabricant().get().getId(),
-                            ordinateur.getId());
-
-                } else {
-
-                    jdbcTemplate.update(
-                            prop.getProperty("QUERY_UPDATE_ORDINATEUR"),
-                            ordinateur.getName(), null, null, null,
-                            ordinateur.getId());
-
-                }
-
-            }
-
-        }
-
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        query.update(ordinateur)
+                .where(ordinateur.id.eq(ordinateurUpdate.getId()))
+                .set(ordinateur.name, ordinateurUpdate.getName())
+                .set(ordinateur.introduced, ordinateurUpdate.getIntroduced())
+                .set(ordinateur.discontinued,
+                        ordinateurUpdate.getDiscontinued())
+                .set(ordinateur.fabricant, ordinateurUpdate.getFabricant()).execute();
         LOGGER.info("Dao: update d'un ordinateur effectuée");
 
     }
@@ -465,7 +271,9 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         LOGGER.info("suppression de l'ordinateur");
         LOGGER.debug("" + id);
-        jdbcTemplate.update(prop.getProperty("QUERY_DELETE_ORDINATEUR"), id);
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        query.delete(ordinateur).where(ordinateur.id.eq(id)).execute();
 
     }
 
@@ -476,13 +284,13 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws DataAccessException
      *             the data access exception
      */
-    public int countOrdinateur() throws DataAccessException {
+    public long countOrdinateur() throws DataAccessException {
 
-        int count = 0;
+        long count = 0;
         LOGGER.info("Dao: Comptage du nombre d'ordinateur");
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        count = jdbcTemplate.queryForObject(
-                prop.getProperty("QUERY_COUNT_ORDINATEUR"), Integer.class);
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        count = query.from(ordinateur).fetchCount();
         return count;
 
     }
@@ -496,17 +304,61 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @throws DataAccessException
      *             the data access exception
      */
-    public int countOrdinateurByName(String filtre) throws DataAccessException {
+    public long countOrdinateurByName(String filtre) throws DataAccessException {
 
-        int count = 0;
+        long count = 0;
         LOGGER.info("Dao: Comptage du nombre d'ordinateur");
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        count = jdbcTemplate.queryForObject(
-                prop.getProperty("QUERY_COUNT_ORDINATEUR_BY_NAME"),
-                new Object[] {"%" + filtre + "%", "%" + filtre + "%"},
-                Integer.class);
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        count = query.from(ordinateur).leftJoin(ordinateur.fabricant, entreprise).where(ordinateur.name.like("%" + filtre + "%")
+                .or(entreprise.name.like("%" + filtre + "%"))).fetchCount();
         return count;
 
+    }
+
+    private HibernateQuery<Ordinateur> orderQuery(String trie, boolean desc,
+            HibernateQuery<Ordinateur> query) {
+
+        if (trie != null) {
+
+            switch (trie) {
+
+            case "company_name":
+
+                if (desc) {
+
+                    query = query.leftJoin(ordinateur.fabricant, entreprise)
+                            .orderBy(entreprise.name.desc());
+
+                } else {
+
+                    query = query.leftJoin(ordinateur.fabricant, entreprise)
+                            .orderBy(entreprise.name.asc());
+
+                }
+                break;
+
+            default:
+
+                if (desc) {
+
+                    query = query.orderBy(ordinateur.name.desc());
+
+                } else {
+
+                    query = query.orderBy(ordinateur.name.asc());
+
+                }
+
+            }
+
+        } else {
+
+            query = query.orderBy(ordinateur.name.asc());
+
+        }
+
+        return query;
     }
 
 }

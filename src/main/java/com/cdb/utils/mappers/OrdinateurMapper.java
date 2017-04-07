@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.model.entities.Ordinateur;
-import com.cdb.model.entities.Ordinateur.OrdinateurBuilder;
 import com.cdb.utils.Parse;
 
 /**
@@ -33,14 +32,14 @@ public class OrdinateurMapper {
      */
     public static Ordinateur recuperationOrdinateur(OrdinateurDto ordinateur) {
 
-        LOGGER.info("Mapping Ordinateur depuis OrdinateurDto");
-        OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName());
-        builder.id(ordinateur.getId());
-        builder.dateIntroduit(Parse.parseDate(ordinateur.getDateIntroduit()));
-        builder.dateInterrompu(Parse.parseDate(ordinateur.getDateInterrompu()));
-        builder.fabricant(Parse.parseFactory(ordinateur.getIdFactory(),
+        Ordinateur builder = new Ordinateur();
+        builder.setId(ordinateur.getId());
+        builder.setName(ordinateur.getName());
+        builder.setIntroduced(Parse.parseDate(ordinateur.getDateIntroduit()));
+        builder.setDiscontinued(Parse.parseDate(ordinateur.getDateInterrompu()));
+        builder.setFabricant(Parse.parseFactory(ordinateur.getIdFactory(),
                 ordinateur.getFactory()));
-        return builder.build();
+        return builder;
 
     }
 

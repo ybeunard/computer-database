@@ -26,7 +26,7 @@ public class PageDto {
     private final int nbParPage;
 
     /** The nb computer. */
-    private final int nbComputer;
+    private final long nbComputer;
 
     /** The filtre. */
     private final String filtre;
@@ -99,7 +99,7 @@ public class PageDto {
      *
      * @return the nb computer
      */
-    public int getNbComputer() {
+    public long getNbComputer() {
         return nbComputer;
     }
 
@@ -181,7 +181,7 @@ public class PageDto {
         private int nbParPage;
 
         /** The nb computer. */
-        private int nbComputer;
+        private long nbComputer;
 
         /** The filtre. */
         private String filtre;
@@ -283,7 +283,7 @@ public class PageDto {
          *            the nb computer
          * @return the page dto builder
          */
-        public PageDtoBuilder nbComputer(int nbComputer) {
+        public PageDtoBuilder nbComputer(long nbComputer) {
 
             this.nbComputer = nbComputer;
             return this;
@@ -345,21 +345,15 @@ public class PageDto {
 
     }
 
-    /**
-     * Hash code.
-     *
-     * @return entier du hascode
-     */
     @Override
     public int hashCode() {
-
         final int prime = 31;
         int result = 1;
         result = prime * result
                 + ((contenue == null) ? 0 : contenue.hashCode());
         result = prime * result + (desc ? 1231 : 1237);
         result = prime * result + ((filtre == null) ? 0 : filtre.hashCode());
-        result = prime * result + nbComputer;
+        result = prime * result + (int) (nbComputer ^ (nbComputer >>> 32));
         result = prime * result + nbParPage;
         result = prime * result + numPage;
         result = prime * result + pagePrec;
@@ -368,133 +362,50 @@ public class PageDto {
                 + ((pagination == null) ? 0 : pagination.hashCode());
         result = prime * result + ((trie == null) ? 0 : trie.hashCode());
         return result;
-
     }
 
-    /**
-     * Equals.
-     *
-     * @param obj
-     *            de comparaison
-     * @return vrai ou faux
-     */
     @Override
     public boolean equals(Object obj) {
-
-        if (this == obj) {
-
+        if (this == obj)
             return true;
-
-        }
-
-        if (obj == null) {
-
+        if (obj == null)
             return false;
-
-        }
-
-        if (getClass() != obj.getClass()) {
-
+        if (getClass() != obj.getClass())
             return false;
-
-        }
-
         PageDto other = (PageDto) obj;
-
         if (contenue == null) {
-
-            if (other.contenue != null) {
-
+            if (other.contenue != null)
                 return false;
-
-            }
-
-        } else if (!contenue.equals(other.contenue)) {
-
+        } else if (!contenue.equals(other.contenue))
             return false;
-
-        }
-
-        if (desc != other.desc) {
-
+        if (desc != other.desc)
             return false;
-
-        }
-
         if (filtre == null) {
-
-            if (other.filtre != null) {
-
+            if (other.filtre != null)
                 return false;
-
-            }
-
-        } else if (!filtre.equals(other.filtre)) {
-
+        } else if (!filtre.equals(other.filtre))
             return false;
-
-        }
-
-        if (nbComputer != other.nbComputer) {
-
+        if (nbComputer != other.nbComputer)
             return false;
-
-        }
-
-        if (nbParPage != other.nbParPage) {
-
+        if (nbParPage != other.nbParPage)
             return false;
-
-        }
-
-        if (numPage != other.numPage) {
-
+        if (numPage != other.numPage)
             return false;
-
-        }
-
-        if (pagePrec != other.pagePrec) {
-
+        if (pagePrec != other.pagePrec)
             return false;
-
-        }
-
-        if (pageSuiv != other.pageSuiv) {
-
+        if (pageSuiv != other.pageSuiv)
             return false;
-
-        }
-
         if (pagination == null) {
-
-            if (other.pagination != null) {
-
+            if (other.pagination != null)
                 return false;
-
-            }
-
-        } else if (!pagination.equals(other.pagination)) {
-
+        } else if (!pagination.equals(other.pagination))
             return false;
-
-        }
-
         if (trie == null) {
-
-            if (other.trie != null) {
-
+            if (other.trie != null)
                 return false;
-
-            }
-
-        } else if (!trie.equals(other.trie)) {
-
+        } else if (!trie.equals(other.trie))
             return false;
-
-        }
-
         return true;
-
     }
 
     /**

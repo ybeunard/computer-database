@@ -81,7 +81,7 @@ public interface InterfaceOrdinateurDao {
      * @throws DataAccessException
      *             the data access exception
      */
-    void createOrdinateur(Ordinateur ordinateur, JdbcTemplate jdbcTemplate)
+    void createOrdinateur(Ordinateur ordinateur)
             throws DataAccessException;
 
     /**
@@ -117,6 +117,6 @@ public interface InterfaceOrdinateurDao {
      * @throws DataAccessException
      *             the data access exception
      */
-    int countOrdinateur() throws DataAccessException;
+    long countOrdinateur() throws DataAccessException;
 
 }

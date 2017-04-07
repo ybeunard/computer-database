@@ -64,22 +64,22 @@ public class OrdinateurDtoMapper {
                 ordinateur.getName());
         builder.id(ordinateur.getId());
 
-        if (ordinateur.getDateIntroduit() != null) {
+        if (ordinateur.getIntroduced() != null) {
 
-            builder.dateIntroduit(ordinateur.getDateIntroduit().toString());
-
-        }
-
-        if (ordinateur.getDateInterrompu() != null) {
-
-            builder.dateInterrompu(ordinateur.getDateInterrompu().toString());
+            builder.dateIntroduit(ordinateur.getIntroduced().toString());
 
         }
 
-        if (ordinateur.getFabricant().isPresent()) {
+        if (ordinateur.getDiscontinued() != null) {
 
-            builder.idFactory(ordinateur.getFabricant().get().getId());
-            builder.factory(ordinateur.getFabricant().get().getName());
+            builder.dateInterrompu(ordinateur.getDiscontinued().toString());
+
+        }
+
+        if (ordinateur.getFabricant() != null) {
+
+            builder.idFactory(ordinateur.getFabricant().getId());
+            builder.factory(ordinateur.getFabricant().getName());
 
         }
 

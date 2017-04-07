@@ -90,8 +90,8 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             throws DataAccessException {
 
         List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
-        int nombreTotal = 0;
-        int pageMax = 1;
+        long nombreTotal = 0;
+        long pageMax = 1;
         LOGGER.info("Service : Recherche ordinateur par page");
 
         if (filtre == null || filtre.equals("")) {
@@ -173,8 +173,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             throws DataAccessException {
 
         LOGGER.info("Service : Creation d'un ordinateur");
-        ordinateurDao.createOrdinateur(ordinateur,
-                connexionDatabase.getJdbcTemplate());
+        ordinateurDao.createOrdinateur(ordinateur);
 
     }
 
@@ -228,9 +227,9 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            the nombre total
      * @return the int
      */
-    private int pageMax(int nbParPage, int nombreTotal) {
+    private long pageMax(int nbParPage, long nombreTotal) {
 
-        int pageMax = 1;
+        long pageMax = 1;
 
         if (nbParPage == 0) {
 
@@ -264,11 +263,11 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      *            the page max
      * @return the int
      */
-    private int verifNumPage(int numeroPage, int pageMax) {
+    private int verifNumPage(int numeroPage, long pageMax) {
 
         if (numeroPage >= pageMax) {
 
-            return pageMax;
+            return (int) pageMax;
 
         } else if (numeroPage == 0) {
 

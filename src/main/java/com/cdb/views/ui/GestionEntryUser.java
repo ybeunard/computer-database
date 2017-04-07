@@ -17,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 import com.cdb.model.dto.OrdinateurDto;
 import com.cdb.model.entities.Entreprise;
 import com.cdb.model.entities.Ordinateur;
-import com.cdb.model.entities.Ordinateur.OrdinateurBuilder;
 import com.cdb.exception.ConnexionDatabaseException;
 import com.cdb.exception.RequeteQueryException;
 import com.cdb.services.Impl.GestionEntreprise;
@@ -100,7 +99,7 @@ public class GestionEntryUser {
 
             }
 
-            createOrdinateur(splitArray[1]);
+            //createOrdinateur(splitArray[1]);
 
         } else if (splitArray[0] == "update") {
 
@@ -193,7 +192,6 @@ public class GestionEntryUser {
             try {
                 pagination.pagination(2);
             } catch (ConnexionDatabaseException | RequeteQueryException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -202,7 +200,6 @@ public class GestionEntryUser {
             try {
                 pagination.pagination(1);
             } catch (ConnexionDatabaseException | RequeteQueryException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -247,7 +244,7 @@ public class GestionEntryUser {
      * @param args
      *            the args
      */
-    private static void createOrdinateur(String args) {
+    /*private static void createOrdinateur(String args) {
 
         String[] argArray = args.split("'", 3);
         OrdinateurBuilder ordinateur = new Ordinateur.OrdinateurBuilder(
@@ -255,7 +252,7 @@ public class GestionEntryUser {
 
         if (argArray[2].isEmpty()) {
 
-            gestionOrdinateur.createOrdinateur(ordinateur.build());
+            //gestionOrdinateur.createOrdinateur(ordinateur.build());
 
             return;
 
@@ -326,7 +323,7 @@ public class GestionEntryUser {
 
             if (argArray.length == 1) {
 
-                gestionOrdinateur.createOrdinateur(ordinateur.build());
+                //gestionOrdinateur.createOrdinateur(ordinateur.build());
 
                 return;
 
@@ -339,7 +336,7 @@ public class GestionEntryUser {
         System.out.println(prop.getProperty("nombre_arg"));
         return;
 
-    }
+    }*/
 
     /**
      * Update ordinateur.
@@ -372,13 +369,13 @@ public class GestionEntryUser {
 
         }
 
-        OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName())
+        /*OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName())
                 .id(ordinateur.getId());
-        /*
-         * .dateIntroduit( Optional.ofNullable(ordinateur.getDateIntroduit()))
-         * .dateInterrompu(
-         * Optional.ofNullable(ordinateur.getDateInterrompu()));
-         */
+        
+         .dateIntroduit( Optional.ofNullable(ordinateur.getDateIntroduit()))
+         .dateInterrompu(
+         Optional.ofNullable(ordinateur.getDateInterrompu()));
+         
 
         args = argArray[1];
 
@@ -402,7 +399,7 @@ public class GestionEntryUser {
 
                 if (argArray[2].isEmpty()) {
 
-                    gestionOrdinateur.updateOrdinateur(builder.build());
+                    //gestionOrdinateur.updateOrdinateur(builder.build());
                     return;
 
                 }
@@ -459,14 +456,14 @@ public class GestionEntryUser {
 
             if (argArray.length < 2) {
 
-                gestionOrdinateur.updateOrdinateur(builder.build());
+                //gestionOrdinateur.updateOrdinateur(builder.build());
                 return;
 
             }
 
             args = argArray[1];
 
-        }
+        }*/
 
         System.out.println(prop.getProperty("nombre_arg"));
         return;

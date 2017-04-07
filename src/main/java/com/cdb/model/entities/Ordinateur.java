@@ -1,43 +1,46 @@
 package com.cdb.model.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Optional;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * The Class Ordinateur.
  */
-public class Ordinateur {
-
-    /** The id. */
-    private final long id;
-
-    /** The name. */
-    private final String name;
-
-    /** The date introduit. */
-    private final LocalDate dateIntroduit;
-
-    /** The date interrompu. */
-    private final LocalDate dateInterrompu;
-
-    /** The fabricant. */
-    private final Optional<Entreprise> fabricant;
+@Entity
+@Table(name="computer")
+public class Ordinateur implements Serializable {
 
     /**
-     * Instantiates a new ordinateur.
-     *
-     * @param builder
-     *            the builder
+     * 
      */
-    private Ordinateur(OrdinateurBuilder builder) {
+    private static final long serialVersionUID = 1L;
 
-        this.id = builder.id;
-        this.name = builder.name;
-        this.dateIntroduit = builder.dateIntroduit;
-        this.dateInterrompu = builder.dateInterrompu;
-        this.fabricant = builder.fabricant;
+    /** The id. */
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
 
-    }
+    /** The name. */
+    private String name;
+
+    /** The date introduit. */
+    private LocalDate introduced;
+
+    /** The date interrompu. */
+    private LocalDate discontinued;
+
+    /** The fabricant. */
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Entreprise fabricant;
 
     /**
      * Gets the id.
@@ -60,27 +63,17 @@ public class Ordinateur {
         return name;
 
     }
-
-    /**
-     * Gets the date introduit.
-     *
-     * @return the date introduit
-     */
-    public LocalDate getDateIntroduit() {
-
-        return dateIntroduit;
-
+    
+    public LocalDate getIntroduced() {
+        
+        return introduced;
+        
     }
 
-    /**
-     * Gets the date interrompu.
-     *
-     * @return the date interrompu
-     */
-    public LocalDate getDateInterrompu() {
-
-        return dateInterrompu;
-
+    public LocalDate getDiscontinued() {
+        
+        return discontinued;
+        
     }
 
     /**
@@ -88,135 +81,40 @@ public class Ordinateur {
      *
      * @return the fabricant
      */
-    public Optional<Entreprise> getFabricant() {
+    public Entreprise getFabricant() {
 
         return fabricant;
 
     }
 
-    /**
-     * The Class OrdinateurBuilder.
-     */
-    public static class OrdinateurBuilder {
+    public void setId(long id) {
+        
+        this.id = id;
+        
+    }
 
-        /** The id. */
-        private long id;
+    public void setName(String name) {
+        
+        this.name = name;
+        
+    }
 
-        /** The name. */
-        private String name;
+    public void setIntroduced(LocalDate introduced) {
+        
+        this.introduced = introduced;
+        
+    }
 
-        /** The date introduit. */
-        private LocalDate dateIntroduit;
+    public void setDiscontinued(LocalDate discontinued) {
+        
+        this.discontinued = discontinued;
+        
+    }
 
-        /** The date interrompu. */
-        private LocalDate dateInterrompu;
-
-        /** The fabricant. */
-        private Optional<Entreprise> fabricant;
-
-        /**
-         * Instantiates a new ordinateur builder.
-         *
-         * @param name
-         *            the name
-         */
-        public OrdinateurBuilder(String name) {
-
-            if (name == null) {
-
-                this.name = "";
-
-            } else {
-
-                this.name = name;
-
-            }
-
-            this.fabricant = Optional.empty();
-
-        }
-
-        /**
-         * Id.
-         *
-         * @param id
-         *            the id
-         * @return the ordinateur builder
-         */
-        public OrdinateurBuilder id(long id) {
-
-            this.id = id;
-            return this;
-
-        }
-
-        /**
-         * Name.
-         *
-         * @param name
-         *            the name
-         * @return the ordinateur builder
-         */
-        public OrdinateurBuilder name(String name) {
-
-            this.name = name;
-            return this;
-
-        }
-
-        /**
-         * Date introduit.
-         *
-         * @param dateIntroduit
-         *            the date introduit
-         * @return the ordinateur builder
-         */
-        public OrdinateurBuilder dateIntroduit(LocalDate dateIntroduit) {
-
-            this.dateIntroduit = dateIntroduit;
-            return this;
-
-        }
-
-        /**
-         * Date interrompu.
-         *
-         * @param dateInterrompu
-         *            the date interrompu
-         * @return the ordinateur builder
-         */
-        public OrdinateurBuilder dateInterrompu(LocalDate dateInterrompu) {
-
-            this.dateInterrompu = dateInterrompu;
-            return this;
-
-        }
-
-        /**
-         * Fabricant.
-         *
-         * @param fabricant
-         *            the fabricant
-         * @return the ordinateur builder
-         */
-        public OrdinateurBuilder fabricant(Optional<Entreprise> fabricant) {
-
-            this.fabricant = fabricant;
-            return this;
-
-        }
-
-        /**
-         * Builds the.
-         *
-         * @return the ordinateur
-         */
-        public Ordinateur build() {
-
-            return new Ordinateur(this);
-
-        }
-
+    public void setFabricant(Entreprise fabricant) {
+        
+        this.fabricant = fabricant;
+        
     }
 
     /**
@@ -230,9 +128,9 @@ public class Ordinateur {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((dateInterrompu == null) ? 0 : dateInterrompu.hashCode());
+                + ((discontinued == null) ? 0 : discontinued.hashCode());
         result = prime * result
-                + ((dateIntroduit == null) ? 0 : dateIntroduit.hashCode());
+                + ((introduced == null) ? 0 : introduced.hashCode());
         result = prime * result
                 + ((fabricant == null) ? 0 : fabricant.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
@@ -269,28 +167,28 @@ public class Ordinateur {
 
         Ordinateur other = (Ordinateur) obj;
 
-        if (dateInterrompu == null) {
+        if (discontinued == null) {
 
-            if (other.dateInterrompu != null) {
+            if (other.discontinued != null) {
 
                 return false;
 
             }
 
-        } else if (!dateInterrompu.equals(other.dateInterrompu)) {
+        } else if (!discontinued.equals(other.discontinued)) {
 
             return false;
 
         }
-        if (dateIntroduit == null) {
+        if (introduced == null) {
 
-            if (other.dateIntroduit != null) {
+            if (other.introduced != null) {
 
                 return false;
 
             }
 
-        } else if (!dateIntroduit.equals(other.dateIntroduit)) {
+        } else if (!introduced.equals(other.introduced)) {
 
             return false;
 
@@ -340,12 +238,12 @@ public class Ordinateur {
     public String toString() {
 
         String chaine = "Ordinateur numero ";
-        chaine += this.id + " : " + this.name + "\t" + this.dateIntroduit + "\t"
-                + this.dateInterrompu + "\t";
+        chaine += this.id + " : " + this.name + "\t" + this.introduced + "\t"
+                + this.discontinued + "\t";
 
-        if (this.fabricant.isPresent()) {
+        if (this.fabricant != null) {
 
-            chaine += this.fabricant.get().getName();
+            chaine += this.fabricant.getName();
 
         } else {
 

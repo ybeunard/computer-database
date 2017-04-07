@@ -89,17 +89,16 @@ public class TestOrdinateurDao extends TestCase {
 
             assertFalse(ordinateur.getName() == null);
             assertFalse(ordinateur.getId() <= 0);
-            assertFalse(ordinateur.getFabricant() == null);
 
             if (ordinateur.getName().equals("Bob")) {
 
-                assertFalse(ordinateur.getDateInterrompu() == null);
+                assertFalse(ordinateur.getDiscontinued() == null);
 
             }
 
             if (ordinateur.getName().equals("Alice")) {
 
-                assertFalse(ordinateur.getDateIntroduit() == null);
+                assertFalse(ordinateur.getIntroduced() == null);
 
             }
 

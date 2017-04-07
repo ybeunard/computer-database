@@ -2,7 +2,6 @@ package com.cdb.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 import com.cdb.model.entities.Entreprise;
 
@@ -112,20 +111,17 @@ public class Parse {
      *            the entreprise name
      * @return the optional
      */
-    public static Optional<Entreprise> parseFactory(long entrepriseId,
+    public static Entreprise parseFactory(long entrepriseId,
             String entrepriseName) {
-
-        Optional<Entreprise> factory = Optional.empty();
 
         if (entrepriseId > 0) {
 
-            factory = Optional
-                    .ofNullable(new Entreprise.EntrepriseBuilder(entrepriseName)
-                            .id(entrepriseId).build());
+            return new Entreprise.EntrepriseBuilder(entrepriseName)
+                            .id(entrepriseId).build();
 
         }
 
-        return factory;
+        return null;
 
     }
 

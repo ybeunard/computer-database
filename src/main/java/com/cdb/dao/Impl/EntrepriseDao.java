@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cdb.dao.InterfaceEntrepriseDao;
-import com.cdb.dao.Impl.mappers.EntrepriseDaoMapper;
 import com.cdb.model.entities.Entreprise;
+import com.cdb.model.entities.QEntreprise;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 /**
  * The Enum EntrepriseDao.
@@ -41,9 +42,19 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
         return connexionDatabase;
 
     }
+    
+    private SessionFactory sessionFactory;
+    
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+        LOGGER.info("session factory instancié");
+    }
 
     /** The prop. */
     private final Properties prop = new Properties();
+    
+    QEntreprise entreprise;
 
     /**
      * Instantiates a new entreprise dao.
@@ -63,6 +74,7 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
 
         }
 
+        entreprise = QEntreprise.entreprise;
         LOGGER.info("EntrepriseDao instancié");
 
     }
@@ -77,11 +89,8 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
     public List<Entreprise> findEntreprise() throws DataAccessException {
 
         List<Entreprise> entreprises = new ArrayList<Entreprise>();
-        LOGGER.info("Dao: recherche de la liste d'entreprise");
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        entreprises = jdbcTemplate.query(
-                prop.getProperty("QUERY_FIND_ENTREPRISES"),
-                new EntrepriseDaoMapper());
+        HibernateQueryFactory query = new HibernateQueryFactory(sessionFactory.openSession());
+        entreprises = query.select(entreprise).from(entreprise).fetch();
         return entreprises;
 
     }
@@ -98,20 +107,10 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
     public Optional<Entreprise> findEntrepriseByID(long index)
             throws DataAccessException {
 
-        Optional<Entreprise> entreprise = Optional.empty();
-        LOGGER.info("Dao: recherche d'une entreprise par id: " + index);
-
-        if (index <= 0) {
-
-            return entreprise;
-
-        }
-
-        JdbcTemplate jdbcTemplate = connexionDatabase.getJdbcTemplate();
-        entreprise = Optional.ofNullable(jdbcTemplate.queryForObject(
-                prop.getProperty("QUERY_FIND_ENTREPRISES_BY_ID"),
-                new Object[] {index}, new EntrepriseDaoMapper()));
-        return entreprise;
+        Optional<Entreprise> entreprises = Optional.empty();
+        HibernateQueryFactory query = new HibernateQueryFactory(sessionFactory.openSession());
+        entreprises = Optional.ofNullable(query.select(entreprise).from(entreprise).where(entreprise.id.eq(index)).fetchOne());
+        return entreprises;
 
     }
 

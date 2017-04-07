@@ -1,15 +1,29 @@
 package com.cdb.model.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * The Class Entreprise.
  */
+@Entity
+@Table(name="company")
 public class Entreprise {
 
     /** The id. */
-    private final long id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
 
     /** The name. */
-    private final String name;
+    private String name;
+    
+    public Entreprise(){
+        
+    }
 
     /**
      * Instantiates a new entreprise.
@@ -44,6 +58,14 @@ public class Entreprise {
 
         return name;
 
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
