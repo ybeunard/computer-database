@@ -22,6 +22,10 @@
 	<bean id="companyDao" name="companyDao" class="com.cdb.dao.Impl.CompanyDao"
 		scope="singleton">
 	</bean>
+	
+	<bean id="userDao" name="userDao" class="com.cdb.dao.Impl.UserDao"
+		scope="singleton">
+	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -38,6 +42,8 @@
         <list>
             <value>com.cdb.model.entities.Company</value>
             <value>com.cdb.model.entities.Computer</value>
+            <value>com.cdb.model.entities.User</value>
+            <value>com.cdb.model.entities.UserRole</value>
         </list>
         </property>
 		<property name="hibernateProperties">

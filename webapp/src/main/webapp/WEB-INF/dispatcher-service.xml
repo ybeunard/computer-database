@@ -16,4 +16,7 @@
 	<bean name="companyService" class="com.cdb.services.Impl.CompanyService" scope="singleton">
 	</bean>
 	
+	<bean name="userService" class="com.cdb.services.Impl.UserService" scope="singleton">
+	</bean>
+	
 </beans>
