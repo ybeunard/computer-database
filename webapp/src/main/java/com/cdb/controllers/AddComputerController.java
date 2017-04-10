@@ -3,7 +3,6 @@ package com.cdb.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -84,7 +83,7 @@ public class AddComputerController {
      */
     public AddComputerController() {
 
-        LOGGER.info("AddComputerController instancié");
+        LOGGER.info("AddComputerController Instantiated");
 
     }
 
@@ -99,7 +98,7 @@ public class AddComputerController {
     public ModelAndView addComputerGet(Model model) {
 
         LOGGER.info("AddComputerController: GET");
-        recuperationModelAffichageAddComputer(model);
+        recoveryDisplayAddComputer(model);
         model.addAttribute("computerDto", new ComputerDto());
         return new ModelAndView("addComputer");
 
@@ -125,23 +124,13 @@ public class AddComputerController {
 
         if (!result.hasErrors()) {
 
-            try {
-
-                computerService.createComputer(
+            computerService.createComputer(
                         ComputerMapper.recoveryComputer(computerDto));
-
-            } catch (DataAccessException e) {
-
-                model.addAttribute("error",
-                        "Erreur: l'ordinateur n'a pas été créer");
-
-            }
-
             return new ModelAndView("redirect:/dashboard.htm");
 
         } else {
 
-            recuperationModelAffichageAddComputer(model);
+            recoveryDisplayAddComputer(model);
             return new ModelAndView("addComputer");
 
         }
@@ -154,18 +143,9 @@ public class AddComputerController {
      * @param model
      *            the model
      */
-    private void recuperationModelAffichageAddComputer(Model model) {
+    private void recoveryDisplayAddComputer(Model model) {
 
-        try {
-
-            model.addAttribute("companies", companyService.findCompanies());
-
-        } catch (DataAccessException e) {
-
-            model.addAttribute("error",
-                    "Erreur lors du chargement des entreprises");
-
-        }
+        model.addAttribute("companies", companyService.findCompanies());
 
     }
 

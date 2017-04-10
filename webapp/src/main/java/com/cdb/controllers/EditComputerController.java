@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -86,7 +85,7 @@ public class EditComputerController {
      */
     public EditComputerController() {
 
-        LOGGER.info("EditComputerController instancié");
+        LOGGER.info("EditComputerController Instantiated");
 
     }
 
@@ -104,7 +103,7 @@ public class EditComputerController {
             Model model) {
 
         LOGGER.info("EditComputerController: GET");
-        recuperationModelAffichageEditComputer(request, model);
+        recoveryDisplayEditComputer(request, model);
         model.addAttribute("computerDto", new ComputerDto());
         return new ModelAndView("editComputer");
 
@@ -132,24 +131,13 @@ public class EditComputerController {
 
         if (!result.hasErrors()) {
 
-            try {
-
-                computerService.updateComputer(
+            computerService.updateComputer(
                         ComputerMapper.recoveryComputer(computerDto));
-
-            } catch (DataAccessException e) {
-
-                model.addAttribute("error",
-                        "Erreur: l'ordinateur n'a pas été modifié");
-                return new ModelAndView("editComputer");
-
-            }
-
             return new ModelAndView("redirect:/dashboard.htm");
 
         } else {
 
-            recuperationModelAffichageEditComputer(request, model);
+            recoveryDisplayEditComputer(request, model);
             return new ModelAndView("editComputer");
 
         }
@@ -164,34 +152,12 @@ public class EditComputerController {
      * @param model
      *            the model
      */
-    private void recuperationModelAffichageEditComputer(
+    private void recoveryDisplayEditComputer(
             HttpServletRequest request, Model model) {
 
         long id = Parse.parseLong(request.getParameter("id"), 0);
-        LOGGER.info(""+id);
-
-        try {
-
-            ComputerDto ordinateur = computerService.findComputerById(id);
-            model.addAttribute("computer", ordinateur);
-
-        } catch (DataAccessException e) {
-
-            model.addAttribute("error",
-                    "Erreur lors du chargement de l'ordinateur");
-
-        }
-
-        try {
-
-            model.addAttribute("companies", companyService.findCompanies());
-
-        } catch (DataAccessException e) {
-
-            model.addAttribute("error",
-                    "Erreur lors du chargement des entreprises");
-
-        }
+        model.addAttribute("computer", computerService.findComputerById(id));
+        model.addAttribute("companies", companyService.findCompanies());
 
     }
 

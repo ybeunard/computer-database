@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +46,7 @@ public class DashboardController {
      */
     public DashboardController() {
 
-        LOGGER.info("DashboardController instancié");
+        LOGGER.info("DashboardController Instantiated");
 
     }
 
@@ -65,7 +64,7 @@ public class DashboardController {
             Model model) {
 
         LOGGER.info("DashboardController: GET");
-        recuperationModelAffichageDashboard(request, model);
+        recoveryDisplayDashboard(request, model);
         return new ModelAndView("dashboard");
 
     }
@@ -83,20 +82,10 @@ public class DashboardController {
     protected ModelAndView dashboardPost(HttpServletRequest request,
             Model model) {
 
-        try {
-
-            LOGGER.info("DashboardController: POST");
+        LOGGER.info("DashboardController: POST");
             computerService.deleteComputer(DashboardDtoMapper
                     .recoveryListDeleteRequestPost(request));
-
-        } catch (DataAccessException e) {
-
-            model.addAttribute("error",
-                    "Erreur lors de la suppression des ordinateurs");
-
-        }
-
-        recuperationModelAffichageDashboard(request, model);
+        recoveryDisplayDashboard(request, model);
         return new ModelAndView("dashboard");
 
     }
@@ -109,12 +98,10 @@ public class DashboardController {
      * @param model
      *            the model
      */
-    private void recuperationModelAffichageDashboard(HttpServletRequest request,
+    private void recoveryDisplayDashboard(HttpServletRequest request,
             Model model) {
 
-        try {
-
-            DashboardDto dashboard = DashboardDtoMapper
+        DashboardDto dashboard = DashboardDtoMapper
                     .recoveryDashboardRequestGet(request);
             PageDto page = null;
             page = computerService.findComputerByPage(
@@ -123,13 +110,6 @@ public class DashboardController {
                     dashboard.getDesc());
             model.addAttribute("page", page);
             request.getSession().setAttribute("page", page);
-
-        } catch (DataAccessException e) {
-
-            model.addAttribute("error",
-                    "Erreur lors du chargement des ordinateurs");
-
-        }
 
     }
 

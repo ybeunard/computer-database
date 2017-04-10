@@ -25,7 +25,7 @@ public class ComputerDtoValidation implements Validator {
      */
     public ComputerDtoValidation() {
 
-        LOGGER.info("ComputerDtoValidation instancié");
+        LOGGER.info("ComputerDtoValidation Instantiated");
 
     }
 
@@ -50,7 +50,7 @@ public class ComputerDtoValidation implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
-        LOGGER.info("Validation d'un ordinateur DTO");
+        LOGGER.info("Validation ComputerDTO");
         ComputerDto computerDto = (ComputerDto) target;
 
         if (computerDto.getName() == null) {
@@ -64,14 +64,14 @@ public class ComputerDtoValidation implements Validator {
 
         if (computerDto.getId() < 0) {
 
-            LOGGER.debug("ID Incorrecte " + computerDto.getId());
+            LOGGER.debug("Incorrect ID " + computerDto.getId());
             errors.reject("id");
 
         }
 
         if (!validationDate(computerDto.getIntroduced())) {
 
-            LOGGER.debug("Date introduction Incorrecte "
+            LOGGER.debug("Incorrect introduced Date "
                     + computerDto.getIntroduced());
             errors.rejectValue("introduced",
                     "NotValid.computerDtoForm.dateIntroduit");
@@ -80,7 +80,7 @@ public class ComputerDtoValidation implements Validator {
 
         if (!validationDate(computerDto.getDiscontinued())) {
 
-            LOGGER.debug("Date interruption Incorrecte "
+            LOGGER.debug("Incorrect discontinued Date "
                     + computerDto.getDiscontinued());
             errors.rejectValue("discontinued",
                     "NotValid.computerDtoForm.dateInterrompu");
@@ -90,7 +90,7 @@ public class ComputerDtoValidation implements Validator {
         if (!isValid(computerDto.getIntroduced(),
                 computerDto.getDiscontinued())) {
 
-            LOGGER.debug("Dates Inccohérente");
+            LOGGER.debug("Incoherent Date");
             errors.rejectValue("introduced",
                     "Incoherence.computerDtoForm.dateIntroduit");
             errors.reject("discontinued",
@@ -101,7 +101,7 @@ public class ComputerDtoValidation implements Validator {
         if (computerDto.getIdCompany() < 0) {
 
             LOGGER.debug(
-                    "Id Company Incorrecte " + computerDto.getIdCompany());
+                    "Incorrect Id Company " + computerDto.getIdCompany());
             errors.rejectValue("idCompany",
                     "NotNegatif.computerDtoForm.idFactory");
 
