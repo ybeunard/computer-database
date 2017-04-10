@@ -30,7 +30,7 @@ public class SeleniumTest {
     public void testSelenium() throws Exception {
 
         
-         /*driver.get(baseUrl);
+         driver.get(baseUrl);
          driver.findElement(By.id("addComputer")).click();
          driver.findElement(By.linkText("Annuler")).click();
          driver.findElement(By.linkText("Acorn Archimedes")).click();
@@ -44,7 +44,7 @@ public class SeleniumTest {
          driver.findElement(By.linkText("Nom de l'ordinateur")).click();
          driver.findElement(By.linkText("Nom de l'ordinateur")).click();
          driver.findElement(By.linkText("Application - Computer Database")).
-         click();*/
+         click();
          
 
     }

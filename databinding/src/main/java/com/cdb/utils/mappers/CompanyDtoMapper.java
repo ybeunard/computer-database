@@ -10,6 +10,9 @@ import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.dto.CompanyDto.CompanyDtoBuilder;
 import com.cdb.model.entities.Company;
 
+/**
+ * The Class CompanyDtoMapper.
+ */
 public class CompanyDtoMapper {
 
     /**
@@ -26,8 +29,8 @@ public class CompanyDtoMapper {
     /**
      * Recuperation list entreprise.
      *
-     * @param entreprises
-     *            the entreprises
+     * @param companies
+     *            the companies
      * @return the list
      */
     public static List<CompanyDto> recoveryListCompany(
@@ -48,8 +51,8 @@ public class CompanyDtoMapper {
     /**
      * Recuperation entreprise.
      *
-     * @param entreprise
-     *            the entreprise
+     * @param company
+     *            the company
      * @return the entreprise dto
      */
     private static CompanyDto recoveryCompany(Company company) {
@@ -59,5 +62,5 @@ public class CompanyDtoMapper {
         return builder.build();
 
     }
-    
+
 }

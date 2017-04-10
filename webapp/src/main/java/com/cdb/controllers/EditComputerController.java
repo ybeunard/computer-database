@@ -112,8 +112,8 @@ public class EditComputerController {
     /**
      * Edits the computer post.
      *
-     * @param ordinateurDto
-     *            the ordinateur dto
+     * @param computerDto
+     *            the computer dto
      * @param result
      *            the result
      * @param request
@@ -132,7 +132,7 @@ public class EditComputerController {
         if (!result.hasErrors()) {
 
             computerService.updateComputer(
-                        ComputerMapper.recoveryComputer(computerDto));
+                    ComputerMapper.recoveryComputer(computerDto));
             return new ModelAndView("redirect:/dashboard.htm");
 
         } else {
@@ -152,8 +152,8 @@ public class EditComputerController {
      * @param model
      *            the model
      */
-    private void recoveryDisplayEditComputer(
-            HttpServletRequest request, Model model) {
+    private void recoveryDisplayEditComputer(HttpServletRequest request,
+            Model model) {
 
         long id = Parse.parseLong(request.getParameter("id"), 0);
         model.addAttribute("computer", computerService.findComputerById(id));

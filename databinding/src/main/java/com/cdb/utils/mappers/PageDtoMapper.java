@@ -29,20 +29,20 @@ public class PageDtoMapper {
     /**
      * Recuperation page.
      *
-     * @param ordinateurs
-     *            the ordinateurs
-     * @param nombreTotal
-     *            the nombre total
-     * @param numeroPage
-     *            the numero page
-     * @param ligneParPage
-     *            the ligne par page
+     * @param computers
+     *            the computers
+     * @param nbComputer
+     *            the nb computer
+     * @param numPage
+     *            the num page
+     * @param rowByPage
+     *            the row by page
      * @param pageMax
      *            the page max
-     * @param filtre
-     *            the filtre
-     * @param trie
-     *            the trie
+     * @param filter
+     *            the filter
+     * @param sort
+     *            the sort
      * @param desc
      *            the desc
      * @return the page dto
@@ -53,8 +53,7 @@ public class PageDtoMapper {
 
         LOGGER.info("Mapping PageDto");
         PageDtoBuilder page = new PageDto.PageDtoBuilder();
-        page.content(
-                ComputerDtoMapper.recoveryListComputerDto(computers));
+        page.content(ComputerDtoMapper.recoveryListComputerDto(computers));
         page.numPage(numPage);
         page.rowByPage(rowByPage);
         page.nbComputer(nbComputer);
@@ -99,10 +98,10 @@ public class PageDtoMapper {
     /**
      * Count.
      *
-     * @param pageActuelle
-     *            the page actuelle
-     * @param nombreTotal
-     *            the nombre total
+     * @param currentPage
+     *            the current page
+     * @param pageMax
+     *            the page max
      * @return the list
      */
     private static List<Integer> count(int currentPage, long pageMax) {

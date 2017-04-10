@@ -20,7 +20,8 @@ public class Company {
     /**
      * Instantiates a new entreprise.
      */
-    public Company() { }
+    public Company() {
+    }
 
     /**
      * Instantiates a new entreprise.
@@ -62,9 +63,9 @@ public class Company {
     }
 
     public void setName(String name) {
-        
+
         this.name = name;
-        
+
     }
 
     /**
@@ -207,5 +208,5 @@ public class Company {
         return chaine;
 
     }
-    
+
 }

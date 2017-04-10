@@ -13,6 +13,10 @@ import com.cdb.model.entities.Company;
 import com.cdb.model.entities.QCompany;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CompanyDao.
+ */
 public class CompanyDao implements InterfaceCompanyDao {
 
     /** The Constant LOGGER. */
@@ -45,29 +49,41 @@ public class CompanyDao implements InterfaceCompanyDao {
         LOGGER.info("CompanyDao Instantiated");
 
     }
-    
+
+    /**
+     * Find companies.
+     *
+     * @return the list
+     */
     @Override
     public List<Company> findCompanies() {
-       
+
         LOGGER.info("Dao: search all companies");
         List<Company> companies = new ArrayList<Company>();
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         companies = query.select(qCompany).from(qCompany).fetch();
         return companies;
-        
+
     }
 
+    /**
+     * Find company by ID.
+     *
+     * @param id
+     *            the id
+     * @return the company
+     */
     @Override
     public Company findCompanyByID(long id) {
 
         LOGGER.info("Dao: search company by id");
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        Company company = query.select(qCompany)
-                .from(qCompany).where(qCompany.id.eq(id)).fetchOne();
+        Company company = query.select(qCompany).from(qCompany)
+                .where(qCompany.id.eq(id)).fetchOne();
         return company;
-        
+
     }
 
 }

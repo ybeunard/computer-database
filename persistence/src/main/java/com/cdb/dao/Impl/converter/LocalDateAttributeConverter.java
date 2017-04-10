@@ -9,6 +9,7 @@ import javax.persistence.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LocalDateAttributeConverter.
  */
@@ -30,10 +31,12 @@ public class LocalDateAttributeConverter
     }
 
     /**
+     * Convert to database column.
+     *
      * @param locDate
      *            the local date
      * @return un timestamp
-     **/
+     */
     @Override
     public Timestamp convertToDatabaseColumn(LocalDate locDate) {
 
@@ -48,10 +51,12 @@ public class LocalDateAttributeConverter
     }
 
     /**
+     * Convert to entity attribute.
+     *
      * @param sqlTimestamp
      *            The timestamp
      * @return une local date
-     **/
+     */
     @Override
     public LocalDate convertToEntityAttribute(Timestamp sqlTimestamp) {
 

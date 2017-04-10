@@ -121,8 +121,7 @@ public class Computer {
                 + ((discontinued == null) ? 0 : discontinued.hashCode());
         result = prime * result
                 + ((introduced == null) ? 0 : introduced.hashCode());
-        result = prime * result
-                + ((company == null) ? 0 : company.hashCode());
+        result = prime * result + ((company == null) ? 0 : company.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
@@ -244,5 +243,5 @@ public class Computer {
         return chaine;
 
     }
-    
+
 }

@@ -6,25 +6,28 @@ import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.entities.Computer;
 
+/**
+ * The Interface InterfaceComputerService.
+ */
 public interface InterfaceComputerService {
 
     /**
      * Find ordinateur by page.
      *
-     * @param numeroPage
-     *            the numero page
-     * @param ligneParPage
-     *            the ligne par page
-     * @param filtre
-     *            the filtre
-     * @param trie
-     *            the trie
+     * @param numPage
+     *            the num page
+     * @param rowByPage
+     *            the row by page
+     * @param filter
+     *            the filter
+     * @param sort
+     *            the sort
      * @param desc
      *            the desc
      * @return the optional
      */
-    PageDto findComputerByPage(int numPage, int rowByPage,
-            String filter, String sort, boolean desc);
+    PageDto findComputerByPage(int numPage, int rowByPage, String filter,
+            String sort, boolean desc);
 
     /**
      * Find ordinateur by id.
@@ -32,26 +35,22 @@ public interface InterfaceComputerService {
      * @param id
      *            the id
      * @return the ordinateur dto
-     * @throws DataAccessException
-     *             the data access exception
      */
     ComputerDto findComputerById(long id);
-    
+
     /**
      * Creates the ordinateur.
      *
-     * @param ordinateur
-     *            the ordinateur
+     * @param computer
+     *            the computer
      */
     void createComputer(Computer computer);
 
     /**
      * Update ordinateur.
      *
-     * @param ordinateur
-     *            the ordinateur
-     * @throws DataAccessException
-     *             the data access exception
+     * @param computer
+     *            the computer
      */
     void updateComputer(Computer computer);
 
@@ -60,9 +59,7 @@ public interface InterfaceComputerService {
      *
      * @param id
      *            the id
-     * @throws DataAccessException
-     *             the data access exception
      */
     void deleteComputer(List<Long> id);
-    
+
 }

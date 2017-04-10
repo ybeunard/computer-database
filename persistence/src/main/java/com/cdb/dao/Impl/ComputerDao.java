@@ -16,6 +16,10 @@ import com.cdb.model.entities.QComputer;
 import com.querydsl.jpa.hibernate.HibernateQuery;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ComputerDao.
+ */
 public class ComputerDao implements InterfaceComputerDao {
 
     /** The Constant logger. */
@@ -32,10 +36,10 @@ public class ComputerDao implements InterfaceComputerDao {
      */
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
-        
+
         this.sessionFactory = sessionFactory;
         LOGGER.info("session factory Instantiated");
-        
+
     }
 
     /** The ordinateur. */
@@ -54,23 +58,41 @@ public class ComputerDao implements InterfaceComputerDao {
         LOGGER.info("ComputerDao Instantiated");
 
     }
-    
+
+    /**
+     * Find computers.
+     *
+     * @return the list
+     */
     @Override
     public List<Computer> findComputers() {
-        
+
         LOGGER.info("Dao: search all computers");
         List<Computer> computers = new ArrayList<Computer>();
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         computers = query.select(qComputer).from(qComputer).fetch();
         return computers;
-        
+
     }
 
+    /**
+     * Find computer by page.
+     *
+     * @param numPage
+     *            the num page
+     * @param rowByPage
+     *            the row by page
+     * @param sort
+     *            the sort
+     * @param desc
+     *            the desc
+     * @return the list
+     */
     @Override
     public List<Computer> findComputerByPage(int numPage, int rowByPage,
             String sort, boolean desc) {
-        
+
         LOGGER.info("Dao: search page of computer");
         List<Computer> computers = new ArrayList<Computer>();
         int limit = rowByPage;
@@ -83,18 +105,33 @@ public class ComputerDao implements InterfaceComputerDao {
         }
 
         HibernateQuery<Computer> query = new HibernateQueryFactory(
-                sessionFactory.openSession()).select(qComputer)
-                        .from(qComputer).limit(limit).offset(offset);
+                sessionFactory.openSession()).select(qComputer).from(qComputer)
+                        .limit(limit).offset(offset);
         query = orderQuery(sort, desc, query);
         computers = query.fetch();
         return computers;
-        
+
     }
 
+    /**
+     * Find computer by name.
+     *
+     * @param numPage
+     *            the num page
+     * @param rowByPage
+     *            the row by page
+     * @param name
+     *            the name
+     * @param sort
+     *            the sort
+     * @param desc
+     *            the desc
+     * @return the list
+     */
     @Override
     public List<Computer> findComputerByName(int numPage, int rowByPage,
             String name, String sort, boolean desc) {
-        
+
         LOGGER.info("Dao: search page of computer sorted by name");
         List<Computer> computers = new ArrayList<Computer>();
         int limit = rowByPage;
@@ -107,8 +144,7 @@ public class ComputerDao implements InterfaceComputerDao {
         }
 
         HibernateQuery<Computer> query = new HibernateQueryFactory(
-                sessionFactory.openSession()).select(qComputer)
-                        .from(qComputer)
+                sessionFactory.openSession()).select(qComputer).from(qComputer)
                         .leftJoin(qComputer.company, qCompany).limit(limit)
                         .offset(offset);
         query = orderQuery(sort, desc, query);
@@ -117,23 +153,36 @@ public class ComputerDao implements InterfaceComputerDao {
                         .or(qCompany.name.like("%" + name + "%")))
                 .fetch();
         return computers;
-        
+
     }
 
+    /**
+     * Find computer by id.
+     *
+     * @param id
+     *            the id
+     * @return the computer
+     */
     @Override
     public Computer findComputerById(long id) {
-       
+
         LOGGER.info("Dao: search computer by id");
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         return query.select(qComputer).from(qComputer)
                 .where(qComputer.id.eq(id)).fetchOne();
-        
+
     }
 
+    /**
+     * Creates the computer.
+     *
+     * @param computer
+     *            the computer
+     */
     @Override
     public void createComputer(Computer computer) {
-        
+
         LOGGER.info("Dao: Create computer");
         LOGGER.debug("" + computer);
         Session session = this.sessionFactory.openSession();
@@ -143,28 +192,37 @@ public class ComputerDao implements InterfaceComputerDao {
 
     }
 
+    /**
+     * Update computer.
+     *
+     * @param computer
+     *            the computer
+     */
     @Override
     public void updateComputer(Computer computer) {
-        
+
         LOGGER.info("Dao: update computer");
         LOGGER.debug("" + computer);
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        query.update(qComputer)
-                .where(qComputer.id.eq(computer.getId()))
+        query.update(qComputer).where(qComputer.id.eq(computer.getId()))
                 .set(qComputer.name, computer.getName())
                 .set(qComputer.introduced, computer.getIntroduced())
-                .set(qComputer.discontinued,
-                        computer.getDiscontinued())
-                .set(qComputer.company, computer.getCompany())
-                .execute();
+                .set(qComputer.discontinued, computer.getDiscontinued())
+                .set(qComputer.company, computer.getCompany()).execute();
         LOGGER.info("Dao: update computer succeed");
 
     }
 
+    /**
+     * Delete computer.
+     *
+     * @param id
+     *            the id
+     */
     @Override
     public void deleteComputer(long id) {
-        
+
         LOGGER.info("Dao: delete computer");
         LOGGER.debug("" + id);
         HibernateQueryFactory query = new HibernateQueryFactory(
@@ -174,18 +232,30 @@ public class ComputerDao implements InterfaceComputerDao {
 
     }
 
+    /**
+     * Count computer.
+     *
+     * @return the long
+     */
     @Override
     public long countComputer() {
-        
+
         LOGGER.info("Dao: count computer");
         long count = 0;
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         count = query.from(qComputer).fetchCount();
         return count;
-        
+
     }
-    
+
+    /**
+     * Count computer by name.
+     *
+     * @param filter
+     *            the filter
+     * @return the long
+     */
     @Override
     public long countComputerByName(String filter) {
 
@@ -193,8 +263,7 @@ public class ComputerDao implements InterfaceComputerDao {
         long count = 0;
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        count = query.from(qComputer)
-                .leftJoin(qComputer.company, qCompany)
+        count = query.from(qComputer).leftJoin(qComputer.company, qCompany)
                 .where(qComputer.name.like("%" + filter + "%")
                         .or(qCompany.name.like("%" + filter + "%")))
                 .fetchCount();

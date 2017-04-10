@@ -13,14 +13,18 @@ import com.cdb.model.entities.QUser;
 import com.cdb.model.entities.User;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserDao.
+ */
 public class UserDao implements InterfaceUserDao {
 
     /** The Constant logger. */
     public final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
-    
+
     /** The session factory. */
     private SessionFactory sessionFactory;
-    
+
     /**
      * Sets the session factory.
      *
@@ -29,40 +33,51 @@ public class UserDao implements InterfaceUserDao {
      */
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
-        
+
         this.sessionFactory = sessionFactory;
         LOGGER.info("session factory Instantiated");
-        
+
     }
 
     /** The ordinateur. */
     QUser qUser;
-    
+
+    /**
+     * Instantiates a new user dao.
+     */
     UserDao() {
-        
+
         qUser = QUser.user;
-        
+
     }
-    
+
+    /**
+     * Find by user name.
+     *
+     * @param username
+     *            the username
+     * @return the user
+     */
     @Override
     public User findByUserName(String username) {
-        
+
         LOGGER.info("Dao: search all user");
         List<User> users = new ArrayList<User>();
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        users = query.select(qUser).from(qUser).where(qUser.username.like("%" + username + "%")).fetch();
+        users = query.select(qUser).from(qUser)
+                .where(qUser.username.like("%" + username + "%")).fetch();
 
         if (users.size() > 0) {
-            
+
             return users.get(0);
-            
+
         } else {
-            
+
             return null;
-            
+
         }
-        
+
     }
 
 }

@@ -42,9 +42,9 @@ public class DashboardDto {
      * @return the num page
      */
     public int getNumPage() {
-        
+
         return numPage;
-        
+
     }
 
     /**
@@ -53,9 +53,9 @@ public class DashboardDto {
      * @return the nb par page
      */
     public int getRowByPage() {
-        
+
         return rowByPage;
-        
+
     }
 
     /**
@@ -64,9 +64,9 @@ public class DashboardDto {
      * @return the filtre
      */
     public String getFilter() {
-        
+
         return filter;
-        
+
     }
 
     /**
@@ -75,9 +75,9 @@ public class DashboardDto {
      * @return the trie
      */
     public String getSort() {
-        
+
         return sort;
-        
+
     }
 
     /**
@@ -86,9 +86,9 @@ public class DashboardDto {
      * @return the desc
      */
     public Boolean getDesc() {
-        
+
         return desc;
-        
+
     }
 
     /**
@@ -128,8 +128,8 @@ public class DashboardDto {
         /**
          * Nb par page.
          *
-         * @param nbParPage
-         *            the nb par page
+         * @param rowByPage
+         *            the row by page
          * @return the dashboard dto builder
          */
         public DashboardDtoBuilder rowByPage(int rowByPage) {
@@ -142,8 +142,8 @@ public class DashboardDto {
         /**
          * Filtre.
          *
-         * @param filtre
-         *            the filtre
+         * @param filter
+         *            the filter
          * @return the dashboard dto builder
          */
         public DashboardDtoBuilder filter(String filter) {
@@ -156,8 +156,8 @@ public class DashboardDto {
         /**
          * Trie.
          *
-         * @param trie
-         *            the trie
+         * @param sort
+         *            the sort
          * @return the dashboard dto builder
          */
         public DashboardDtoBuilder sort(String sort) {

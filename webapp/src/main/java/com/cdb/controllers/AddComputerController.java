@@ -107,8 +107,8 @@ public class AddComputerController {
     /**
      * Adds the computer post.
      *
-     * @param ordinateurDto
-     *            the ordinateur dto
+     * @param computerDto
+     *            the computer dto
      * @param result
      *            the result
      * @param model
@@ -125,7 +125,7 @@ public class AddComputerController {
         if (!result.hasErrors()) {
 
             computerService.createComputer(
-                        ComputerMapper.recoveryComputer(computerDto));
+                    ComputerMapper.recoveryComputer(computerDto));
             return new ModelAndView("redirect:/dashboard.htm");
 
         } else {

@@ -31,7 +31,7 @@ public class ComputerDtoValidation implements Validator {
 
     /**
      * @param clazz
-     *      this clazz
+     *            this clazz
      * @return boolean
      */
     @Override
@@ -43,9 +43,9 @@ public class ComputerDtoValidation implements Validator {
 
     /**
      * @param target
-     *      the target
+     *            the target
      * @param errors
-     *      the errors
+     *            the errors
      */
     @Override
     public void validate(Object target, Errors errors) {
@@ -71,8 +71,8 @@ public class ComputerDtoValidation implements Validator {
 
         if (!validationDate(computerDto.getIntroduced())) {
 
-            LOGGER.debug("Incorrect introduced Date "
-                    + computerDto.getIntroduced());
+            LOGGER.debug(
+                    "Incorrect introduced Date " + computerDto.getIntroduced());
             errors.rejectValue("introduced",
                     "NotValid.computerDtoForm.dateIntroduit");
 
@@ -100,8 +100,7 @@ public class ComputerDtoValidation implements Validator {
 
         if (computerDto.getIdCompany() < 0) {
 
-            LOGGER.debug(
-                    "Incorrect Id Company " + computerDto.getIdCompany());
+            LOGGER.debug("Incorrect Id Company " + computerDto.getIdCompany());
             errors.rejectValue("idCompany",
                     "NotNegatif.computerDtoForm.idFactory");
 
@@ -126,19 +125,19 @@ public class ComputerDtoValidation implements Validator {
 
             }
 
-            if(date.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                
+            if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+
                 try {
-               
+
                     Parse.parseDate(date);
                     return true;
-                    
-                } catch(DateTimeParseException e) {
-                    
+
+                } catch (DateTimeParseException e) {
+
                     return false;
-                    
+
                 }
-                
+
             }
 
         }
@@ -177,5 +176,5 @@ public class ComputerDtoValidation implements Validator {
         return true;
 
     }
-    
+
 }

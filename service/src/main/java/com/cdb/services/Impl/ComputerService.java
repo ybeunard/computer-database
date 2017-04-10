@@ -16,6 +16,9 @@ import com.cdb.services.InterfaceComputerService;
 import com.cdb.utils.mappers.ComputerDtoMapper;
 import com.cdb.utils.mappers.PageDtoMapper;
 
+/**
+ * The Class ComputerService.
+ */
 public class ComputerService implements InterfaceComputerService {
 
     /** The Constant LOGGER. */
@@ -45,11 +48,28 @@ public class ComputerService implements InterfaceComputerService {
         LOGGER.info("ComputerService Instantiated");
 
     }
-    
+
+    /**
+     * recovery PageDto.
+     *
+     * @param numPage
+     *            the current page
+     * @param rowByPage
+     *            the number of row by page
+     * @param filter
+     *            filter by name
+     * @param sort
+     *            sort by name or company
+     * @param desc
+     *            sort desc or asc
+     *
+     * @return PageDto
+     *
+     */
     @Override
     public PageDto findComputerByPage(int numPage, int rowByPage, String filter,
             String sort, boolean desc) {
-        
+
         List<Computer> ordinateurs = new ArrayList<Computer>();
         long nbComputer = 0;
         long pageMax = 1;
@@ -63,10 +83,9 @@ public class ComputerService implements InterfaceComputerService {
             pageMax = pageMax(rowByPage, nbComputer);
             LOGGER.debug("recuperation du nombre maximum de page " + pageMax);
             numPage = verifNumPage(numPage, pageMax);
-            LOGGER.debug(
-                    "Verification du numero de page effectuer " + numPage);
-            ordinateurs = computerDao.findComputerByPage(numPage,
-                    rowByPage, sort, desc);
+            LOGGER.debug("Verification du numero de page effectuer " + numPage);
+            ordinateurs = computerDao.findComputerByPage(numPage, rowByPage,
+                    sort, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
@@ -78,10 +97,9 @@ public class ComputerService implements InterfaceComputerService {
             pageMax = pageMax(rowByPage, nbComputer);
             LOGGER.debug("recuperation du nombre maximum de page " + pageMax);
             numPage = verifNumPage(numPage, pageMax);
-            LOGGER.debug(
-                    "Verification du numero de page effectuer " + numPage);
-            ordinateurs = computerDao.findComputerByName(numPage,
-                    rowByPage, filter, sort, desc);
+            LOGGER.debug("Verification du numero de page effectuer " + numPage);
+            ordinateurs = computerDao.findComputerByName(numPage, rowByPage,
+                    filter, sort, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
@@ -90,41 +108,66 @@ public class ComputerService implements InterfaceComputerService {
         PageDto page = PageDtoMapper.recuperationPage(ordinateurs, nbComputer,
                 numPage, rowByPage, pageMax, filter, sort, desc);
         return page;
-        
+
     }
-    
+
+    /**
+     * recovery the computer by id.
+     *
+     * @param id
+     *            the id of computer
+     *
+     * @return the computerDto
+     */
     @Override
     public ComputerDto findComputerById(long id) {
-        
+
         LOGGER.info("Service: search computer by id");
         return ComputerDtoMapper
-                    .recoveryComputerDto(computerDao
-                            .findComputerById(id));
-        
+                .recoveryComputerDto(computerDao.findComputerById(id));
+
     }
-    
+
+    /**
+     * Create a computer.
+     *
+     * @param computer
+     *            the new computer
+     */
     @Transactional
     @Override
     public void createComputer(Computer computer) {
-        
+
         LOGGER.info("Service : create computer");
         computerDao.createComputer(computer);
 
     }
 
+    /**
+     * Update a computer.
+     *
+     * @param computer
+     *            the computer update
+     */
     @Transactional
     @Override
     public void updateComputer(Computer computer) {
-        
+
         LOGGER.info("Service: Update computer");
         computerDao.updateComputer(computer);
 
     }
 
+    /**
+     * delete computers.
+     *
+     * @param id
+     *            The list of computer delete
+     */
     @Transactional
     @Override
     public void deleteComputer(List<Long> id) {
-        
+
         LOGGER.info("Service: delete computer");
 
         for (long identifiant : id) {
@@ -135,6 +178,15 @@ public class ComputerService implements InterfaceComputerService {
 
     }
 
+    /**
+     * Page max.
+     *
+     * @param rowByPage
+     *            the row by page
+     * @param nbComputer
+     *            the nb computer
+     * @return the long
+     */
     private long pageMax(int rowByPage, long nbComputer) {
 
         long pageMax = 1;
@@ -165,8 +217,8 @@ public class ComputerService implements InterfaceComputerService {
     /**
      * Verif num page.
      *
-     * @param numeroPage
-     *            the numero page
+     * @param numPage
+     *            the num page
      * @param pageMax
      *            the page max
      * @return the int

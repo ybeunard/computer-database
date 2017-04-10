@@ -10,6 +10,9 @@ import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.ComputerDto.ComputerDtoBuilder;
 import com.cdb.model.entities.Computer;
 
+/**
+ * The Class ComputerDtoMapper.
+ */
 public class ComputerDtoMapper {
 
     /**
@@ -26,8 +29,8 @@ public class ComputerDtoMapper {
     /**
      * Recuperation list ordinateur dto.
      *
-     * @param ordinateurs
-     *            the ordinateurs
+     * @param computers
+     *            the computers
      * @return the list
      */
     public static List<ComputerDto> recoveryListComputerDto(
@@ -49,12 +52,11 @@ public class ComputerDtoMapper {
     /**
      * Recuperation ordinateur dto.
      *
-     * @param ordinateur
-     *            the ordinateur
+     * @param computer
+     *            the computer
      * @return the ordinateur dto
      */
-    public static ComputerDto recoveryComputerDto(
-            Computer computer) {
+    public static ComputerDto recoveryComputerDto(Computer computer) {
 
         ComputerDtoBuilder builder = new ComputerDto.ComputerDtoBuilder(
                 computer.getName());
@@ -82,5 +84,5 @@ public class ComputerDtoMapper {
         return builder.build();
 
     }
-    
+
 }

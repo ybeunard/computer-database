@@ -7,6 +7,9 @@ import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.entities.Computer;
 import com.cdb.utils.Parse;
 
+/**
+ * The Class ComputerMapper.
+ */
 public class ComputerMapper {
 
     /**
@@ -23,8 +26,8 @@ public class ComputerMapper {
     /**
      * Recuperation ordinateur.
      *
-     * @param ordinateur
-     *            the ordinateur
+     * @param computerDto
+     *            the computer dto
      * @return the ordinateur
      */
     public static Computer recoveryComputer(ComputerDto computerDto) {
@@ -34,7 +37,8 @@ public class ComputerMapper {
         computer.setId(computerDto.getId());
         computer.setName(computerDto.getName());
         computer.setIntroduced(Parse.parseDate(computerDto.getIntroduced()));
-        computer.setDiscontinued(Parse.parseDate(computerDto.getDiscontinued()));
+        computer.setDiscontinued(
+                Parse.parseDate(computerDto.getDiscontinued()));
         computer.setCompany(Parse.parseFactory(computerDto.getIdCompany(),
                 computerDto.getCompany()));
         return computer;

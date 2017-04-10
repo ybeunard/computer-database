@@ -13,6 +13,9 @@ import com.cdb.model.entities.Company;
 import com.cdb.services.InterfaceCompanyService;
 import com.cdb.utils.mappers.CompanyDtoMapper;
 
+/**
+ * The Class CompanyService.
+ */
 public class CompanyService implements InterfaceCompanyService {
 
     /** The Constant LOGGER. */
@@ -42,23 +45,36 @@ public class CompanyService implements InterfaceCompanyService {
         LOGGER.info("CompanyService Instantiated");
 
     }
-    
+
+    /**
+     * Recovery list of company.
+     *
+     * @return the list of companyDto
+     */
     @Override
     public List<CompanyDto> findCompanies() {
-        
+
         LOGGER.info("Service: search all companies");
         List<Company> companies = new ArrayList<Company>();
         companies = companyDao.findCompanies();
         return CompanyDtoMapper.recoveryListCompany(companies);
-        
+
     }
 
+    /**
+     * The company by id.
+     *
+     * @param id
+     *            the id of company
+     *
+     * @return the company
+     */
     @Override
     public Company findCompanyById(long id) {
-        
+
         LOGGER.info("Service: search company by id");
         return companyDao.findCompanyByID(id);
-        
+
     }
 
 }

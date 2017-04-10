@@ -5,6 +5,9 @@ import java.util.List;
 import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.entities.Company;
 
+/**
+ * The Interface InterfaceCompanyService.
+ */
 public interface InterfaceCompanyService {
 
     /**
@@ -22,5 +25,5 @@ public interface InterfaceCompanyService {
      * @return the optional
      */
     Company findCompanyById(long id);
-    
+
 }

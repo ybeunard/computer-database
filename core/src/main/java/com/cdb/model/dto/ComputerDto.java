@@ -1,10 +1,13 @@
 package com.cdb.model.dto;
 
+/**
+ * The Class ComputerDto.
+ */
 public class ComputerDto {
 
     /** The id. */
     private long id;
-    
+
     /** The name. */
     private String name;
 
@@ -23,7 +26,8 @@ public class ComputerDto {
     /**
      * Instantiates a new ordinateur dto.
      */
-    public ComputerDto() { }
+    public ComputerDto() {
+    }
 
     /**
      * Instantiates a new ordinateur DTO.
@@ -42,40 +46,76 @@ public class ComputerDto {
 
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id
+     *            the new id
+     */
     public void setId(long id) {
-        
+
         this.id = id;
-        
+
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
     public void setName(String name) {
-        
+
         this.name = name;
-        
+
     }
 
+    /**
+     * Sets the introduced.
+     *
+     * @param introduced
+     *            the new introduced
+     */
     public void setIntroduced(String introduced) {
-        
+
         this.introduced = introduced;
-        
+
     }
 
+    /**
+     * Sets the discontinued.
+     *
+     * @param discontinued
+     *            the new discontinued
+     */
     public void setDiscontinued(String discontinued) {
-        
+
         this.discontinued = discontinued;
-        
+
     }
 
+    /**
+     * Sets the company.
+     *
+     * @param company
+     *            the new company
+     */
     public void setCompany(String company) {
-        
+
         this.company = company;
-        
+
     }
 
+    /**
+     * Sets the id company.
+     *
+     * @param idCompany
+     *            the new id company
+     */
     public void setIdCompany(long idCompany) {
-        
+
         this.idCompany = idCompany;
-        
+
     }
 
     /**
@@ -84,9 +124,9 @@ public class ComputerDto {
      * @return the id
      */
     public long getId() {
-        
+
         return id;
-        
+
     }
 
     /**
@@ -139,9 +179,9 @@ public class ComputerDto {
      * @return the id factory
      */
     public long getIdCompany() {
-        
+
         return idCompany;
-        
+
     }
 
     /**
@@ -196,7 +236,7 @@ public class ComputerDto {
         /**
          * Date introduit.
          *
-         * @param dateIntroduit
+         * @param introduced
          *            the date introduit
          * @return the ordinateur DTO builder
          */
@@ -210,7 +250,7 @@ public class ComputerDto {
         /**
          * Date interrompu.
          *
-         * @param dateInterrompu
+         * @param discontinued
          *            the date interrompu
          * @return the ordinateur DTO builder
          */
@@ -224,8 +264,8 @@ public class ComputerDto {
         /**
          * Factory.
          *
-         * @param factory
-         *            the factory
+         * @param company
+         *            the company
          * @return the ordinateur DTO builder
          */
         public ComputerDtoBuilder company(String company) {
@@ -238,8 +278,8 @@ public class ComputerDto {
         /**
          * Id factory.
          *
-         * @param idFactory
-         *            the id factory
+         * @param idCompany
+         *            the id company
          * @return the ordinateur dto builder
          */
         public ComputerDtoBuilder idCompany(long idCompany) {
@@ -394,11 +434,10 @@ public class ComputerDto {
     @Override
     public String toString() {
 
-        return "ComputerDto [id="
-                + id + ", name=" + name + ", introduced="
-                + introduced + ", discontinued=" + discontinued
-                + ", company=" + company + ", idCompany=" + idCompany + "]";
+        return "ComputerDto [id=" + id + ", name=" + name + ", introduced="
+                + introduced + ", discontinued=" + discontinued + ", company="
+                + company + ", idCompany=" + idCompany + "]";
 
     }
-    
+
 }
