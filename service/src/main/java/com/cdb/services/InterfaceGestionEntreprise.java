@@ -4,7 +4,6 @@ import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.entities.Company;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 
@@ -31,6 +30,6 @@ public interface InterfaceGestionEntreprise {
      * @throws DataAccessException
      *             the data access exception
      */
-    Optional<Company> findEntrepriseById(long id) throws DataAccessException;
+    Company findEntrepriseById(long id) throws DataAccessException;
 
 }

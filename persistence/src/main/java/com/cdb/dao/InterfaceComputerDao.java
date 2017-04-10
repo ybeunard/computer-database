@@ -1,19 +1,17 @@
 package com.cdb.dao;
 
 import java.util.List;
+
 import com.cdb.model.entities.Computer;
 
-/**
- * The Interface InterfaceOrdinateurDao.
- */
-public interface InterfaceOrdinateurDao {
+public interface InterfaceComputerDao {
 
     /**
      * Find ordinateur.
      *
      * @return the list
      */
-    List<Computer> findOrdinateur();
+    List<Computer> findComputers();
 
     /**
      * Find ordinateur by page.
@@ -28,8 +26,8 @@ public interface InterfaceOrdinateurDao {
      *            the desc
      * @return the list
      */
-    List<Computer> findOrdinateurByPage(int numeroPage, int ligneParPage,
-            String trie, boolean desc);
+    List<Computer> findComputerByPage(int numPage, int rowByPage,
+            String sort, boolean desc);
 
     /**
      * Find ordinateur by Name.
@@ -46,8 +44,8 @@ public interface InterfaceOrdinateurDao {
      *            the desc
      * @return une liste ordinateur
      */
-    List<Computer> findOrdinateurByName(int numPage, int nbParPage,
-            String name, String trie, boolean desc);
+    List<Computer> findComputerByName(int numPage, int rowByPage,
+            String name, String sort, boolean desc);
 
     /**
      * Find ordinateur by id.
@@ -56,7 +54,7 @@ public interface InterfaceOrdinateurDao {
      *            the id
      * @return the optional
      */
-    Computer findOrdinateurById(long id);
+    Computer findComputerById(long id);
 
     /**
      * Creates the ordinateur.
@@ -64,7 +62,7 @@ public interface InterfaceOrdinateurDao {
      * @param ordinateur
      *            the ordinateur
      */
-    void createOrdinateur(Computer ordinateur);
+    void createComputer(Computer computer);
 
     /**
      * Update ordinateur.
@@ -72,7 +70,7 @@ public interface InterfaceOrdinateurDao {
      * @param ordinateur
      *            the ordinateur
      */
-    void updateOrdinateur(Computer ordinateur);
+    void updateComputer(Computer computer);
 
     /**
      * Suppression ordinateur.
@@ -80,13 +78,15 @@ public interface InterfaceOrdinateurDao {
      * @param index
      *            the index
      */
-    void suppressionOrdinateur(long index);
+    void deleteComputer(long id);
 
     /**
      * Count ordinateur.
      *
      * @return the int
      */
-    long countOrdinateur();
-
+    long countComputer();
+    
+    public long countComputerByName(String filter);
+    
 }

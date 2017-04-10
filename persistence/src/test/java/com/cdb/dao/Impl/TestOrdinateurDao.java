@@ -22,18 +22,18 @@ public class TestOrdinateurDao extends TestCase {
 
     private ApplicationContext context;
 
-    private OrdinateurDao dao;
+    private ComputerDao dao;
 
     private Properties prop = new Properties();
 
     @Override
     protected void setUp() throws Exception {
 
-        InputStream stream = OrdinateurDao.class.getClassLoader()
+        InputStream stream = ComputerDao.class.getClassLoader()
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
         context = new ClassPathXmlApplicationContext("dispatcher-data.xml");
-        dao = (OrdinateurDao) context.getBean("ordinateurDao");
+        dao = (ComputerDao) context.getBean("computerDao");
         ;
         IDataSet dataSet1 = readDataSet1();
         IDataSet dataSet2 = readDataSet2();
@@ -79,7 +79,7 @@ public class TestOrdinateurDao extends TestCase {
     @Test
     public void testFindOrdinateur() {
 
-        List<Computer> ordinateurs = dao.findOrdinateur();
+        List<Computer> ordinateurs = dao.findComputers();
         assertFalse(ordinateurs.isEmpty());
 
         for (Computer ordinateur : ordinateurs) {

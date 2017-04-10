@@ -33,7 +33,7 @@ public class CompanyDtoMapper {
     public static List<CompanyDto> recoveryListCompany(
             List<Company> companies) {
 
-        LOGGER.info("Mapping List Entreprise in List EntrepriseDto");
+        LOGGER.info("Mapping List Company in List CompanyDto");
         List<CompanyDto> companiesDto = new ArrayList<CompanyDto>();
 
         for (Company company : companies) {

@@ -3,7 +3,6 @@ package com.cdb.dao.Impl;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 import org.dbunit.DBTestCase;
@@ -22,18 +21,18 @@ public class TestEntrepriseDao extends DBTestCase {
 
     private ApplicationContext context;
 
-    private EntrepriseDao dao;
+    private CompanyDao dao;
 
     private Properties prop = new Properties();
 
     @Override
     protected void setUp() throws Exception {
 
-        InputStream stream = EntrepriseDao.class.getClassLoader()
+        InputStream stream = CompanyDao.class.getClassLoader()
                 .getResourceAsStream("connexionDBUnit.properties");
         prop.load(stream);
         context = new ClassPathXmlApplicationContext("dispatcher-data.xml");
-        dao = (EntrepriseDao) context.getBean("entrepriseDao");
+        dao = (CompanyDao) context.getBean("companyDao");
         ;
         IDataSet dataSet = getDataSet();
         cleanlyInsertDataset(dataSet);
@@ -71,7 +70,7 @@ public class TestEntrepriseDao extends DBTestCase {
     @Test
     public void testFindEntreprise() {
 
-        List<Company> entreprises = dao.findEntreprise();
+        List<Company> entreprises = dao.findCompanies();
         assertFalse(entreprises.isEmpty());
 
         for (Company entreprise : entreprises) {
@@ -88,26 +87,27 @@ public class TestEntrepriseDao extends DBTestCase {
     @Test
     public void testFindEntrepriseByIDZero() {
 
-        Optional<Company> entreprise = dao.findEntrepriseByID(0);
-        assertFalse(entreprise.isPresent());
+        Company entreprise = dao.findCompanyByID(0);
+        assertTrue(entreprise == null);
+       
 
     }
 
     @Test
     public void testFindEntrepriseByIDNegatif() {
 
-        Optional<Company> entreprise = dao.findEntrepriseByID(-1);
-        assertFalse(entreprise.isPresent());
+        Company entreprise = dao.findCompanyByID(-1);
+        assertTrue(entreprise == null);
 
     }
 
     @Test
     public void testFindEntrepriseByIDCorrect() {
 
-        Optional<Company> entreprise = dao.findEntrepriseByID(22);
-        assertTrue(entreprise.isPresent());
-        assertEquals(entreprise.get().getName(), "Bob");
-        assertEquals(entreprise.get().getId(), 22);
+        Company entreprise = dao.findCompanyByID(22);
+        assertTrue(entreprise != null);
+        assertEquals(entreprise.getName(), "Bob");
+        assertEquals(entreprise.getId(), 22);
 
     }
 

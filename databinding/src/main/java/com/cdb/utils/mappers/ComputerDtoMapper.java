@@ -33,7 +33,7 @@ public class ComputerDtoMapper {
     public static List<ComputerDto> recoveryListComputerDto(
             List<Computer> computers) {
 
-        LOGGER.info("Mapping List Ordinateur in List OrdinateurDto");
+        LOGGER.info("Mapping List Computer in List ComputerDto");
         List<ComputerDto> computersDto = new ArrayList<ComputerDto>();
 
         for (Computer computer : computers) {

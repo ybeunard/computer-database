@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.dao.Impl.OrdinateurDao;
+import com.cdb.dao.Impl.ComputerDao;
 import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.entities.Computer;
@@ -28,16 +28,16 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
 
     /** The ordinateur dao. */
     @Autowired
-    private OrdinateurDao ordinateurDao;
+    private ComputerDao computerDao;
 
     /**
      * Gets the ordinateur dao.
      *
      * @return the ordinateur dao
      */
-    public OrdinateurDao getOrdinateurDao() {
+    public ComputerDao getComputerDao() {
 
-        return ordinateurDao;
+        return computerDao;
 
     }
 
@@ -78,7 +78,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         if (filtre == null || filtre.equals("")) {
 
-            nombreTotal = ordinateurDao.countOrdinateur();
+            nombreTotal = computerDao.countComputer();
             LOGGER.debug("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
@@ -86,14 +86,14 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             numeroPage = verifNumPage(numeroPage, pageMax);
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
-            ordinateurs = ordinateurDao.findOrdinateurByPage(numeroPage,
+            ordinateurs = computerDao.findComputerByPage(numeroPage,
                     ligneParPage, trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
 
         } else {
 
-            nombreTotal = ordinateurDao.countOrdinateurByName(filtre);
+            nombreTotal = computerDao.countComputerByName(filtre);
             LOGGER.debug("recuperation du nombre maximum d'ordinateur "
                     + nombreTotal);
             pageMax = pageMax(ligneParPage, nombreTotal);
@@ -101,7 +101,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             numeroPage = verifNumPage(numeroPage, pageMax);
             LOGGER.debug(
                     "Verification du numero de page effectuer " + numeroPage);
-            ordinateurs = ordinateurDao.findOrdinateurByName(numeroPage,
+            ordinateurs = computerDao.findComputerByName(numeroPage,
                     ligneParPage, filtre, trie, desc);
             LOGGER.debug("Recuperation de la liste d'ordinateur "
                     + ordinateurs.size());
@@ -127,8 +127,8 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         LOGGER.info("Service: Recherche d'un ordinateur par id");
         return ComputerDtoMapper
-                    .recoveryComputerDto(ordinateurDao
-                            .findOrdinateurById(id));
+                    .recoveryComputerDto(computerDao
+                            .findComputerById(id));
 
     }
 
@@ -145,7 +145,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             throws DataAccessException {
 
         LOGGER.info("Service : Creation d'un ordinateur");
-        ordinateurDao.createOrdinateur(ordinateur);
+        computerDao.createComputer(ordinateur);
 
     }
 
@@ -162,7 +162,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             throws DataAccessException {
 
         LOGGER.info("Service: Update d'un ordinateur");
-        ordinateurDao.updateOrdinateur(ordinateur);
+        computerDao.updateComputer(ordinateur);
 
     }
 
@@ -182,7 +182,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
 
         for (long identifiant : id) {
 
-            ordinateurDao.suppressionOrdinateur(identifiant);
+            computerDao.deleteComputer(identifiant);
 
         }
 

@@ -2,7 +2,6 @@ package com.cdb.services.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import com.cdb.dao.Impl.EntrepriseDao;
+import com.cdb.dao.Impl.CompanyDao;
 import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.entities.Company;
 import com.cdb.services.InterfaceGestionEntreprise;
@@ -28,16 +27,16 @@ public class GestionEntreprise implements InterfaceGestionEntreprise {
 
     /** The entreprise dao. */
     @Autowired
-    private EntrepriseDao entrepriseDao;
+    private CompanyDao companyDao;
 
     /**
      * Gets the entreprise dao.
      *
      * @return the entreprise dao
      */
-    public EntrepriseDao getEntrepriseDao() {
+    public CompanyDao getCompanyDao() {
 
-        return entrepriseDao;
+        return companyDao;
 
     }
 
@@ -61,7 +60,7 @@ public class GestionEntreprise implements InterfaceGestionEntreprise {
 
         LOGGER.info("Service: Recherche de toutes les entreprises");
         List<Company> entreprises = new ArrayList<Company>();
-        entreprises = entrepriseDao.findEntreprise();
+        entreprises = companyDao.findCompanies();
         return CompanyDtoMapper.recoveryListCompany(entreprises);
 
     }
@@ -75,11 +74,11 @@ public class GestionEntreprise implements InterfaceGestionEntreprise {
      * @throws DataAccessException
      *             the data access exception
      */
-    public Optional<Company> findEntrepriseById(long id)
+    public Company findEntrepriseById(long id)
             throws DataAccessException {
 
         LOGGER.info("Service: Recherche d'une entreprise par id");
-        return entrepriseDao.findEntrepriseByID(id);
+        return companyDao.findCompanyByID(id);
 
     }
 
