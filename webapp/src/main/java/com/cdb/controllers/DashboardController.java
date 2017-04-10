@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import com.cdb.model.dto.DashboardDto;
 import com.cdb.model.dto.PageDto;
-import com.cdb.services.Impl.GestionOrdinateur;
+import com.cdb.services.Impl.ComputerService;
 import com.cdb.utils.mappers.DashboardDtoMapper;
 
 /**
@@ -29,16 +29,16 @@ public class DashboardController {
 
     /** The gestion ordinateur. */
     @Autowired
-    GestionOrdinateur gestionOrdinateur;
+    ComputerService computerService;
 
     /**
      * Gets the gestion ordinateur.
      *
      * @return the gestion ordinateur
      */
-    public GestionOrdinateur getGestionOrdinateur() {
+    public ComputerService getComputerService() {
 
-        return gestionOrdinateur;
+        return computerService;
 
     }
 
@@ -86,7 +86,7 @@ public class DashboardController {
         try {
 
             LOGGER.info("DashboardController: POST");
-            gestionOrdinateur.suppressionOrdinateur(DashboardDtoMapper
+            computerService.deleteComputer(DashboardDtoMapper
                     .recoveryListDeleteRequestPost(request));
 
         } catch (DataAccessException e) {
@@ -117,7 +117,7 @@ public class DashboardController {
             DashboardDto dashboard = DashboardDtoMapper
                     .recoveryDashboardRequestGet(request);
             PageDto page = null;
-            page = gestionOrdinateur.findOrdinateurByPage(
+            page = computerService.findComputerByPage(
                     dashboard.getNumPage(), dashboard.getRowByPage(),
                     dashboard.getFilter(), dashboard.getSort(),
                     dashboard.getDesc());

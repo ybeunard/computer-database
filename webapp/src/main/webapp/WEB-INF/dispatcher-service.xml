@@ -10,10 +10,10 @@
    
    <context:annotation-config/>
    
-	<bean name="gestionOrdinateur" class="com.cdb.services.Impl.GestionOrdinateur" scope="singleton">
+	<bean name="computerService" class="com.cdb.services.Impl.ComputerService" scope="singleton">
 	</bean>
 	
-	<bean name="gestionEntreprise" class="com.cdb.services.Impl.GestionEntreprise" scope="singleton">
+	<bean name="companyService" class="com.cdb.services.Impl.CompanyService" scope="singleton">
 	</bean>
 	
 </beans>

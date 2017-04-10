@@ -18,8 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cdb.controllers.validation.ComputerDtoValidation;
 import com.cdb.model.dto.ComputerDto;
-import com.cdb.services.Impl.GestionEntreprise;
-import com.cdb.services.Impl.GestionOrdinateur;
+import com.cdb.services.Impl.CompanyService;
+import com.cdb.services.Impl.ComputerService;
 import com.cdb.utils.Parse;
 import com.cdb.utils.mappers.ComputerMapper;
 
@@ -36,31 +36,31 @@ public class EditComputerController {
 
     /** The gestion ordinateur. */
     @Autowired
-    GestionOrdinateur gestionOrdinateur;
+    ComputerService computerService;
 
     /**
      * Gets the gestion ordinateur.
      *
      * @return the gestion ordinateur
      */
-    public GestionOrdinateur getGestionOrdinateur() {
+    public ComputerService getComputerService() {
 
-        return gestionOrdinateur;
+        return computerService;
 
     }
 
     /** The gestion entreprise. */
     @Autowired
-    GestionEntreprise gestionEntreprise;
+    CompanyService companyService;
 
     /**
      * Gets the gestion entreprise.
      *
      * @return the gestion entreprise
      */
-    public GestionEntreprise getGestionEntreprise() {
+    public CompanyService getCompanyService() {
 
-        return gestionEntreprise;
+        return companyService;
 
     }
 
@@ -134,7 +134,7 @@ public class EditComputerController {
 
             try {
 
-                gestionOrdinateur.updateOrdinateur(
+                computerService.updateComputer(
                         ComputerMapper.recoveryComputer(computerDto));
 
             } catch (DataAccessException e) {
@@ -172,7 +172,7 @@ public class EditComputerController {
 
         try {
 
-            ComputerDto ordinateur = gestionOrdinateur.findOrdinateurById(id);
+            ComputerDto ordinateur = computerService.findComputerById(id);
             model.addAttribute("computer", ordinateur);
 
         } catch (DataAccessException e) {
@@ -184,7 +184,7 @@ public class EditComputerController {
 
         try {
 
-            model.addAttribute("companies", gestionEntreprise.findEntreprise());
+            model.addAttribute("companies", companyService.findCompanies());
 
         } catch (DataAccessException e) {
 

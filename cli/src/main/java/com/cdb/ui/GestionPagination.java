@@ -8,8 +8,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
-import com.cdb.services.Impl.GestionEntreprise;
-import com.cdb.services.Impl.GestionOrdinateur;
+import com.cdb.services.Impl.CompanyService;
+import com.cdb.services.Impl.ComputerService;
 
 /**
  * The Class GestionPagination.
@@ -30,10 +30,10 @@ public class GestionPagination {
 
     private ApplicationContext context = new ClassPathXmlApplicationContext(
             "springConfig.xml");
-    private GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context
-            .getBean("GestionOrdinateur");
-    private GestionEntreprise gestionEntreprise = (GestionEntreprise) context
-            .getBean("GestionEntreprise");
+    private ComputerService computerService = (ComputerService) context
+            .getBean("ComputerService");
+    private CompanyService companyService = (CompanyService) context
+            .getBean("CompanyService");
 
     /**
      * Instantiates a new gestion pagination.
@@ -81,13 +81,13 @@ public class GestionPagination {
 
             case 1:
 
-                pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(
+                pageOrdinateur = computerService.findComputerByPage(
                         numeroPage, ligneParPage, "", "", false);
 
                 if (pageOrdinateur.getContent().isEmpty()) {
 
                     numeroPage--;
-                    pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(
+                    pageOrdinateur = computerService.findComputerByPage(
                             numeroPage, ligneParPage, "", "", false);
 
                 }
@@ -97,12 +97,12 @@ public class GestionPagination {
 
             case 2:
 
-                pageEntreprise = gestionEntreprise.findEntreprise();
+                pageEntreprise = companyService.findCompanies();
 
                 if (pageEntreprise.isEmpty()) {
 
                     numeroPage--;
-                    pageEntreprise = gestionEntreprise.findEntreprise();
+                    pageEntreprise = companyService.findCompanies();
 
                 }
 

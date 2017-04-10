@@ -12,8 +12,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import com.cdb.model.dto.ComputerDto;
-import com.cdb.services.Impl.GestionEntreprise;
-import com.cdb.services.Impl.GestionOrdinateur;
+import com.cdb.services.Impl.CompanyService;
+import com.cdb.services.Impl.ComputerService;
 
 /**
  * The Class GestionEntryUser.
@@ -25,10 +25,10 @@ public class GestionEntryUser {
 
     private static ApplicationContext context = new ClassPathXmlApplicationContext(
             "springConfig.xml");
-    private static GestionOrdinateur gestionOrdinateur = (GestionOrdinateur) context
-            .getBean("GestionOrdinateur");
-    private static GestionEntreprise gestionEntreprise = (GestionEntreprise) context
-            .getBean("GestionEntreprise");
+    private static ComputerService computerService = (ComputerService) context
+            .getBean("ComputerService");
+    private static CompanyService companyService = (CompanyService) context
+            .getBean("CompanyService");
 
     static {
 
@@ -210,7 +210,7 @@ public class GestionEntryUser {
         try {
 
             long id = Long.parseLong(arg);
-            ordinateur = gestionOrdinateur.findOrdinateurById(id);
+            ordinateur = computerService.findComputerById(id);
 
         } catch (NumberFormatException e) {
 
@@ -345,7 +345,7 @@ public class GestionEntryUser {
         try {
 
             long id = Long.parseLong(argArray[0]);
-            ordinateur = gestionOrdinateur.findOrdinateurById(id);
+            ordinateur = computerService.findComputerById(id);
 
         } catch (NumberFormatException e) {
 
@@ -468,7 +468,7 @@ public class GestionEntryUser {
         try {
 
             identifiant.add(Long.parseLong(arg));
-            gestionOrdinateur.suppressionOrdinateur(identifiant);
+            computerService.deleteComputer(identifiant);
 
         } catch (NumberFormatException e) {
 
