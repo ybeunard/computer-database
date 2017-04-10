@@ -17,7 +17,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.htm?resetFilter=OK"> Application - Computer Database </a>
         </div>
     </header>
     <section id="main">
@@ -66,7 +66,7 @@
                             </span>
                         </th>
                         <th>
-                            <a href="dashboard.htm?trie=name"><spring:message code="name.springmvc" text="default text" /></a>
+                            <a href="dashboard.htm?sort=name"><spring:message code="name.springmvc" text="default text" /></a>
                         </th>
                         <th>
                             <spring:message code="introduced.springmvc" text="default text" />
@@ -77,7 +77,7 @@
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href="dashboard.htm?trie=company_name"><spring:message code="company.springmvc" text="default text" /></a>
+                            <a href="dashboard.htm?sort=company_name"><spring:message code="company.springmvc" text="default text" /></a>
                         </th>
 
                     </tr>

@@ -87,7 +87,7 @@ public class DashboardController {
 
             LOGGER.info("DashboardController: POST");
             gestionOrdinateur.suppressionOrdinateur(DashboardDtoMapper
-                    .recuperationListSuppresionRequestPost(request));
+                    .recoveryListDeleteRequestPost(request));
 
         } catch (DataAccessException e) {
 
@@ -115,7 +115,7 @@ public class DashboardController {
         try {
 
             DashboardDto dashboard = DashboardDtoMapper
-                    .recuperationDashboardRequestGet(request);
+                    .recoveryDashboardRequestGet(request);
             PageDto page = null;
             page = gestionOrdinateur.findOrdinateurByPage(
                     dashboard.getNumPage(), dashboard.getRowByPage(),

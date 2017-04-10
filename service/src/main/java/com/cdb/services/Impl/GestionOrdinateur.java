@@ -10,7 +10,7 @@ import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.entities.Computer;
 import com.cdb.services.InterfaceGestionOrdinateur;
-import com.cdb.utils.mappers.OrdinateurDtoMapper;
+import com.cdb.utils.mappers.ComputerDtoMapper;
 import com.cdb.utils.mappers.PageDtoMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,8 +126,8 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
     public ComputerDto findOrdinateurById(long id) {
 
         LOGGER.info("Service: Recherche d'un ordinateur par id");
-        return OrdinateurDtoMapper
-                    .recuperationComputerDto(ordinateurDao
+        return ComputerDtoMapper
+                    .recoveryComputerDto(ordinateurDao
                             .findOrdinateurById(id));
 
     }

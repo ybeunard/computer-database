@@ -10,21 +10,18 @@ import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.dto.CompanyDto.CompanyDtoBuilder;
 import com.cdb.model.entities.Company;
 
-/**
- * The Class EntrepriseDtoMapper.
- */
-public class EntrepriseDtoMapper {
+public class CompanyDtoMapper {
 
     /**
      * Instantiates a new entreprise dto mapper.
      */
-    private EntrepriseDtoMapper() {
+    private CompanyDtoMapper() {
 
     }
 
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
-            .getLogger(EntrepriseDtoMapper.class);
+            .getLogger(CompanyDtoMapper.class);
 
     /**
      * Recuperation list entreprise.
@@ -33,19 +30,19 @@ public class EntrepriseDtoMapper {
      *            the entreprises
      * @return the list
      */
-    public static List<CompanyDto> recuperationListEntreprise(
-            List<Company> entreprises) {
+    public static List<CompanyDto> recoveryListCompany(
+            List<Company> companies) {
 
-        LOGGER.info("Mapping List EntrepriseDto depuis List Entreprise");
-        List<CompanyDto> entreprisesDto = new ArrayList<CompanyDto>();
+        LOGGER.info("Mapping List Entreprise in List EntrepriseDto");
+        List<CompanyDto> companiesDto = new ArrayList<CompanyDto>();
 
-        for (Company entreprise : entreprises) {
+        for (Company company : companies) {
 
-            entreprisesDto.add(recuperationEntreprise(entreprise));
+            companiesDto.add(recoveryCompany(company));
 
         }
 
-        return entreprisesDto;
+        return companiesDto;
     }
 
     /**
@@ -55,13 +52,12 @@ public class EntrepriseDtoMapper {
      *            the entreprise
      * @return the entreprise dto
      */
-    private static CompanyDto recuperationEntreprise(Company entreprise) {
+    private static CompanyDto recoveryCompany(Company company) {
 
-        LOGGER.info("Mapping EntrepriseDto depuis Entreprise");
         CompanyDtoBuilder builder = new CompanyDto.CompanyDtoBuilder(
-                entreprise.getId(), entreprise.getName());
+                company.getId(), company.getName());
         return builder.build();
 
     }
-
+    
 }

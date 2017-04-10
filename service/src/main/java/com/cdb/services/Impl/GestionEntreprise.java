@@ -14,7 +14,7 @@ import com.cdb.dao.Impl.EntrepriseDao;
 import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.entities.Company;
 import com.cdb.services.InterfaceGestionEntreprise;
-import com.cdb.utils.mappers.EntrepriseDtoMapper;
+import com.cdb.utils.mappers.CompanyDtoMapper;
 
 /**
  * The Enum GestionEntreprise.
@@ -62,7 +62,7 @@ public class GestionEntreprise implements InterfaceGestionEntreprise {
         LOGGER.info("Service: Recherche de toutes les entreprises");
         List<Company> entreprises = new ArrayList<Company>();
         entreprises = entrepriseDao.findEntreprise();
-        return EntrepriseDtoMapper.recuperationListEntreprise(entreprises);
+        return CompanyDtoMapper.recoveryListCompany(entreprises);
 
     }
 

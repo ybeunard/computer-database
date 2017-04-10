@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cdb.model.dto.ComputerDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
-import com.cdb.utils.mappers.OrdinateurMapper;
+import com.cdb.utils.mappers.ComputerMapper;
 import com.cdb.controllers.validation.ComputerDtoValidation;
 
 /**
@@ -128,7 +128,7 @@ public class AddComputerController {
             try {
 
                 gestionOrdinateur.createOrdinateur(
-                        OrdinateurMapper.recuperationOrdinateur(computerDto));
+                        ComputerMapper.recoveryComputer(computerDto));
 
             } catch (DataAccessException e) {
 

@@ -47,48 +47,48 @@ public class PageDtoMapper {
      *            the desc
      * @return the page dto
      */
-    public static PageDto recuperationPage(List<Computer> ordinateurs,
-            long nombreTotal, int numeroPage, int ligneParPage, long pageMax,
-            String filtre, String trie, boolean desc) {
+    public static PageDto recuperationPage(List<Computer> computers,
+            long nbComputer, int numPage, int rowByPage, long pageMax,
+            String filter, String sort, boolean desc) {
 
-        LOGGER.info("Mapping de PageDto");
+        LOGGER.info("Mapping PageDto");
         PageDtoBuilder page = new PageDto.PageDtoBuilder();
         page.content(
-                OrdinateurDtoMapper.recuperationListOrdinateurDto(ordinateurs));
-        page.numPage(numeroPage);
-        page.rowByPage(ligneParPage);
-        page.nbComputer(nombreTotal);
-        page.paging(count(numeroPage, pageMax));
+                ComputerDtoMapper.recoveryListComputerDto(computers));
+        page.numPage(numPage);
+        page.rowByPage(rowByPage);
+        page.nbComputer(nbComputer);
+        page.paging(count(numPage, pageMax));
 
-        if (numeroPage <= 1) {
+        if (numPage <= 1) {
 
-            page.precPage(numeroPage);
-
-        } else {
-
-            page.precPage(numeroPage - 1);
-
-        }
-
-        if (numeroPage >= pageMax) {
-
-            page.nextPage(numeroPage);
+            page.precPage(numPage);
 
         } else {
 
-            page.nextPage(numeroPage + 1);
+            page.precPage(numPage - 1);
 
         }
 
-        if (filtre != null && !filtre.equals("")) {
+        if (numPage >= pageMax) {
 
-            page.filter(filtre);
+            page.nextPage(numPage);
+
+        } else {
+
+            page.nextPage(numPage + 1);
 
         }
 
-        if (trie != null && !trie.equals("")) {
+        if (filter != null && !filter.equals("")) {
 
-            page.sort(trie).desc(desc);
+            page.filter(filter);
+
+        }
+
+        if (sort != null && !sort.equals("")) {
+
+            page.sort(sort).desc(desc);
 
         }
 
@@ -105,27 +105,27 @@ public class PageDtoMapper {
      *            the nombre total
      * @return the list
      */
-    private static List<Integer> count(int pageActuelle, long nombreTotal) {
+    private static List<Integer> count(int currentPage, long pageMax) {
 
         List<Integer> entiers = new ArrayList<Integer>();
 
-        if (nombreTotal > 7 && pageActuelle > nombreTotal - 4) {
+        if (pageMax > 7 && currentPage > pageMax - 4) {
 
-            for (int i = (int) (nombreTotal - 6); i < nombreTotal + 1; i++) {
-
-                entiers.add(i);
-
-            }
-
-        } else if (nombreTotal > 7 && pageActuelle > 4) {
-
-            for (int i = pageActuelle - 3; i < pageActuelle + 4; i++) {
+            for (int i = (int) (pageMax - 6); i < pageMax + 1; i++) {
 
                 entiers.add(i);
 
             }
 
-        } else if (nombreTotal > 7) {
+        } else if (pageMax > 7 && currentPage > 4) {
+
+            for (int i = currentPage - 3; i < currentPage + 4; i++) {
+
+                entiers.add(i);
+
+            }
+
+        } else if (pageMax > 7) {
 
             for (int i = 1; i < 8; i++) {
 
@@ -135,7 +135,7 @@ public class PageDtoMapper {
 
         } else {
 
-            for (int i = 1; i < nombreTotal + 1; i++) {
+            for (int i = 1; i < pageMax + 1; i++) {
 
                 entiers.add(i);
 

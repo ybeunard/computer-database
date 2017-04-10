@@ -36,59 +36,59 @@ public class DashboardDtoMapper {
      *            the request
      * @return the dashboard dto
      */
-    public static DashboardDto recuperationDashboardRequestGet(
+    public static DashboardDto recoveryDashboardRequestGet(
             HttpServletRequest request) {
 
-        LOGGER.info("Mapping DashboardDto depuis RequestServlet");
+        LOGGER.info("Mapping RequestServlet in DashboardDto");
         DashboardDtoBuilder builder = new DashboardDto.DashboardDtoBuilder();
-        PageDto pageCourante = (PageDto) request.getSession()
+        PageDto currentPage = (PageDto) request.getSession()
                 .getAttribute("page");
         int numPage = 1;
-        int nbParPage = 10;
-        String filtre = "";
-        String trie = "";
+        int rowByPage = 10;
+        String filter = "";
+        String sort = "";
         boolean desc = false;
 
-        if (pageCourante != null) {
+        if (currentPage != null) {
 
-            numPage = pageCourante.getNumPage();
-            nbParPage = pageCourante.getRowByPage();
-            filtre = pageCourante.getFilter();
-            desc = pageCourante.getDesc();
-            trie = pageCourante.getSort();
+            numPage = currentPage.getNumPage();
+            rowByPage = currentPage.getRowByPage();
+            filter = currentPage.getFilter();
+            desc = currentPage.getDesc();
+            sort = currentPage.getSort();
 
         }
 
         builder.numPage(
                 Parse.parseEntier(request.getParameter("numPage"), numPage));
-        builder.rowByPage(Parse.parseEntier(request.getParameter("nbParPage"),
-                nbParPage));
+        builder.rowByPage(Parse.parseEntier(request.getParameter("rowByPage"),
+                rowByPage));
         builder.filter(
-                Parse.parseString(request.getParameter("search"), filtre));
-        String resetFiltre = request.getParameter("resetFiltre");
+                Parse.parseString(request.getParameter("search"), filter));
+        String resetFilter = request.getParameter("resetFilter");
 
-        if (resetFiltre != null && resetFiltre.equals("OK")) {
+        if (resetFilter != null && resetFilter.equals("OK")) {
 
             builder.filter("");
             builder.numPage(1);
 
         }
 
-        String newTrie = Parse.parseString(request.getParameter("trie"), "");
+        String newSort = Parse.parseString(request.getParameter("sort"), "");
 
-        if (newTrie != null && !newTrie.equals("")) {
+        if (newSort != null && !newSort.equals("")) {
 
-            if (newTrie.equals(trie)) {
+            if (newSort.equals(sort)) {
 
                 desc = Boolean.logicalXor(desc, true);
 
             }
 
-            trie = newTrie;
+            sort = newSort;
 
         }
 
-        builder.sort(trie);
+        builder.sort(sort);
         builder.desc(desc);
         return builder.build();
 
@@ -101,27 +101,27 @@ public class DashboardDtoMapper {
      *            the request
      * @return the list
      */
-    public static List<Long> recuperationListSuppresionRequestPost(
+    public static List<Long> recoveryListDeleteRequestPost(
             HttpServletRequest request) {
 
         String selection = request.getParameter("selection");
-        String[] aSupprimer = selection.split(",");
-        List<Long> identifiants = new ArrayList<Long>();
+        String[] deleted = selection.split(",");
+        List<Long> idDelete = new ArrayList<Long>();
 
-        for (String supprimeStr : aSupprimer) {
+        for (String deleteStr : deleted) {
 
-            long supprime = 0;
+            long delete = 0;
 
-            if (!supprimeStr.equals("")) {
+            if (!deleteStr.equals("")) {
 
-                supprime = Long.parseLong(supprimeStr);
-                identifiants.add(supprime);
+                delete = Long.parseLong(deleteStr);
+                idDelete.add(delete);
 
             }
 
         }
 
-        return identifiants;
+        return idDelete;
 
     }
 

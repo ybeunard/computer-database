@@ -21,7 +21,7 @@ import com.cdb.model.dto.ComputerDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 import com.cdb.utils.Parse;
-import com.cdb.utils.mappers.OrdinateurMapper;
+import com.cdb.utils.mappers.ComputerMapper;
 
 /**
  * The Class EditComputerController.
@@ -135,7 +135,7 @@ public class EditComputerController {
             try {
 
                 gestionOrdinateur.updateOrdinateur(
-                        OrdinateurMapper.recuperationOrdinateur(computerDto));
+                        ComputerMapper.recoveryComputer(computerDto));
 
             } catch (DataAccessException e) {
 
