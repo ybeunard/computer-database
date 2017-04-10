@@ -3,7 +3,7 @@ package com.cdb.utils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.cdb.model.entities.Entreprise;
+import com.cdb.model.entities.Company;
 
 /**
  * The Class Parse.
@@ -111,12 +111,12 @@ public class Parse {
      *            the entreprise name
      * @return the optional
      */
-    public static Entreprise parseFactory(long entrepriseId,
+    public static Company parseFactory(long entrepriseId,
             String entrepriseName) {
 
         if (entrepriseId > 0) {
 
-            return new Entreprise.EntrepriseBuilder(entrepriseName)
+            return new Company.CompanyBuilder(entrepriseName)
                             .id(entrepriseId).build();
 
         }

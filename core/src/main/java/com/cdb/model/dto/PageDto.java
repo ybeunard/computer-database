@@ -8,31 +8,31 @@ import java.util.List;
 public class PageDto {
 
     /** The contenue. */
-    private final List<OrdinateurDto> contenue;
+    private final List<ComputerDto> content;
 
     /** The page suiv. */
-    private final int pageSuiv;
+    private final int nextPage;
 
     /** The page prec. */
-    private final int pagePrec;
+    private final int precPage;
 
     /** The pagination. */
-    private final List<Integer> pagination;
+    private final List<Integer> paging;
 
     /** The num page. */
     private final int numPage;
 
     /** The nb par page. */
-    private final int nbParPage;
+    private final int rowByPage;
 
     /** The nb computer. */
     private final long nbComputer;
 
     /** The filtre. */
-    private final String filtre;
+    private final String filter;
 
     /** The trie. */
-    private final String trie;
+    private final String sort;
 
     /** The desc. */
     private final boolean desc;
@@ -45,23 +45,23 @@ public class PageDto {
      */
     private PageDto(PageDtoBuilder builder) {
 
-        this.contenue = builder.contenue;
+        this.content = builder.content;
 
-        this.pageSuiv = builder.pageSuiv;
+        this.nextPage = builder.nextPage;
 
-        this.pagePrec = builder.pagePrec;
+        this.precPage = builder.precPage;
 
-        this.pagination = builder.pagination;
+        this.paging = builder.paging;
 
         this.numPage = builder.numPage;
 
-        this.nbParPage = builder.nbParPage;
+        this.rowByPage = builder.rowByPage;
 
         this.nbComputer = builder.nbComputer;
 
-        this.filtre = builder.filtre;
+        this.filter = builder.filter;
 
-        this.trie = builder.trie;
+        this.sort = builder.sort;
 
         this.desc = builder.desc;
 
@@ -72,8 +72,10 @@ public class PageDto {
      *
      * @return the trie
      */
-    public String getTrie() {
-        return trie;
+    public String getSort() {
+        
+        return sort;
+        
     }
 
     /**
@@ -82,7 +84,9 @@ public class PageDto {
      * @return the desc
      */
     public boolean getDesc() {
+        
         return desc;
+        
     }
 
     /**
@@ -90,8 +94,10 @@ public class PageDto {
      *
      * @return the filtre
      */
-    public String getFiltre() {
-        return filtre;
+    public String getFilter() {
+        
+        return filter;
+        
     }
 
     /**
@@ -100,7 +106,9 @@ public class PageDto {
      * @return the nb computer
      */
     public long getNbComputer() {
+        
         return nbComputer;
+        
     }
 
     /**
@@ -108,8 +116,10 @@ public class PageDto {
      *
      * @return the contenue
      */
-    public List<OrdinateurDto> getContenue() {
-        return contenue;
+    public List<ComputerDto> getContent() {
+        
+        return content;
+        
     }
 
     /**
@@ -117,8 +127,10 @@ public class PageDto {
      *
      * @return the page suiv
      */
-    public int getPageSuiv() {
-        return pageSuiv;
+    public int getNextPage() {
+        
+        return nextPage;
+        
     }
 
     /**
@@ -126,8 +138,10 @@ public class PageDto {
      *
      * @return the page prec
      */
-    public int getPagePrec() {
-        return pagePrec;
+    public int getPrecPage() {
+        
+        return precPage;
+        
     }
 
     /**
@@ -135,8 +149,8 @@ public class PageDto {
      *
      * @return the pagination
      */
-    public List<Integer> getPagination() {
-        return pagination;
+    public List<Integer> getPaging() {
+        return paging;
     }
 
     /**
@@ -145,7 +159,9 @@ public class PageDto {
      * @return the num page
      */
     public int getNumPage() {
+        
         return numPage;
+        
     }
 
     /**
@@ -153,8 +169,10 @@ public class PageDto {
      *
      * @return the nb par page
      */
-    public int getNbParPage() {
-        return nbParPage;
+    public int getRowByPage() {
+        
+        return rowByPage;
+        
     }
 
     /**
@@ -163,31 +181,31 @@ public class PageDto {
     public static class PageDtoBuilder {
 
         /** The contenue. */
-        private List<OrdinateurDto> contenue;
+        private List<ComputerDto> content;
 
         /** The page suiv. */
-        private int pageSuiv;
+        private int nextPage;
 
         /** The page prec. */
-        private int pagePrec;
+        private int precPage;
 
         /** The pagination. */
-        private List<Integer> pagination;
+        private List<Integer> paging;
 
         /** The num page. */
         private int numPage;
 
         /** The nb par page. */
-        private int nbParPage;
+        private int rowByPage;
 
         /** The nb computer. */
         private long nbComputer;
 
         /** The filtre. */
-        private String filtre;
+        private String filter;
 
         /** The trie. */
-        private String trie;
+        private String sort;
 
         /** The desc. */
         private boolean desc;
@@ -199,9 +217,9 @@ public class PageDto {
          *            the contenue
          * @return the page dto builder
          */
-        public PageDtoBuilder contenue(List<OrdinateurDto> contenue) {
+        public PageDtoBuilder content(List<ComputerDto> content) {
 
-            this.contenue = contenue;
+            this.content = content;
             return this;
 
         }
@@ -213,9 +231,9 @@ public class PageDto {
          *            the page suiv
          * @return the page dto builder
          */
-        public PageDtoBuilder pageSuiv(int pageSuiv) {
+        public PageDtoBuilder nextPage(int nextPage) {
 
-            this.pageSuiv = pageSuiv;
+            this.nextPage = nextPage;
             return this;
 
         }
@@ -227,9 +245,9 @@ public class PageDto {
          *            the page prec
          * @return the page dto builder
          */
-        public PageDtoBuilder pagePrec(int pagePrec) {
+        public PageDtoBuilder precPage(int precPage) {
 
-            this.pagePrec = pagePrec;
+            this.precPage = precPage;
             return this;
 
         }
@@ -241,9 +259,9 @@ public class PageDto {
          *            the pagination
          * @return the page dto builder
          */
-        public PageDtoBuilder pagination(List<Integer> pagination) {
+        public PageDtoBuilder paging(List<Integer> paging) {
 
-            this.pagination = pagination;
+            this.paging = paging;
             return this;
 
         }
@@ -269,9 +287,9 @@ public class PageDto {
          *            the nb par page
          * @return the page dto builder
          */
-        public PageDtoBuilder nbParPage(int nbParPage) {
+        public PageDtoBuilder rowByPage(int rowByPage) {
 
-            this.nbParPage = nbParPage;
+            this.rowByPage = rowByPage;
             return this;
 
         }
@@ -297,9 +315,9 @@ public class PageDto {
          *            the filtre
          * @return the page dto builder
          */
-        public PageDtoBuilder filtre(String filtre) {
+        public PageDtoBuilder filter(String filter) {
 
-            this.filtre = filtre;
+            this.filter = filter;
             return this;
 
         }
@@ -311,9 +329,9 @@ public class PageDto {
          *            the trie
          * @return the page dto builder
          */
-        public PageDtoBuilder trie(String trie) {
+        public PageDtoBuilder sort(String sort) {
 
-            this.trie = trie;
+            this.sort = sort;
             return this;
 
         }
@@ -350,17 +368,17 @@ public class PageDto {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((contenue == null) ? 0 : contenue.hashCode());
+                + ((content == null) ? 0 : content.hashCode());
         result = prime * result + (desc ? 1231 : 1237);
-        result = prime * result + ((filtre == null) ? 0 : filtre.hashCode());
+        result = prime * result + ((filter == null) ? 0 : filter.hashCode());
         result = prime * result + (int) (nbComputer ^ (nbComputer >>> 32));
-        result = prime * result + nbParPage;
+        result = prime * result + rowByPage;
         result = prime * result + numPage;
-        result = prime * result + pagePrec;
-        result = prime * result + pageSuiv;
+        result = prime * result + precPage;
+        result = prime * result + nextPage;
         result = prime * result
-                + ((pagination == null) ? 0 : pagination.hashCode());
-        result = prime * result + ((trie == null) ? 0 : trie.hashCode());
+                + ((paging == null) ? 0 : paging.hashCode());
+        result = prime * result + ((sort == null) ? 0 : sort.hashCode());
         return result;
     }
 
@@ -386,15 +404,15 @@ public class PageDto {
 
         PageDto other = (PageDto) obj;
 
-        if (contenue == null) {
+        if (content == null) {
 
-            if (other.contenue != null) {
+            if (other.content != null) {
 
                 return false;
 
             }
 
-        } else if (!contenue.equals(other.contenue)) {
+        } else if (!content.equals(other.content)) {
 
             return false;
 
@@ -406,15 +424,15 @@ public class PageDto {
 
         }
 
-        if (filtre == null) {
+        if (filter == null) {
 
-            if (other.filtre != null) {
+            if (other.filter != null) {
 
                 return false;
 
             }
 
-        } else if (!filtre.equals(other.filtre)) {
+        } else if (!filter.equals(other.filter)) {
 
             return false;
 
@@ -426,7 +444,7 @@ public class PageDto {
 
         }
 
-        if (nbParPage != other.nbParPage) {
+        if (rowByPage != other.rowByPage) {
 
             return false;
 
@@ -438,41 +456,41 @@ public class PageDto {
 
         }
 
-        if (pagePrec != other.pagePrec) {
+        if (precPage != other.precPage) {
 
             return false;
 
         }
 
-        if (pageSuiv != other.pageSuiv) {
+        if (nextPage != other.nextPage) {
 
             return false;
 
         }
 
-        if (pagination == null) {
+        if (paging == null) {
 
-            if (other.pagination != null) {
+            if (other.paging != null) {
 
                 return false;
 
             }
 
-        } else if (!pagination.equals(other.pagination)) {
+        } else if (!paging.equals(other.paging)) {
 
             return false;
 
         }
 
-        if (trie == null) {
+        if (sort == null) {
 
-            if (other.trie != null) {
+            if (other.sort != null) {
 
                 return false;
 
             }
 
-        } else if (!trie.equals(other.trie)) {
+        } else if (!sort.equals(other.sort)) {
 
             return false;
 
@@ -489,11 +507,11 @@ public class PageDto {
     @Override
     public String toString() {
 
-        return "PageDto [contenue=" + contenue + ", pageSuiv=" + pageSuiv
-                + ", pagePrec=" + pagePrec + ", pagination=" + pagination
-                + ", numPage=" + numPage + ", nbParPage=" + nbParPage
-                + ", nbComputer=" + nbComputer + ", filtre=" + filtre
-                + ", trie=" + trie + ", desc=" + desc + "]";
+        return "PageDto [content=" + content + ", nextPage=" + nextPage
+                + ", precPage=" + precPage + ", paging=" + paging
+                + ", numPage=" + numPage + ", rowByPage=" + rowByPage
+                + ", nbComputer=" + nbComputer + ", filter=" + filter
+                + ", sort=" + sort + ", desc=" + desc + "]";
 
     }
 

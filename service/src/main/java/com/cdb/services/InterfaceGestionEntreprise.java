@@ -1,7 +1,7 @@
 package com.cdb.services;
 
-import com.cdb.model.dto.EntrepriseDto;
-import com.cdb.model.entities.Entreprise;
+import com.cdb.model.dto.CompanyDto;
+import com.cdb.model.entities.Company;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ public interface InterfaceGestionEntreprise {
      * @throws DataAccessException
      *             the data access exception
      */
-    List<EntrepriseDto> findEntreprise() throws DataAccessException;
+    List<CompanyDto> findEntreprise() throws DataAccessException;
 
     /**
      * Find entreprise by id.
@@ -31,6 +31,6 @@ public interface InterfaceGestionEntreprise {
      * @throws DataAccessException
      *             the data access exception
      */
-    Optional<Entreprise> findEntrepriseById(long id) throws DataAccessException;
+    Optional<Company> findEntrepriseById(long id) throws DataAccessException;
 
 }

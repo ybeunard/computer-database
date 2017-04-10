@@ -11,8 +11,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.cdb.dao.Impl.EntrepriseDao;
-import com.cdb.model.dto.EntrepriseDto;
-import com.cdb.model.entities.Entreprise;
+import com.cdb.model.dto.CompanyDto;
+import com.cdb.model.entities.Company;
 import com.cdb.services.InterfaceGestionEntreprise;
 import com.cdb.utils.mappers.EntrepriseDtoMapper;
 
@@ -57,10 +57,10 @@ public class GestionEntreprise implements InterfaceGestionEntreprise {
      * @throws DataAccessException
      *             the data access exception
      */
-    public List<EntrepriseDto> findEntreprise() throws DataAccessException {
+    public List<CompanyDto> findEntreprise() throws DataAccessException {
 
         LOGGER.info("Service: Recherche de toutes les entreprises");
-        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+        List<Company> entreprises = new ArrayList<Company>();
         entreprises = entrepriseDao.findEntreprise();
         return EntrepriseDtoMapper.recuperationListEntreprise(entreprises);
 
@@ -75,7 +75,7 @@ public class GestionEntreprise implements InterfaceGestionEntreprise {
      * @throws DataAccessException
      *             the data access exception
      */
-    public Optional<Entreprise> findEntrepriseById(long id)
+    public Optional<Company> findEntrepriseById(long id)
             throws DataAccessException {
 
         LOGGER.info("Service: Recherche d'une entreprise par id");

@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.controllers.validation.ComputerDtoValidation;
+import com.cdb.model.dto.ComputerDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 import com.cdb.utils.Parse;
 import com.cdb.utils.mappers.OrdinateurMapper;
-import com.cdb.controllers.validation.OrdinateurDtoValidation;
 
 /**
  * The Class EditComputerController.
@@ -66,7 +66,7 @@ public class EditComputerController {
 
     /** The ordinateur dto validation. */
     @Autowired
-    OrdinateurDtoValidation ordinateurDtoValidation;
+    ComputerDtoValidation computerDtoValidation;
 
     /**
      * Inits the binder.
@@ -77,7 +77,7 @@ public class EditComputerController {
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
 
-        binder.setValidator(ordinateurDtoValidation);
+        binder.setValidator(computerDtoValidation);
 
     }
 
@@ -105,7 +105,7 @@ public class EditComputerController {
 
         LOGGER.info("EditComputerController: GET");
         recuperationModelAffichageEditComputer(request, model);
-        model.addAttribute("ordinateurDto", new OrdinateurDto());
+        model.addAttribute("computerDto", new ComputerDto());
         return new ModelAndView("editComputer");
 
     }
@@ -125,7 +125,7 @@ public class EditComputerController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView editComputerPost(
-            @ModelAttribute("ordinateurDto") @Validated OrdinateurDto ordinateurDto,
+            @ModelAttribute("computerDto") @Validated ComputerDto computerDto,
             BindingResult result, HttpServletRequest request, Model model) {
 
         LOGGER.info("EditComputerController: POST");
@@ -135,7 +135,7 @@ public class EditComputerController {
             try {
 
                 gestionOrdinateur.updateOrdinateur(
-                        OrdinateurMapper.recuperationOrdinateur(ordinateurDto));
+                        OrdinateurMapper.recuperationOrdinateur(computerDto));
 
             } catch (DataAccessException e) {
 
@@ -167,11 +167,12 @@ public class EditComputerController {
     private void recuperationModelAffichageEditComputer(
             HttpServletRequest request, Model model) {
 
-        long id = Parse.parseLong(request.getParameter("ordinateur"), 0);
+        long id = Parse.parseLong(request.getParameter("id"), 0);
+        LOGGER.info(""+id);
 
         try {
 
-            OrdinateurDto ordinateur = gestionOrdinateur.findOrdinateurById(id);
+            ComputerDto ordinateur = gestionOrdinateur.findOrdinateurById(id);
             model.addAttribute("computer", ordinateur);
 
         } catch (DataAccessException e) {

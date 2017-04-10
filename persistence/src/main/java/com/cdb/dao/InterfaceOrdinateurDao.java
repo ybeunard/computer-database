@@ -1,7 +1,7 @@
 package com.cdb.dao;
 
 import java.util.List;
-import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.Computer;
 
 /**
  * The Interface InterfaceOrdinateurDao.
@@ -13,7 +13,7 @@ public interface InterfaceOrdinateurDao {
      *
      * @return the list
      */
-    List<Ordinateur> findOrdinateur();
+    List<Computer> findOrdinateur();
 
     /**
      * Find ordinateur by page.
@@ -28,7 +28,7 @@ public interface InterfaceOrdinateurDao {
      *            the desc
      * @return the list
      */
-    List<Ordinateur> findOrdinateurByPage(int numeroPage, int ligneParPage,
+    List<Computer> findOrdinateurByPage(int numeroPage, int ligneParPage,
             String trie, boolean desc);
 
     /**
@@ -46,7 +46,7 @@ public interface InterfaceOrdinateurDao {
      *            the desc
      * @return une liste ordinateur
      */
-    List<Ordinateur> findOrdinateurByName(int numPage, int nbParPage,
+    List<Computer> findOrdinateurByName(int numPage, int nbParPage,
             String name, String trie, boolean desc);
 
     /**
@@ -56,7 +56,7 @@ public interface InterfaceOrdinateurDao {
      *            the id
      * @return the optional
      */
-    Ordinateur findOrdinateurById(long id);
+    Computer findOrdinateurById(long id);
 
     /**
      * Creates the ordinateur.
@@ -64,7 +64,7 @@ public interface InterfaceOrdinateurDao {
      * @param ordinateur
      *            the ordinateur
      */
-    void createOrdinateur(Ordinateur ordinateur);
+    void createOrdinateur(Computer ordinateur);
 
     /**
      * Update ordinateur.
@@ -72,7 +72,7 @@ public interface InterfaceOrdinateurDao {
      * @param ordinateur
      *            the ordinateur
      */
-    void updateOrdinateur(Ordinateur ordinateur);
+    void updateOrdinateur(Computer ordinateur);
 
     /**
      * Suppression ordinateur.

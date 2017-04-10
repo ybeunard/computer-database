@@ -1,9 +1,6 @@
 package com.cdb.model.dto;
 
-/**
- * The Class EntrepriseDto.
- */
-public class EntrepriseDto {
+public class CompanyDto {
 
     /** The id. */
     private final long id;
@@ -17,7 +14,7 @@ public class EntrepriseDto {
      * @param builder
      *            the builder
      */
-    private EntrepriseDto(EntrepriseDtoBuilder builder) {
+    private CompanyDto(CompanyDtoBuilder builder) {
 
         this.id = builder.id;
         this.name = builder.name;
@@ -30,7 +27,9 @@ public class EntrepriseDto {
      * @return the id
      */
     public long getId() {
+
         return id;
+
     }
 
     /**
@@ -39,13 +38,15 @@ public class EntrepriseDto {
      * @return the name
      */
     public String getName() {
+
         return name;
+
     }
 
     /**
      * The Class EntrepriseDtoBuilder.
      */
-    public static class EntrepriseDtoBuilder {
+    public static class CompanyDtoBuilder {
 
         /** The id. */
         private final long id;
@@ -61,7 +62,7 @@ public class EntrepriseDto {
          * @param name
          *            the name
          */
-        public EntrepriseDtoBuilder(long id, String name) {
+        public CompanyDtoBuilder(long id, String name) {
 
             this.id = id;
             this.name = name;
@@ -73,9 +74,9 @@ public class EntrepriseDto {
          *
          * @return the entreprise dto
          */
-        public EntrepriseDto build() {
+        public CompanyDto build() {
 
-            return new EntrepriseDto(this);
+            return new CompanyDto(this);
 
         }
 
@@ -125,7 +126,7 @@ public class EntrepriseDto {
 
         }
 
-        EntrepriseDto other = (EntrepriseDto) obj;
+        CompanyDto other = (CompanyDto) obj;
 
         if (id != other.id) {
 
@@ -159,7 +160,7 @@ public class EntrepriseDto {
     @Override
     public String toString() {
 
-        return "EntrepriseDto [id=" + id + ", name=" + name + "]";
+        return "CompanyDto [id=" + id + ", name=" + name + "]";
 
     }
 

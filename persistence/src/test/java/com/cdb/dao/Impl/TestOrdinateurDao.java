@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.Computer;
 
 import junit.framework.TestCase;
 
@@ -79,10 +79,10 @@ public class TestOrdinateurDao extends TestCase {
     @Test
     public void testFindOrdinateur() {
 
-        List<Ordinateur> ordinateurs = dao.findOrdinateur();
+        List<Computer> ordinateurs = dao.findOrdinateur();
         assertFalse(ordinateurs.isEmpty());
 
-        for (Ordinateur ordinateur : ordinateurs) {
+        for (Computer ordinateur : ordinateurs) {
 
             assertFalse(ordinateur.getName() == null);
             assertFalse(ordinateur.getId() <= 0);

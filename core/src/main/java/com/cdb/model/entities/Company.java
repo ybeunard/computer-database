@@ -6,14 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * The Class Entreprise.
- */
 @Entity
 @Table(name = "company")
-public class Entreprise {
+public class Company {
 
-    /** The id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,7 +20,7 @@ public class Entreprise {
     /**
      * Instantiates a new entreprise.
      */
-    public Entreprise() { }
+    public Company() { }
 
     /**
      * Instantiates a new entreprise.
@@ -32,7 +28,7 @@ public class Entreprise {
      * @param builder
      *            the builder
      */
-    private Entreprise(EntrepriseBuilder builder) {
+    private Company(CompanyBuilder builder) {
 
         this.id = builder.id;
         this.name = builder.name;
@@ -66,13 +62,15 @@ public class Entreprise {
     }
 
     public void setName(String name) {
+        
         this.name = name;
+        
     }
 
     /**
      * The Class EntrepriseBuilder.
      */
-    public static class EntrepriseBuilder {
+    public static class CompanyBuilder {
 
         /** The id. */
         private long id;
@@ -86,7 +84,7 @@ public class Entreprise {
          * @param name
          *            the name
          */
-        public EntrepriseBuilder(String name) {
+        public CompanyBuilder(String name) {
 
             if (name == null) {
 
@@ -107,7 +105,7 @@ public class Entreprise {
          *            the id
          * @return the entreprise builder
          */
-        public EntrepriseBuilder id(long id) {
+        public CompanyBuilder id(long id) {
 
             this.id = id;
             return this;
@@ -119,9 +117,9 @@ public class Entreprise {
          *
          * @return the entreprise
          */
-        public Entreprise build() {
+        public Company build() {
 
-            return new Entreprise(this);
+            return new Company(this);
 
         }
 
@@ -171,7 +169,7 @@ public class Entreprise {
 
         }
 
-        Entreprise other = (Entreprise) obj;
+        Company other = (Company) obj;
 
         if (id != other.id) {
 
@@ -209,5 +207,5 @@ public class Entreprise {
         return chaine;
 
     }
-
+    
 }

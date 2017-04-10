@@ -36,8 +36,8 @@
 		<property name="packagesToScan" value="com.cdb.dao.Impl.converter" />
 		<property name="annotatedClasses">
         <list>
-            <value>com.cdb.model.entities.Entreprise</value>
-            <value>com.cdb.model.entities.Ordinateur</value>
+            <value>com.cdb.model.entities.Company</value>
+            <value>com.cdb.model.entities.Computer</value>
         </list>
         </property>
 		<property name="hibernateProperties">

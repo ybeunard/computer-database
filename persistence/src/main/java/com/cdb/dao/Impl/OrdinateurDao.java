@@ -9,9 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.cdb.dao.InterfaceOrdinateurDao;
-import com.cdb.model.entities.Ordinateur;
-import com.cdb.model.entities.QEntreprise;
-import com.cdb.model.entities.QOrdinateur;
+import com.cdb.model.entities.Computer;
+import com.cdb.model.entities.QCompany;
+import com.cdb.model.entities.QComputer;
 import com.querydsl.jpa.hibernate.HibernateQuery;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
@@ -39,18 +39,18 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
     }
 
     /** The ordinateur. */
-    QOrdinateur ordinateur;
+    QComputer ordinateur;
 
     /** The entreprise. */
-    QEntreprise entreprise;
+    QCompany entreprise;
 
     /**
      * Instantiates a new ordinateur dao.
      */
     public OrdinateurDao() {
 
-        ordinateur = QOrdinateur.ordinateur;
-        entreprise = QEntreprise.entreprise;
+        ordinateur = QComputer.computer;
+        entreprise = QCompany.company;
         LOGGER.info("OrdinateurDao instancié");
 
     }
@@ -60,9 +60,9 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *
      * @return une liste d'ordinateur
      */
-    public List<Ordinateur> findOrdinateur() {
+    public List<Computer> findOrdinateur() {
 
-        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
+        List<Computer> ordinateurs = new ArrayList<Computer>();
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         ordinateurs = query.select(ordinateur).from(ordinateur).fetch();
@@ -83,10 +83,10 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *            the desc
      * @return une liste d'ordinateur
      */
-    public List<Ordinateur> findOrdinateurByPage(int numeroPage,
+    public List<Computer> findOrdinateurByPage(int numeroPage,
             int ligneParPage, String trie, boolean desc) {
 
-        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
+        List<Computer> ordinateurs = new ArrayList<Computer>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
 
@@ -96,7 +96,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
-        HibernateQuery<Ordinateur> query = new HibernateQueryFactory(
+        HibernateQuery<Computer> query = new HibernateQueryFactory(
                 sessionFactory.openSession()).select(ordinateur)
                         .from(ordinateur).limit(limit).offset(offset);
         query = orderQuery(trie, desc, query);
@@ -120,10 +120,10 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *            the desc
      * @return une liste ordinateur
      */
-    public List<Ordinateur> findOrdinateurByName(int numeroPage,
+    public List<Computer> findOrdinateurByName(int numeroPage,
             int ligneParPage, String name, String trie, boolean desc) {
 
-        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
+        List<Computer> ordinateurs = new ArrayList<Computer>();
         int limit = ligneParPage;
         int offset = (numeroPage - 1) * ligneParPage;
 
@@ -133,10 +133,10 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
         }
 
-        HibernateQuery<Ordinateur> query = new HibernateQueryFactory(
+        HibernateQuery<Computer> query = new HibernateQueryFactory(
                 sessionFactory.openSession()).select(ordinateur)
                         .from(ordinateur)
-                        .leftJoin(ordinateur.fabricant, entreprise).limit(limit)
+                        .leftJoin(ordinateur.company, entreprise).limit(limit)
                         .offset(offset);
         query = orderQuery(trie, desc, query);
         ordinateurs = query.from(ordinateur)
@@ -154,7 +154,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *            the id
      * @return the optional
      */
-    public Ordinateur findOrdinateurById(long id) {
+    public Computer findOrdinateurById(long id) {
 
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
@@ -169,7 +169,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @param ordinateur
      *            à créer
      */
-    public void createOrdinateur(Ordinateur ordinateur) {
+    public void createOrdinateur(Computer ordinateur) {
 
         LOGGER.info("Dao: Création d'un ordinateur");
         LOGGER.debug("" + ordinateur);
@@ -186,7 +186,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      * @param ordinateurUpdate
      *            the ordinateur update
      */
-    public void updateOrdinateur(Ordinateur ordinateurUpdate) {
+    public void updateOrdinateur(Computer ordinateurUpdate) {
 
         LOGGER.info("Dao: update d'un ordinateur");
         LOGGER.debug("" + ordinateur);
@@ -198,7 +198,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
                 .set(ordinateur.introduced, ordinateurUpdate.getIntroduced())
                 .set(ordinateur.discontinued,
                         ordinateurUpdate.getDiscontinued())
-                .set(ordinateur.fabricant, ordinateurUpdate.getFabricant())
+                .set(ordinateur.company, ordinateurUpdate.getCompany())
                 .execute();
         LOGGER.info("Dao: update d'un ordinateur effectuée");
 
@@ -250,7 +250,7 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         count = query.from(ordinateur)
-                .leftJoin(ordinateur.fabricant, entreprise)
+                .leftJoin(ordinateur.company, entreprise)
                 .where(ordinateur.name.like("%" + filtre + "%")
                         .or(entreprise.name.like("%" + filtre + "%")))
                 .fetchCount();
@@ -269,8 +269,8 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
      *            the query
      * @return the hibernate query
      */
-    private HibernateQuery<Ordinateur> orderQuery(String trie, boolean desc,
-            HibernateQuery<Ordinateur> query) {
+    private HibernateQuery<Computer> orderQuery(String trie, boolean desc,
+            HibernateQuery<Computer> query) {
 
         if (trie != null) {
 
@@ -280,12 +280,12 @@ public class OrdinateurDao implements InterfaceOrdinateurDao {
 
                 if (desc) {
 
-                    query = query.leftJoin(ordinateur.fabricant, entreprise)
+                    query = query.leftJoin(ordinateur.company, entreprise)
                             .orderBy(entreprise.name.desc());
 
                 } else {
 
-                    query = query.leftJoin(ordinateur.fabricant, entreprise)
+                    query = query.leftJoin(ordinateur.company, entreprise)
                             .orderBy(entreprise.name.asc());
 
                 }

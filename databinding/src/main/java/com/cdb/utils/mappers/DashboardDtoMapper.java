@@ -52,24 +52,24 @@ public class DashboardDtoMapper {
         if (pageCourante != null) {
 
             numPage = pageCourante.getNumPage();
-            nbParPage = pageCourante.getNbParPage();
-            filtre = pageCourante.getFiltre();
+            nbParPage = pageCourante.getRowByPage();
+            filtre = pageCourante.getFilter();
             desc = pageCourante.getDesc();
-            trie = pageCourante.getTrie();
+            trie = pageCourante.getSort();
 
         }
 
         builder.numPage(
                 Parse.parseEntier(request.getParameter("numPage"), numPage));
-        builder.nbParPage(Parse.parseEntier(request.getParameter("nbParPage"),
+        builder.rowByPage(Parse.parseEntier(request.getParameter("nbParPage"),
                 nbParPage));
-        builder.filtre(
+        builder.filter(
                 Parse.parseString(request.getParameter("search"), filtre));
         String resetFiltre = request.getParameter("resetFiltre");
 
         if (resetFiltre != null && resetFiltre.equals("OK")) {
 
-            builder.filtre("");
+            builder.filter("");
             builder.numPage(1);
 
         }
@@ -88,7 +88,7 @@ public class DashboardDtoMapper {
 
         }
 
-        builder.trie(trie);
+        builder.sort(trie);
         builder.desc(desc);
         return builder.build();
 

@@ -6,9 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.model.dto.OrdinateurDto;
-import com.cdb.model.dto.OrdinateurDto.OrdinateurDtoBuilder;
-import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.dto.ComputerDto;
+import com.cdb.model.dto.ComputerDto.ComputerDtoBuilder;
+import com.cdb.model.entities.Computer;
 
 /**
  * The Class OrdinateurDtoMapper.
@@ -33,15 +33,15 @@ public class OrdinateurDtoMapper {
      *            the ordinateurs
      * @return the list
      */
-    public static List<OrdinateurDto> recuperationListOrdinateurDto(
-            List<Ordinateur> ordinateurs) {
+    public static List<ComputerDto> recuperationListOrdinateurDto(
+            List<Computer> ordinateurs) {
 
         LOGGER.info("Mapping List OrdinateurDto depuis List Ordinateur");
-        List<OrdinateurDto> ordinateursDto = new ArrayList<OrdinateurDto>();
+        List<ComputerDto> ordinateursDto = new ArrayList<ComputerDto>();
 
-        for (Ordinateur ordinateur : ordinateurs) {
+        for (Computer ordinateur : ordinateurs) {
 
-            ordinateursDto.add(recuperationOrdinateurDto(ordinateur));
+            ordinateursDto.add(recuperationComputerDto(ordinateur));
 
         }
 
@@ -56,30 +56,30 @@ public class OrdinateurDtoMapper {
      *            the ordinateur
      * @return the ordinateur dto
      */
-    public static OrdinateurDto recuperationOrdinateurDto(
-            Ordinateur ordinateur) {
+    public static ComputerDto recuperationComputerDto(
+            Computer ordinateur) {
 
-        LOGGER.info("Mapping OrdinateurDto depuis ordinateur");
-        OrdinateurDtoBuilder builder = new OrdinateurDto.OrdinateurDtoBuilder(
+        LOGGER.info("Mapping OrdinateurDto depuis ordinateur" + ordinateur);
+        ComputerDtoBuilder builder = new ComputerDto.ComputerDtoBuilder(
                 ordinateur.getName());
         builder.id(ordinateur.getId());
 
         if (ordinateur.getIntroduced() != null) {
 
-            builder.dateIntroduit(ordinateur.getIntroduced().toString());
+            builder.introduced(ordinateur.getIntroduced().toString());
 
         }
 
         if (ordinateur.getDiscontinued() != null) {
 
-            builder.dateInterrompu(ordinateur.getDiscontinued().toString());
+            builder.discontinued(ordinateur.getDiscontinued().toString());
 
         }
 
-        if (ordinateur.getFabricant() != null) {
+        if (ordinateur.getCompany() != null) {
 
-            builder.idFactory(ordinateur.getFabricant().getId());
-            builder.factory(ordinateur.getFabricant().getName());
+            builder.idCompany(ordinateur.getCompany().getId());
+            builder.company(ordinateur.getCompany().getName());
 
         }
 

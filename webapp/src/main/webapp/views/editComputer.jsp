@@ -23,14 +23,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                	Language : <a href="editComputer.htm?locale=en&ordinateur=${computer.id}">English</a>|<a href="editComputer.htm?locale=fr&ordinateur=${computer.id}">Francais</a>
+                	Language : <a href="editComputer.htm?locale=en&id=${computer.id}">English</a>|<a href="editComputer.htm?locale=fr&id=${computer.id}">Francais</a>
                     <div class="label label-default pull-right">
                         id: ${computer.id}
                     </div>
                     <h1><spring:message code="edit.springmvc" text="default text" /></h1>
 
-                    <form:form action="editComputer.htm" modelAttribute="ordinateurDto" method="POST">
-                        <form:input path="id" type="hidden" name="ordinateur" value="${computer.id}" id="id"/>
+                    <form:form action="editComputer.htm" modelAttribute="computerDto" method="POST">
+                        <form:input path="id" type="hidden" name="computer" value="${computer.id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName"><spring:message code="name.springmvc" text="default text" /></label>
@@ -39,24 +39,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="introduced"><spring:message code="introduced.springmvc" text="default text" /></label>
-                                <form:input path="dateIntroduit" type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd" value="${computer.dateIntroduit}"/>
-								<form:errors path="dateIntroduit" />
+                                <form:input path="introduced" type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd" value="${computer.introduced}"/>
+								<form:errors path="introduced" />
                             </div>
                             <div class="form-group">
                                 <label for="discontinued"><spring:message code="discontinued.springmvc" text="default text" /></label>
-                                <form:input path="dateInterrompu" type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd" value="${computer.dateInterrompu}"/>
-								<form:errors path="dateInterrompu" />
+                                <form:input path="discontinued" type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd" value="${computer.discontinued}"/>
+								<form:errors path="discontinued" />
                             </div>
                             <div class="form-group">
                                 <label for="companyId"><spring:message code="company.springmvc" text="default text" /></label>
-                                <form:select path="idFactory" class="form-control" name="company" id="companyId" >
-                                    <option value="${computer.idFactory}">${computer.factory}</option>
+                                <form:select path="idCompany" class="form-control" name="company" id="companyId" >
+                                    <option value="${computer.idCompany}">${computer.company}</option>
                                     <option value="0">----</option>
                                 	<c:forEach items="${companies}" var="company">
                                     	<option value="${company.id}">${company.name}</option>
                                     </c:forEach>
                                 </form:select>
-                                <form:errors path="idFactory" />
+                                <form:errors path="idCompany" />
                             </div>            
                         </fieldset>
                         <c:if test="${not empty error}">

@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cdb.dao.Impl.OrdinateurDao;
-import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
-import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.Computer;
 import com.cdb.services.InterfaceGestionOrdinateur;
 import com.cdb.utils.mappers.OrdinateurDtoMapper;
 import com.cdb.utils.mappers.PageDtoMapper;
@@ -71,7 +71,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
             String filtre, String trie, boolean desc)
             throws DataAccessException {
 
-        List<Ordinateur> ordinateurs = new ArrayList<Ordinateur>();
+        List<Computer> ordinateurs = new ArrayList<Computer>();
         long nombreTotal = 0;
         long pageMax = 1;
         LOGGER.info("Service : Recherche ordinateur par page");
@@ -123,11 +123,11 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      * @throws DataAccessException
      *             the data access exception
      */
-    public OrdinateurDto findOrdinateurById(long id) {
+    public ComputerDto findOrdinateurById(long id) {
 
         LOGGER.info("Service: Recherche d'un ordinateur par id");
         return OrdinateurDtoMapper
-                    .recuperationOrdinateurDto(ordinateurDao
+                    .recuperationComputerDto(ordinateurDao
                             .findOrdinateurById(id));
 
     }
@@ -141,7 +141,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      *             the data access exception
      */
     @Transactional
-    public void createOrdinateur(Ordinateur ordinateur)
+    public void createOrdinateur(Computer ordinateur)
             throws DataAccessException {
 
         LOGGER.info("Service : Creation d'un ordinateur");
@@ -158,7 +158,7 @@ public class GestionOrdinateur implements InterfaceGestionOrdinateur {
      *             the data access exception
      */
     @Transactional
-    public void updateOrdinateur(Ordinateur ordinateur)
+    public void updateOrdinateur(Computer ordinateur)
             throws DataAccessException {
 
         LOGGER.info("Service: Update d'un ordinateur");

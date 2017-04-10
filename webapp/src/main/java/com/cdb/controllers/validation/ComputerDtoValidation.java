@@ -1,6 +1,7 @@
 package com.cdb.controllers.validation;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,25 +10,22 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.ComputerDto;
 import com.cdb.utils.Parse;
 
-/**
- * The Class OrdinateurDtoValidation.
- */
 @Component
-public class OrdinateurDtoValidation implements Validator {
+public class ComputerDtoValidation implements Validator {
 
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
-            .getLogger(OrdinateurDtoValidation.class);
+            .getLogger(ComputerDtoValidation.class);
 
     /**
      * Instantiates a new ordinateur dto validation.
      */
-    public OrdinateurDtoValidation() {
+    public ComputerDtoValidation() {
 
-        LOGGER.info("OrdinateurDtoValidation instancié");
+        LOGGER.info("ComputerDtoValidation instancié");
 
     }
 
@@ -39,7 +37,7 @@ public class OrdinateurDtoValidation implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
 
-        return OrdinateurDto.class.equals(clazz);
+        return ComputerDto.class.equals(clazz);
 
     }
 
@@ -53,59 +51,59 @@ public class OrdinateurDtoValidation implements Validator {
     public void validate(Object target, Errors errors) {
 
         LOGGER.info("Validation d'un ordinateur DTO");
-        OrdinateurDto ordinateurDto = (OrdinateurDto) target;
+        ComputerDto computerDto = (ComputerDto) target;
 
-        if (ordinateurDto.getName() == null) {
+        if (computerDto.getName() == null) {
 
-            errors.rejectValue("name", "NotEmpty.ordinateurDtoForm.name");
+            errors.rejectValue("name", "NotEmpty.computerDtoForm.name");
 
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name",
-                "NotEmpty.ordinateurDtoForm.name");
+                "NotEmpty.computerDtoForm.name");
 
-        if (ordinateurDto.getId() < 0) {
+        if (computerDto.getId() < 0) {
 
-            LOGGER.debug("ID Incorrecte " + ordinateurDto.getId());
+            LOGGER.debug("ID Incorrecte " + computerDto.getId());
             errors.reject("id");
 
         }
 
-        if (!validationDate(ordinateurDto.getDateIntroduit())) {
+        if (!validationDate(computerDto.getIntroduced())) {
 
             LOGGER.debug("Date introduction Incorrecte "
-                    + ordinateurDto.getDateIntroduit());
-            errors.rejectValue("dateIntroduit",
-                    "NotValid.ordinateurDtoForm.dateIntroduit");
+                    + computerDto.getIntroduced());
+            errors.rejectValue("introduced",
+                    "NotValid.computerDtoForm.dateIntroduit");
 
         }
 
-        if (!validationDate(ordinateurDto.getDateInterrompu())) {
+        if (!validationDate(computerDto.getDiscontinued())) {
 
             LOGGER.debug("Date interruption Incorrecte "
-                    + ordinateurDto.getDateInterrompu());
-            errors.rejectValue("dateInterrompu",
-                    "NotValid.ordinateurDtoForm.dateInterrompu");
+                    + computerDto.getDiscontinued());
+            errors.rejectValue("discontinued",
+                    "NotValid.computerDtoForm.dateInterrompu");
 
         }
 
-        if (!isValid(ordinateurDto.getDateIntroduit(),
-                ordinateurDto.getDateInterrompu())) {
+        if (!isValid(computerDto.getIntroduced(),
+                computerDto.getDiscontinued())) {
 
             LOGGER.debug("Dates Inccohérente");
-            errors.rejectValue("dateIntroduit",
-                    "Incoherence.ordinateurDtoForm.dateIntroduit");
-            errors.reject("dateInterrompu",
-                    "Incoherence.ordinateurDtoForm.dateInterrompu");
+            errors.rejectValue("introduced",
+                    "Incoherence.computerDtoForm.dateIntroduit");
+            errors.reject("discontinued",
+                    "Incoherence.computerDtoForm.dateInterrompu");
 
         }
 
-        if (ordinateurDto.getIdFactory() < 0) {
+        if (computerDto.getIdCompany() < 0) {
 
             LOGGER.debug(
-                    "Id Company Incorrecte " + ordinateurDto.getIdFactory());
-            errors.rejectValue("idFactory",
-                    "NotNegatif.ordinateurDtoForm.idFactory");
+                    "Id Company Incorrecte " + computerDto.getIdCompany());
+            errors.rejectValue("idCompany",
+                    "NotNegatif.computerDtoForm.idFactory");
 
         }
 
@@ -128,7 +126,20 @@ public class OrdinateurDtoValidation implements Validator {
 
             }
 
-            return date.matches("\\d{4}-\\d{2}-\\d{2}");
+            if(date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                
+                try {
+               
+                    Parse.parseDate(date);
+                    return true;
+                    
+                } catch(DateTimeParseException e) {
+                    
+                    return false;
+                    
+                }
+                
+            }
 
         }
 
@@ -166,5 +177,5 @@ public class OrdinateurDtoValidation implements Validator {
         return true;
 
     }
-
+    
 }

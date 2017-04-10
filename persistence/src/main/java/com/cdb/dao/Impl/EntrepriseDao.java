@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cdb.dao.InterfaceEntrepriseDao;
-import com.cdb.model.entities.Entreprise;
-import com.cdb.model.entities.QEntreprise;
+import com.cdb.model.entities.Company;
+import com.cdb.model.entities.QCompany;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 // TODO: Auto-generated Javadoc
@@ -41,14 +41,14 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
     }
 
     /** The entreprise. */
-    QEntreprise entreprise;
+    QCompany entreprise;
 
     /**
      * Instantiates a new entreprise dao.
      */
     EntrepriseDao() {
 
-        entreprise = QEntreprise.entreprise;
+        entreprise = QCompany.company;
         LOGGER.info("EntrepriseDao instancié");
 
     }
@@ -58,9 +58,9 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
      *
      * @return une liste d'entreprise
      */
-    public List<Entreprise> findEntreprise() {
+    public List<Company> findEntreprise() {
 
-        List<Entreprise> entreprises = new ArrayList<Entreprise>();
+        List<Company> entreprises = new ArrayList<Company>();
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         entreprises = query.select(entreprise).from(entreprise).fetch();
@@ -75,9 +75,9 @@ public class EntrepriseDao implements InterfaceEntrepriseDao {
      *            l'id de l'entreprise à rechercher
      * @return une entreprise
      */
-    public Optional<Entreprise> findEntrepriseByID(long index) {
+    public Optional<Company> findEntrepriseByID(long index) {
 
-        Optional<Entreprise> entreprises = Optional.empty();
+        Optional<Company> entreprises = Optional.empty();
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
         entreprises = Optional.ofNullable(query.select(entreprise)

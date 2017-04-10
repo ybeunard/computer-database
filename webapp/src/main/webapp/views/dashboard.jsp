@@ -84,17 +84,17 @@
                 </thead>
                 <!-- Browse attribute computers -->
                 <tbody id="results">
-                	<c:forEach items="${page.contenue}" var="computer" >
+                	<c:forEach items="${page.content}" var="computer" >
 	                    <tr>
 	                        <td class="editMode">
 	                            <input id="cb" type="checkbox" name="cb" class="cb" value="${computer.id}"/>
 	                        </td>
 	                        <td>
-	                            <a href="editComputer.htm?ordinateur=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
+	                            <a href="editComputer.htm?id=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
 	                        </td>
-	                        <td>${computer.dateIntroduit}</td>
-	                        <td>${computer.dateInterrompu}</td>
-	                        <td>${computer.factory}</td>
+	                        <td>${computer.introduced}</td>
+	                        <td>${computer.discontinued}</td>
+	                        <td>${computer.company}</td>
 	
 	                    </tr>
                 	</c:forEach>   

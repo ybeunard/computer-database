@@ -15,19 +15,19 @@
 <body>
 	<div class="container text-center">
             <ul class="pagination">
-            	<c:if test="${page.pagePrec!=page.numPage}">
+            	<c:if test="${page.precPage!=page.numPage}">
 	                <li>
-	                    <a href="dashboard.htm?numPage=${page.pagePrec}" aria-label="Previous">
+	                    <a href="dashboard.htm?numPage=${page.precPage}" aria-label="Previous">
 	                      <span aria-hidden="true">&laquo;</span>
 	                  </a>
 	              	</li>
               </c:if>
-              <c:forEach items="${page.pagination}" var="numero" >
+              <c:forEach items="${page.paging}" var="numero" >
               	<li><a href="dashboard.htm?numPage=${numero}">${numero}</a></li>
               </c:forEach>
-              <c:if test="${page.pageSuiv!=page.numPage}">
+              <c:if test="${page.nextPage!=page.numPage}">
 	              	<li>
-	                <a href="dashboard.htm?numPage=${page.pageSuiv}" aria-label="Next">
+	                <a href="dashboard.htm?numPage=${page.nextPage}" aria-label="Next">
 	                    <span aria-hidden="true">&raquo;</span>
 	                </a>
 	            	</li>

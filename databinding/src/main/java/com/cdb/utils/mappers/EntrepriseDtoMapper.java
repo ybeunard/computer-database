@@ -6,9 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.model.dto.EntrepriseDto;
-import com.cdb.model.dto.EntrepriseDto.EntrepriseDtoBuilder;
-import com.cdb.model.entities.Entreprise;
+import com.cdb.model.dto.CompanyDto;
+import com.cdb.model.dto.CompanyDto.CompanyDtoBuilder;
+import com.cdb.model.entities.Company;
 
 /**
  * The Class EntrepriseDtoMapper.
@@ -33,13 +33,13 @@ public class EntrepriseDtoMapper {
      *            the entreprises
      * @return the list
      */
-    public static List<EntrepriseDto> recuperationListEntreprise(
-            List<Entreprise> entreprises) {
+    public static List<CompanyDto> recuperationListEntreprise(
+            List<Company> entreprises) {
 
         LOGGER.info("Mapping List EntrepriseDto depuis List Entreprise");
-        List<EntrepriseDto> entreprisesDto = new ArrayList<EntrepriseDto>();
+        List<CompanyDto> entreprisesDto = new ArrayList<CompanyDto>();
 
-        for (Entreprise entreprise : entreprises) {
+        for (Company entreprise : entreprises) {
 
             entreprisesDto.add(recuperationEntreprise(entreprise));
 
@@ -55,10 +55,10 @@ public class EntrepriseDtoMapper {
      *            the entreprise
      * @return the entreprise dto
      */
-    private static EntrepriseDto recuperationEntreprise(Entreprise entreprise) {
+    private static CompanyDto recuperationEntreprise(Company entreprise) {
 
         LOGGER.info("Mapping EntrepriseDto depuis Entreprise");
-        EntrepriseDtoBuilder builder = new EntrepriseDto.EntrepriseDtoBuilder(
+        CompanyDtoBuilder builder = new CompanyDto.CompanyDtoBuilder(
                 entreprise.getId(), entreprise.getName());
         return builder.build();
 

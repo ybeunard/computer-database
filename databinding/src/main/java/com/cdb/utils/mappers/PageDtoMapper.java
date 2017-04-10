@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.dto.PageDto.PageDtoBuilder;
-import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.Computer;
 
 /**
  * The Class PageDtoMapper.
@@ -47,48 +47,48 @@ public class PageDtoMapper {
      *            the desc
      * @return the page dto
      */
-    public static PageDto recuperationPage(List<Ordinateur> ordinateurs,
+    public static PageDto recuperationPage(List<Computer> ordinateurs,
             long nombreTotal, int numeroPage, int ligneParPage, long pageMax,
             String filtre, String trie, boolean desc) {
 
         LOGGER.info("Mapping de PageDto");
         PageDtoBuilder page = new PageDto.PageDtoBuilder();
-        page.contenue(
+        page.content(
                 OrdinateurDtoMapper.recuperationListOrdinateurDto(ordinateurs));
         page.numPage(numeroPage);
-        page.nbParPage(ligneParPage);
+        page.rowByPage(ligneParPage);
         page.nbComputer(nombreTotal);
-        page.pagination(count(numeroPage, pageMax));
+        page.paging(count(numeroPage, pageMax));
 
         if (numeroPage <= 1) {
 
-            page.pagePrec(numeroPage);
+            page.precPage(numeroPage);
 
         } else {
 
-            page.pagePrec(numeroPage - 1);
+            page.precPage(numeroPage - 1);
 
         }
 
         if (numeroPage >= pageMax) {
 
-            page.pageSuiv(numeroPage);
+            page.nextPage(numeroPage);
 
         } else {
 
-            page.pageSuiv(numeroPage + 1);
+            page.nextPage(numeroPage + 1);
 
         }
 
         if (filtre != null && !filtre.equals("")) {
 
-            page.filtre(filtre);
+            page.filter(filtre);
 
         }
 
         if (trie != null && !trie.equals("")) {
 
-            page.trie(trie).desc(desc);
+            page.sort(trie).desc(desc);
 
         }
 

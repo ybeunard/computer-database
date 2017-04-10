@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.cdb.model.entities.Entreprise;
+import com.cdb.model.entities.Company;
 
 public class TestEntrepriseDao extends DBTestCase {
 
@@ -71,10 +71,10 @@ public class TestEntrepriseDao extends DBTestCase {
     @Test
     public void testFindEntreprise() {
 
-        List<Entreprise> entreprises = dao.findEntreprise();
+        List<Company> entreprises = dao.findEntreprise();
         assertFalse(entreprises.isEmpty());
 
-        for (Entreprise entreprise : entreprises) {
+        for (Company entreprise : entreprises) {
 
             assertFalse(entreprise == null);
             assertFalse(entreprise.getName() == null);
@@ -88,7 +88,7 @@ public class TestEntrepriseDao extends DBTestCase {
     @Test
     public void testFindEntrepriseByIDZero() {
 
-        Optional<Entreprise> entreprise = dao.findEntrepriseByID(0);
+        Optional<Company> entreprise = dao.findEntrepriseByID(0);
         assertFalse(entreprise.isPresent());
 
     }
@@ -96,7 +96,7 @@ public class TestEntrepriseDao extends DBTestCase {
     @Test
     public void testFindEntrepriseByIDNegatif() {
 
-        Optional<Entreprise> entreprise = dao.findEntrepriseByID(-1);
+        Optional<Company> entreprise = dao.findEntrepriseByID(-1);
         assertFalse(entreprise.isPresent());
 
     }
@@ -104,7 +104,7 @@ public class TestEntrepriseDao extends DBTestCase {
     @Test
     public void testFindEntrepriseByIDCorrect() {
 
-        Optional<Entreprise> entreprise = dao.findEntrepriseByID(22);
+        Optional<Company> entreprise = dao.findEntrepriseByID(22);
         assertTrue(entreprise.isPresent());
         assertEquals(entreprise.get().getName(), "Bob");
         assertEquals(entreprise.get().getId(), 22);

@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.ComputerDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 import com.cdb.utils.mappers.OrdinateurMapper;
-import com.cdb.controllers.validation.OrdinateurDtoValidation;
+import com.cdb.controllers.validation.ComputerDtoValidation;
 
 /**
  * The Class AddComputerController.
@@ -64,7 +64,7 @@ public class AddComputerController {
 
     /** The ordinateur dto validation. */
     @Autowired
-    OrdinateurDtoValidation ordinateurDtoValidation;
+    ComputerDtoValidation computerDtoValidation;
 
     /**
      * Inits the binder.
@@ -75,7 +75,7 @@ public class AddComputerController {
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
 
-        binder.setValidator(ordinateurDtoValidation);
+        binder.setValidator(computerDtoValidation);
 
     }
 
@@ -100,7 +100,7 @@ public class AddComputerController {
 
         LOGGER.info("AddComputerController: GET");
         recuperationModelAffichageAddComputer(model);
-        model.addAttribute("ordinateurDto", new OrdinateurDto());
+        model.addAttribute("computerDto", new ComputerDto());
         return new ModelAndView("addComputer");
 
     }
@@ -118,7 +118,7 @@ public class AddComputerController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView addComputerPost(
-            @ModelAttribute("ordinateurDto") @Validated OrdinateurDto ordinateurDto,
+            @ModelAttribute("computerDto") @Validated ComputerDto computerDto,
             BindingResult result, Model model) {
 
         LOGGER.info("AddComputerController: POST");
@@ -128,7 +128,7 @@ public class AddComputerController {
             try {
 
                 gestionOrdinateur.createOrdinateur(
-                        OrdinateurMapper.recuperationOrdinateur(ordinateurDto));
+                        OrdinateurMapper.recuperationOrdinateur(computerDto));
 
             } catch (DataAccessException e) {
 

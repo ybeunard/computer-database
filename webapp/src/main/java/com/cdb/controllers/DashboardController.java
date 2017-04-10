@@ -118,8 +118,8 @@ public class DashboardController {
                     .recuperationDashboardRequestGet(request);
             PageDto page = null;
             page = gestionOrdinateur.findOrdinateurByPage(
-                    dashboard.getNumPage(), dashboard.getNbParPage(),
-                    dashboard.getFiltre(), dashboard.getTrie(),
+                    dashboard.getNumPage(), dashboard.getRowByPage(),
+                    dashboard.getFilter(), dashboard.getSort(),
                     dashboard.getDesc());
             model.addAttribute("page", page);
             request.getSession().setAttribute("page", page);

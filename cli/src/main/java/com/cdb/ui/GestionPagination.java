@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.cdb.model.dto.EntrepriseDto;
-import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.CompanyDto;
+import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
@@ -26,7 +26,7 @@ public class GestionPagination {
     private PageDto pageOrdinateur;
 
     /** The page entreprise. */
-    private List<EntrepriseDto> pageEntreprise;
+    private List<CompanyDto> pageEntreprise;
 
     private ApplicationContext context = new ClassPathXmlApplicationContext(
             "springConfig.xml");
@@ -84,7 +84,7 @@ public class GestionPagination {
                 pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(
                         numeroPage, ligneParPage, "", "", false);
 
-                if (pageOrdinateur.getContenue().isEmpty()) {
+                if (pageOrdinateur.getContent().isEmpty()) {
 
                     numeroPage--;
                     pageOrdinateur = gestionOrdinateur.findOrdinateurByPage(
@@ -161,7 +161,7 @@ public class GestionPagination {
 
         case 1:
 
-            for (OrdinateurDto ordinateur : pageOrdinateur.getContenue()) {
+            for (ComputerDto ordinateur : pageOrdinateur.getContent()) {
 
                 System.out.println(ordinateur);
 
@@ -171,7 +171,7 @@ public class GestionPagination {
 
         case 2:
 
-            for (EntrepriseDto entreprise : pageEntreprise) {
+            for (CompanyDto entreprise : pageEntreprise) {
 
                 System.out.println(entreprise);
 

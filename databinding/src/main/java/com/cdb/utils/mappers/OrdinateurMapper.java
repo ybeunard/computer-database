@@ -3,8 +3,8 @@ package com.cdb.utils.mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cdb.model.dto.OrdinateurDto;
-import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.dto.ComputerDto;
+import com.cdb.model.entities.Computer;
 import com.cdb.utils.Parse;
 
 /**
@@ -30,15 +30,15 @@ public class OrdinateurMapper {
      *            the ordinateur
      * @return the ordinateur
      */
-    public static Ordinateur recuperationOrdinateur(OrdinateurDto ordinateur) {
+    public static Computer recuperationOrdinateur(ComputerDto ordinateur) {
 
-        Ordinateur builder = new Ordinateur();
+        Computer builder = new Computer();
         builder.setId(ordinateur.getId());
         builder.setName(ordinateur.getName());
-        builder.setIntroduced(Parse.parseDate(ordinateur.getDateIntroduit()));
-        builder.setDiscontinued(Parse.parseDate(ordinateur.getDateInterrompu()));
-        builder.setFabricant(Parse.parseFactory(ordinateur.getIdFactory(),
-                ordinateur.getFactory()));
+        builder.setIntroduced(Parse.parseDate(ordinateur.getIntroduced()));
+        builder.setDiscontinued(Parse.parseDate(ordinateur.getDiscontinued()));
+        builder.setCompany(Parse.parseFactory(ordinateur.getIdCompany(),
+                ordinateur.getCompany()));
         return builder;
 
     }

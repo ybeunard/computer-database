@@ -9,13 +9,13 @@ public class DashboardDto {
     private final int numPage;
 
     /** The nb par page. */
-    private final int nbParPage;
+    private final int rowByPage;
 
     /** The filtre. */
-    private final String filtre;
+    private final String filter;
 
     /** The trie. */
-    private final String trie;
+    private final String sort;
 
     /** The desc. */
     private final Boolean desc;
@@ -29,9 +29,9 @@ public class DashboardDto {
     private DashboardDto(DashboardDtoBuilder builder) {
 
         this.numPage = builder.numPage;
-        this.nbParPage = builder.nbParPage;
-        this.filtre = builder.filtre;
-        this.trie = builder.trie;
+        this.rowByPage = builder.rowByPage;
+        this.filter = builder.filter;
+        this.sort = builder.sort;
         this.desc = builder.desc;
 
     }
@@ -42,7 +42,9 @@ public class DashboardDto {
      * @return the num page
      */
     public int getNumPage() {
+        
         return numPage;
+        
     }
 
     /**
@@ -50,8 +52,10 @@ public class DashboardDto {
      *
      * @return the nb par page
      */
-    public int getNbParPage() {
-        return nbParPage;
+    public int getRowByPage() {
+        
+        return rowByPage;
+        
     }
 
     /**
@@ -59,8 +63,10 @@ public class DashboardDto {
      *
      * @return the filtre
      */
-    public String getFiltre() {
-        return filtre;
+    public String getFilter() {
+        
+        return filter;
+        
     }
 
     /**
@@ -68,8 +74,10 @@ public class DashboardDto {
      *
      * @return the trie
      */
-    public String getTrie() {
-        return trie;
+    public String getSort() {
+        
+        return sort;
+        
     }
 
     /**
@@ -78,7 +86,9 @@ public class DashboardDto {
      * @return the desc
      */
     public Boolean getDesc() {
+        
         return desc;
+        
     }
 
     /**
@@ -90,13 +100,13 @@ public class DashboardDto {
         private int numPage;
 
         /** The nb par page. */
-        private int nbParPage;
+        private int rowByPage;
 
         /** The filtre. */
-        private String filtre;
+        private String filter;
 
         /** The trie. */
-        private String trie;
+        private String sort;
 
         /** The desc. */
         private Boolean desc;
@@ -122,9 +132,9 @@ public class DashboardDto {
          *            the nb par page
          * @return the dashboard dto builder
          */
-        public DashboardDtoBuilder nbParPage(int nbParPage) {
+        public DashboardDtoBuilder rowByPage(int rowByPage) {
 
-            this.nbParPage = nbParPage;
+            this.rowByPage = rowByPage;
             return this;
 
         }
@@ -136,9 +146,9 @@ public class DashboardDto {
          *            the filtre
          * @return the dashboard dto builder
          */
-        public DashboardDtoBuilder filtre(String filtre) {
+        public DashboardDtoBuilder filter(String filter) {
 
-            this.filtre = filtre;
+            this.filter = filter;
             return this;
 
         }
@@ -150,9 +160,9 @@ public class DashboardDto {
          *            the trie
          * @return the dashboard dto builder
          */
-        public DashboardDtoBuilder trie(String trie) {
+        public DashboardDtoBuilder sort(String sort) {
 
-            this.trie = trie;
+            this.sort = sort;
             return this;
 
         }
@@ -195,10 +205,10 @@ public class DashboardDto {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((desc == null) ? 0 : desc.hashCode());
-        result = prime * result + ((filtre == null) ? 0 : filtre.hashCode());
-        result = prime * result + nbParPage;
+        result = prime * result + ((filter == null) ? 0 : filter.hashCode());
+        result = prime * result + rowByPage;
         result = prime * result + numPage;
-        result = prime * result + ((trie == null) ? 0 : trie.hashCode());
+        result = prime * result + ((sort == null) ? 0 : sort.hashCode());
         return result;
 
     }
@@ -247,21 +257,21 @@ public class DashboardDto {
 
         }
 
-        if (filtre == null) {
+        if (filter == null) {
 
-            if (other.filtre != null) {
+            if (other.filter != null) {
 
                 return false;
 
             }
 
-        } else if (!filtre.equals(other.filtre)) {
+        } else if (!filter.equals(other.filter)) {
 
             return false;
 
         }
 
-        if (nbParPage != other.nbParPage) {
+        if (rowByPage != other.rowByPage) {
 
             return false;
 
@@ -273,15 +283,15 @@ public class DashboardDto {
 
         }
 
-        if (trie == null) {
+        if (sort == null) {
 
-            if (other.trie != null) {
+            if (other.sort != null) {
 
                 return false;
 
             }
 
-        } else if (!trie.equals(other.trie)) {
+        } else if (!sort.equals(other.sort)) {
 
             return false;
 
@@ -298,8 +308,8 @@ public class DashboardDto {
     @Override
     public String toString() {
 
-        return "DashboardDto [numPage=" + numPage + ", nbParPage=" + nbParPage
-                + ", filtre=" + filtre + ", trie=" + trie + ", desc=" + desc
+        return "DashboardDto [numPage=" + numPage + ", nbParPage=" + rowByPage
+                + ", filter=" + filter + ", sort=" + sort + ", desc=" + desc
                 + "]";
 
     }

@@ -1,6 +1,5 @@
 package com.cdb.model.entities;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -11,19 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * The Class Ordinateur.
- */
 @Entity
 @Table(name = "computer")
-public class Ordinateur implements Serializable {
+public class Computer {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
-    /** The id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -40,7 +30,7 @@ public class Ordinateur implements Serializable {
     /** The fabricant. */
     @ManyToOne
     @JoinColumn(name = "company_id")
-    private Entreprise fabricant;
+    private Company company;
 
     /**
      * Gets the id.
@@ -81,9 +71,9 @@ public class Ordinateur implements Serializable {
      *
      * @return the fabricant
      */
-    public Entreprise getFabricant() {
+    public Company getCompany() {
 
-        return fabricant;
+        return company;
 
     }
 
@@ -111,9 +101,9 @@ public class Ordinateur implements Serializable {
 
     }
 
-    public void setFabricant(Entreprise fabricant) {
+    public void setCompany(Company company) {
 
-        this.fabricant = fabricant;
+        this.company = company;
 
     }
 
@@ -132,7 +122,7 @@ public class Ordinateur implements Serializable {
         result = prime * result
                 + ((introduced == null) ? 0 : introduced.hashCode());
         result = prime * result
-                + ((fabricant == null) ? 0 : fabricant.hashCode());
+                + ((company == null) ? 0 : company.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
@@ -165,7 +155,7 @@ public class Ordinateur implements Serializable {
 
         }
 
-        Ordinateur other = (Ordinateur) obj;
+        Computer other = (Computer) obj;
 
         if (discontinued == null) {
 
@@ -193,15 +183,15 @@ public class Ordinateur implements Serializable {
             return false;
 
         }
-        if (fabricant == null) {
+        if (company == null) {
 
-            if (other.fabricant != null) {
+            if (other.company != null) {
 
                 return false;
 
             }
 
-        } else if (!fabricant.equals(other.fabricant)) {
+        } else if (!company.equals(other.company)) {
 
             return false;
 
@@ -241,9 +231,9 @@ public class Ordinateur implements Serializable {
         chaine += this.id + " : " + this.name + "\t" + this.introduced + "\t"
                 + this.discontinued + "\t";
 
-        if (this.fabricant != null) {
+        if (this.company != null) {
 
-            chaine += this.fabricant.getName();
+            chaine += this.company.getName();
 
         } else {
 
@@ -254,5 +244,5 @@ public class Ordinateur implements Serializable {
         return chaine;
 
     }
-
+    
 }

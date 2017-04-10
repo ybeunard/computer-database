@@ -1,8 +1,8 @@
 package com.cdb.services;
 
-import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
-import com.cdb.model.entities.Ordinateur;
+import com.cdb.model.entities.Computer;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface InterfaceGestionOrdinateur {
      * @throws DataAccessException
      *             the data access exception
      */
-    void createOrdinateur(Ordinateur ordinateur) throws DataAccessException;
+    void createOrdinateur(Computer ordinateur) throws DataAccessException;
 
     /**
      * Find ordinateur by page.
@@ -52,7 +52,7 @@ public interface InterfaceGestionOrdinateur {
      * @throws DataAccessException
      *             the data access exception
      */
-    void updateOrdinateur(Ordinateur ordinateur) throws DataAccessException;
+    void updateOrdinateur(Computer ordinateur) throws DataAccessException;
 
     /**
      * Suppression ordinateur.
@@ -73,6 +73,6 @@ public interface InterfaceGestionOrdinateur {
      * @throws DataAccessException
      *             the data access exception
      */
-    OrdinateurDto findOrdinateurById(long id) throws DataAccessException;
+    ComputerDto findOrdinateurById(long id) throws DataAccessException;
 
 }

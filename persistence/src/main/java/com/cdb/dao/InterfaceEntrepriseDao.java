@@ -3,7 +3,7 @@ package com.cdb.dao;
 import java.util.List;
 import java.util.Optional;
 
-import com.cdb.model.entities.Entreprise;
+import com.cdb.model.entities.Company;
 
 /**
  * The Interface InterfaceEntrepriseDao.
@@ -15,7 +15,7 @@ public interface InterfaceEntrepriseDao {
      *
      * @return the list
      */
-    List<Entreprise> findEntreprise();
+    List<Company> findEntreprise();
 
     /**
      * Find entreprise by ID.
@@ -24,6 +24,6 @@ public interface InterfaceEntrepriseDao {
      *            the index
      * @return the entreprise
      */
-    Optional<Entreprise> findEntrepriseByID(long index);
+    Optional<Company> findEntrepriseByID(long index);
 
 }

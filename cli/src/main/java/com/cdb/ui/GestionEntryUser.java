@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import com.cdb.model.dto.OrdinateurDto;
+import com.cdb.model.dto.ComputerDto;
 import com.cdb.services.Impl.GestionEntreprise;
 import com.cdb.services.Impl.GestionOrdinateur;
 
@@ -205,7 +205,7 @@ public class GestionEntryUser {
      */
     private static void affichageOrdinateur(String arg) {
 
-        OrdinateurDto ordinateur = null;
+        ComputerDto ordinateur = null;
 
         try {
 
@@ -340,7 +340,7 @@ public class GestionEntryUser {
 
         }
 
-        OrdinateurDto ordinateur = null;
+        ComputerDto ordinateur = null;
 
         try {
 
