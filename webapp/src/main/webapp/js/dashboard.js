@@ -65,7 +65,7 @@ $(function() {
 (function ( $ ) {
     $.fn.deleteSelected = function() {
         if (confirm("Are you sure you want to delete the selected computers?")) { 
-            $('#deleteForm input[name=selection]').setCheckboxValues('selection','cb');
+            $('#deleteForm input[name=listId]').setCheckboxValues('listId','cb');
             $('#deleteForm').submit();
         }
     };

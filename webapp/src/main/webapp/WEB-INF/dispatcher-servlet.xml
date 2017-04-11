@@ -13,6 +13,10 @@
    
    <context:annotation-config/>
    
+   <import resource="classpath:dispatcher-data.xml" />
+   <import resource="classpath:dispatcher-service.xml" />
+   <import resource="classpath:spring-security.xml" />
+   
    <context:component-scan base-package="com.cdb.controllers">
    </context:component-scan>
    

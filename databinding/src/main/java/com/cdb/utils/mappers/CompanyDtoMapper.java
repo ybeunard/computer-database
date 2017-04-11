@@ -55,7 +55,7 @@ public class CompanyDtoMapper {
      *            the company
      * @return the entreprise dto
      */
-    private static CompanyDto recoveryCompany(Company company) {
+    public static CompanyDto recoveryCompany(Company company) {
 
         CompanyDtoBuilder builder = new CompanyDto.CompanyDtoBuilder(
                 company.getId(), company.getName());

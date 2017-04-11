@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   
-  <display-name>computerDatabase</display-name>
+  <display-name>computerDatabaseWebApp</display-name>
  
   <welcome-file-list>
   	<welcome-file>/dashboard.htm</welcome-file>
@@ -28,10 +28,7 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-    	/WEB-INF/dispatcher-data.xml
-    	/WEB-INF/dispatcher-service.xml
     	/WEB-INF/dispatcher-servlet.xml
-    	/WEB-INF/spring-security.xml
    	</param-value>
   </context-param>
   

@@ -70,10 +70,10 @@ public class CompanyService implements InterfaceCompanyService {
      * @return the company
      */
     @Override
-    public Company findCompanyById(long id) {
+    public CompanyDto findCompanyById(long id) {
 
         LOGGER.info("Service: search company by id");
-        return companyDao.findCompanyByID(id);
+        return CompanyDtoMapper.recoveryCompany(companyDao.findCompanyByID(id));
 
     }
 
