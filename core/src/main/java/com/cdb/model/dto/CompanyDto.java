@@ -7,7 +7,10 @@ public class CompanyDto {
 
     /** The name. */
     private String name;
-    
+
+    /**
+     * Instantiates a new company dto.
+     */
     public CompanyDto() { }
 
     /**

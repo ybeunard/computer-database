@@ -31,13 +31,13 @@ public class Parse {
         if (entier != null && !entier.equals("")) {
 
             try {
-                
+
                 defaultValeur = Integer.parseInt(entier);
-                
+
             } catch (NumberFormatException e) {
-                
+
                 return defaultValeur;
-                
+
             }
 
         }
@@ -81,13 +81,13 @@ public class Parse {
         if (longEntier != null && !longEntier.equals("")) {
 
             try {
-                            
+
                 defaultValeur = Long.parseLong(longEntier);
-                
+
             } catch (NumberFormatException e) {
-                
+
                 return defaultValeur;
-                
+
             }
 
         }
@@ -132,8 +132,8 @@ public class Parse {
 
         if (entrepriseId > 0) {
 
-            return new Company.CompanyBuilder(entrepriseName)
-                            .id(entrepriseId).build();
+            return new Company.CompanyBuilder(entrepriseName).id(entrepriseId)
+                    .build();
 
         }
 

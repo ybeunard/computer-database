@@ -46,27 +46,35 @@ public class GestionPagination {
 
         numPage = 1;
         WebTarget target;
-        
+
         do {
 
             switch (typePage) {
 
             case "computer":
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage);
-                pageComputer = target.request().get().readEntity(new GenericType<List<ComputerDto>>() { });
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
+                        .path("computer/find").queryParam("numPage", numPage)
+                        .queryParam("rowByPage", rowByPage);
+                pageComputer = target.request().get()
+                        .readEntity(new GenericType<List<ComputerDto>>() {
+                        });
                 displayPage(typePage);
                 break;
 
             case "company":
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("company/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage);
-                pageCompany = target.request().get().readEntity(new GenericType<List<CompanyDto>>() { });
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
+                        .path("company/find").queryParam("numPage", numPage)
+                        .queryParam("rowByPage", rowByPage);
+                pageCompany = target.request().get()
+                        .readEntity(new GenericType<List<CompanyDto>>() {
+                        });
                 displayPage(typePage);
                 break;
 
             default:
-                
+
                 System.out.println("Type de page inconnu");
                 return;
 
@@ -81,32 +89,44 @@ public class GestionPagination {
      *
      * @param typePage
      *            indique si la page est une page entreprise ou ordinateur
+     * @param name
+     *            the name filter
      */
     public void pagingByName(String typePage, String name) {
 
         numPage = 1;
         WebTarget target;
-        
+
         do {
 
             switch (typePage) {
 
             case "computer":
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage).queryParam("name", name);
-                pageComputer = target.request().get().readEntity(new GenericType<List<ComputerDto>>() { });
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
+                        .path("computer/find").queryParam("numPage", numPage)
+                        .queryParam("rowByPage", rowByPage)
+                        .queryParam("name", name);
+                pageComputer = target.request().get()
+                        .readEntity(new GenericType<List<ComputerDto>>() {
+                        });
                 displayPage(typePage);
                 break;
 
             case "company":
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("company/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage).queryParam("name", name);
-                pageCompany = target.request().get().readEntity(new GenericType<List<CompanyDto>>() { });
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
+                        .path("company/find").queryParam("numPage", numPage)
+                        .queryParam("rowByPage", rowByPage)
+                        .queryParam("name", name);
+                pageCompany = target.request().get()
+                        .readEntity(new GenericType<List<CompanyDto>>() {
+                        });
                 displayPage(typePage);
                 break;
 
             default:
-                
+
                 System.out.println("Type de page inconnu");
                 return;
 
@@ -114,7 +134,7 @@ public class GestionPagination {
 
         } while (changePage());
 
-    }   
+    }
 
     /**
      * Changement page.
@@ -125,34 +145,34 @@ public class GestionPagination {
 
         String entry = UserInterpreter.SCANNER.nextLine();
 
-        switch(entry) {
-        
-            case "b":
-                
-                if (numPage > 1) {
+        switch (entry) {
 
-                    numPage--;
+        case "b":
 
-                }
+            if (numPage > 1) {
 
-                return true;
-                
-            case "n":
-                
-                numPage++;
-                return true;
-        
-            case "p":
-                
-                System.out.println("Entrez le nombre de ligne souhaité :");
-                entry = UserInterpreter.SCANNER.nextLine();
-                rowByPage = Parse.parseEntier(entry, 100);
-                return true;
-                
-            default:
-                
-                return false;
-        
+                numPage--;
+
+            }
+
+            return true;
+
+        case "n":
+
+            numPage++;
+            return true;
+
+        case "p":
+
+            System.out.println("Entrez le nombre de ligne souhaité :");
+            entry = UserInterpreter.SCANNER.nextLine();
+            rowByPage = Parse.parseEntier(entry, 100);
+            return true;
+
+        default:
+
+            return false;
+
         }
 
     }
@@ -194,8 +214,8 @@ public class GestionPagination {
 
         }
 
-        System.out.println(
-                "\npage numero : " + numPage + " , " + rowByPage + " ligne par page \nprecedent taper b\nsuivant taper n\nchanger le nombre de ligne par page taper p\nsortir taper n'importe qu'elle autres touches");
+        System.out.println("\npage numero : " + numPage + " , " + rowByPage
+                + " ligne par page \nprecedent taper b\nsuivant taper n\nchanger le nombre de ligne par page taper p\nsortir taper n'importe qu'elle autres touches");
 
     }
 

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys.ybeunard</groupId>
 	<artifactId>computerDatabase</artifactId>
-	<version>6.0.0-SNAPSHOT</version>
+	<version>7.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Computer Database</name>
 	<url>https://github.com/ybeunard/computer-database</url>
@@ -23,7 +23,7 @@
 
 		<!-- Config prop -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cdb.version>6.0.0-SNAPSHOT</cdb.version>
+		<cdb.version>7.0.0-SNAPSHOT</cdb.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>

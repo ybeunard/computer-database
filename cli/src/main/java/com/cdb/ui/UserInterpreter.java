@@ -12,9 +12,9 @@ public class UserInterpreter {
 
     /** The Constant sc. */
     public static final Scanner SCANNER = new Scanner(System.in);
-    
+
     public static final Client CLIENT = ClientBuilder.newClient();
-    
+
     public static final String BASE_URL = "http://localhost:8080/rest/";
 
     /**
@@ -29,7 +29,8 @@ public class UserInterpreter {
 
         do {
 
-            System.out.println("\nVeuillez saisir computer, company ou exit :\n");
+            System.out
+                    .println("\nVeuillez saisir computer, company ou exit :\n");
             entry = SCANNER.nextLine();
 
         } while (GestionEntryUser.lectureEntryUser(entry));

@@ -15,7 +15,7 @@ public interface InterfaceCompanyService {
      * @return the list
      */
     List<CompanyDto> findCompanies();
-    
+
     /**
      * Find ordinateur by page.
      *
@@ -27,7 +27,8 @@ public interface InterfaceCompanyService {
      *            the filter
      * @return the optional
      */
-    List<CompanyDto> findCompanyByPage(int numPage, int rowByPage, String filter);
+    List<CompanyDto> findCompanyByPage(int numPage, int rowByPage,
+            String filter);
 
     /**
      * Find entreprise by id.
@@ -37,7 +38,7 @@ public interface InterfaceCompanyService {
      * @return the optional
      */
     CompanyDto findCompanyById(long id);
-    
+
     /**
      * Suppression ordinateur.
      *

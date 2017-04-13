@@ -58,18 +58,18 @@ public class CompanyDtoMapper {
     public static CompanyDto recoveryCompany(Company company) {
 
         CompanyDtoBuilder builder;
-        
+
         if (company != null) {
-            
-        builder = new CompanyDto.CompanyDtoBuilder(
-                company.getId(), company.getName());
-        
+
+            builder = new CompanyDto.CompanyDtoBuilder(company.getId(),
+                    company.getName());
+
         } else {
-            
+
             builder = new CompanyDto.CompanyDtoBuilder(0, "");
-            
+
         }
-        
+
         return builder.build();
 
     }

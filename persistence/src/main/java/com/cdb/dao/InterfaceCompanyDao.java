@@ -14,7 +14,7 @@ public interface InterfaceCompanyDao {
      * @return the list
      */
     List<Company> findCompanies();
-    
+
     /**
      * Find ordinateur by page.
      *
@@ -47,7 +47,7 @@ public interface InterfaceCompanyDao {
      * @return the entreprise
      */
     Company findCompanyByID(long id);
-    
+
     /**
      * Suppression ordinateur.
      *

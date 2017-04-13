@@ -64,7 +64,7 @@ public class CompanyService implements InterfaceCompanyService {
     @Override
     public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage,
             String filter) {
-        
+
         List<Company> companies = new ArrayList<Company>();
         long nbComputer = 0;
         long pageMax = 1;
@@ -88,7 +88,7 @@ public class CompanyService implements InterfaceCompanyService {
         }
 
         return CompanyDtoMapper.recoveryListCompany(companies);
-        
+
     }
 
     /**
@@ -110,9 +110,9 @@ public class CompanyService implements InterfaceCompanyService {
     @Override
     public void deleteCompany(List<Long> id) {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
     /**
      * Page max.
      *

@@ -59,12 +59,11 @@ public class ComputerDtoMapper {
     public static ComputerDto recoveryComputerDto(Computer computer) {
 
         ComputerDtoBuilder builder;
-        
+
         if (computer != null) {
-            
-            builder = new ComputerDto.ComputerDtoBuilder(
-                    computer.getName());
-            
+
+            builder = new ComputerDto.ComputerDtoBuilder(computer.getName());
+
             builder.id(computer.getId());
 
             if (computer.getIntroduced() != null) {
@@ -85,13 +84,12 @@ public class ComputerDtoMapper {
                 builder.company(computer.getCompany().getName());
 
             }
-            
+
         } else {
-            
+
             builder = new ComputerDto.ComputerDtoBuilder("");
-            
+
         }
-        
 
         return builder.build();
 

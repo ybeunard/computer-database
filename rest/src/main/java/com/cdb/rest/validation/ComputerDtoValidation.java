@@ -9,13 +9,19 @@ import org.slf4j.LoggerFactory;
 import com.cdb.model.dto.ComputerDto;
 import com.cdb.utils.Parse;
 
-
 public class ComputerDtoValidation {
 
     /** The Constant logger. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(ComputerDtoValidation.class);
-    
+
+    /**
+     * Validate.
+     *
+     * @param target
+     *            the target
+     * @return the boolean
+     */
     public static Boolean validate(Object target) {
 
         LOGGER.info("Validation ComputerDTO");
@@ -64,11 +70,11 @@ public class ComputerDtoValidation {
             return false;
 
         }
-        
+
         return true;
 
     }
-    
+
     /**
      * Validation date.
      *
@@ -79,9 +85,9 @@ public class ComputerDtoValidation {
     private static boolean validationDate(String date) {
 
         if (date == null || date.equals("")) {
-    
+
             return true;
-    
+
         }
 
         if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -98,9 +104,9 @@ public class ComputerDtoValidation {
             }
 
         } else {
-            
+
             return false;
-            
+
         }
 
     }
@@ -116,8 +122,9 @@ public class ComputerDtoValidation {
      */
     private static boolean isValid(String introduced, String discontinued) {
 
-        if (introduced != null && discontinued != null && !introduced.equals("") && !discontinued.equals("")
-                && validationDate(introduced) && validationDate(discontinued)) {
+        if (introduced != null && discontinued != null && !introduced.equals("")
+                && !discontinued.equals("") && validationDate(introduced)
+                && validationDate(discontinued)) {
 
             LocalDate before = Parse.parseDate(introduced);
             LocalDate after = Parse.parseDate(discontinued);
@@ -135,5 +142,5 @@ public class ComputerDtoValidation {
         return true;
 
     }
-    
+
 }

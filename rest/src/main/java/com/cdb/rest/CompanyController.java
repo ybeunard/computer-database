@@ -44,54 +44,59 @@ public class CompanyController {
         LOGGER.info("CompanyController Instantiated");
 
     }
-    
+
     @RequestMapping("/find")
-    public List<CompanyDto> findCompany(@RequestParam(value="id", defaultValue="0") Long id, @RequestParam(value="name", defaultValue="") String name, @RequestParam(value="numPage", defaultValue="0") int numPage, @RequestParam(value="rowByPage", defaultValue="0") int rowByPage) {
-        
+    public List<CompanyDto> findCompany(
+            @RequestParam(value = "id", defaultValue = "0") Long id,
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "numPage", defaultValue = "0") int numPage,
+            @RequestParam(value = "rowByPage", defaultValue = "0") int rowByPage) {
+
         LOGGER.info("WebService: find company");
 
         List<CompanyDto> companies = new ArrayList<CompanyDto>();
-        
-        if (id>0) {
-            
+
+        if (id > 0) {
+
             CompanyDto company = companyService.findCompanyById(id);
-            
+
             if (company.getId() != 0) {
-                
+
                 companies.add(company);
-                
+
             }
-            
+
             return companies;
-            
+
         }
-        
+
         if (numPage != 0 && rowByPage != 0) {
-            
+
             return companyService.findCompanyByPage(numPage, rowByPage, name);
-            
+
         }
-        
+
         return companyService.findCompanies();
-        
+
     }
-    
+
     @RequestMapping("/delete")
-    public String deleteCompany(@RequestParam(value="id", defaultValue="0") Long id) {
-        
+    public String deleteCompany(
+            @RequestParam(value = "id", defaultValue = "0") Long id) {
+
         LOGGER.info("WebService: delete company");
-        
-        if (id>0) {
-            
+
+        if (id > 0) {
+
             List<Long> ids = new ArrayList<Long>();
             ids.add(id);
             companyService.deleteCompany(ids);
             return "Suppression Effectué";
-            
+
         }
-        
+
         return "Suppression Impossible sans ID";
-        
+
     }
-    
+
 }

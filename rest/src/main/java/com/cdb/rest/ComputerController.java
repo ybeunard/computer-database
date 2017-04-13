@@ -48,204 +48,222 @@ public class ComputerController {
         LOGGER.info("ComputerController Instantiated");
 
     }
-    
+
     @RequestMapping("/find")
-    public List<ComputerDto> findComputer(@RequestParam(value="id", defaultValue="") String idStr, @RequestParam(value="name", defaultValue="") String name, @RequestParam(value="numPage", defaultValue="") String numPageStr, @RequestParam(value="rowByPage", defaultValue="") String rowByPageStr) {
-        
+    public List<ComputerDto> findComputer(
+            @RequestParam(value = "id", defaultValue = "") String idStr,
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "numPage", defaultValue = "") String numPageStr,
+            @RequestParam(value = "rowByPage", defaultValue = "") String rowByPageStr) {
+
         LOGGER.info("WebService: find computer");
         List<ComputerDto> computers = new ArrayList<ComputerDto>();
-        
+
         if (!idStr.equals("")) {
-            
+
             Long id = Parse.parseLong(idStr, 0);
-            
+
             if (id == 0) {
-                
+
                 return computers;
-                
+
             }
 
             ComputerDto computer = computerService.findComputerById(id);
 
             if (computer.getId() != 0) {
-                
+
                 computers.add(computer);
-                
+
             }
             return computers;
-            
+
         }
-        
+
         if (!numPageStr.equals("") && !rowByPageStr.equals("")) {
-            
+
             int numPage = Parse.parseEntier(numPageStr, 1);
             int rowByPage = Parse.parseEntier(rowByPageStr, 100);
-            return computerService.findComputerByPage(numPage, rowByPage, name, "", false).getContent();
-            
+            return computerService
+                    .findComputerByPage(numPage, rowByPage, name, "", false)
+                    .getContent();
+
         }
-        
+
         return computers;
 
     }
-    
+
     @RequestMapping("/create")
-    public String createComputer(@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="introduced", defaultValue="") String introduced, @RequestParam(value="discontinued", defaultValue="") String discontinued, @RequestParam(value="idCompany", defaultValue="") String idCompanyStr) {
-        
+    public String createComputer(
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "introduced", defaultValue = "") String introduced,
+            @RequestParam(value = "discontinued", defaultValue = "") String discontinued,
+            @RequestParam(value = "idCompany", defaultValue = "") String idCompanyStr) {
+
         LOGGER.info("WebService: create computer");
-        
-        if(name.equals("")) {
-            
+
+        if (name.equals("")) {
+
             return "Le champ name est obligatoire";
-            
+
         }
-        
+
         ComputerDtoBuilder builder = new ComputerDto.ComputerDtoBuilder(name);
-        
-        if(!introduced.equals("")) {
-            
+
+        if (!introduced.equals("")) {
+
             builder.introduced(introduced);
-            
+
         }
-        
-        if(!discontinued.equals("")) {
-            
+
+        if (!discontinued.equals("")) {
+
             builder.discontinued(discontinued);
-            
+
         }
-        
-        if(!idCompanyStr.equals("")) {
-            
+
+        if (!idCompanyStr.equals("")) {
+
             Long idCompany = Parse.parseLong(idCompanyStr, 0);
-            
+
             if (idCompany == 0) {
-                
+
                 return "L'id de company doit être un nombre entier";
-                
+
             }
-            
+
             builder.idCompany(idCompany);
-            
+
         }
-        
+
         ComputerDto computerDto = builder.build();
-        
+
         if (ComputerDtoValidation.validate(computerDto)) {
-        
-            computerService.createComputer(ComputerMapper.recoveryComputer(computerDto));
+
+            computerService.createComputer(
+                    ComputerMapper.recoveryComputer(computerDto));
             return "Creation effectuée";
-            
+
         } else {
-            
+
             return "L'un des arguments donnée est incorrecte";
-            
+
         }
-        
+
     }
-    
+
     @RequestMapping("/update")
-    public String updateComputer(@RequestParam(value="id", defaultValue="") String idStr, @RequestParam(value="name", defaultValue="") String name, @RequestParam(value="introduced", defaultValue="") String introduced, @RequestParam(value="discontinued", defaultValue="") String discontinued, @RequestParam(value="idCompany", defaultValue="") String idCompanyStr) {
-        
+    public String updateComputer(
+            @RequestParam(value = "id", defaultValue = "") String idStr,
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "introduced", defaultValue = "") String introduced,
+            @RequestParam(value = "discontinued", defaultValue = "") String discontinued,
+            @RequestParam(value = "idCompany", defaultValue = "") String idCompanyStr) {
+
         LOGGER.info("WebService: update computer");
-            
+
         Long id = Parse.parseLong(idStr, 0);
-            
+
         if (id == 0) {
-            
+
             return "L'id de computer doit être un entier";
-            
+
         }
-        
+
         ComputerDto computer = computerService.findComputerById(id);
-        
+
         if (computer.getName().equals("")) {
-            
+
             return "Computer inexistant, id incorrecte";
-            
+
         }
-        
+
         ComputerDtoBuilder builder;
-        
-        if(name.equals("")) {
-            
+
+        if (name.equals("")) {
+
             builder = new ComputerDto.ComputerDtoBuilder(computer.getName());
-            
+
         } else {
-            
+
             builder = new ComputerDto.ComputerDtoBuilder(name);
-            
+
         }
-        
-        if(!introduced.equals("")) {
-            
+
+        if (!introduced.equals("")) {
+
             builder.introduced(introduced);
-            
+
         } else {
-            
+
             builder.introduced(computer.getIntroduced());
-            
+
         }
-        
-        if(!discontinued.equals("")) {
-            
+
+        if (!discontinued.equals("")) {
+
             builder.discontinued(discontinued);
-            
+
         } else {
-            
+
             builder.discontinued(computer.getDiscontinued());
-            
+
         }
-        
-        if(!idCompanyStr.equals("")) {
-            
+
+        if (!idCompanyStr.equals("")) {
+
             Long idCompany = Parse.parseLong(idCompanyStr, 0);
-            
+
             if (idCompany == 0) {
-                
+
                 return "L'id de company doit être un nombre entier";
-                
+
             }
-            
+
             builder.idCompany(idCompany);
-            
+
         } else {
-            
+
             builder.idCompany(computer.getIdCompany());
-            
+
         }
-        
+
         builder.id(computer.getId());
         ComputerDto computerDto = builder.build();
 
         if (ComputerDtoValidation.validate(computerDto)) {
-        
-            computerService.updateComputer(ComputerMapper.recoveryComputer(computerDto));
+
+            computerService.updateComputer(
+                    ComputerMapper.recoveryComputer(computerDto));
             return "Update effectuée";
-            
+
         } else {
-            
+
             return "L'un des arguments donnée est incorrecte";
-            
+
         }
-        
+
     }
-    
+
     @RequestMapping("/delete")
-    public String deleteComputer(@RequestParam(value="id", defaultValue="") String idStr) {
-        
+    public String deleteComputer(
+            @RequestParam(value = "id", defaultValue = "") String idStr) {
+
         LOGGER.info("WebService: delete computer");
         List<Long> ids = new ArrayList<Long>();
         Long id = Parse.parseLong(idStr, 0);
-            
+
         if (id == 0) {
-            
+
             return "L'id de computer doit être un entier";
-            
+
         }
-        
+
         ids.add(id);
         computerService.deleteComputer(ids);
         return "delete effectué";
-        
+
     }
-    
+
 }

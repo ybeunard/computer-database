@@ -16,7 +16,6 @@ import com.cdb.model.entities.QComputer;
 import com.querydsl.jpa.hibernate.HibernateQuery;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ComputerDao.
  */
@@ -86,11 +85,11 @@ public class ComputerDao implements InterfaceComputerDao {
             return computers;
 
         }
-        
+
         if (limit <= 0) {
-            
+
             return computers;
-            
+
         }
 
         HibernateQuery<Computer> query = new HibernateQueryFactory(
