@@ -206,7 +206,7 @@ public class ComputerDto {
 
         /** The id factory. */
         private long idCompany;
-
+        
         /**
          * Instantiates a new ordinateur DTO builder.
          *

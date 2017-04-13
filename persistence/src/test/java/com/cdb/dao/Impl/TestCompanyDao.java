@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
-import org.dbunit.DBTestCase;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
@@ -17,7 +16,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.cdb.model.entities.Company;
 
-public class TestEntrepriseDao extends DBTestCase {
+import junit.framework.TestCase;
+
+public class TestCompanyDao extends TestCase {
 
     private ApplicationContext context;
 
@@ -34,8 +35,10 @@ public class TestEntrepriseDao extends DBTestCase {
         context = new ClassPathXmlApplicationContext("dispatcher-data.xml");
         dao = (CompanyDao) context.getBean("companyDao");
         ;
-        IDataSet dataSet = getDataSet();
-        cleanlyInsertDataset(dataSet);
+        IDataSet dataSet1 = readDataSet1();
+        IDataSet dataSet2 = readDataSet2();
+        cleanlyInsertDataset(dataSet1);
+        cleanlyInsertDataset(dataSet2);
 
     }
 
@@ -59,11 +62,17 @@ public class TestEntrepriseDao extends DBTestCase {
 
     }
 
-    @Override
-    protected IDataSet getDataSet() throws Exception {
+    private IDataSet readDataSet2() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
-                new File("src/test/resources/dataTestEntrepriseDao.xml"));
+                new File("src/test/resources/dataTestComputerDao.xml"));
+
+    }
+
+    private IDataSet readDataSet1() throws Exception {
+
+        return new FlatXmlDataSetBuilder().build(
+                new File("src/test/resources/dataTestCompanyDao.xml"));
 
     }
 
@@ -110,5 +119,14 @@ public class TestEntrepriseDao extends DBTestCase {
         assertEquals(entreprise.getId(), 22);
 
     }
-
+    
+    @Test
+    public void testDeleteCompany(){
+        
+        dao.deleteCompany(18);
+        Company company = dao.findCompanyByID(18);
+        assertEquals(company, null);
+        
+    }
+    
 }

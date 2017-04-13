@@ -2,14 +2,12 @@ package com.cdb.ui;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 
 import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.dto.ComputerDto;
-import com.cdb.model.dto.PageDto;
-import com.cdb.services.Impl.CompanyService;
-import com.cdb.services.Impl.ComputerService;
+import com.cdb.utils.Parse;
 
 /**
  * The Class GestionPagination.
@@ -17,53 +15,24 @@ import com.cdb.services.Impl.ComputerService;
 public class GestionPagination {
 
     /** The numero page. */
-    private int numeroPage;
+    private int numPage;
 
     /** The ligne par page. */
-    private int ligneParPage;
+    private int rowByPage;
 
     /** The page ordinateur. */
-    private PageDto pageOrdinateur;
+    private List<ComputerDto> pageComputer;
 
     /** The page entreprise. */
-    private List<CompanyDto> pageEntreprise;
-
-    private ApplicationContext context = new ClassPathXmlApplicationContext(
-            "springConfig.xml");
-    private ComputerService computerService = (ComputerService) context
-            .getBean("ComputerService");
-    private CompanyService companyService = (CompanyService) context
-            .getBean("CompanyService");
+    private List<CompanyDto> pageCompany;
 
     /**
      * Instantiates a new gestion pagination.
      */
     public GestionPagination() {
 
-        this.numeroPage = 1;
-        this.ligneParPage = 100;
-
-    }
-
-    /**
-     * Instantiates a new gestion pagination.
-     *
-     * @param ligneParPage
-     *            the ligne par page
-     */
-    public GestionPagination(int ligneParPage) {
-
-        this.numeroPage = 1;
-
-        if (ligneParPage > 0) {
-
-            this.ligneParPage = ligneParPage;
-
-        } else {
-
-            this.ligneParPage = 100;
-
-        }
+        this.numPage = 1;
+        this.rowByPage = 100;
 
     }
 
@@ -73,79 +42,118 @@ public class GestionPagination {
      * @param typePage
      *            indique si la page est une page entreprise ou ordinateur
      */
-    public void pagination(int typePage) {
+    public void paging(String typePage) {
 
+        numPage = 1;
+        WebTarget target;
+        
         do {
 
             switch (typePage) {
 
-            case 1:
+            case "computer":
 
-                pageOrdinateur = computerService.findComputerByPage(
-                        numeroPage, ligneParPage, "", "", false);
-
-                if (pageOrdinateur.getContent().isEmpty()) {
-
-                    numeroPage--;
-                    pageOrdinateur = computerService.findComputerByPage(
-                            numeroPage, ligneParPage, "", "", false);
-
-                }
-
-                affichagePage(typePage);
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage);
+                pageComputer = target.request().get().readEntity(new GenericType<List<ComputerDto>>() { });
+                displayPage(typePage);
                 break;
 
-            case 2:
+            case "company":
 
-                pageEntreprise = companyService.findCompanies();
-
-                if (pageEntreprise.isEmpty()) {
-
-                    numeroPage--;
-                    pageEntreprise = companyService.findCompanies();
-
-                }
-
-                affichagePage(typePage);
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("company/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage);
+                pageCompany = target.request().get().readEntity(new GenericType<List<CompanyDto>>() { });
+                displayPage(typePage);
                 break;
 
             default:
+                
                 System.out.println("Type de page inconnu");
                 return;
 
             }
 
-        } while (changementPage());
+        } while (changePage());
 
     }
+
+    /**
+     * Pagination.
+     *
+     * @param typePage
+     *            indique si la page est une page entreprise ou ordinateur
+     */
+    public void pagingByName(String typePage, String name) {
+
+        numPage = 1;
+        WebTarget target;
+        
+        do {
+
+            switch (typePage) {
+
+            case "computer":
+
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage).queryParam("name", name);
+                pageComputer = target.request().get().readEntity(new GenericType<List<ComputerDto>>() { });
+                displayPage(typePage);
+                break;
+
+            case "company":
+
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("company/find").queryParam("numPage", numPage).queryParam("rowByPage", rowByPage).queryParam("name", name);
+                pageCompany = target.request().get().readEntity(new GenericType<List<CompanyDto>>() { });
+                displayPage(typePage);
+                break;
+
+            default:
+                
+                System.out.println("Type de page inconnu");
+                return;
+
+            }
+
+        } while (changePage());
+
+    }   
 
     /**
      * Changement page.
      *
      * @return true, if successful
      */
-    private boolean changementPage() {
+    private boolean changePage() {
 
-        String arg = UserInterpreter.SCANNER.nextLine();
+        String entry = UserInterpreter.SCANNER.nextLine();
 
-        if (arg == "b") {
+        switch(entry) {
+        
+            case "b":
+                
+                if (numPage > 1) {
 
-            if (numeroPage > 1) {
+                    numPage--;
 
-                numeroPage--;
+                }
 
-            }
-
-            return true;
-
-        } else if (arg == "n") {
-
-            numeroPage++;
-            return true;
-
+                return true;
+                
+            case "n":
+                
+                numPage++;
+                return true;
+        
+            case "p":
+                
+                System.out.println("Entrez le nombre de ligne souhaité :");
+                entry = UserInterpreter.SCANNER.nextLine();
+                rowByPage = Parse.parseEntier(entry, 100);
+                return true;
+                
+            default:
+                
+                return false;
+        
         }
-
-        return false;
 
     }
 
@@ -155,13 +163,13 @@ public class GestionPagination {
      * @param typePage
      *            the type page
      */
-    private void affichagePage(int typePage) {
+    private void displayPage(String typePage) {
 
         switch (typePage) {
 
-        case 1:
+        case "computer":
 
-            for (ComputerDto ordinateur : pageOrdinateur.getContent()) {
+            for (ComputerDto ordinateur : pageComputer) {
 
                 System.out.println(ordinateur);
 
@@ -169,9 +177,9 @@ public class GestionPagination {
 
             break;
 
-        case 2:
+        case "company":
 
-            for (CompanyDto entreprise : pageEntreprise) {
+            for (CompanyDto entreprise : pageCompany) {
 
                 System.out.println(entreprise);
 
@@ -187,7 +195,7 @@ public class GestionPagination {
         }
 
         System.out.println(
-                "PRECEDENT taper b\tNEXT taper n\tEXIT taper n'importe qu'elle touche");
+                "\npage numero : " + numPage + " , " + rowByPage + " ligne par page \nprecedent taper b\nsuivant taper n\nchanger le nombre de ligne par page taper p\nsortir taper n'importe qu'elle autres touches");
 
     }
 

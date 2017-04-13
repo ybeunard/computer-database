@@ -63,10 +63,15 @@
 		<commons.lang>2.6</commons.lang>
 		<xml.apis>1.4.01</xml.apis>
 		<taglib>1.1.2</taglib>
+		<glassfish.jersey.client>2.22.1</glassfish.jersey.client>
 		
 		<!-- JSON prop -->
 		<jackson.mapper>1.9.13</jackson.mapper>
 		<jackson.databind>2.8.7</jackson.databind>
+		<jackson.json.provider>2.8.7</jackson.json.provider>
+		<jackson.media.json>2.22</jackson.media.json>
+		<jackson.annotations>2.8.7</jackson.annotations>
+		<jackson.datatype>2.8.7</jackson.datatype>
 
 	</properties>
 	<build>
@@ -264,6 +269,12 @@
 				<artifactId>standard</artifactId>
 				<version>${taglib}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>${glassfish.jersey.client}</version>
+			</dependency>
 
 			<!-- Spring -->
 
@@ -351,6 +362,30 @@
 			    <groupId>com.fasterxml.jackson.core</groupId>
 			    <artifactId>jackson-databind</artifactId>
 			    <version>${jackson.databind}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+			    <artifactId>jackson-jaxrs-json-provider</artifactId>
+			    <version>${jackson.json.provider}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.glassfish.jersey.media</groupId>
+			    <artifactId>jersey-media-json-jackson</artifactId>
+			    <version>${jackson.media.json}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.fasterxml.jackson.core</groupId>
+			    <artifactId>jackson-annotations</artifactId>
+			    <version>${jackson.annotations}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.fasterxml.jackson.datatype</groupId>
+			    <artifactId>jackson-datatype-jsr310</artifactId>
+			    <version>${jackson.datatype}</version>
 			</dependency>
 
 		</dependencies>

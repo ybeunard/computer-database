@@ -13,7 +13,6 @@ import com.cdb.model.entities.Company;
 import com.cdb.model.entities.QCompany;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CompanyDao.
  */
@@ -67,6 +66,50 @@ public class CompanyDao implements InterfaceCompanyDao {
 
     }
 
+    @Override
+    public List<Company> findCompanyByPage(int numPage, int rowByPage) {
+        
+        LOGGER.info("Dao: search page of company");
+        List<Company> companies = new ArrayList<Company>();
+        int limit = rowByPage;
+        int offset = (numPage - 1) * rowByPage;
+
+        if (offset < 0) {
+
+            return companies;
+
+        }
+
+        companies = new HibernateQueryFactory(
+                sessionFactory.openSession()).select(qCompany).from(qCompany)
+                        .limit(limit).offset(offset).fetch();
+        return companies;
+        
+    }
+
+    @Override
+    public List<Company> findCompanyByName(int numPage, int rowByPage,
+            String name) {
+        
+        LOGGER.info("Dao: search page of company sorted by name");
+        List<Company> companies = new ArrayList<Company>();
+        int limit = rowByPage;
+        int offset = (numPage - 1) * rowByPage;
+
+        if (offset < 0) {
+
+            return companies;
+
+        }
+
+        companies = new HibernateQueryFactory(
+                sessionFactory.openSession()).select(qCompany).from(qCompany).limit(limit)
+                        .offset(offset).where(qCompany.name.like("%" + name + "%"))
+                .fetch();
+        return companies;
+        
+    }
+
     /**
      * Find company by ID.
      *
@@ -80,10 +123,46 @@ public class CompanyDao implements InterfaceCompanyDao {
         LOGGER.info("Dao: search company by id");
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        Company company = query.select(qCompany).from(qCompany)
+        return query.select(qCompany).from(qCompany)
                 .where(qCompany.id.eq(id)).fetchOne();
-        return company;
 
+    }
+
+    @Override
+    public void deleteCompany(long id) {
+        
+        LOGGER.info("Dao: delete company");
+        LOGGER.debug("" + id);
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        query.delete(qCompany).where(qCompany.id.eq(id)).execute();
+        LOGGER.info("Dao: delete company succeed");
+        
+    }
+
+    @Override
+    public long countCompany() {
+        
+        LOGGER.info("Dao: count company");
+        long count = 0;
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        count = query.from(qCompany).fetchCount();
+        return count;
+        
+    }
+
+    @Override
+    public long countCompanyByName(String filter) {
+        
+        LOGGER.info("Dao: count company sorted by name");
+        long count = 0;
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        count = query.from(qCompany).where(qCompany.name.like("%" + filter + "%"))
+                .fetchCount();
+        return count;
+        
     }
 
 }

@@ -14,6 +14,7 @@ import com.cdb.model.dto.CompanyDto;
 import com.cdb.services.Impl.CompanyService;
 
 @RestController
+@RequestMapping("/company")
 public class CompanyController {
 
     /** The Constant LOGGER. */
@@ -44,24 +45,52 @@ public class CompanyController {
 
     }
     
-    @RequestMapping("/company")
-    public List<CompanyDto> findCompany(@RequestParam(value="id", defaultValue="0") Long id) {
+    @RequestMapping("/find")
+    public List<CompanyDto> findCompany(@RequestParam(value="id", defaultValue="0") Long id, @RequestParam(value="name", defaultValue="") String name, @RequestParam(value="numPage", defaultValue="0") int numPage, @RequestParam(value="rowByPage", defaultValue="0") int rowByPage) {
         
         LOGGER.info("WebService: find company");
 
         List<CompanyDto> companies = new ArrayList<CompanyDto>();
         
-        if (id<=0) {
+        if (id>0) {
             
-            companies = companyService.findCompanies();
+            CompanyDto company = companyService.findCompanyById(id);
             
-        } else {
+            if (company.getId() != 0) {
+                
+                companies.add(company);
+                
+            }
             
-            companies.add(companyService.findCompanyById(id));
+            return companies;
             
         }
         
-        return companies;
+        if (numPage != 0 && rowByPage != 0) {
+            
+            return companyService.findCompanyByPage(numPage, rowByPage, name);
+            
+        }
+        
+        return companyService.findCompanies();
+        
+    }
+    
+    @RequestMapping("/delete")
+    public String deleteCompany(@RequestParam(value="id", defaultValue="0") Long id) {
+        
+        LOGGER.info("WebService: delete company");
+        
+        if (id>0) {
+            
+            List<Long> ids = new ArrayList<Long>();
+            ids.add(id);
+            companyService.deleteCompany(ids);
+            return "Suppression Effectué";
+            
+        }
+        
+        return "Suppression Impossible sans ID";
         
     }
     

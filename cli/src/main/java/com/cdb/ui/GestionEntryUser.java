@@ -1,200 +1,201 @@
 package com.cdb.ui;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
+import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.dto.ComputerDto;
-import com.cdb.services.Impl.CompanyService;
-import com.cdb.services.Impl.ComputerService;
 
 /**
  * The Class GestionEntryUser.
  */
 public class GestionEntryUser {
-
-    /** The prop. */
-    private static Properties prop = new Properties();
-
-    private static ApplicationContext context = new ClassPathXmlApplicationContext(
-            "springConfig.xml");
-    private static ComputerService computerService = (ComputerService) context
-            .getBean("ComputerService");
-    private static CompanyService companyService = (CompanyService) context
-            .getBean("CompanyService");
-
-    static {
-
-        File fProp = new File(
-                "/home/excilys/eclipse_workspace/computerDatabase/src/main/resources/error_message_client.properties");
-
-        FileInputStream stream = null;
-
-        try {
-
-            stream = new FileInputStream(fProp);
-            prop.load(stream);
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
-
-    }
+    
+    private final static GestionPagination PAGING = new GestionPagination();
 
     /**
      * Lecture entry user.
      *
-     * @param arg
-     *            the arg
+     * @param entry
+     *            the entry
      * @return true, if successful
      */
-    public static boolean lectureEntryUser(String arg) {
+    public static boolean lectureEntryUser(String entry) {
 
-        String[] splitArray = arg.split(" ", 2);
+        switch (entry) {
+        
+            case "company":
+                
+                do {
+                    
+                    System.out.println("\nVeuillez saisir l'option list, search, delete ou exit :\n");
+                    entry = UserInterpreter.SCANNER.nextLine();
 
-        if (splitArray[0] == "list") {
+                } while (lectureEntryCompany(entry));
+                
+                break;
+                
+            case "computer":
+                
+                do {
+                    
+                    System.out.println("\nVeuillez saisir l'option list, search, create, update, delete ou exit :\n");
+                    entry = UserInterpreter.SCANNER.nextLine();
 
-            if (splitArray.length != 2) {
+                } while (lectureEntryComputer(entry));
 
-                System.out.println(prop.getProperty("nombre_arg"));
-                return true;
-
-            }
-
-            affichageListe(splitArray[1]);
-
-        } else if (splitArray[0] == "affiche") {
-
-            if (splitArray.length != 2) {
-
-                System.out.println(prop.getProperty("nombre_arg"));
-                return true;
-
-            }
-
-            affichageOrdinateur(splitArray[1]);
-
-        } else if (splitArray[0] == "create") {
-
-            if (splitArray.length != 2) {
-
-                System.out.println(prop.getProperty("nombre_arg"));
-                return true;
-
-            }
-
-            //createOrdinateur(splitArray[1]);
-
-        } else if (splitArray[0] == "update") {
-
-            if (splitArray.length != 2) {
-
-                System.out.println(prop.getProperty("nombre_arg"));
-                return true;
-
-            }
-
-            updateOrdinateur(splitArray[1]);
-
-        } else if (splitArray[0] == "delete") {
-
-            if (splitArray.length != 2) {
-
-                System.out.println(prop.getProperty("nombre_arg"));
-                return true;
-
-            }
-
-            deleteOrdinateur(splitArray[1]);
-
-        } else if (splitArray[0] == "help") {
-
-            if (splitArray.length == 2) {
-
-                help(splitArray[1]);
-
-            } else if (splitArray.length == 1) {
-
-                System.out.println(
-                        "Liste des commande :\nlist\naffiche\ncreate\nupdate\ndelete\nhelp\nexit\nPour une description détaillé de chaque commande taper: help [commande]");
-
-            } else {
-
-                System.out.println(prop.getProperty("nombre_arg"));
-
-            }
-
-        } else if (splitArray[0] == "exit") {
-
-            return false;
-
-        } else {
-
-            System.out.println(
-                    splitArray[0] + prop.getProperty("command_incorrect"));
-
+                break;
+                
+            case "exit":
+                
+                return false;
+        
+            default:
+                
+                System.out.println("command_incorrect");
+                
         }
 
         return true;
+        
+    }
+    
+    private static boolean lectureEntryCompany(String entry) {
+        
+        switch (entry) {
+        
+            case "list":
+                
+                PAGING.paging("company");
+                break;
+                
+            case "search":
+                
+                System.out.println("\nVeuillez saisir l'option id ou name :\n");
+                entry = UserInterpreter.SCANNER.nextLine();
+                lectureEntryCompanySearch(entry);
+                break;
+                
+            case "delete":
+                
+                System.out.println("Entrez l'Id de la company recherchée :");
+                entry = UserInterpreter.SCANNER.nextLine();
+                delete("company", entry);
+                break;
+                
+            case "exit":
+                
+                return false;
+                
+            default:
+                
+                System.out.println("command_incorrect");
 
+        }
+        
+        return true;
+        
     }
 
-    /**
-     * Affichage liste.
-     *
-     * @param arg
-     *            the arg
-     */
-    private static void affichageListe(String arg) {
-
-        String[] argArray = arg.split(" ");
-
-        GestionPagination pagination;
-
-        if (argArray.length == 2) {
-
-            try {
-
-                pagination = new GestionPagination(
-                        Integer.parseInt(argArray[1]));
-
-            } catch (NumberFormatException e) {
-
-                System.out.println(prop.getProperty("pagination"));
-                return;
-
-            }
-
-        } else {
-
-            pagination = new GestionPagination();
+    private static void lectureEntryCompanySearch(String entry) {
+        
+        switch (entry) {
+        
+            case "id":
+            
+                System.out.println("Entrez l'Id de la company recherchée :");
+                entry = UserInterpreter.SCANNER.nextLine();
+                displayById("company", entry);
+                break;
+            
+            case "name":
+            
+                System.out.println("Entrez le nom de la company recherchée :");
+                entry = UserInterpreter.SCANNER.nextLine();
+                displayByName("company", entry);
+                break;
+            
+            default:
+            
+                System.out.println("command_incorrect");
+            
+        }
+        
+    }
+    
+    private static boolean lectureEntryComputer(String entry) {
+        
+        switch (entry) {
+        
+            case "list":
+                
+                PAGING.paging("computer");
+                break;
+                
+            case "search":
+                
+                System.out.println("\nVeuillez saisir l'option id ou name :\n");
+                entry = UserInterpreter.SCANNER.nextLine();
+                lectureEntryComputerSearch(entry);
+                break;
+                
+            case "create":
+                
+                createComputer();
+                break;
+                
+            case "update":
+                
+                updateComputer();
+                break;
+                
+            case "delete":
+                
+                System.out.println("Entrez l'Id de la company recherchée :");
+                entry = UserInterpreter.SCANNER.nextLine();
+                delete("computer", entry);
+                break;
+                
+            case "exit":
+                
+                return false;
+                
+            default:
+                
+                System.out.println("command_incorrect");
 
         }
-
-        if (argArray[0] == "company") {
-
-            pagination.pagination(2);
-
-        } else if (argArray[0] == "computer") {
-
-            pagination.pagination(1);
-
-        } else {
-
-            System.out.println(
-                    argArray[0] + prop.getProperty("argument_incorrect"));
-
+        
+        return true;
+        
+    }
+    
+    private static void lectureEntryComputerSearch(String entry) {
+        
+        switch (entry) {
+        
+            case "id":
+            
+                System.out.println("Entrez l'Id du computer recherchée :");
+                entry = UserInterpreter.SCANNER.nextLine();
+                displayById("computer", entry);
+                break;
+            
+            case "name":
+            
+                System.out.println("Entrez le nom du computer recherchée :");
+                entry = UserInterpreter.SCANNER.nextLine();
+                displayByName("computer", entry);
+                break;
+            
+            default:
+            
+                System.out.println("command_incorrect");
+            
         }
-
+        
     }
 
     /**
@@ -203,23 +204,71 @@ public class GestionEntryUser {
      * @param arg
      *            the arg
      */
-    private static void affichageOrdinateur(String arg) {
+    private static void displayById(String type, String id) {
 
-        ComputerDto ordinateur = null;
-
-        try {
-
-            long id = Long.parseLong(arg);
-            ordinateur = computerService.findComputerById(id);
-
-        } catch (NumberFormatException e) {
-
-            System.out.println(prop.getProperty("id_incorrect"));
-            return;
-
+        WebTarget target;
+        
+        switch (type) {
+        
+            case "company":
+                
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("company/find").queryParam("id", id);
+                List<CompanyDto> companies = target.request().get().readEntity(new GenericType<List<CompanyDto>>() { });
+                
+                for (CompanyDto company: companies) {
+                    
+                    System.out.println(company + "\n\n");
+                    
+                }
+                
+                break;
+                
+            case "computer":
+                
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/find").queryParam("id", id);
+                List<ComputerDto> computers = target.request().get().readEntity(new GenericType<List<ComputerDto>>() { });
+                
+                for (ComputerDto computer: computers) {
+                    
+                    System.out.println(computer + "\n\n");
+                    
+                }
+                
+                break;
+                
+            default:
+                
+                System.out.println("command_incorrect");
+                
         }
 
-        System.out.println(ordinateur);
+    }
+    
+    /**
+     * Affichage ordinateur.
+     *
+     * @param arg
+     *            the arg
+     */
+    private static void displayByName(String type, String name) {
+
+        switch (type) {
+        
+            case "company":
+                
+                PAGING.pagingByName("company", name);
+                break;
+                
+            case "computer":
+                
+                PAGING.pagingByName("computer", name);
+                break;
+                
+            default:
+                
+                System.out.println("command_incorrect");
+                
+        }
 
     }
 
@@ -229,99 +278,53 @@ public class GestionEntryUser {
      * @param args
      *            the args
      */
-    /*private static void createOrdinateur(String args) {
+    private static void createComputer() {
 
-        String[] argArray = args.split("'", 3);
-        OrdinateurBuilder ordinateur = new Ordinateur.OrdinateurBuilder(
-                argArray[1]);
-
-        if (argArray[2].isEmpty()) {
-
-            //gestionOrdinateur.createOrdinateur(ordinateur.build());
-
+        WebTarget target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/create");
+        System.out.println("\nVeuillez saisir le nom du computer (champ obligatoire):\n");
+        String entry = UserInterpreter.SCANNER.nextLine();
+        
+        if(entry.equals("")) {
+            
+            System.out.println("Le nom est obligatoire");
             return;
-
+            
         }
+        
+        target = target.queryParam("name", entry);
 
-        argArray = argArray[2].split(" ", 2);
-        args = argArray[1];
-
-        while (argArray.length > 1) {
-
-            argArray = args.split(" ", 2);
-
-            if (argArray.length != 2) {
-
-                System.out.println(prop.getProperty("nombre_arg"));
-                return;
-
-            }
-
-            if (argArray[0] == "introduction") {
-
-                argArray = argArray[1].split(" ", 2);
-                ordinateur.dateIntroduit(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
-            } else if (argArray[0] == "interruption") {
-
-                argArray = argArray[1].split(" ", 2);
-                ordinateur.dateInterrompu(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
-            } else if (argArray[0] == "fabricant") {
-
-                try {
-
-                    argArray = argArray[1].split(" ", 2);
-                    int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = gestionEntreprise
-                            .findEntrepriseById(id);
-
-                    if (fabricant.isPresent()) {
-
-                        ordinateur.fabricant(fabricant);
-
-                    } else {
-
-                        System.out.println(
-                                "Veuillez donner un id d'entreprise correct");
-                        return;
-
-                    }
-
-                } catch (NumberFormatException e) {
-
-                    System.out.println(
-                            "Veuillez donner un id d'entreprise correct");
-                    return;
-
-                }
-
-            } else {
-
-                System.out.println(
-                        argArray[0] + prop.getProperty("argument_incorrect"));
-                return;
-
-            }
-
-            if (argArray.length == 1) {
-
-                //gestionOrdinateur.createOrdinateur(ordinateur.build());
-
-                return;
-
-            }
-
-            args = argArray[1];
-
+        System.out.println("\nVeuillez saisir la date d'introduction du computer :\n");
+        entry = UserInterpreter.SCANNER.nextLine();
+        
+        if(!entry.equals("")) {
+            
+            target = target.queryParam("introduced", entry);
+            
         }
+        
+        System.out.println("\nVeuillez saisir la date d'interruption du computer :\n");
+        entry = UserInterpreter.SCANNER.nextLine();
+        
+        if(!entry.equals("")) {
+            
+            target = target.queryParam("discontinued", entry);
+            
+        }
+        
+        System.out.println("\nVeuillez saisir l'id de la company du computer :\n");
+        entry = UserInterpreter.SCANNER.nextLine();
+        
+        if(!entry.equals("")) {
+            
+            
+            target = target.queryParam("idCompany", entry);
+            
+        }
+        
+        String returnMessage = target.request().get().readEntity(new GenericType<String>() { });
+        System.out.println(returnMessage);
 
-        System.out.println(prop.getProperty("nombre_arg"));
-        return;
-
-    }*/
+    }
 
     /**
      * Update ordinateur.
@@ -329,129 +332,59 @@ public class GestionEntryUser {
      * @param args
      *            the args
      */
-    private static void updateOrdinateur(String args) {
-
-        String[] argArray = args.split(" ", 2);
-
-        if (argArray.length != 2) {
-
-            System.out.println(prop.getProperty("nombre_arg"));
+    private static void updateComputer() {
+        
+        WebTarget target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/update");
+        System.out.println("\nVeuillez saisir l'id du computer à update(champ obligatoire):\n");
+        String entry = UserInterpreter.SCANNER.nextLine();
+        
+        if (entry.equals("")) {
+            
+            System.out.println("L'Id est obligatoire");
             return;
+            
+        }
+        
+        target = target.queryParam("name", entry);
+        System.out.println("\nVeuillez saisir le nom du computer :\n");
+        entry = UserInterpreter.SCANNER.nextLine();
 
+        if(!entry.equals("")) {
+                    
+            target = target.queryParam("name", entry);
+            
         }
 
-        ComputerDto ordinateur = null;
-
-        try {
-
-            long id = Long.parseLong(argArray[0]);
-            ordinateur = computerService.findComputerById(id);
-
-        } catch (NumberFormatException e) {
-
-            System.out.println(prop.getProperty("id_incorrect"));
-            return;
-
+        System.out.println("\nVeuillez saisir la date d'introduction du computer :\n");
+        entry = UserInterpreter.SCANNER.nextLine();
+        
+        if(!entry.equals("")) {
+            
+            target = target.queryParam("introduced", entry);
+            
         }
-
-        /*OrdinateurBuilder builder = new OrdinateurBuilder(ordinateur.getName())
-                .id(ordinateur.getId());
-
-         .dateIntroduit( Optional.ofNullable(ordinateur.getDateIntroduit()))
-         .dateInterrompu(
-         Optional.ofNullable(ordinateur.getDateInterrompu()));
-
-
-        args = argArray[1];
-
-        while (argArray.length > 1) {
-
-            argArray = args.split(" ", 2);
-
-            if (argArray.length != 2) {
-
-                System.out.println(prop.getProperty("nombre_arg"));
-                return;
-
-            }
-
-            if (argArray[0] == "name") {
-
-                argArray = argArray[1].split(" ", 2);
-                argArray = argArray[0].split("'", 3);
-
-                builder.name(argArray[1]);
-
-                if (argArray[2].isEmpty()) {
-
-                    //gestionOrdinateur.updateOrdinateur(builder.build());
-                    return;
-
-                }
-
-            } else if (argArray[0] == "introduction") {
-
-                argArray = argArray[1].split(" ", 2);
-                builder.dateIntroduit(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
-            } else if (argArray[0] == "interruption") {
-
-                argArray = argArray[1].split(" ", 2);
-                builder.dateInterrompu(LocalDate.parse(argArray[0],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                break;
-
-            } else if (argArray[0] == "fabricant") {
-
-                try {
-
-                    argArray = argArray[1].split(" ", 2);
-                    int id = Integer.parseInt(argArray[0]);
-                    Optional<Entreprise> fabricant = gestionEntreprise
-                            .findEntrepriseById(id);
-
-                    if (fabricant.isPresent()) {
-
-                        builder.fabricant(fabricant);
-
-                    } else {
-
-                        System.out.println(
-                                prop.getProperty("id_entreprise_incorrect"));
-                        return;
-
-                    }
-
-                } catch (NumberFormatException e) {
-
-                    System.out.println(
-                            prop.getProperty("id_entreprise_incorrect"));
-                    return;
-
-                }
-
-            } else {
-
-                System.out.println(
-                        argArray[0] + prop.getProperty("argument_incorrect"));
-                return;
-
-            }
-
-            if (argArray.length < 2) {
-
-                //gestionOrdinateur.updateOrdinateur(builder.build());
-                return;
-
-            }
-
-            args = argArray[1];
-
-        }*/
-
-        System.out.println(prop.getProperty("nombre_arg"));
-        return;
+        
+        System.out.println("\nVeuillez saisir la date d'interruption du computer :\n");
+        entry = UserInterpreter.SCANNER.nextLine();
+        
+        if(!entry.equals("")) {
+            
+            target = target.queryParam("discontinued", entry);
+            
+        }
+        
+        System.out.println("\nVeuillez saisir l'id de la company du computer :\n");
+        entry = UserInterpreter.SCANNER.nextLine();
+        
+        if(!entry.equals("")) {
+            
+            
+            target = target.queryParam("idCompany", entry);
+            
+        }
+        
+        String returnMessage = target.request().get().readEntity(new GenericType<String>() { });
+        System.out.println(returnMessage);
 
     }
 
@@ -461,56 +394,31 @@ public class GestionEntryUser {
      * @param arg
      *            the arg
      */
-    private static void deleteOrdinateur(String arg) {
-
-        List<Long> identifiant = new ArrayList<Long>();
-
-        try {
-
-            identifiant.add(Long.parseLong(arg));
-            computerService.deleteComputer(identifiant);
-
-        } catch (NumberFormatException e) {
-
-            System.out.println(prop.getProperty("id_incorrect"));
-            return;
-
-        }
-
-    }
-
-    /**
-     * Help.
-     *
-     * @param arg
-     *            the arg
-     */
-    private static void help(String arg) {
-
-        if (arg == "list") {
-
-            System.out.println(prop.getProperty("syntaxe_list"));
-
-        } else if (arg == "affiche") {
-
-            System.out.println(prop.getProperty("syntaxe_affiche"));
-
-        } else if (arg == "create") {
-
-            System.out.println(prop.getProperty("syntaxe_create"));
-
-        } else if (arg == "update") {
-
-            System.out.println(prop.getProperty("syntaxe_update"));
-
-        } else if (arg == "delete") {
-
-            System.out.println(prop.getProperty("syntaxe_delete"));
-
-        } else {
-
-            System.out.println(arg + prop.getProperty("command_incorrect"));
-
+    private static void delete(String type, String id) {
+        
+        WebTarget target;
+        String returnMessage;
+        
+        switch (type) {
+        
+            case "company":
+                
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("company/delete").queryParam("id", id);
+                returnMessage = target.request().get().readEntity(new GenericType<String>() { });
+                System.out.println(returnMessage);
+                break;
+                
+            case "computer":
+                
+                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL).path("computer/delete").queryParam("id", id);
+                returnMessage = target.request().get().readEntity(new GenericType<String>() { });
+                System.out.println(returnMessage);
+                break;
+                
+            default:
+                
+                System.out.println("command_incorrect");
+        
         }
 
     }

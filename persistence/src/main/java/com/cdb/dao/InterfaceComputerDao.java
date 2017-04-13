@@ -10,13 +10,6 @@ import com.cdb.model.entities.Computer;
 public interface InterfaceComputerDao {
 
     /**
-     * Find ordinateur.
-     *
-     * @return the list
-     */
-    List<Computer> findComputers();
-
-    /**
      * Find ordinateur by page.
      *
      * @param numPage

@@ -61,6 +61,36 @@ public class CompanyService implements InterfaceCompanyService {
 
     }
 
+    @Override
+    public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage,
+            String filter) {
+        
+        List<Company> companies = new ArrayList<Company>();
+        long nbComputer = 0;
+        long pageMax = 1;
+        LOGGER.info("Service : search company by page");
+
+        if (filter == null || filter.equals("")) {
+
+            nbComputer = companyDao.countCompany();
+            pageMax = pageMax(rowByPage, nbComputer);
+            numPage = verifNumPage(numPage, pageMax);
+            companies = companyDao.findCompanyByPage(numPage, rowByPage);
+
+        } else {
+
+            nbComputer = companyDao.countCompanyByName(filter);
+            pageMax = pageMax(rowByPage, nbComputer);
+            numPage = verifNumPage(numPage, pageMax);
+            companies = companyDao.findCompanyByName(numPage, rowByPage,
+                    filter);
+
+        }
+
+        return CompanyDtoMapper.recoveryListCompany(companies);
+        
+    }
+
     /**
      * The company by id.
      *
@@ -74,6 +104,75 @@ public class CompanyService implements InterfaceCompanyService {
 
         LOGGER.info("Service: search company by id");
         return CompanyDtoMapper.recoveryCompany(companyDao.findCompanyByID(id));
+
+    }
+
+    @Override
+    public void deleteCompany(List<Long> id) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    /**
+     * Page max.
+     *
+     * @param rowByPage
+     *            the row by page
+     * @param nbComputer
+     *            the nb computer
+     * @return the long
+     */
+    private long pageMax(int rowByPage, long nbComputer) {
+
+        long pageMax = 1;
+
+        if (rowByPage == 0) {
+
+            LOGGER.error("row by page equals 0, Impossible");
+            pageMax = 1;
+
+        } else {
+
+            if (nbComputer % rowByPage == 0) {
+
+                pageMax = nbComputer / rowByPage;
+
+            } else {
+
+                pageMax = nbComputer / rowByPage + 1;
+
+            }
+
+        }
+
+        return pageMax;
+
+    }
+
+    /**
+     * Verif num page.
+     *
+     * @param numPage
+     *            the num page
+     * @param pageMax
+     *            the page max
+     * @return the int
+     */
+    private int verifNumPage(int numPage, long pageMax) {
+
+        if (numPage >= pageMax) {
+
+            return (int) pageMax;
+
+        } else if (numPage == 0) {
+
+            return 1;
+
+        } else {
+
+            return numPage;
+
+        }
 
     }
 

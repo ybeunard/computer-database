@@ -60,23 +60,6 @@ public class ComputerDao implements InterfaceComputerDao {
     }
 
     /**
-     * Find computers.
-     *
-     * @return the list
-     */
-    @Override
-    public List<Computer> findComputers() {
-
-        LOGGER.info("Dao: search all computers");
-        List<Computer> computers = new ArrayList<Computer>();
-        HibernateQueryFactory query = new HibernateQueryFactory(
-                sessionFactory.openSession());
-        computers = query.select(qComputer).from(qComputer).fetch();
-        return computers;
-
-    }
-
-    /**
      * Find computer by page.
      *
      * @param numPage

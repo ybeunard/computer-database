@@ -1,0 +1,10 @@
+<dataset>
+  <computer NAME="Bob" ID="18" DISCONTINUED="1984-04-01" INTRODUCED="1991-01-01" COMPANY_ID="22" />
+  <computer NAME="Bob" ID="22" DISCONTINUED="1993-10-01"/>
+  <computer NAME="Alice" ID="23" INTRODUCED="2006-01-10"/>
+  <computer NAME="Charlie" ID="42" COMPANY_ID="18"/>
+  <computer NAME="Bob" ID="1" DISCONTINUED="1984-04-01" INTRODUCED="1991-01-01"/>
+  <computer NAME="Bob" ID="10" DISCONTINUED="1993-10-01" COMPANY_ID="18"/>
+  <computer NAME="Alice" ID="20" INTRODUCED="2006-01-10" COMPANY_ID="42"/>
+  <computer NAME="Charlie" ID="57"/>
+</dataset>

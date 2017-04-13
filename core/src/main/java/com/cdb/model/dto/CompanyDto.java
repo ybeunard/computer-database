@@ -3,10 +3,12 @@ package com.cdb.model.dto;
 public class CompanyDto {
 
     /** The id. */
-    private final long id;
+    private long id;
 
     /** The name. */
-    private final String name;
+    private String name;
+    
+    public CompanyDto() { }
 
     /**
      * Instantiates a new entreprise dto.

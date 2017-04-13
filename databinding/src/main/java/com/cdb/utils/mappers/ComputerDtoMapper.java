@@ -58,28 +58,40 @@ public class ComputerDtoMapper {
      */
     public static ComputerDto recoveryComputerDto(Computer computer) {
 
-        ComputerDtoBuilder builder = new ComputerDto.ComputerDtoBuilder(
-                computer.getName());
-        builder.id(computer.getId());
+        ComputerDtoBuilder builder;
+        
+        if (computer != null) {
+            
+            builder = new ComputerDto.ComputerDtoBuilder(
+                    computer.getName());
+            
+            builder.id(computer.getId());
 
-        if (computer.getIntroduced() != null) {
+            if (computer.getIntroduced() != null) {
 
-            builder.introduced(computer.getIntroduced().toString());
+                builder.introduced(computer.getIntroduced().toString());
 
+            }
+
+            if (computer.getDiscontinued() != null) {
+
+                builder.discontinued(computer.getDiscontinued().toString());
+
+            }
+
+            if (computer.getCompany() != null) {
+
+                builder.idCompany(computer.getCompany().getId());
+                builder.company(computer.getCompany().getName());
+
+            }
+            
+        } else {
+            
+            builder = new ComputerDto.ComputerDtoBuilder("");
+            
         }
-
-        if (computer.getDiscontinued() != null) {
-
-            builder.discontinued(computer.getDiscontinued().toString());
-
-        }
-
-        if (computer.getCompany() != null) {
-
-            builder.idCompany(computer.getCompany().getId());
-            builder.company(computer.getCompany().getName());
-
-        }
+        
 
         return builder.build();
 

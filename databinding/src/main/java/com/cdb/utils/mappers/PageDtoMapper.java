@@ -47,7 +47,7 @@ public class PageDtoMapper {
      *            the desc
      * @return the page dto
      */
-    public static PageDto recuperationPage(List<Computer> computers,
+    public static PageDto recoveryPage(List<Computer> computers,
             long nbComputer, int numPage, int rowByPage, long pageMax,
             String filter, String sort, boolean desc) {
 

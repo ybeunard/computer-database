@@ -30,7 +30,15 @@ public class Parse {
 
         if (entier != null && !entier.equals("")) {
 
-            defaultValeur = Integer.parseInt(entier);
+            try {
+                
+                defaultValeur = Integer.parseInt(entier);
+                
+            } catch (NumberFormatException e) {
+                
+                return defaultValeur;
+                
+            }
 
         }
 
@@ -72,7 +80,15 @@ public class Parse {
 
         if (longEntier != null && !longEntier.equals("")) {
 
-            defaultValeur = Long.parseLong(longEntier);
+            try {
+                            
+                defaultValeur = Long.parseLong(longEntier);
+                
+            } catch (NumberFormatException e) {
+                
+                return defaultValeur;
+                
+            }
 
         }
 

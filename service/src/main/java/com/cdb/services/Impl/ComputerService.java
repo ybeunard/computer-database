@@ -70,7 +70,7 @@ public class ComputerService implements InterfaceComputerService {
     public PageDto findComputerByPage(int numPage, int rowByPage, String filter,
             String sort, boolean desc) {
 
-        List<Computer> ordinateurs = new ArrayList<Computer>();
+        List<Computer> computers = new ArrayList<Computer>();
         long nbComputer = 0;
         long pageMax = 1;
         LOGGER.info("Service : search computer by page");
@@ -78,36 +78,23 @@ public class ComputerService implements InterfaceComputerService {
         if (filter == null || filter.equals("")) {
 
             nbComputer = computerDao.countComputer();
-            LOGGER.debug("recuperation du nombre maximum d'ordinateur "
-                    + nbComputer);
             pageMax = pageMax(rowByPage, nbComputer);
-            LOGGER.debug("recuperation du nombre maximum de page " + pageMax);
             numPage = verifNumPage(numPage, pageMax);
-            LOGGER.debug("Verification du numero de page effectuer " + numPage);
-            ordinateurs = computerDao.findComputerByPage(numPage, rowByPage,
+            computers = computerDao.findComputerByPage(numPage, rowByPage,
                     sort, desc);
-            LOGGER.debug("Recuperation de la liste d'ordinateur "
-                    + ordinateurs.size());
 
         } else {
 
             nbComputer = computerDao.countComputerByName(filter);
-            LOGGER.debug("recuperation du nombre maximum d'ordinateur "
-                    + nbComputer);
             pageMax = pageMax(rowByPage, nbComputer);
-            LOGGER.debug("recuperation du nombre maximum de page " + pageMax);
             numPage = verifNumPage(numPage, pageMax);
-            LOGGER.debug("Verification du numero de page effectuer " + numPage);
-            ordinateurs = computerDao.findComputerByName(numPage, rowByPage,
+            computers = computerDao.findComputerByName(numPage, rowByPage,
                     filter, sort, desc);
-            LOGGER.debug("Recuperation de la liste d'ordinateur "
-                    + ordinateurs.size());
 
         }
 
-        PageDto page = PageDtoMapper.recuperationPage(ordinateurs, nbComputer,
+        return PageDtoMapper.recoveryPage(computers, nbComputer,
                 numPage, rowByPage, pageMax, filter, sort, desc);
-        return page;
 
     }
 
