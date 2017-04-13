@@ -86,6 +86,12 @@ public class ComputerDao implements InterfaceComputerDao {
             return computers;
 
         }
+        
+        if (limit <= 0) {
+            
+            return computers;
+            
+        }
 
         HibernateQuery<Computer> query = new HibernateQueryFactory(
                 sessionFactory.openSession()).select(qComputer).from(qComputer)

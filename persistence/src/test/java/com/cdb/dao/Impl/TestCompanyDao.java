@@ -77,46 +77,87 @@ public class TestCompanyDao extends TestCase {
     }
 
     @Test
-    public void testFindEntreprise() {
+    public void testFindCompanies() {
 
-        List<Company> entreprises = dao.findCompanies();
-        assertFalse(entreprises.isEmpty());
+        List<Company> companies = dao.findCompanies();
+        assertFalse(companies.isEmpty());
 
-        for (Company entreprise : entreprises) {
+        for (Company company : companies) {
 
-            assertFalse(entreprise == null);
-            assertFalse(entreprise.getName() == null);
-            assertFalse(entreprise.getName().equals(""));
-            assertFalse(entreprise.getId() <= 0);
+            assertFalse(company == null);
+            assertFalse(company.getName() == null);
+            assertFalse(company.getName().equals(""));
+            assertFalse(company.getId() <= 0);
 
         }
 
     }
+    
+    @Test
+    public void testFindCompanyByPage() {
+        
+        List<Company> companies = dao.findCompanyByPage(1, 2);
+        assertFalse(companies.isEmpty());
+        
+        for (Company company : companies) {
+
+            assertFalse(company == null);
+            assertFalse(company.getName() == null);
+            assertFalse(company.getName().equals(""));
+            assertFalse(company.getId() <= 0);
+
+        }
+        
+    }
+    
+    @Test
+    public void testFindCompanyByPageNumPageZero() {
+        
+        List<Company> companies = dao.findCompanyByPage(0, 2);
+        assertTrue(companies.isEmpty());
+        
+    }
+    
+    @Test
+    public void testFindCompanyByPageRowByPageZero() {
+        
+        List<Company> companies = dao.findCompanyByPage(1, 0);
+        assertTrue(companies.isEmpty());
+        
+    }
+    
+    @Test
+    public void testFindCompanyByPageNumPageOver() {
+        
+        List<Company> companies = dao.findCompanyByPage(10, 2);
+        assertTrue(companies.isEmpty());
+        
+    }
 
     @Test
-    public void testFindEntrepriseByIDZero() {
+    public void testFindCompanyByID() {
 
-        Company entreprise = dao.findCompanyByID(0);
-        assertTrue(entreprise == null);
+        Company company = dao.findCompanyByID(22);
+        assertTrue(company != null);
+        assertEquals(company.getName(), "Bob");
+        assertEquals(company.getId(), 22);
+
+    }
+
+    @Test
+    public void testFindCompanyByIDZero() {
+
+        Company company = dao.findCompanyByID(0);
+        assertTrue(company == null);
        
 
     }
 
     @Test
-    public void testFindEntrepriseByIDNegatif() {
+    public void testFindCompanyByIDIncorrecte() {
 
-        Company entreprise = dao.findCompanyByID(-1);
-        assertTrue(entreprise == null);
-
-    }
-
-    @Test
-    public void testFindEntrepriseByIDCorrect() {
-
-        Company entreprise = dao.findCompanyByID(22);
-        assertTrue(entreprise != null);
-        assertEquals(entreprise.getName(), "Bob");
-        assertEquals(entreprise.getId(), 22);
+        Company company = dao.findCompanyByID(100);
+        assertTrue(company == null);
 
     }
     

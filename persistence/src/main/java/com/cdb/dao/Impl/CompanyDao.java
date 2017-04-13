@@ -79,6 +79,12 @@ public class CompanyDao implements InterfaceCompanyDao {
             return companies;
 
         }
+        
+        if (limit <= 0) {
+            
+            return companies;
+            
+        }
 
         companies = new HibernateQueryFactory(
                 sessionFactory.openSession()).select(qCompany).from(qCompany)
