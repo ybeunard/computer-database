@@ -19,7 +19,7 @@ import com.cdb.utils.mappers.DashboardDtoMapper;
  * The Class DashboardController.
  */
 @Controller
-@RequestMapping("/dashboard.htm")
+@RequestMapping("/dashboard.html")
 public class DashboardController {
 
     /** The Constant LOGGER. */

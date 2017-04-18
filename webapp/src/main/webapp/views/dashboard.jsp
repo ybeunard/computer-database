@@ -17,25 +17,25 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.htm?resetFilter=OK"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.html?resetFilter=OK"> Application - Computer Database </a>
         </div>
     </header>
     <section id="main">
         <div class="container">
-        	Language : <a href="dashboard.htm?locale=en">English</a>|<a href="dashboard.htm?locale=fr">Francais</a>
+        	Language : <a href="dashboard.html?locale=en">English</a>|<a href="dashboard.html?locale=fr">Francais</a>
             <h1 id="homeTitle">
                 ${page.nbComputer} <spring:message code="found.springmvc" text="default text" />
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
-                    <form id="searchForm" action="dashboard.htm" method="GET" class="form-inline">
+                    <form id="searchForm" action="dashboard.html" method="GET" class="form-inline">
 
                         <input type="search" id="searchbox" name="search" class="form-control" />
                         <input type="submit" id="searchsubmit" name="action" value="<spring:message code="filterButton.springmvc" text="default text" />" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.htm"><spring:message code="boutonAdd.springmvc" text="default text" /></a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputer.html"><spring:message code="boutonAdd.springmvc" text="default text" /></a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
                     	<spring:message code="boutonEdit.springmvc" text="default text" />
                    	</a>
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <form id="deleteForm" action="dashboard.htm" method="POST">
+        <form id="deleteForm" action="dashboard.html" method="POST">
         	<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
             <input type="hidden" name="selection" value="">
         </form>
@@ -67,7 +67,7 @@
                             </span>
                         </th>
                         <th>
-                            <a href="dashboard.htm?sort=name"><spring:message code="name.springmvc" text="default text" /></a>
+                            <a href="dashboard.html?sort=name"><spring:message code="name.springmvc" text="default text" /></a>
                         </th>
                         <th>
                             <spring:message code="introduced.springmvc" text="default text" />
@@ -78,7 +78,7 @@
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href="dashboard.htm?sort=company_name"><spring:message code="company.springmvc" text="default text" /></a>
+                            <a href="dashboard.html?sort=company_name"><spring:message code="company.springmvc" text="default text" /></a>
                         </th>
 
                     </tr>
@@ -91,7 +91,7 @@
 	                            <input id="cb" type="checkbox" name="cb" class="cb" value="${computer.id}"/>
 	                        </td>
 	                        <td>
-	                            <a href="editComputer.htm?id=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
+	                            <a href="editComputer.html?id=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
 	                        </td>
 	                        <td>${computer.introduced}</td>
 	                        <td>${computer.discontinued}</td>

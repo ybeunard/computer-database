@@ -17,17 +17,17 @@
             <ul class="pagination">
             	<c:if test="${page.precPage!=page.numPage}">
 	                <li>
-	                    <a href="dashboard.htm?numPage=${page.precPage}" aria-label="Previous">
+	                    <a href="dashboard.html?numPage=${page.precPage}" aria-label="Previous">
 	                      <span aria-hidden="true">&laquo;</span>
 	                  </a>
 	              	</li>
               </c:if>
               <c:forEach items="${page.paging}" var="numero" >
-              	<li><a href="dashboard.htm?numPage=${numero}">${numero}</a></li>
+              	<li><a href="dashboard.html?numPage=${numero}">${numero}</a></li>
               </c:forEach>
               <c:if test="${page.nextPage!=page.numPage}">
 	              	<li>
-	                <a href="dashboard.htm?numPage=${page.nextPage}" aria-label="Next">
+	                <a href="dashboard.html?numPage=${page.nextPage}" aria-label="Next">
 	                    <span aria-hidden="true">&raquo;</span>
 	                </a>
 	            	</li>
@@ -35,9 +35,9 @@
         	</ul>  
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <a href="dashboard.htm?rowByPage=10"><button type="button" class="btn btn-default">10</button></a>
-            <a href="dashboard.htm?rowByPage=50"><button type="button" class="btn btn-default">50</button></a>
-            <a href="dashboard.htm?rowByPage=100"><button type="button" class="btn btn-default">100</button></a>
+            <a href="dashboard.html?rowByPage=10"><button type="button" class="btn btn-default">10</button></a>
+            <a href="dashboard.html?rowByPage=50"><button type="button" class="btn btn-default">50</button></a>
+            <a href="dashboard.html?rowByPage=100"><button type="button" class="btn btn-default">100</button></a>
         </div>
      </div>
 </body>
