@@ -62,14 +62,14 @@ public class CompanyService implements InterfaceCompanyService {
     }
 
     @Override
-    public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage,
-            String filter) {
+  public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage, String filter) {
 
         List<Company> companies = new ArrayList<Company>();
         long nbComputer = 0;
         long pageMax = 1;
         LOGGER.info("Service : search company by page");
 
+        
         if (filter == null || filter.equals("")) {
 
             nbComputer = companyDao.countCompany();

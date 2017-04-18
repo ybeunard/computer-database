@@ -71,27 +71,12 @@ public class ComputerService implements InterfaceComputerService {
             String sort, boolean desc) {
 
         List<Computer> computers = new ArrayList<Computer>();
-        long nbComputer = 0;
-        long pageMax = 1;
+        long pageMax, nbComputer;
         LOGGER.info("Service : search computer by page");
-
-        if (filter == null || filter.equals("")) {
-
-            nbComputer = computerDao.countComputer();
-            pageMax = pageMax(rowByPage, nbComputer);
-            numPage = verifNumPage(numPage, pageMax);
-            computers = computerDao.findComputerByPage(numPage, rowByPage,
-                    sort, desc);
-
-        } else {
-
-            nbComputer = computerDao.countComputerByName(filter);
-            pageMax = pageMax(rowByPage, nbComputer);
-            numPage = verifNumPage(numPage, pageMax);
-            computers = computerDao.findComputerByName(numPage, rowByPage,
-                    filter, sort, desc);
-
-        }
+        
+        computers = computerDao.findComputerByName(numPage, rowByPage, filter, sort, desc);
+        nbComputer = computerDao.countComputerByName(filter);
+        pageMax = pageMax(rowByPage, nbComputer);
 
         return PageDtoMapper.recoveryPage(computers, nbComputer,
                 numPage, rowByPage, pageMax, filter, sort, desc);
@@ -124,7 +109,6 @@ public class ComputerService implements InterfaceComputerService {
     @Transactional
     @Override
     public void createComputer(Computer computer) {
-
         LOGGER.info("Service : create computer");
         computerDao.createComputer(computer);
 
@@ -190,42 +174,10 @@ public class ComputerService implements InterfaceComputerService {
                 pageMax = nbComputer / rowByPage;
 
             } else {
-
                 pageMax = nbComputer / rowByPage + 1;
-
             }
-
         }
-
         return pageMax;
 
     }
-
-    /**
-     * Verif num page.
-     *
-     * @param numPage
-     *            the num page
-     * @param pageMax
-     *            the page max
-     * @return the int
-     */
-    private int verifNumPage(int numPage, long pageMax) {
-
-        if (numPage >= pageMax) {
-
-            return (int) pageMax;
-
-        } else if (numPage == 0) {
-
-            return 1;
-
-        } else {
-
-            return numPage;
-
-        }
-
-    }
-
 }
