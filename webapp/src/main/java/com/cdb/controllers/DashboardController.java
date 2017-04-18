@@ -42,15 +42,6 @@ public class DashboardController {
     }
 
     /**
-     * Instantiates a new dashboard controller.
-     */
-    public DashboardController() {
-
-        LOGGER.info("DashboardController Instantiated");
-
-    }
-
-    /**
      * Dashboard get.
      *
      * @param request

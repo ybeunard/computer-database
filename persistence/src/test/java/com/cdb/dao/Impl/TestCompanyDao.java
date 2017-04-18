@@ -11,9 +11,12 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.cdb.dao.Impl.Exception.NoEntityException;
 import com.cdb.model.entities.Company;
 
 import junit.framework.TestCase;
@@ -143,21 +146,37 @@ public class TestCompanyDao extends TestCase {
         assertEquals(company.getId(), 22);
 
     }
+    
+    public final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
 
+    
     @Test
     public void testFindCompanyByIDZero() {
 
-        Company company = dao.findCompanyByID(0);
-        assertTrue(company == null);
-       
+        try {
+            
+            dao.findCompanyByID(0);
+            
+        } catch (NoEntityException e) {
+            
+            assertTrue(e.getMessage() == null);
+            
+        }
 
     }
 
     @Test
     public void testFindCompanyByIDIncorrecte() {
 
-        Company company = dao.findCompanyByID(100);
-        assertTrue(company == null);
+        try {
+        
+            dao.findCompanyByID(100);
+            
+        } catch (NoEntityException e) {
+            
+            assertTrue(e.getMessage() == null);
+            
+        }
 
     }
     
@@ -165,8 +184,16 @@ public class TestCompanyDao extends TestCase {
     public void testDeleteCompany(){
         
         dao.deleteCompany(18);
-        Company company = dao.findCompanyByID(18);
-        assertEquals(company, null);
+        
+        try {
+            
+            dao.findCompanyByID(18);
+        
+        } catch (NoEntityException e) {
+            
+            assertTrue(e.getMessage() == null);
+            
+        }
         
     }
     

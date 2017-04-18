@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cdb.dao.InterfaceComputerDao;
+import com.cdb.dao.Impl.Exception.ContrainstCompanyException;
+import com.cdb.dao.Impl.Exception.NoEntityException;
 import com.cdb.model.entities.Computer;
 import com.cdb.model.entities.QCompany;
 import com.cdb.model.entities.QComputer;
@@ -157,8 +160,16 @@ public class ComputerDao implements InterfaceComputerDao {
         LOGGER.info("Dao: search computer by id");
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        return query.select(qComputer).from(qComputer)
+        Computer computer = query.select(qComputer).from(qComputer)
                 .where(qComputer.id.eq(id)).fetchOne();
+
+        if (computer == null) {
+
+            throw new NoEntityException();
+
+        }
+
+        return computer;
 
     }
 
@@ -174,7 +185,17 @@ public class ComputerDao implements InterfaceComputerDao {
         LOGGER.info("Dao: Create computer");
         LOGGER.debug("" + computer);
         Session session = this.sessionFactory.openSession();
-        session.save(computer);
+
+        try {
+
+            session.save(computer);
+
+        } catch (ConstraintViolationException e) {
+
+            throw new ContrainstCompanyException();
+
+        }
+
         session.close();
         LOGGER.info("Dao: create computer succeed");
 
@@ -193,11 +214,21 @@ public class ComputerDao implements InterfaceComputerDao {
         LOGGER.debug("" + computer);
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
-        query.update(qComputer).where(qComputer.id.eq(computer.getId()))
-                .set(qComputer.name, computer.getName())
-                .set(qComputer.introduced, computer.getIntroduced())
-                .set(qComputer.discontinued, computer.getDiscontinued())
-                .set(qComputer.company, computer.getCompany()).execute();
+
+        try {
+
+            query.update(qComputer).where(qComputer.id.eq(computer.getId()))
+                    .set(qComputer.name, computer.getName())
+                    .set(qComputer.introduced, computer.getIntroduced())
+                    .set(qComputer.discontinued, computer.getDiscontinued())
+                    .set(qComputer.company, computer.getCompany()).execute();
+
+        } catch (ConstraintViolationException e) {
+
+            throw new ContrainstCompanyException();
+
+        }
+
         LOGGER.info("Dao: update computer succeed");
 
     }
