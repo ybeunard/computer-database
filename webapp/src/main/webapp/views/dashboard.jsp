@@ -3,6 +3,8 @@
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+	<%@taglib prefix="page" tagdir="/WEB-INF/tags"%>
+	
 <!DOCTYPE jsp>
 <html>
 <head>
@@ -86,18 +88,9 @@
                 <!-- Browse attribute computers -->
                 <tbody id="results">
                 	<c:forEach items="${page.content}" var="computer" >
-	                    <tr>
-	                        <td class="editMode">
-	                            <input id="cb" type="checkbox" name="cb" class="cb" value="${computer.id}"/>
-	                        </td>
-	                        <td>
-	                            <a href="editComputer.htm?id=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
-	                        </td>
-	                        <td>${computer.introduced}</td>
-	                        <td>${computer.discontinued}</td>
-	                        <td>${computer.company}</td>
-	
-	                    </tr>
+	                    <page:show computerId="${computer.id}" computerName="${computer.name}" computerIntroduced="${computer.introduced}"
+					computerDiscontinued="${computer.discontinued}" computerManufacturerName="${computer.company}">
+					</page:show>
                 	</c:forEach>   
                 </tbody>
             </table>
@@ -108,11 +101,30 @@
     </section>
 
     <footer class="navbar-fixed-bottom">
-        <%@include file="pagination.jsp" %>
-    </footer>
+		<div class="container text-center">
+			<ul id="pagination-demo" class="pagination"></ul>
+			<div class="btn-group btn-group-sm pull-right" role="group">
+				<a class="btn btn-default " href="dashboard.htm?rowByPage=10">10</a> <a
+					class="btn btn-default " href="dashboard.htm?rowByPage=50">50</a> <a
+					class="btn btn-default " href="dashboard.htm?rowByPage=100">100</a>
+			</div>
+		</div>
+	</footer>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="<c:url value="/js/jquery/jquery.twbsPagination.min.js"/>"></script>
+<script>
+	$('#pagination-demo').twbsPagination({
+	    initiateStartPageClick: false,
+	    startPage: ${page.numPage},
+	    totalPages: ${page.nbComputer / page.rowByPage},
+	    visiblePages: 7,
+	    onPageClick: function (event, page) {
+	        window.location.href = "dashboard.htm?numPage=" + (page);
+	    }
+	});
+</script>
 
 </body>
 </html>
