@@ -15,16 +15,23 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
+<link href="<c:url value="/css/flag.min.css"/>" rel="stylesheet"
+	media="screen" />
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard.htm?resetFilter=OK"> Application - Computer Database </a>
+	        <div class="language">
+	    	    <a class="align-middle" href="dashboard.htm?locale=en"><i class="us flag"></i></a>
+		     	<a class="align-middle" href="dashboard.htm?locale=fr"><i class="fr flag"></i></a>
+        		<a href="login?logout"><spring:message code="logoutmessage.springmvc"/></a>
+        	</div>
         </div>
+
     </header>
     <section id="main">
         <div class="container">
-        	Language : <a href="dashboard.htm?locale=en">English</a>|<a href="dashboard.htm?locale=fr">Francais</a>
             <h1 id="homeTitle">
                 ${page.nbComputer} <spring:message code="found.springmvc" text="default text" />
             </h1>
