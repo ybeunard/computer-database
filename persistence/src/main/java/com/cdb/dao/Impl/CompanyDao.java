@@ -116,6 +116,23 @@ public class CompanyDao implements InterfaceCompanyDao {
 
     }
 
+    
+
+    @Override
+    public List<Company> findCompanyByFilter(String name) {
+
+        LOGGER.info("Dao: search company sorted by name");
+        List<Company> companies = new ArrayList<Company>();
+
+        companies = new HibernateQueryFactory(sessionFactory.openSession())
+                .select(qCompany).from(qCompany)
+                .where(qCompany.name.like("%" + name + "%")).fetch();
+        return companies;
+
+    }
+
+    
+    
     /**
      * Find company by ID.
      *

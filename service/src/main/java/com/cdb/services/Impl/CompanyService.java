@@ -90,6 +90,15 @@ public class CompanyService implements InterfaceCompanyService {
         return CompanyDtoMapper.recoveryListCompany(companies);
 
     }
+    
+    @Override
+    public List<Company> findCompanyByFilter(String name) {
+
+        LOGGER.info("Dao: search company sorted by name");
+        List<Company> companies = companyDao.findCompanyByFilter(name);
+        return companies;
+
+    }
 
     /**
      * The company by id.
