@@ -26,7 +26,7 @@
 	    	    <a class="align-middle" href="dashboard.htm?locale=en"><i class="us flag"></i></a>
 		     	<a class="align-middle" href="dashboard.htm?locale=fr"><i class="fr flag"></i></a>
         		<a href="login?logout"><spring:message code="logoutmessage.springmvc"/></a>
-	        </div>
+        	</div>
         </div>
 
     </header>
