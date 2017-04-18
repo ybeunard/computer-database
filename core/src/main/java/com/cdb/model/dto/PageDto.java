@@ -10,15 +10,6 @@ public class PageDto {
     /** The contenue. */
     private final List<ComputerDto> content;
 
-    /** The page suiv. */
-    private final int nextPage;
-
-    /** The page prec. */
-    private final int precPage;
-
-    /** The pagination. */
-    private final List<Integer> paging;
-
     /** The num page. */
     private final int numPage;
 
@@ -36,7 +27,7 @@ public class PageDto {
 
     /** The desc. */
     private final boolean desc;
-
+    
     /**
      * Instantiates a new page dto.
      *
@@ -46,12 +37,6 @@ public class PageDto {
     private PageDto(PageDtoBuilder builder) {
 
         this.content = builder.content;
-
-        this.nextPage = builder.nextPage;
-
-        this.precPage = builder.precPage;
-
-        this.paging = builder.paging;
 
         this.numPage = builder.numPage;
 
@@ -123,37 +108,6 @@ public class PageDto {
     }
 
     /**
-     * Gets the page suiv.
-     *
-     * @return the page suiv
-     */
-    public int getNextPage() {
-
-        return nextPage;
-
-    }
-
-    /**
-     * Gets the page prec.
-     *
-     * @return the page prec
-     */
-    public int getPrecPage() {
-
-        return precPage;
-
-    }
-
-    /**
-     * Gets the pagination.
-     *
-     * @return the pagination
-     */
-    public List<Integer> getPaging() {
-        return paging;
-    }
-
-    /**
      * Gets the num page.
      *
      * @return the num page
@@ -183,15 +137,6 @@ public class PageDto {
         /** The contenue. */
         private List<ComputerDto> content;
 
-        /** The page suiv. */
-        private int nextPage;
-
-        /** The page prec. */
-        private int precPage;
-
-        /** The pagination. */
-        private List<Integer> paging;
-
         /** The num page. */
         private int numPage;
 
@@ -220,48 +165,6 @@ public class PageDto {
         public PageDtoBuilder content(List<ComputerDto> content) {
 
             this.content = content;
-            return this;
-
-        }
-
-        /**
-         * Page suiv.
-         *
-         * @param nextPage
-         *            the next page
-         * @return the page dto builder
-         */
-        public PageDtoBuilder nextPage(int nextPage) {
-
-            this.nextPage = nextPage;
-            return this;
-
-        }
-
-        /**
-         * Page prec.
-         *
-         * @param precPage
-         *            the prec page
-         * @return the page dto builder
-         */
-        public PageDtoBuilder precPage(int precPage) {
-
-            this.precPage = precPage;
-            return this;
-
-        }
-
-        /**
-         * Pagination.
-         *
-         * @param paging
-         *            the paging
-         * @return the page dto builder
-         */
-        public PageDtoBuilder paging(List<Integer> paging) {
-
-            this.paging = paging;
             return this;
 
         }
@@ -378,9 +281,6 @@ public class PageDto {
         result = prime * result + (int) (nbComputer ^ (nbComputer >>> 32));
         result = prime * result + rowByPage;
         result = prime * result + numPage;
-        result = prime * result + precPage;
-        result = prime * result + nextPage;
-        result = prime * result + ((paging == null) ? 0 : paging.hashCode());
         result = prime * result + ((sort == null) ? 0 : sort.hashCode());
         return result;
     }
@@ -466,32 +366,6 @@ public class PageDto {
 
         }
 
-        if (precPage != other.precPage) {
-
-            return false;
-
-        }
-
-        if (nextPage != other.nextPage) {
-
-            return false;
-
-        }
-
-        if (paging == null) {
-
-            if (other.paging != null) {
-
-                return false;
-
-            }
-
-        } else if (!paging.equals(other.paging)) {
-
-            return false;
-
-        }
-
         if (sort == null) {
 
             if (other.sort != null) {
@@ -517,8 +391,7 @@ public class PageDto {
     @Override
     public String toString() {
 
-        return "PageDto [content=" + content + ", nextPage=" + nextPage
-                + ", precPage=" + precPage + ", paging=" + paging + ", numPage="
+        return "PageDto [content=" + content + ", numPage="
                 + numPage + ", rowByPage=" + rowByPage + ", nbComputer="
                 + nbComputer + ", filter=" + filter + ", sort=" + sort
                 + ", desc=" + desc + "]";

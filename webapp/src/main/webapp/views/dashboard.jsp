@@ -33,7 +33,7 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                ${page.nbComputer} <spring:message code="found.springmvc" text="default text" />
+                ${nbComputer} <spring:message code="found.springmvc" text="default text" />
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -94,7 +94,7 @@
                 </thead>
                 <!-- Browse attribute computers -->
                 <tbody id="results">
-                	<c:forEach items="${page.content}" var="computer" >
+                	<c:forEach items="${computers}" var="computer" >
 	                    <page:show computerId="${computer.id}" computerName="${computer.name}" computerIntroduced="${computer.introduced}"
 					computerDiscontinued="${computer.discontinued}" computerManufacturerName="${computer.company}">
 					</page:show>
@@ -124,8 +124,8 @@
 <script>
 	$('#pagination-demo').twbsPagination({
 	    initiateStartPageClick: false,
-	    startPage: ${page.numPage},
-	    totalPages: ${page.nbComputer / page.rowByPage},
+	    startPage: ${numPage},
+	    totalPages: ${nbComputer / rowByPage},
 	    visiblePages: 7,
 	    onPageClick: function (event, page) {
 	        window.location.href = "dashboard.htm?numPage=" + (page);

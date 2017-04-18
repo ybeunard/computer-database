@@ -67,19 +67,27 @@ public class ComputerService implements InterfaceComputerService {
      *
      */
     @Override
-    public PageDto findComputerByPage(int numPage, int rowByPage, String filter,
-            String sort, boolean desc) {
-
-        List<Computer> computers = new ArrayList<Computer>();
-        long pageMax, nbComputer;
-        LOGGER.info("Service : search computer by page");
+    public PageDto findComputerByPage(PageDto page) {
         
-        computers = computerDao.findComputerByName(numPage, rowByPage, filter, sort, desc);
-        nbComputer = computerDao.countComputerByName(filter);
-        pageMax = pageMax(rowByPage, nbComputer);
+        LOGGER.info("Service : search computer by page");
+        long nbComputer = 0;
+        List<Computer> computers = new ArrayList<Computer>();
 
-        return PageDtoMapper.recoveryPage(computers, nbComputer,
-                numPage, rowByPage, pageMax, filter, sort, desc);
+        if (page.getFilter() == null || page.getFilter().equals("")) {
+
+            nbComputer = computerDao.countComputer();
+            computers = computerDao.findComputerByPage(page.getNumPage(), page.getRowByPage(),
+                    page.getSort(), page.getDesc());
+
+        } else {
+
+            nbComputer = computerDao.countComputerByName(page.getFilter());
+            computers = computerDao.findComputerByName(page.getNumPage(), page.getRowByPage(), page.getFilter(),
+                    page.getSort(), page.getDesc());
+
+        }
+
+        return PageDtoMapper.recoveryPage(computers, page, nbComputer);
 
     }
 
@@ -149,35 +157,4 @@ public class ComputerService implements InterfaceComputerService {
 
     }
 
-    /**
-     * Page max.
-     *
-     * @param rowByPage
-     *            the row by page
-     * @param nbComputer
-     *            the nb computer
-     * @return the long
-     */
-    private long pageMax(int rowByPage, long nbComputer) {
-
-        long pageMax = 1;
-
-        if (rowByPage == 0) {
-
-            LOGGER.error("row by page equals 0, Impossible");
-            pageMax = 1;
-
-        } else {
-
-            if (nbComputer % rowByPage == 0) {
-
-                pageMax = nbComputer / rowByPage;
-
-            } else {
-                pageMax = nbComputer / rowByPage + 1;
-            }
-        }
-        return pageMax;
-
-    }
 }
