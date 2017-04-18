@@ -72,11 +72,11 @@
                             <a href="dashboard.htm?sort=name"><spring:message code="name.springmvc" text="default text" /></a>
                         </th>
                         <th>
-                            <spring:message code="introduced.springmvc" text="default text" />
+                            <a href="dashboard.htm?sort=introduced"><spring:message code="introduced.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <spring:message code="discontinued.springmvc" text="default text" />
+                            <a href="dashboard.htm?sort=discontinued"><spring:message code="discontinued.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>

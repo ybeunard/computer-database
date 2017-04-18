@@ -12,6 +12,8 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -196,6 +198,57 @@ public class TestComputerDao extends TestCase {
             if (computer.getName().equals("Bob")) {
 
                 assertFalse(computer.getDiscontinued() == null);
+
+            }
+            
+        }
+        
+    }
+    
+    /** The Constant logger. */
+    public final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
+    
+    @Test
+    public void testFindComputerByPageSortIntroducedAsc() {
+        
+        List<Computer> computers = dao.findComputerByPage(1, 4, "introduced", false);
+        //assertFalse(computers.isEmpty());
+        LOGGER.info(computers.toString());
+        
+        /*for (Computer computer : computers) {
+
+            assertFalse(computer.getName() == null);
+            assertFalse(computer.getId() <= 0);
+            assertTrue(computer.getIntroduced() == null);
+            
+        }*/
+        
+    }
+    
+    @Test
+    public void testFindComputerByPageSortIntroducedDesc() {
+        
+        List<Computer> computers = dao.findComputerByPage(1, 3, "introduced", true);
+        assertFalse(computers.isEmpty());
+        Computer computerAlice = new Computer();
+        computerAlice.setId(20);
+        computerAlice.setName("Alice");
+        computerAlice.setIntroduced(LocalDate.parse("2006-01-10"));
+        Company companyAlice = new Company();
+        companyAlice.setId(42);
+        companyAlice.setName("Charlie");
+        computerAlice.setCompany(companyAlice);
+        assertTrue(computers.contains(computerAlice));
+        
+        for (Computer computer : computers) {
+
+            assertFalse(computer.getName() == null);
+            assertFalse(computer.getId() <= 0);
+            
+
+            if (computer.getName().equals("Alice")) {
+
+                assertTrue(computer.getDiscontinued() == null);
 
             }
             

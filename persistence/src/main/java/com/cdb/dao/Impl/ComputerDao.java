@@ -139,8 +139,7 @@ public class ComputerDao implements InterfaceComputerDao {
                         .leftJoin(qComputer.company, qCompany).limit(limit)
                         .offset(offset);
         query = orderQuery(sort, desc, query);
-        computers = query.from(qComputer)
-                .where(qComputer.name.like("%" + name + "%")
+        computers = query.where(qComputer.name.like("%" + name + "%")
                         .or(qCompany.name.like("%" + name + "%")))
                 .fetch();
         return computers;
@@ -319,6 +318,36 @@ public class ComputerDao implements InterfaceComputerDao {
 
                     query = query.leftJoin(qComputer.company, qCompany)
                             .orderBy(qCompany.name.asc());
+
+                }
+                break;
+                
+            case "introduced":
+                
+                if (desc) {
+
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.introduced.desc());
+
+                } else {
+
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.introduced.asc());
+
+                }
+                break;
+                
+            case "discontinued":
+                
+                if (desc) {
+
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.discontinued.desc());
+
+                } else {
+
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.discontinued.asc());
 
                 }
                 break;
