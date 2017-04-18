@@ -203,10 +203,9 @@ public class Company {
      */
     @Override
     public String toString() {
-
-        String chaine = this.id + "\t" + this.name;
-        return chaine;
-
+        return "Class : " + this.getClass().getSimpleName() + "\n" +
+                "\t" + "id : " + getId() + "\n" +
+                "\t" + "name : " + getName() + "\n";
     }
 
 }
