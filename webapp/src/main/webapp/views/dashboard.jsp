@@ -21,7 +21,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.htm?resetFilter=OK"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.htm?search="> Application - Computer Database </a>
 	        <div class="language">
 	    	    <a class="align-middle" href="dashboard.htm?locale=en"><i class="us flag"></i></a>
 		     	<a class="align-middle" href="dashboard.htm?locale=fr"><i class="fr flag"></i></a>
@@ -33,13 +33,13 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                ${nbComputer} <spring:message code="found.springmvc" text="default text" />
+                ${currentPage.nbComputer} <spring:message code="found.springmvc" text="default text" />
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="?" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="${currentPage.filter}" />
                         <input type="submit" id="searchsubmit" name="action" value="<spring:message code="filterButton.springmvc" text="default text" />" class="btn btn-primary" />
                     </form>
                 </div>
@@ -76,25 +76,25 @@
                             </span>
                         </th>
                         <th>
-                            <a href="dashboard.htm?sort=name"><spring:message code="name.springmvc" text="default text" /></a>
+                            <a href="dashboard.htm?sort=name&desc=${currentPage.desc}"><spring:message code="name.springmvc" text="default text" /></a>
                         </th>
                         <th>
-                            <a href="dashboard.htm?sort=introduced"><spring:message code="introduced.springmvc" text="default text" /></a>
+                            <a href="dashboard.htm?sort=introduced&desc=${currentPage.desc}"><spring:message code="introduced.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <a href="dashboard.htm?sort=discontinued"><spring:message code="discontinued.springmvc" text="default text" /></a>
+                            <a href="dashboard.htm?sort=discontinued&desc=${currentPage.desc}"><spring:message code="discontinued.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href="dashboard.htm?sort=company_name"><spring:message code="company.springmvc" text="default text" /></a>
+                            <a href="dashboard.htm?sort=company_name&desc=${currentPage.desc}"><spring:message code="company.springmvc" text="default text" /></a>
                         </th>
 
                     </tr>
                 </thead>
                 <!-- Browse attribute computers -->
                 <tbody id="results">
-                	<c:forEach items="${computers}" var="computer" >
+                	<c:forEach items="${currentPage.content}" var="computer" >
 	                    <page:show computerId="${computer.id}" computerName="${computer.name}" computerIntroduced="${computer.introduced}"
 					computerDiscontinued="${computer.discontinued}" computerManufacturerName="${computer.company}">
 					</page:show>
@@ -124,8 +124,8 @@
 <script>
 	$('#pagination-demo').twbsPagination({
 	    initiateStartPageClick: false,
-	    startPage: ${numPage},
-	    totalPages: ${nbComputer / rowByPage},
+	    startPage: ${currentPage.numPage},
+	    totalPages: ${currentPage.nbComputer / currentPage.rowByPage},
 	    visiblePages: 7,
 	    onPageClick: function (event, page) {
 	        window.location.href = "dashboard.htm?numPage=" + (page);

@@ -77,7 +77,7 @@ public class ComputerDao implements InterfaceComputerDao {
   @Override
   public List<Computer> findComputerByPage(int numPage, int rowByPage, String sort, boolean desc) {
 
-    if (numPage < 0) {
+    if (numPage <= 0) {
       LOGGER.error("Current page = " + numPage);
       throw new PageException("Current page can't be a negative value.");
     }
@@ -85,7 +85,6 @@ public class ComputerDao implements InterfaceComputerDao {
       LOGGER.error("Elements per page = " + rowByPage);
       throw new PageException("Elements per page can't be a negative value.");
     }
-    // TODO Sort
 
     LOGGER.info("Dao: search page of computer");
     List<Computer> computers = new ArrayList<Computer>();
@@ -101,7 +100,6 @@ public class ComputerDao implements InterfaceComputerDao {
     }
     return computers;
   }
-  
 
   /**
    * Find computer by name.
@@ -309,6 +307,36 @@ public class ComputerDao implements InterfaceComputerDao {
               }
               break;
 
+          case "introduced":
+              
+              if (desc) {
+
+                  query = query.leftJoin(qComputer.company, qCompany)
+                          .orderBy(qComputer.introduced.desc());
+
+              } else {
+
+                  query = query.leftJoin(qComputer.company, qCompany)
+                          .orderBy(qComputer.introduced.asc());
+
+              }
+              break;
+              
+          case "discontinued":
+              
+              if (desc) {
+
+                  query = query.leftJoin(qComputer.company, qCompany)
+                          .orderBy(qComputer.discontinued.desc());
+
+              } else {
+
+                  query = query.leftJoin(qComputer.company, qCompany)
+                          .orderBy(qComputer.discontinued.asc());
+
+              }
+              break;
+              
           default:
 
               if (desc) {

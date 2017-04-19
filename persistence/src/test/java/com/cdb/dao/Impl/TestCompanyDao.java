@@ -16,7 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.cdb.dao.Impl.Exception.NoEntityException;
+import com.cdb.dao.Impl.Exception.EntityNotFoundException;
+import com.cdb.dao.Impl.Exception.IdException;
+import com.cdb.dao.Impl.Exception.PageException;
 import com.cdb.model.entities.Company;
 
 import junit.framework.TestCase;
@@ -124,16 +126,30 @@ public class TestCompanyDao extends TestCase {
     @Test
     public void testFindCompanyByPageRowByPageZero() {
         
-        List<Company> companies = dao.findCompanyByPage(1, 0);
-        assertTrue(companies.isEmpty());
+        try {
+            
+            dao.findCompanyByPage(1, 0);
+            
+        } catch (PageException e) {
+            
+            assertTrue(e.getMessage() != null);
+            
+        }
         
     }
     
     @Test
     public void testFindCompanyByPageNumPageOver() {
         
-        List<Company> companies = dao.findCompanyByPage(10, 2);
-        assertTrue(companies.isEmpty());
+        try {
+        
+            dao.findCompanyByPage(10, 2);
+            
+        } catch (EntityNotFoundException e) {
+            
+            assertTrue(e.getMessage() != null);
+            
+        }
         
     }
 
@@ -157,9 +173,9 @@ public class TestCompanyDao extends TestCase {
             
             dao.findCompanyByID(0);
             
-        } catch (NoEntityException e) {
+        } catch (IdException e) {
             
-            assertTrue(e.getMessage() == null);
+            assertTrue(e.getMessage() != null);
             
         }
 
@@ -172,9 +188,9 @@ public class TestCompanyDao extends TestCase {
         
             dao.findCompanyByID(100);
             
-        } catch (NoEntityException e) {
+        } catch (EntityNotFoundException e) {
             
-            assertTrue(e.getMessage() == null);
+            assertTrue(e.getMessage() != null);
             
         }
 
@@ -189,9 +205,9 @@ public class TestCompanyDao extends TestCase {
             
             dao.findCompanyByID(18);
         
-        } catch (NoEntityException e) {
+        } catch (EntityNotFoundException e) {
             
-            assertTrue(e.getMessage() == null);
+            assertTrue(e.getMessage() != null);
             
         }
         

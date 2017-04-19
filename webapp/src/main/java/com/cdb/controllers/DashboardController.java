@@ -5,10 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.cdb.model.dto.PageDto;
 import com.cdb.services.Impl.ComputerService;
 import com.cdb.utils.mappers.PageDtoMapper;
@@ -18,6 +21,7 @@ import com.cdb.utils.mappers.PageDtoMapper;
  */
 @Controller
 @RequestMapping("/dashboard.htm")
+@SessionAttributes("currentPage")
 public class DashboardController {
 
     /** The Constant LOGGER. */
@@ -26,7 +30,7 @@ public class DashboardController {
 
     /** The gestion ordinateur. */
     @Autowired
-    ComputerService computerService;
+    private ComputerService computerService;
     
     /**
      * Gets the gestion ordinateur.
@@ -36,6 +40,13 @@ public class DashboardController {
     public ComputerService getComputerService() {
 
         return computerService;
+
+    }
+    
+    @ModelAttribute("currentPage")
+    public PageDto getCurrentPage () {
+
+        return new PageDto();
 
     }
 
@@ -49,11 +60,11 @@ public class DashboardController {
      * @return the model and view
      */
     @RequestMapping(method = RequestMethod.GET)
-    protected ModelAndView dashboardGet(@RequestParam MultiValueMap<String, String> parameters) {
+    protected ModelAndView dashboardGet(@RequestParam MultiValueMap<String, String> parameters, @ModelAttribute("currentPage") PageDto currentPage) {
 
         LOGGER.info("DashboardController: GET");
         ModelAndView model = new ModelAndView("dashboard");
-        recoveryDisplayDashboard(parameters, model);
+        recoveryDisplayDashboard(parameters, model, currentPage);
         return model;
 
     }
@@ -68,13 +79,13 @@ public class DashboardController {
      * @return the model and view
      */
     @RequestMapping(method = RequestMethod.POST)
-    protected ModelAndView dashboardPostModel(@RequestParam MultiValueMap<String, String> parameters) {
+    protected ModelAndView dashboardPostModel(@RequestParam MultiValueMap<String, String> parameters, @ModelAttribute("currentPage") PageDto currentPage) {
 
         LOGGER.info("DashboardController: POST");
         ModelAndView model = new ModelAndView("dashboard");
         computerService.deleteComputer(PageDtoMapper
                 .recoveryListDeleteRequestPost(parameters));
-        recoveryDisplayDashboard(parameters, model);
+        recoveryDisplayDashboard(parameters, model, currentPage);
         return new ModelAndView("dashboard");
 
     }
@@ -88,16 +99,11 @@ public class DashboardController {
      *            the model
      */
     private void recoveryDisplayDashboard(MultiValueMap<String, String> parameters,
-            ModelAndView model) {
+            ModelAndView model, PageDto currentPage) {
 
-            PageDto page = PageDtoMapper.recoveryPageDtoRequestGet(parameters);
+            PageDto page = PageDtoMapper.recoveryPageDtoRequestGet(parameters, currentPage);
             page = computerService.findComputerByPage(page);
-            model.addObject("numPage", page.getNumPage());
-            model.addObject("rowByPage", page.getRowByPage());
-            model.addObject("search", page.getFilter());
-            model.addObject("sort", page.getSort());
-            model.addObject("nbComputer", page.getNbComputer());
-            model.addObject("computers", page.getContent());
+            model.addObject("currentPage", page);
 
     }
 

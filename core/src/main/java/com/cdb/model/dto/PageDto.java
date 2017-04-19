@@ -1,11 +1,18 @@
 package com.cdb.model.dto;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The Class PageDto.
  */
-public class PageDto {
+public class PageDto implements Serializable{
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /** The contenue. */
     private final List<ComputerDto> content;
@@ -27,6 +34,18 @@ public class PageDto {
 
     /** The desc. */
     private final boolean desc;
+    
+    public PageDto() {
+        
+        this.content = new ArrayList<ComputerDto>();
+        this.numPage = 1;
+        this.rowByPage = 10;
+        this.nbComputer = 0;
+        this.filter = "";
+        this.sort = "";
+        this.desc = false;
+        
+    }
     
     /**
      * Instantiates a new page dto.

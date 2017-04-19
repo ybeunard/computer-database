@@ -49,7 +49,8 @@ public class PageDtoMapper {
      *            the desc
      * @return the page dto
      */
-    public static PageDto recoveryPage(List<Computer> computers, PageDto page, long nbComputer) {
+    public static PageDto recoveryPage(List<Computer> computers, PageDto page,
+            long nbComputer) {
 
         LOGGER.info("Mapping PageDto");
         PageDtoBuilder builder = new PageDto.PageDtoBuilder();
@@ -63,7 +64,7 @@ public class PageDtoMapper {
         return builder.build();
 
     }
-    
+
     /**
      * Recuperation dashboard request get.
      *
@@ -71,49 +72,71 @@ public class PageDtoMapper {
      *            the request
      * @return the dashboard dto
      */
-    public static PageDto recoveryPageDtoRequestGet(MultiValueMap<String, String> parameters) {
+    public static PageDto recoveryPageDtoRequestGet(
+            MultiValueMap<String, String> parameters, PageDto currentPage) {
 
         LOGGER.info("Mapping RequestServlet in PageDto");
+
+        LOGGER.info(currentPage.toString());
         PageDtoBuilder builder = new PageDtoBuilder();
-        int numPage = 1;
-        int rowByPage = 10;
-        String filter = "";
-        String sort = "";
-        boolean desc = false;
-        
-        if(parameters.get("numPage") == null) {
-            
+        int numPage = currentPage.getNumPage();
+        int rowByPage = currentPage.getRowByPage();
+        String filter = currentPage.getFilter();
+        String sort = currentPage.getSort();
+        boolean desc = currentPage.getDesc();
+
+        if (parameters.get("numPage") == null) {
+
             builder.numPage(numPage);
-            
+
         } else {
+
+            builder.numPage(
+                    Parse.parseEntier(parameters.getFirst("numPage"), numPage));
+
+        }
+
+        if (parameters.get("rowByPage") == null) {
+
+            builder.rowByPage(rowByPage);
+
+        } else {
+
+            int newRowByPage = Parse
+                    .parseEntier(parameters.getFirst("rowByPage"), rowByPage);
             
-            builder.numPage(Parse.parseEntier(parameters.getFirst("numPage"), numPage));
+            if (newRowByPage != rowByPage) {
+                
+                if (newRowByPage == 10 || newRowByPage == 50 || newRowByPage == 100) {
+                    
+                    rowByPage = newRowByPage;
+                    builder.numPage(1);
+                    
+                }
+                
+            }
+                
+            builder.rowByPage(rowByPage);
             
         }
-        
-        if (parameters.get("rowByPage") == null) {
-            builder.rowByPage(rowByPage);
-          } else {
-            builder.rowByPage(Parse.parseEntier(parameters.getFirst("rowByPage"), rowByPage));
-            builder.numPage(1);
-          }
-        
-        if (parameters.get("search") == null) {
-            
-            builder.filter(filter);
-            
-          } else {
-              
-              builder.filter(parameters.getFirst("search"));
-              builder.numPage(numPage);
-              
-          }
 
-        String newSort = Parse.parseString(parameters.getFirst("sort"), sort);
+        if (parameters.get("search") == null) {
+
+            builder.filter(filter);
+
+        } else {
+
+            builder.filter(parameters.getFirst("search"));
+            builder.numPage(numPage);
+
+        }
+
+        String newSort = Parse.parseString(parameters.getFirst("sort"), "");
+        Boolean newDesc = Parse.parseBoolean(parameters.getFirst("desc"), desc);
 
         if (newSort != null && !newSort.equals("")) {
 
-            if (newSort.equals(sort)) {
+            if (newSort.equals(sort) && newDesc.equals(desc)) {
 
                 desc = Boolean.logicalXor(desc, true);
 
@@ -136,7 +159,8 @@ public class PageDtoMapper {
      *            the request
      * @return the list
      */
-    public static List<Long> recoveryListDeleteRequestPost(MultiValueMap<String, String> parameters) {
+    public static List<Long> recoveryListDeleteRequestPost(
+            MultiValueMap<String, String> parameters) {
 
         String selection = parameters.getFirst("selection");
         String[] deleted = selection.split(",");
