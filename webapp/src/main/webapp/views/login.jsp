@@ -49,6 +49,10 @@
 			}
 		});
 	});
+	$(function() {
+		$("input").prop('required', true);
+		$('#remember_me').removeAttr('required');
+	});
 </script>
 <body onload='document.loginForm.username.focus();'>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -76,31 +80,27 @@
 
 
 								<label><h3>User:</h3></label> <input type='text' name='username'
-									class="form-control" placeholder="UserName" id="username" />
+								class="form-control" placeholder="UserName" id="username" />
 
 							</div>
 							<div class="form-group">
 								<label><h3>Password :</h3></label> <input type='password'
 									name='password' class="form-control" placeholder="Password"
-									id="pass" />
-
-							
-							<label class="checkbox"> <input type="checkbox"
-								value="remember-me" id="remember_me"> Remember me
-							</label>
+									id="pass" /> <label class="checkbox"> <input
+									type="checkbox" value="remember-me" id="remember_me"
+									required="false"> Remember me
+								</label>
 							</div>
 						</fieldset>
 
 						<c:if test="${not empty error}">
 							<div class="error">
-								<b style="color: red">${error}</b>
-								<br /> <br /> 
+								<b style="color: red">${error}</b> <br /> <br />
 							</div>
 						</c:if>
 						<c:if test="${not empty msg}">
 							<div class="msg">
-								<b style="color: red">${msg}</b>
-								<br /> <br /> 
+								<b style="color: red">${msg}</b> <br /> <br />
 							</div>
 						</c:if>
 
@@ -113,17 +113,31 @@
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
 					</form>
-
+					<a id="Logout">Logout</a>
+					
 				</div>
 			</div>
 		</div>
 	</section>
 
+	<script type="text/javascript">$("#Logout").click(function() {
+			$form = $("<form>").attr({
+				"action" : "${pageContext.request.contextPath}" + "/login.html?logout",
+				"method" : "post"
+			})
+				.append($("<input>").attr({
+					"type" : "hidden",
+					"name" : "${_csrf.parameterName}",
+					"value" : "${_csrf.token}"
+				}))
+			$("#Logout").append($form);
+			$form.submit();
+		});
+	</script>
 
-
-	<script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
-	<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
-	<script src="<c:url value="/resources/js/dashboard.js"/>"></script>
-	<script src="<c:url value="/resources/js/addComputer.js"/>"></script>
+	<script src="<c:url value="/js/jquery.min.js"/>"></script>
+	<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+	<script src="<c:url value="/js/dashboard.js"/>"></script>
+	<script src="<c:url value="/js/addComputer.js"/>"></script>
 </body>
 </html>

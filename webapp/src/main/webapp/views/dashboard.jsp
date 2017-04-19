@@ -25,7 +25,7 @@
 	        <div class="language">
 	    	    <a class="align-middle" href="dashboard.html?locale=en"><i class="us flag"></i></a>
 		     	<a class="align-middle" href="dashboard.html?locale=fr"><i class="fr flag"></i></a>
-        		<a href="login?logout"><spring:message code="logoutmessage.springmvc"/></a>
+        		<a id="Logout" href="login.html?logout"><spring:message code="logoutmessage.springmvc"/></a>
         	</div>
         </div>
 
@@ -131,7 +131,28 @@
 	        window.location.href = "dashboard.html?numPage=" + (page);
 	    }
 	});
+	
 </script>
+
+	<script type="text/javascript">
+	function urlExists(url, callback){
+		  $.ajax({
+		    type: 'HEAD',
+		    url: url,
+		    success: function(){
+		      callback(true);
+		    },
+		    error: function() {
+		      callback(false);
+		    }
+		  });
+		}
+	
+	
+	$("#Logout").click(function() {
+		
+		});
+	</script>
 
 </body>
 </html>
