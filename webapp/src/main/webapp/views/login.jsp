@@ -22,34 +22,34 @@
 
 </head>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-	<script>
-		$(function() {
-	
-			if (localStorage.chkbx && localStorage.chkbx != '') {
-				$('#remember_me').attr('checked', 'checked');
-				$('#username').val(localStorage.usrname);
-				$('#pass').val(localStorage.pass);
+<script>
+	$(function() {
+
+		if (localStorage.chkbx && localStorage.chkbx != '') {
+			$('#remember_me').attr('checked', 'checked');
+			$('#username').val(localStorage.usrname);
+			$('#pass').val(localStorage.pass);
+		} else {
+			$('#remember_me').removeAttr('checked');
+			$('#username').val('');
+			$('#pass').val('');
+		}
+
+		$('#remember_me').click(function() {
+
+			if ($('#remember_me').is(':checked')) {
+				// save username and password
+				localStorage.usrname = $('#username').val();
+				localStorage.pass = $('#pass').val();
+				localStorage.chkbx = $('#remember_me').val();
 			} else {
-				$('#remember_me').removeAttr('checked');
-				$('#username').val('');
-				$('#pass').val('');
+				localStorage.usrname = '';
+				localStorage.pass = '';
+				localStorage.chkbx = '';
 			}
-	
-			$('#remember_me').click(function() {
-	
-				if ($('#remember_me').is(':checked')) {
-					// save username and password
-					localStorage.usrname = $('#username').val();
-					localStorage.pass = $('#pass').val();
-					localStorage.chkbx = $('#remember_me').val();
-				} else {
-					localStorage.usrname = '';
-					localStorage.pass = '';
-					localStorage.chkbx = '';
-				}
-			});
 		});
-	</script>
+	});
+</script>
 <body onload='document.loginForm.username.focus();'>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -75,15 +75,14 @@
 							<div class="form-group">
 
 
-								<label><h3>User:</h3></label> <input type='text' 
-									name='username' class="form-control" placeholder="UserName"
-									id="username" />
+								<label><h3>User:</h3></label> <input type='text' name='username'
+									class="form-control" placeholder="UserName" id="username" />
 
 							</div>
 							<div class="form-group">
-								<label><h3>Password :</h3></label> <input  
-									type='password' name='password' class="form-control"
-									placeholder="Password" id="pass" />
+								<label><h3>Password :</h3></label> <input type='password'
+									name='password' class="form-control" placeholder="Password"
+									id="pass" />
 
 							</div>
 							<label class="checkbox"> <input type="checkbox"
@@ -94,11 +93,13 @@
 						<c:if test="${not empty error}">
 							<div class="error">
 								<b style="color: red">${error}</b>
+								<br /> <br /> 
 							</div>
 						</c:if>
 						<c:if test="${not empty msg}">
 							<div class="msg">
 								<b style="color: red">${msg}</b>
+								<br /> <br /> 
 							</div>
 						</c:if>
 
@@ -116,7 +117,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 
 
 	<script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
