@@ -1,5 +1,9 @@
 package com.cdb.model.dto;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CompanyDto.
+ */
 public class CompanyDto {
 
     /** The id. */

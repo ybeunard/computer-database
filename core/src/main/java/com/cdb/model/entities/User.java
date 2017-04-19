@@ -17,74 +17,152 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User {
 
-  private String username;
-  private String password;
-  private boolean enabled;
-  private Set<UserRole> userRole = new HashSet<UserRole>(0);
+    /** The username. */
+    private String username;
 
-  public User() {}
+    /** The password. */
+    private String password;
 
-  public User(String username, String password, boolean enabled) {
-    this.username = username;
-    this.password = password;
-    this.enabled = enabled;
-  }
+    /** The enabled. */
+    private boolean enabled;
 
-  public User(String username, String password, boolean enabled, Set<UserRole> userRole) {
-    this.username = username;
-    this.password = password;
-    this.enabled = enabled;
-    this.userRole = userRole;
-  }
+    /** The user role. */
+    private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
-  @Id
-  @Column(name = "username", unique = true, nullable = false, length = 45)
-  public String getUsername() {
-    return this.username;
-  }
+    /**
+     * Instantiates a new user.
+     */
+    public User() {
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    /**
+     * Instantiates a new user.
+     *
+     * @param username
+     *            the username
+     * @param password
+     *            the password
+     * @param enabled
+     *            the enabled
+     */
+    public User(String username, String password, boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+    }
 
-  @Column(name = "password", nullable = false, length = 60)
-  public String getPassword() {
-    return this.password;
-  }
+    /**
+     * Instantiates a new user.
+     *
+     * @param username
+     *            the username
+     * @param password
+     *            the password
+     * @param enabled
+     *            the enabled
+     * @param userRole
+     *            the user role
+     */
+    public User(String username, String password, boolean enabled,
+            Set<UserRole> userRole) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.userRole = userRole;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    /**
+     * Gets the username.
+     *
+     * @return the username
+     */
+    @Id
+    @Column(name = "username", unique = true, nullable = false, length = 45)
+    public String getUsername() {
+        return this.username;
+    }
 
-  @Column(name = "enabled", nullable = false)
-  public boolean isEnabled() {
-    return this.enabled;
-  }
+    /**
+     * Sets the username.
+     *
+     * @param username
+     *            the new username
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
+    /**
+     * Gets the password.
+     *
+     * @return the password
+     */
+    @Column(name = "password", nullable = false, length = 60)
+    public String getPassword() {
+        return this.password;
+    }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-  public Set<UserRole> getUserRole() {
-    return this.userRole;
-  }
+    /**
+     * Sets the password.
+     *
+     * @param password
+     *            the new password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public void setUserRole(Set<UserRole> userRole) {
-    this.userRole = userRole;
-  }
+    /**
+     * Checks if is enabled.
+     *
+     * @return true, if is enabled
+     */
+    @Column(name = "enabled", nullable = false)
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 
+    /**
+     * Sets the enabled.
+     *
+     * @param enabled
+     *            the new enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
+    /**
+     * Gets the user role.
+     *
+     * @return the user role
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    public Set<UserRole> getUserRole() {
+        return this.userRole;
+    }
 
-  /**
-   * To string.
-   * @return la chaine de caractere a afficher
-   */
-  @Override
-  public String toString() {
+    /**
+     * Sets the user role.
+     *
+     * @param userRole
+     *            the new user role
+     */
+    public void setUserRole(Set<UserRole> userRole) {
+        this.userRole = userRole;
+    }
 
-    return "User [username=" + username + ", password=" + password + ", enabled=" + enabled + ", userRole=" + userRole + "]";
+    /**
+     * To string.
+     *
+     * @return la chaine de caractere a afficher
+     */
+    @Override
+    public String toString() {
 
-  }
+        return "User [username=" + username + ", password=" + password
+                + ", enabled=" + enabled + ", userRole=" + userRole + "]";
+
+    }
 
 }

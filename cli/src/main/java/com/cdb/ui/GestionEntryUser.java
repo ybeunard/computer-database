@@ -14,7 +14,9 @@ import com.cdb.model.dto.ComputerDto;
 public class GestionEntryUser {
 
     /** The Constant PAGING. */
-    private static final GestionPagination PAGING = new GestionPagination();    
+    private static final GestionPagination PAGING = new GestionPagination();
+
+    /** The rest template. */
     private static RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -241,30 +243,38 @@ public class GestionEntryUser {
         switch (type) {
 
         case "company":
-            
+
             try {
-                
-                ResponseEntity<CompanyDto> company = restTemplate.getForEntity(UserInterpreter.uri + UserInterpreter.uriCompanies + id, CompanyDto.class);
+
+                ResponseEntity<CompanyDto> company = restTemplate.getForEntity(
+                        UserInterpreter.uri + UserInterpreter.uriCompanies + id,
+                        CompanyDto.class);
                 if (company.getStatusCode() == HttpStatus.OK) {
                     System.out.println(company.getBody().toString() + "\n\n");
                 }
 
             } catch (RestClientException restClientException) {
-                System.out.println("Problem occured when getting company with id " + id);
+                System.out.println(
+                        "Problem occured when getting company with id " + id);
             }
 
             break;
 
         case "computer":
             try {
-                
-                ResponseEntity<ComputerDto> computer = restTemplate.getForEntity(UserInterpreter.uri + UserInterpreter.uriComputers + id, ComputerDto.class);
+
+                ResponseEntity<ComputerDto> computer = restTemplate
+                        .getForEntity(
+                                UserInterpreter.uri
+                                        + UserInterpreter.uriComputers + id,
+                                ComputerDto.class);
                 if (computer.getStatusCode() == HttpStatus.OK) {
                     System.out.println(computer.getBody().toString() + "\n\n");
                 }
 
             } catch (RestClientException restClientException) {
-                System.out.println("Problem occured when getting computer with id " + id);
+                System.out.println(
+                        "Problem occured when getting computer with id " + id);
             }
 
             break;
@@ -313,17 +323,18 @@ public class GestionEntryUser {
     private static void createComputer() {
 
         ComputerDto computerDto = new ComputerDto();
- 
+
         System.out.println("\nVeuillez saisir le nom du computer :\n");
         String entry = UserInterpreter.SCANNER.nextLine();
 
         if (!entry.equals("")) {
 
-           computerDto.setName(entry);
+            computerDto.setName(entry);
 
         }
 
-        System.out.println("\nVeuillez saisir la date d'introduction du computer :\n");
+        System.out.println(
+                "\nVeuillez saisir la date d'introduction du computer :\n");
         entry = UserInterpreter.SCANNER.nextLine();
 
         if (!entry.equals("")) {
@@ -332,7 +343,8 @@ public class GestionEntryUser {
 
         }
 
-        System.out.println("\nVeuillez saisir la date d'interruption du computer :\n");
+        System.out.println(
+                "\nVeuillez saisir la date d'interruption du computer :\n");
         entry = UserInterpreter.SCANNER.nextLine();
 
         if (!entry.equals("")) {
@@ -341,7 +353,8 @@ public class GestionEntryUser {
 
         }
 
-        System.out.println("\nVeuillez saisir l'id de la company du computer :\n");
+        System.out.println(
+                "\nVeuillez saisir l'id de la company du computer :\n");
         entry = UserInterpreter.SCANNER.nextLine();
 
         if (!entry.equals("")) {
@@ -351,8 +364,10 @@ public class GestionEntryUser {
         }
 
         try {
-            HttpStatus status = restTemplate.postForEntity(UserInterpreter.uri + UserInterpreter.uriComputers, computerDto, ComputerDto.class).getStatusCode();
-            
+            HttpStatus status = restTemplate.postForEntity(
+                    UserInterpreter.uri + UserInterpreter.uriComputers,
+                    computerDto, ComputerDto.class).getStatusCode();
+
             if (status == HttpStatus.OK) {
                 System.out.println("Computer posted");
             }
@@ -367,12 +382,13 @@ public class GestionEntryUser {
      */
     private static void updateComputer() {
 
-        System.out.println("\nVeuillez saisir l'id du computer à update(champ obligatoire):\n");
+        System.out.println(
+                "\nVeuillez saisir l'id du computer à update(champ obligatoire):\n");
         String entry = UserInterpreter.SCANNER.nextLine();
         ComputerDto computerDto = new ComputerDto();
-        
+
         int id = 0;
-        
+
         if (entry.equals("")) {
 
             System.out.println("L'Id est obligatoire");
@@ -390,7 +406,8 @@ public class GestionEntryUser {
             computerDto.setName(entry);
         }
 
-        System.out.println("\nVeuillez saisir la date d'introduction du computer :\n");
+        System.out.println(
+                "\nVeuillez saisir la date d'introduction du computer :\n");
         entry = UserInterpreter.SCANNER.nextLine();
 
         if (!entry.equals("")) {
@@ -399,7 +416,8 @@ public class GestionEntryUser {
 
         }
 
-        System.out.println("\nVeuillez saisir la date d'interruption du computer :\n");
+        System.out.println(
+                "\nVeuillez saisir la date d'interruption du computer :\n");
         entry = UserInterpreter.SCANNER.nextLine();
 
         if (!entry.equals("")) {
@@ -408,7 +426,8 @@ public class GestionEntryUser {
 
         }
 
-        System.out.println("\nVeuillez saisir l'id de la company du computer :\n");
+        System.out.println(
+                "\nVeuillez saisir l'id de la company du computer :\n");
         entry = UserInterpreter.SCANNER.nextLine();
 
         if (!entry.equals("")) {
@@ -416,9 +435,10 @@ public class GestionEntryUser {
             computerDto.setIdCompany(Integer.parseInt(entry));
 
         }
-        
-        restTemplate.put(UserInterpreter.uri + UserInterpreter.uriComputers, computerDto, ComputerDto.class);
-        
+
+        restTemplate.put(UserInterpreter.uri + UserInterpreter.uriComputers,
+                computerDto, ComputerDto.class);
+
         System.out.println("Computer put");
 
     }
@@ -437,15 +457,17 @@ public class GestionEntryUser {
 
         case "company":
 
-            restTemplate.delete(UserInterpreter.uri + UserInterpreter.uriCompanies + id);
-            
+            restTemplate.delete(
+                    UserInterpreter.uri + UserInterpreter.uriCompanies + id);
+
             System.out.println("Entity deleted");
 
             break;
 
         case "computer":
 
-            restTemplate.delete(UserInterpreter.uri + UserInterpreter.uriComputers + id);
+            restTemplate.delete(
+                    UserInterpreter.uri + UserInterpreter.uriComputers + id);
 
             System.out.println("Entity deleted");
 

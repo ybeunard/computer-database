@@ -23,14 +23,24 @@ import com.cdb.model.entities.Company;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TestCompanyDao.
+ */
 public class TestCompanyDao extends TestCase {
 
+    /** The context. */
     private ApplicationContext context;
 
+    /** The dao. */
     private CompanyDao dao;
 
+    /** The prop. */
     private Properties prop = new Properties();
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
 
@@ -47,6 +57,9 @@ public class TestCompanyDao extends TestCase {
 
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     @Override
     protected void tearDown() throws Exception {
 
@@ -54,6 +67,12 @@ public class TestCompanyDao extends TestCase {
 
     }
 
+    /**
+     * Cleanly insert dataset.
+     *
+     * @param dataSet the data set
+     * @throws Exception the exception
+     */
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
 
         IDatabaseTester databaseTester = new JdbcDatabaseTester(
@@ -67,6 +86,12 @@ public class TestCompanyDao extends TestCase {
 
     }
 
+    /**
+     * Read data set 2.
+     *
+     * @return the i data set
+     * @throws Exception the exception
+     */
     private IDataSet readDataSet2() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
@@ -74,6 +99,12 @@ public class TestCompanyDao extends TestCase {
 
     }
 
+    /**
+     * Read data set 1.
+     *
+     * @return the i data set
+     * @throws Exception the exception
+     */
     private IDataSet readDataSet1() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
@@ -81,6 +112,9 @@ public class TestCompanyDao extends TestCase {
 
     }
 
+    /**
+     * Test find companies.
+     */
     @Test
     public void testFindCompanies() {
 
@@ -98,6 +132,9 @@ public class TestCompanyDao extends TestCase {
 
     }
     
+    /**
+     * Test find company by page.
+     */
     @Test
     public void testFindCompanyByPage() {
         
@@ -115,6 +152,9 @@ public class TestCompanyDao extends TestCase {
         
     }
     
+    /**
+     * Test find company by page num page zero.
+     */
     @Test
     public void testFindCompanyByPageNumPageZero() {
         
@@ -123,6 +163,9 @@ public class TestCompanyDao extends TestCase {
         
     }
     
+    /**
+     * Test find company by page row by page zero.
+     */
     @Test
     public void testFindCompanyByPageRowByPageZero() {
         
@@ -138,6 +181,9 @@ public class TestCompanyDao extends TestCase {
         
     }
     
+    /**
+     * Test find company by page num page over.
+     */
     @Test
     public void testFindCompanyByPageNumPageOver() {
         
@@ -153,6 +199,9 @@ public class TestCompanyDao extends TestCase {
         
     }
 
+    /**
+     * Test find company by ID.
+     */
     @Test
     public void testFindCompanyByID() {
 
@@ -163,9 +212,13 @@ public class TestCompanyDao extends TestCase {
 
     }
     
+    /** The logger. */
     public final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
 
     
+    /**
+     * Test find company by ID zero.
+     */
     @Test
     public void testFindCompanyByIDZero() {
 
@@ -181,6 +234,9 @@ public class TestCompanyDao extends TestCase {
 
     }
 
+    /**
+     * Test find company by ID incorrecte.
+     */
     @Test
     public void testFindCompanyByIDIncorrecte() {
 
@@ -196,6 +252,9 @@ public class TestCompanyDao extends TestCase {
 
     }
     
+    /**
+     * Test delete company.
+     */
     @Test
     public void testDeleteCompany(){
         

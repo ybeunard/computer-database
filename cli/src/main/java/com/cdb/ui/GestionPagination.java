@@ -16,7 +16,10 @@ import com.cdb.utils.Parse;
  */
 public class GestionPagination {
 
+    /** The rest template. */
     private static RestTemplate restTemplate = new RestTemplate();
+
+    /** The Constant FILTER. */
     private static final String FILTER = "filter";
     /** The numero page. */
     private int numPage;
@@ -56,15 +59,13 @@ public class GestionPagination {
 
             case "computer":
 
-                
                 try {
-                    ResponseEntity<List> computers = restTemplate.getForEntity(UserInterpreter.uri
-                            + UserInterpreter.uriComputers
-                            + numPage
-                            + UserInterpreter.SLASH
-                            + rowByPage,
+                    ResponseEntity<List> computers = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriComputers
+                                    + numPage + UserInterpreter.SLASH
+                                    + rowByPage,
                             List.class);
-                    
+
                     if (computers.getStatusCode() == HttpStatus.OK) {
                         pageComputer = computers.getBody();
                         displayPage(typePage);
@@ -72,7 +73,8 @@ public class GestionPagination {
 
                 } catch (RestClientException restClientException) {
 
-                    System.out.println("Problem occured when getting computer with page");
+                    System.out.println(
+                            "Problem occured when getting computer with page");
                     restClientException.getMessage();
 
                 }
@@ -82,11 +84,10 @@ public class GestionPagination {
             case "company":
 
                 try {
-                    ResponseEntity<List> companies = restTemplate.getForEntity(UserInterpreter.uri
-                            + UserInterpreter.uriCompanies
-                            + numPage
-                            + UserInterpreter.SLASH
-                            + rowByPage,
+                    ResponseEntity<List> companies = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriCompanies
+                                    + numPage + UserInterpreter.SLASH
+                                    + rowByPage,
                             List.class);
                     if (companies.getStatusCode() == HttpStatus.OK) {
                         pageCompany = companies.getBody();
@@ -95,7 +96,8 @@ public class GestionPagination {
 
                 } catch (RestClientException restClientException) {
 
-                    System.out.println("Problem occured when getting company with page");
+                    System.out.println(
+                            "Problem occured when getting company with page");
                     restClientException.getMessage();
 
                 }
@@ -130,15 +132,12 @@ public class GestionPagination {
 
             case "computer":
                 try {
-                    ResponseEntity<List> computers = restTemplate.getForEntity(UserInterpreter.uri
-                            + UserInterpreter.uriComputers
-                            + numPage
-                            + UserInterpreter.SLASH
-                            + rowByPage
-                            + UserInterpreter.SLASH
-                            + name,
+                    ResponseEntity<List> computers = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriComputers
+                                    + numPage + UserInterpreter.SLASH
+                                    + rowByPage + UserInterpreter.SLASH + name,
                             List.class);
-                    
+
                     if (computers.getStatusCode() == HttpStatus.OK) {
                         pageComputer = computers.getBody();
                         displayPage(typePage);
@@ -146,7 +145,8 @@ public class GestionPagination {
 
                 } catch (RestClientException restClientException) {
 
-                    System.out.println("Problem occured when getting computer with page and filter");
+                    System.out.println(
+                            "Problem occured when getting computer with page and filter");
                     restClientException.getMessage();
 
                 }
@@ -155,14 +155,12 @@ public class GestionPagination {
             case "company":
 
                 try {
-                    ResponseEntity<List> companies = restTemplate.getForEntity(UserInterpreter.uri
-                            + UserInterpreter.uriCompanies
-                            + UserInterpreter.SLASH
-                            + FILTER
-                            + UserInterpreter.SLASH
-                            + name,
+                    ResponseEntity<List> companies = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriCompanies
+                                    + UserInterpreter.SLASH + FILTER
+                                    + UserInterpreter.SLASH + name,
                             List.class);
-                    
+
                     if (companies.getStatusCode() == HttpStatus.OK) {
                         pageCompany = companies.getBody();
                         displayPage(typePage);
@@ -170,12 +168,13 @@ public class GestionPagination {
 
                 } catch (RestClientException restClientException) {
 
-                    System.out.println("Problem occured when getting company with page and filter");
+                    System.out.println(
+                            "Problem occured when getting company with page and filter");
                     restClientException.getMessage();
 
                 }
                 break;
-                
+
             default:
 
                 System.out.println("Type de page inconnue");

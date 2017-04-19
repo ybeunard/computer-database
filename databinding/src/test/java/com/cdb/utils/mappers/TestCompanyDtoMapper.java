@@ -10,8 +10,15 @@ import com.cdb.model.entities.Company;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TestCompanyDtoMapper.
+ */
 public class TestCompanyDtoMapper extends TestCase {
 
+    /**
+     * Test recovery company.
+     */
     @Test
     public void testRecoveryCompany() {
         
@@ -28,6 +35,9 @@ public class TestCompanyDtoMapper extends TestCase {
         
     }
     
+    /**
+     * Test recovery list company.
+     */
     @Test
     public void testRecoveryListCompany() {
         

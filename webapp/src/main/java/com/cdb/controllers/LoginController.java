@@ -20,12 +20,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoginController.
+ */
 @Controller
 @RequestMapping("/")
 public class LoginController {
   /** The Constant LOGGER. */
   public static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
+  /**
+   * Login.
+   *
+   * @param error the error
+   * @param logout the logout
+   * @param request the request
+   * @param response the response
+   * @return the model and view
+   */
   @RequestMapping(value = "/login.html", method = RequestMethod.GET)
   public ModelAndView login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request, HttpServletResponse response) {
 
@@ -47,6 +60,13 @@ public class LoginController {
     return model;
   }
 
+  /**
+   * Gets the error message.
+   *
+   * @param request the request
+   * @param key the key
+   * @return the error message
+   */
   private String getErrorMessage(HttpServletRequest request, String key) {
 
     Exception exception = (Exception) request.getSession().getAttribute(key);
@@ -63,6 +83,12 @@ public class LoginController {
     return error;
   }
 
+  /**
+   * Accesss denied.
+   *
+   * @param request the request
+   * @return the model and view
+   */
   @RequestMapping(value = "/403.html", method = RequestMethod.GET)
   public ModelAndView accesssDenied(HttpServletRequest request) {
 

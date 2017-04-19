@@ -41,20 +41,19 @@ public interface InterfaceCompanyService {
     CompanyDto findCompanyById(long id);
 
     /**
-     * Suppression ordinateur.
+     * Delete one company.
      *
      * @param id
      *            the id
      */
-    void deleteCompany(List<Long> id);
+    void deleteOneCompany(Long id);
 
     /**
-     * @param id
-     */
-    void deleteOneCompany(Long id);
-    
-    /**
-     * @param name : name
+     * Find company by filter.
+     *
+     * @param name
+     *            : name
+     * @return the list
      */
     List<Company> findCompanyByFilter(String name);
 

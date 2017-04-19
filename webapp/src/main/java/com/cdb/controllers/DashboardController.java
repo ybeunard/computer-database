@@ -24,9 +24,11 @@ import com.cdb.utils.mappers.PageDtoMapper;
 @SessionAttributes("currentPage")
 public class DashboardController {
 
-	/** The error / information message **/
-	private String message = "";
-	
+    /**
+     * The error / information message.
+     */
+    private String message = "";
+
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(DashboardController.class);
@@ -34,7 +36,7 @@ public class DashboardController {
     /** The gestion ordinateur. */
     @Autowired
     private ComputerService computerService;
-    
+
     /**
      * Gets the gestion ordinateur.
      *
@@ -45,9 +47,14 @@ public class DashboardController {
         return computerService;
 
     }
-    
+
+    /**
+     * Gets the current page.
+     *
+     * @return the current page
+     */
     @ModelAttribute("currentPage")
-    public PageDto getCurrentPage () {
+    public PageDto getCurrentPage() {
 
         return new PageDto();
 
@@ -56,14 +63,16 @@ public class DashboardController {
     /**
      * Dashboard get.
      *
-     * @param request
-     *            the request
-     * @param model
-     *            the model
+     * @param parameters
+     *            the parameters
+     * @param currentPage
+     *            the current page
      * @return the model and view
      */
     @RequestMapping(method = RequestMethod.GET)
-    protected ModelAndView dashboardGet(@RequestParam MultiValueMap<String, String> parameters, @ModelAttribute("currentPage") PageDto currentPage) {
+    protected ModelAndView dashboardGet(
+            @RequestParam MultiValueMap<String, String> parameters,
+            @ModelAttribute("currentPage") PageDto currentPage) {
 
         LOGGER.info("DashboardController: GET");
         ModelAndView model = new ModelAndView("dashboard");
@@ -75,19 +84,21 @@ public class DashboardController {
     /**
      * Dashboard post.
      *
-     * @param request
-     *            the request
-     * @param model
-     *            the model
+     * @param parameters
+     *            the parameters
+     * @param currentPage
+     *            the current page
      * @return the model and view
      */
     @RequestMapping(method = RequestMethod.POST)
-    protected ModelAndView dashboardPostModel(@RequestParam MultiValueMap<String, String> parameters, @ModelAttribute("currentPage") PageDto currentPage) {
+    protected ModelAndView dashboardPostModel(
+            @RequestParam MultiValueMap<String, String> parameters,
+            @ModelAttribute("currentPage") PageDto currentPage) {
 
         LOGGER.info("DashboardController: POST");
         ModelAndView model = new ModelAndView("dashboard");
-        computerService.deleteComputer(PageDtoMapper
-                .recoveryListDeleteRequestPost(parameters));
+        computerService.deleteComputer(
+                PageDtoMapper.recoveryListDeleteRequestPost(parameters));
         recoveryDisplayDashboard(parameters, model, currentPage);
         return model;
 
@@ -96,24 +107,28 @@ public class DashboardController {
     /**
      * Recuperation model affichage add computer.
      *
-     * @param request
-     *            the request
+     * @param parameters
+     *            the parameters
      * @param model
      *            the model
+     * @param currentPage
+     *            the current page
      */
-    private void recoveryDisplayDashboard(MultiValueMap<String, String> parameters,
-            ModelAndView model, PageDto currentPage) {
+    private void recoveryDisplayDashboard(
+            MultiValueMap<String, String> parameters, ModelAndView model,
+            PageDto currentPage) {
 
-            PageDto page = PageDtoMapper.recoveryPageDtoRequestGet(parameters, currentPage);
-            try {
-            	page = computerService.findComputerByPage(page);
-                model.addObject("currentPage", page);
-            } catch (RuntimeException exception) {
-            	message = exception.getMessage();
-            } finally {
-            	model.addObject("message", message);
-				message = "";
-			}
+        PageDto page = PageDtoMapper.recoveryPageDtoRequestGet(parameters,
+                currentPage);
+        try {
+            page = computerService.findComputerByPage(page);
+            model.addObject("currentPage", page);
+        } catch (RuntimeException exception) {
+            message = exception.getMessage();
+        } finally {
+            model.addObject("message", message);
+            message = "";
+        }
 
     }
 

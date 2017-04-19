@@ -17,21 +17,36 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cdb.services.Impl.UserService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SecurityConfig.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+  /** The Constant LOGGER. */
   public static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
 
+  /** The user service. */
   @Autowired
   @Qualifier("userService")
   UserService userService;
 
+  /**
+   * Configure global.
+   *
+   * @param auth the auth
+   * @throws Exception the exception
+   */
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
   }
 
+  /* (non-Javadoc)
+   * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
+   */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests().antMatchers("/addComputer.html", "/editComputer.html").access("hasRole('ROLE_ADMIN')")
@@ -43,6 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     .and().exceptionHandling().accessDeniedPage("/403.html");
   }
 
+  /**
+   * Password encoder.
+   *
+   * @return the password encoder
+   */
   @Bean
   public PasswordEncoder passwordEncoder() {
     PasswordEncoder encoder = new BCryptPasswordEncoder();

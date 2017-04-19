@@ -10,8 +10,15 @@ import com.cdb.model.entities.Company;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TestParse.
+ */
 public class TestParse extends TestCase {
     
+    /**
+     * Test parse entier.
+     */
     @Test
     public void testParseEntier() {
         
@@ -23,6 +30,9 @@ public class TestParse extends TestCase {
         
     }
     
+    /**
+     * Test parse string.
+     */
     @Test
     public void testParseString() {
         
@@ -34,6 +44,9 @@ public class TestParse extends TestCase {
         
     }
     
+    /**
+     * Test parse long.
+     */
     @Test
     public void testParseLong() {
         
@@ -45,6 +58,9 @@ public class TestParse extends TestCase {
         
     }
     
+    /**
+     * Test parse date.
+     */
     @Test
     public void testParseDate() {
         
@@ -77,6 +93,9 @@ public class TestParse extends TestCase {
         
     }
     
+    /**
+     * Test parse factory.
+     */
     @Test
     public void testParseFactory() {
         
@@ -91,6 +110,9 @@ public class TestParse extends TestCase {
         
     }
     
+    /**
+     * Test parse boolean.
+     */
     @Test
     public void testParseBoolean() {
         

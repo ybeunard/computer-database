@@ -38,11 +38,11 @@ public class CompanyDtoMapper {
 
         LOGGER.info("Mapping List Company in List CompanyDto");
         List<CompanyDto> companiesDto = new ArrayList<CompanyDto>();
-        
+
         if (companies == null) {
-            
+
             return companiesDto;
-            
+
         }
 
         for (Company company : companies) {

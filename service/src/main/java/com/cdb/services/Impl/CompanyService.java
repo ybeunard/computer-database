@@ -62,15 +62,26 @@ public class CompanyService implements InterfaceCompanyService {
 
     }
 
+    /**
+     * find company by page.
+     *
+     * @param numPage
+     *            the numPage
+     * @param rowByPage
+     *            the rowByPage
+     * @param filter
+     *            the filter
+     * @return list company dto
+     */
     @Override
-  public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage, String filter) {
+    public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage,
+            String filter) {
 
         List<Company> companies = new ArrayList<Company>();
         long nbComputer = 0;
         long pageMax = 1;
         LOGGER.info("Service : search company by page");
 
-        
         if (filter == null || filter.equals("")) {
 
             nbComputer = companyDao.countCompany();
@@ -91,7 +102,14 @@ public class CompanyService implements InterfaceCompanyService {
         return CompanyDtoMapper.recoveryListCompany(companies);
 
     }
-    
+
+    /**
+     * find company by filter.
+     *
+     * @param name
+     *            the name
+     * @return list company
+     */
     @Override
     public List<Company> findCompanyByFilter(String name) {
 
@@ -117,12 +135,6 @@ public class CompanyService implements InterfaceCompanyService {
 
     }
 
-    @Override
-    public void deleteCompany(List<Long> id) {
-        // TODO Auto-generated method stub
-
-    }
-    
     /**
      * delete computers.
      *

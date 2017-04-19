@@ -3,7 +3,6 @@ package com.cdb.rest;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.slf4j.Logger;
@@ -22,6 +21,9 @@ import com.cdb.model.entities.Computer;
 import com.cdb.services.Impl.ComputerService;
 import com.cdb.utils.mappers.ComputerMapper;
 
+/**
+ * The Class ComputerController.
+ */
 @RestController
 @RequestMapping("/computers")
 @Produces("application/json")
@@ -37,22 +39,25 @@ public class ComputerController {
 
     /**
      * Constructor with injection.
-     * @param computerService computerservice
+     *
+     * @param computerService
+     *            computerservice
      */
-    public ComputerController (ComputerService computerService) {
-        
+    public ComputerController(ComputerService computerService) {
+
         LOGGER.info("ComputerController Instantiated");
 
         this.computerService = computerService;
     }
 
-
     /**
      * Find a computer by id.
-     * @param id : id of computer to find
+     *
+     * @param id
+     *            : id of computer to find
      * @return response
      */
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> findComputer(@PathVariable Long id) {
 
         LOGGER.info("WebService: find computer");
@@ -62,24 +67,30 @@ public class ComputerController {
         return new ResponseEntity<ComputerDto>(computerDto, HttpStatus.OK);
     }
 
-
     /**
      * Find page of computer.
-     * @param pageDto : page
+     *
+     * @param numPage
+     *            the num page
+     * @param rowByPage
+     *            the row by page
      * @return response
      */
-    @RequestMapping(value="/{numPage}/{rowByPage}", method=RequestMethod.GET)
-    public ResponseEntity<?> findComputers(@PathVariable int numPage, @PathVariable int rowByPage) {
+    @RequestMapping(value = "/{numPage}/{rowByPage}", method = RequestMethod.GET)
+    public ResponseEntity<?> findComputers(@PathVariable int numPage,
+            @PathVariable int rowByPage) {
 
         LOGGER.info("WebService: find all computer");
 
         try {
 
-            PageDto pageDto = new PageDto.PageDtoBuilder().rowByPage(rowByPage).numPage(numPage).build();
+            PageDto pageDto = new PageDto.PageDtoBuilder().rowByPage(rowByPage)
+                    .numPage(numPage).build();
             PageDto pageResult = computerService.findComputerByPage(pageDto);
-            
-            return new ResponseEntity<List<ComputerDto>>(pageResult.getContent(), HttpStatus.OK);
-        
+
+            return new ResponseEntity<List<ComputerDto>>(
+                    pageResult.getContent(), HttpStatus.OK);
+
         } catch (Exception persistenceException) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
@@ -87,21 +98,30 @@ public class ComputerController {
 
     /**
      * Find page of computer.
-     * @param pageDto : page
+     *
+     * @param numPage
+     *            the num page
+     * @param rowByPage
+     *            the row by page
+     * @param filter
+     *            the filter
      * @return response
      */
-    @RequestMapping(value="/{numPage}/{rowByPage}/{filter}", method=RequestMethod.GET)
-    public ResponseEntity<?> findComputers(@PathVariable int numPage, @PathVariable int rowByPage, @PathVariable String filter) {
+    @RequestMapping(value = "/{numPage}/{rowByPage}/{filter}", method = RequestMethod.GET)
+    public ResponseEntity<?> findComputers(@PathVariable int numPage,
+            @PathVariable int rowByPage, @PathVariable String filter) {
 
         LOGGER.info("WebService: find all computer");
 
         try {
 
-            PageDto pageDto = new PageDto.PageDtoBuilder().rowByPage(rowByPage).numPage(numPage).filter(filter).build();
+            PageDto pageDto = new PageDto.PageDtoBuilder().rowByPage(rowByPage)
+                    .numPage(numPage).filter(filter).build();
             PageDto pageResult = computerService.findComputerByPage(pageDto);
-            
-            return new ResponseEntity<List<ComputerDto>>(pageResult.getContent(), HttpStatus.OK);
-        
+
+            return new ResponseEntity<List<ComputerDto>>(
+                    pageResult.getContent(), HttpStatus.OK);
+
         } catch (Exception persistenceException) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
@@ -109,58 +129,63 @@ public class ComputerController {
 
     /**
      * Post a computer.
-     * @param computerDto :  computer to post
+     *
+     * @param computerDto
+     *            : computer to post
      * @return response
      */
-    @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<?> postComputer(@RequestBody ComputerDto computerDto) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<?> postComputer(
+            @RequestBody ComputerDto computerDto) {
 
         LOGGER.info("WebService: post computer");
 
-        LOGGER.info("WebService: post the computerDto" + computerDto.toString());
+        LOGGER.info(
+                "WebService: post the computerDto" + computerDto.toString());
 
-        
         Computer computer = ComputerMapper.recoveryComputer(computerDto);
-        
-        
+
         LOGGER.info("WebService: post the computer" + computer.toString());
 
         computerService.createComputer(computer);
-        
+
         return new ResponseEntity<ComputerDto>(computerDto, HttpStatus.OK);
     }
 
     /**
      * Update a computer.
-     * @param computerDto :  computer to post
+     *
+     * @param computerDto
+     *            : computer to post
      * @return response
      */
-    @RequestMapping(method=RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<?> putComputer(@RequestBody ComputerDto computerDto) {
 
         LOGGER.info("WebService: update computer");
 
         Computer computer = ComputerMapper.recoveryComputer(computerDto);
-        
+
         computerService.updateComputer(computer);
-        
+
         return new ResponseEntity<ComputerDto>(computerDto, HttpStatus.OK);
     }
 
-
     /**
      * Delete a comuter.
-     * @param id : id of computer to delete
+     *
+     * @param id
+     *            : id of computer to delete
      * @return response
      */
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<?> deleteComputer(@PathVariable Long id)   {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteComputer(@PathVariable Long id) {
 
         LOGGER.info("WebService: delete computer");
 
         computerService.deleteOneComputer(id);
-        
-        return new ResponseEntity<Long>( id, HttpStatus.OK);
+
+        return new ResponseEntity<Long>(id, HttpStatus.OK);
     }
 
 }
