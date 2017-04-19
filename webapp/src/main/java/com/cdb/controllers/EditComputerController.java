@@ -26,7 +26,7 @@ import com.cdb.utils.mappers.ComputerMapper;
  * The Class EditComputerController.
  */
 @Controller
-@RequestMapping("/editComputer.htm")
+@RequestMapping("/editComputer.html")
 public class EditComputerController {
 
     /** The Constant LOGGER. */
@@ -133,7 +133,7 @@ public class EditComputerController {
 
             computerService.updateComputer(
                     ComputerMapper.recoveryComputer(computerDto));
-            return new ModelAndView("redirect:/dashboard.htm");
+            return new ModelAndView("redirect:/dashboard.html");
 
         } else {
 

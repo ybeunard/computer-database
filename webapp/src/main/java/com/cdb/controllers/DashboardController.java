@@ -1,25 +1,27 @@
 package com.cdb.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import com.cdb.model.dto.DashboardDto;
+
 import com.cdb.model.dto.PageDto;
 import com.cdb.services.Impl.ComputerService;
-import com.cdb.utils.mappers.DashboardDtoMapper;
+import com.cdb.utils.mappers.PageDtoMapper;
 
 /**
  * The Class DashboardController.
  */
 @Controller
-@RequestMapping("/dashboard.htm")
+@RequestMapping("/dashboard.html")
+@SessionAttributes("currentPage")
 public class DashboardController {
 
     /** The Constant LOGGER. */
@@ -28,8 +30,8 @@ public class DashboardController {
 
     /** The gestion ordinateur. */
     @Autowired
-    ComputerService computerService;
-
+    private ComputerService computerService;
+    
     /**
      * Gets the gestion ordinateur.
      *
@@ -38,6 +40,13 @@ public class DashboardController {
     public ComputerService getComputerService() {
 
         return computerService;
+
+    }
+    
+    @ModelAttribute("currentPage")
+    public PageDto getCurrentPage () {
+
+        return new PageDto();
 
     }
 
@@ -51,12 +60,12 @@ public class DashboardController {
      * @return the model and view
      */
     @RequestMapping(method = RequestMethod.GET)
-    protected ModelAndView dashboardGet(HttpServletRequest request,
-            Model model) {
+    protected ModelAndView dashboardGet(@RequestParam MultiValueMap<String, String> parameters, @ModelAttribute("currentPage") PageDto currentPage) {
 
         LOGGER.info("DashboardController: GET");
-        recoveryDisplayDashboard(request, model);
-        return new ModelAndView("dashboard");
+        ModelAndView model = new ModelAndView("dashboard");
+        recoveryDisplayDashboard(parameters, model, currentPage);
+        return model;
 
     }
 
@@ -70,14 +79,14 @@ public class DashboardController {
      * @return the model and view
      */
     @RequestMapping(method = RequestMethod.POST)
-    protected ModelAndView dashboardPost(HttpServletRequest request,
-            Model model) {
+    protected ModelAndView dashboardPostModel(@RequestParam MultiValueMap<String, String> parameters, @ModelAttribute("currentPage") PageDto currentPage) {
 
         LOGGER.info("DashboardController: POST");
-            computerService.deleteComputer(DashboardDtoMapper
-                    .recoveryListDeleteRequestPost(request));
-        recoveryDisplayDashboard(request, model);
-        return new ModelAndView("dashboard");
+        ModelAndView model = new ModelAndView("dashboard");
+        computerService.deleteComputer(PageDtoMapper
+                .recoveryListDeleteRequestPost(parameters));
+        recoveryDisplayDashboard(parameters, model, currentPage);
+        return model;
 
     }
 
@@ -89,18 +98,12 @@ public class DashboardController {
      * @param model
      *            the model
      */
-    private void recoveryDisplayDashboard(HttpServletRequest request,
-            Model model) {
+    private void recoveryDisplayDashboard(MultiValueMap<String, String> parameters,
+            ModelAndView model, PageDto currentPage) {
 
-        DashboardDto dashboard = DashboardDtoMapper
-                    .recoveryDashboardRequestGet(request);
-            PageDto page = null;
-            page = computerService.findComputerByPage(
-                    dashboard.getNumPage(), dashboard.getRowByPage(),
-                    dashboard.getFilter(), dashboard.getSort(),
-                    dashboard.getDesc());
-            model.addAttribute("page", page);
-            request.getSession().setAttribute("page", page);
+            PageDto page = PageDtoMapper.recoveryPageDtoRequestGet(parameters, currentPage);
+            page = computerService.findComputerByPage(page);
+            model.addObject("currentPage", page);
 
     }
 

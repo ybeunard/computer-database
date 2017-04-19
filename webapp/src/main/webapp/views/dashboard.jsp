@@ -3,6 +3,8 @@
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+	<%@taglib prefix="page" tagdir="/WEB-INF/tags"%>
+	
 <!DOCTYPE jsp>
 <html>
 <head>
@@ -13,29 +15,36 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
+<link href="<c:url value="/css/flag.min.css"/>" rel="stylesheet"
+	media="screen" />
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.htm?resetFilter=OK"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.html?search="> Application - Computer Database </a>
+	        <div class="language">
+	    	    <a class="align-middle" href="dashboard.html?locale=en"><i class="us flag"></i></a>
+		     	<a class="align-middle" href="dashboard.html?locale=fr"><i class="fr flag"></i></a>
+        		<a href="login?logout"><spring:message code="logoutmessage.springmvc"/></a>
+        	</div>
         </div>
+
     </header>
     <section id="main">
         <div class="container">
-        	Language : <a href="dashboard.htm?locale=en">English</a>|<a href="dashboard.htm?locale=fr">Francais</a>
             <h1 id="homeTitle">
-                ${page.nbComputer} <spring:message code="found.springmvc" text="default text" />
+                ${currentPage.nbComputer} <spring:message code="found.springmvc" text="default text" />
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
-                    <form id="searchForm" action="dashboard.htm" method="GET" class="form-inline">
+                    <form id="searchForm" action="dashboard.html" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="${currentPage.filter}" />
                         <input type="submit" id="searchsubmit" name="action" value="<spring:message code="filterButton.springmvc" text="default text" />" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.htm"><spring:message code="boutonAdd.springmvc" text="default text" /></a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputer.html"><spring:message code="boutonAdd.springmvc" text="default text" /></a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
                     	<spring:message code="boutonEdit.springmvc" text="default text" />
                    	</a>
@@ -46,7 +55,7 @@
             </div>
         </div>
 
-        <form id="deleteForm" action="dashboard.htm" method="POST">
+        <form id="deleteForm" action="dashboard.html" method="POST">
         	<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
             <input type="hidden" name="selection" value="">
         </form>
@@ -67,37 +76,28 @@
                             </span>
                         </th>
                         <th>
-                            <a href="dashboard.htm?sort=name"><spring:message code="name.springmvc" text="default text" /></a>
+                            <a href="dashboard.html?sort=name&desc=${currentPage.desc}"><spring:message code="name.springmvc" text="default text" /></a>
                         </th>
                         <th>
-                            <spring:message code="introduced.springmvc" text="default text" />
+                            <a href="dashboard.html?sort=introduced&desc=${currentPage.desc}"><spring:message code="introduced.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <spring:message code="discontinued.springmvc" text="default text" />
+                            <a href="dashboard.html?sort=discontinued&desc=${currentPage.desc}"><spring:message code="discontinued.springmvc" text="default text" /></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href="dashboard.htm?sort=company_name"><spring:message code="company.springmvc" text="default text" /></a>
+                            <a href="dashboard.html?sort=company_name&desc=${currentPage.desc}"><spring:message code="company.springmvc" text="default text" /></a>
                         </th>
 
                     </tr>
                 </thead>
                 <!-- Browse attribute computers -->
                 <tbody id="results">
-                	<c:forEach items="${page.content}" var="computer" >
-	                    <tr>
-	                        <td class="editMode">
-	                            <input id="cb" type="checkbox" name="cb" class="cb" value="${computer.id}"/>
-	                        </td>
-	                        <td>
-	                            <a href="editComputer.htm?id=${computer.id}" id="computerURL" onclick="">${computer.name}</a>
-	                        </td>
-	                        <td>${computer.introduced}</td>
-	                        <td>${computer.discontinued}</td>
-	                        <td>${computer.company}</td>
-	
-	                    </tr>
+                	<c:forEach items="${currentPage.content}" var="computer" >
+	                    <page:show computerId="${computer.id}" computerName="${computer.name}" computerIntroduced="${computer.introduced}"
+					computerDiscontinued="${computer.discontinued}" computerManufacturerName="${computer.company}">
+					</page:show>
                 	</c:forEach>   
                 </tbody>
             </table>
@@ -108,11 +108,30 @@
     </section>
 
     <footer class="navbar-fixed-bottom">
-        <%@include file="pagination.jsp" %>
-    </footer>
+		<div class="container text-center">
+			<ul id="pagination-demo" class="pagination"></ul>
+			<div class="btn-group btn-group-sm pull-right" role="group">
+				<a class="btn btn-default " href="dashboard.html?rowByPage=10">10</a> <a
+					class="btn btn-default " href="dashboard.html?rowByPage=50">50</a> <a
+					class="btn btn-default " href="dashboard.html?rowByPage=100">100</a>
+			</div>
+		</div>
+	</footer>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="<c:url value="/js/jquery/jquery.twbsPagination.min.js"/>"></script>
+<script>
+	$('#pagination-demo').twbsPagination({
+	    initiateStartPageClick: false,
+	    startPage: ${currentPage.numPage},
+	    totalPages: ${currentPage.nbComputer / currentPage.rowByPage},
+	    visiblePages: 7,
+	    onPageClick: function (event, page) {
+	        window.location.href = "dashboard.html?numPage=" + (page);
+	    }
+	});
+</script>
 
 </body>
 </html>

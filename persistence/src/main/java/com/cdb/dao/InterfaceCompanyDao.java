@@ -72,4 +72,6 @@ public interface InterfaceCompanyDao {
      */
     long countCompanyByName(String filter);
 
+    List<Company> findCompanyByFilter(String name);
+
 }

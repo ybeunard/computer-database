@@ -3,6 +3,7 @@ package com.cdb.rest;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.slf4j.Logger;
@@ -67,22 +68,44 @@ public class ComputerController {
      * @param pageDto : page
      * @return response
      */
-    @RequestMapping(value="/page", method=RequestMethod.GET)
-    public ResponseEntity<?> findComputers(@PathVariable Long id, @PathVariable Long id) {
+    @RequestMapping(value="/{numPage}/{rowByPage}", method=RequestMethod.GET)
+    public ResponseEntity<?> findComputers(@PathVariable int numPage, @PathVariable int rowByPage) {
 
         LOGGER.info("WebService: find all computer");
 
         try {
 
-            pageDto = computerService.findComputerByPage(pageDto.getNumPage(), pageDto.getRowByPage(), pageDto.getFilter(), pageDto.getSort(), pageDto.getDesc());
+            PageDto pageDto = new PageDto.PageDtoBuilder().rowByPage(rowByPage).numPage(numPage).build();
+            PageDto pageResult = computerService.findComputerByPage(pageDto);
             
-            return new ResponseEntity<List<ComputerDto>>(pageDto.getContent(), HttpStatus.OK);
+            return new ResponseEntity<List<ComputerDto>>(pageResult.getContent(), HttpStatus.OK);
         
         } catch (Exception persistenceException) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
     }
 
+    /**
+     * Find page of computer.
+     * @param pageDto : page
+     * @return response
+     */
+    @RequestMapping(value="/{numPage}/{rowByPage}/{filter}", method=RequestMethod.GET)
+    public ResponseEntity<?> findComputers(@PathVariable int numPage, @PathVariable int rowByPage, @PathVariable String filter) {
+
+        LOGGER.info("WebService: find all computer");
+
+        try {
+
+            PageDto pageDto = new PageDto.PageDtoBuilder().rowByPage(rowByPage).numPage(numPage).filter(filter).build();
+            PageDto pageResult = computerService.findComputerByPage(pageDto);
+            
+            return new ResponseEntity<List<ComputerDto>>(pageResult.getContent(), HttpStatus.OK);
+        
+        } catch (Exception persistenceException) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     /**
      * Post a computer.

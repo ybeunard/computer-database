@@ -26,8 +26,7 @@ public interface InterfaceComputerService {
      *            the desc
      * @return the optional
      */
-    PageDto findComputerByPage(int numPage, int rowByPage, String filter,
-            String sort, boolean desc);
+    PageDto findComputerByPage(PageDto page);
 
     /**
      * Find ordinateur by id.

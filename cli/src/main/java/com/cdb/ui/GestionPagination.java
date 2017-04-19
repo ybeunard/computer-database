@@ -2,19 +2,13 @@ package com.cdb.ui;
 
 import java.util.List;
 
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.dto.ComputerDto;
-import com.cdb.model.dto.PageDto;
 import com.cdb.utils.Parse;
 
 /**
@@ -23,7 +17,7 @@ import com.cdb.utils.Parse;
 public class GestionPagination {
 
     private static RestTemplate restTemplate = new RestTemplate();
-    
+    private static final String FILTER = "filter";
     /** The numero page. */
     private int numPage;
 
@@ -62,26 +56,25 @@ public class GestionPagination {
 
             case "computer":
 
+                
                 try {
-                    System.out.println(UserInterpreter.uri + UserInterpreter.uriComputers);
-
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.setContentType(MediaType.APPLICATION_JSON);
-                    HttpEntity<PageDto> entity = new HttpEntity<PageDto>(new PageDto.PageDtoBuilder().build(), headers);
+                    ResponseEntity<List> computers = restTemplate.getForEntity(UserInterpreter.uri
+                            + UserInterpreter.uriComputers
+                            + numPage
+                            + UserInterpreter.SLASH
+                            + rowByPage,
+                            List.class);
                     
-                    ResponseEntity<List<ComputerDto>> computers = 
-                            restTemplate
-                            .exchange(UserInterpreter.uri + UserInterpreter.uriComputers,
-                                    HttpMethod.GET,
-                                    entity,
-                                    new ParameterizedTypeReference<List<ComputerDto>>() {}
-                            );
-                    
+                    if (computers.getStatusCode() == HttpStatus.OK) {
+                        pageComputer = computers.getBody();
+                        displayPage(typePage);
+                    }
 
                 } catch (RestClientException restClientException) {
-                    System.out.println("Problem occured when getting company with page");
-                    restClientException.printStackTrace();
-                    
+
+                    System.out.println("Problem occured when getting computer with page");
+                    restClientException.getMessage();
+
                 }
                 displayPage(typePage);
                 break;
@@ -89,15 +82,23 @@ public class GestionPagination {
             case "company":
 
                 try {
-                    
-                    ResponseEntity<CompanyDto> company = restTemplate.getForEntity(UserInterpreter.uri + UserInterpreter.uriCompanies, CompanyDto.class);
-                    if (company.getStatusCode() == HttpStatus.OK) {
-                        System.out.println(company.getBody().toString() + "\n\n");
+                    ResponseEntity<List> companies = restTemplate.getForEntity(UserInterpreter.uri
+                            + UserInterpreter.uriCompanies
+                            + numPage
+                            + UserInterpreter.SLASH
+                            + rowByPage,
+                            List.class);
+                    if (companies.getStatusCode() == HttpStatus.OK) {
+                        pageCompany = companies.getBody();
+                        displayPage(typePage);
                     }
 
                 } catch (RestClientException restClientException) {
-                    System.out.println("Problem occured when getting company with page ");
-                }                displayPage(typePage);
+
+                    System.out.println("Problem occured when getting company with page");
+                    restClientException.getMessage();
+
+                }
                 break;
 
             default:
@@ -122,32 +123,59 @@ public class GestionPagination {
     public void pagingByName(String typePage, String name) {
 
         numPage = 1;
-//        WebTarget target;
 
         do {
 
             switch (typePage) {
 
             case "computer":
+                try {
+                    ResponseEntity<List> computers = restTemplate.getForEntity(UserInterpreter.uri
+                            + UserInterpreter.uriComputers
+                            + numPage
+                            + UserInterpreter.SLASH
+                            + rowByPage
+                            + UserInterpreter.SLASH
+                            + name,
+                            List.class);
+                    
+                    if (computers.getStatusCode() == HttpStatus.OK) {
+                        pageComputer = computers.getBody();
+                        displayPage(typePage);
+                    }
 
-//                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
-//                        .path("computers/");
-//                pageComputer = target.request().get()
-//                        .readEntity(new GenericType<List<ComputerDto>>() {
-//                        });
-//                displayPage(typePage);
-//                break;
+                } catch (RestClientException restClientException) {
 
-            case "company":
-//
-//                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
-//                        .path("companies/");
-//                pageCompany = target.request().get()
-//                        .readEntity(new GenericType<List<CompanyDto>>() {
-//                        });
-//                displayPage(typePage);
+                    System.out.println("Problem occured when getting computer with page and filter");
+                    restClientException.getMessage();
+
+                }
                 break;
 
+            case "company":
+
+                try {
+                    ResponseEntity<List> companies = restTemplate.getForEntity(UserInterpreter.uri
+                            + UserInterpreter.uriCompanies
+                            + UserInterpreter.SLASH
+                            + FILTER
+                            + UserInterpreter.SLASH
+                            + name,
+                            List.class);
+                    
+                    if (companies.getStatusCode() == HttpStatus.OK) {
+                        pageCompany = companies.getBody();
+                        displayPage(typePage);
+                    }
+
+                } catch (RestClientException restClientException) {
+
+                    System.out.println("Problem occured when getting company with page and filter");
+                    restClientException.getMessage();
+
+                }
+                break;
+                
             default:
 
                 System.out.println("Type de page inconnue");
@@ -212,9 +240,9 @@ public class GestionPagination {
 
         case "computer":
 
-            for (ComputerDto ordinateur : pageComputer) {
+            for (Object ordinateur : pageComputer) {
 
-                System.out.println(ordinateur);
+                System.out.println(ordinateur.toString());
 
             }
 
@@ -222,9 +250,9 @@ public class GestionPagination {
 
         case "company":
 
-            for (CompanyDto entreprise : pageCompany) {
+            for (Object entreprise : pageCompany) {
 
-                System.out.println(entreprise);
+                System.out.println(entreprise.toString());
 
             }
 

@@ -28,7 +28,7 @@ public class Computer {
     private LocalDate discontinued;
 
     /** The fabricant. */
-    @ManyToOne
+    @ManyToOne    
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -225,23 +225,11 @@ public class Computer {
      */
     @Override
     public String toString() {
-
-        String chaine = "Ordinateur numero ";
-        chaine += this.id + " : " + this.name + "\t" + this.introduced + "\t"
-                + this.discontinued + "\t";
-
-        if (this.company != null) {
-
-            chaine += this.company.getName();
-
-        } else {
-
-            chaine += "NULL";
-
-        }
-
-        return chaine;
-
+        return "Class : " + this.getClass().getSimpleName() + "\n" + "\t" + "id : " + getId() + "\n" + "\t" + "name : "
+                + getName() + "\n" + "\t" + "introduced date : "
+                + (getIntroduced() == null ? "null" : getIntroduced()) + "\n" + "\t"
+                + "discontinued date : " + (getDiscontinued() == null ? "null" : getDiscontinued())
+                + "\n" + "\t" + "company name : " + (getCompany() == null ? "null" : getCompany().toString())
+                + "\n";
     }
-
 }

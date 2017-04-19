@@ -8,8 +8,12 @@ import java.util.Scanner;
 public class UserInterpreter {
 
     /** The Constant sc. */
-    public static final Scanner SCANNER = new Scanner(System.in);
-    protected static String uri = "http://localhost:8080/rest/";
+    protected static final Scanner SCANNER = new Scanner(System.in);
+    protected static final String SLASH = "/";
+    protected static String ip = "localhost";
+    protected static String port = "8080";
+    protected static String api = "rest";
+    protected static String uri = "http://" + ip + ":" + port + SLASH + api + SLASH;
     protected static String uriComputers = "computers/";
     protected static String uriCompanies = "companies/";
     /**

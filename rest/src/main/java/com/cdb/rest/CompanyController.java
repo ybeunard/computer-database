@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cdb.model.dto.CompanyDto;
+import com.cdb.model.dto.ComputerDto;
+import com.cdb.model.dto.PageDto;
+import com.cdb.model.entities.Company;
 import com.cdb.services.Impl.CompanyService;
 
 @RestController
@@ -65,6 +68,47 @@ public class CompanyController {
         return new ResponseEntity<List<CompanyDto>>(companiesDto,HttpStatus.OK);
     }
 
+    /**
+     * Find page of computer.
+     * @param pageDto : page
+     * @return response
+     */
+    @RequestMapping(value="/{numPage}/{rowByPage}", method=RequestMethod.GET)
+    public ResponseEntity<?> findCompaniesPaginated(@PathVariable int numPage, @PathVariable int rowByPage) {
+
+        LOGGER.info("WebService: find all companies");
+        String filter = "";
+        try {
+
+            List<CompanyDto> companies = companyService.findCompanyByPage(numPage, rowByPage, filter);
+            
+            return new ResponseEntity<List<CompanyDto>>(companies, HttpStatus.OK);
+        
+        } catch (Exception persistenceException) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Find page of computer.
+     * @param pageDto : page
+     * @return response
+     */
+    @RequestMapping(value="/filter/{filter}", method=RequestMethod.GET)
+    public ResponseEntity<?> findCompaniesFiltered(@PathVariable String filter) {
+
+        LOGGER.info("WebService: find all computer");
+
+        try {
+
+            List<Company> companies = companyService.findCompanyByFilter(filter);
+            
+            return new ResponseEntity<List<Company>>(companies, HttpStatus.OK);
+        
+        } catch (Exception persistenceException) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     /**
      * Delete a company.

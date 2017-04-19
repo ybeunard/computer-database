@@ -67,34 +67,27 @@ public class ComputerService implements InterfaceComputerService {
      *
      */
     @Override
-    public PageDto findComputerByPage(int numPage, int rowByPage, String filter,
-            String sort, boolean desc) {
-
-        List<Computer> computers = new ArrayList<Computer>();
-        long nbComputer = 0;
-        long pageMax = 1;
+    public PageDto findComputerByPage(PageDto page) {
+        
         LOGGER.info("Service : search computer by page");
+        long nbComputer = 0;
+        List<Computer> computers = new ArrayList<Computer>();
 
-        if (filter == null || filter.equals("")) {
+        if (page.getFilter() == null || page.getFilter().equals("")) {
 
             nbComputer = computerDao.countComputer();
-            pageMax = pageMax(rowByPage, nbComputer);
-            numPage = verifNumPage(numPage, pageMax);
-            computers = computerDao.findComputerByPage(numPage, rowByPage,
-                    sort, desc);
+            computers = computerDao.findComputerByPage(page.getNumPage(), page.getRowByPage(),
+                    page.getSort(), page.getDesc());
 
         } else {
 
-            nbComputer = computerDao.countComputerByName(filter);
-            pageMax = pageMax(rowByPage, nbComputer);
-            numPage = verifNumPage(numPage, pageMax);
-            computers = computerDao.findComputerByName(numPage, rowByPage,
-                    filter, sort, desc);
+            nbComputer = computerDao.countComputerByName(page.getFilter());
+            computers = computerDao.findComputerByName(page.getNumPage(), page.getRowByPage(), page.getFilter(),
+                    page.getSort(), page.getDesc());
 
         }
 
-        return PageDtoMapper.recoveryPage(computers, nbComputer,
-                numPage, rowByPage, pageMax, filter, sort, desc);
+        return PageDtoMapper.recoveryPage(computers, page, nbComputer);
 
     }
 
@@ -124,7 +117,6 @@ public class ComputerService implements InterfaceComputerService {
     @Transactional
     @Override
     public void createComputer(Computer computer) {
-
         LOGGER.info("Service : create computer");
         computerDao.createComputer(computer);
 
@@ -164,7 +156,6 @@ public class ComputerService implements InterfaceComputerService {
         }
 
     }
-
     
     /**
      * delete computers.
@@ -179,69 +170,6 @@ public class ComputerService implements InterfaceComputerService {
         LOGGER.info("Service: delete computer");
 
         computerDao.deleteComputer(id);
-
-    }
-    
-    /**
-     * Page max.
-     *
-     * @param rowByPage
-     *            the row by page
-     * @param nbComputer
-     *            the nb computer
-     * @return the long
-     */
-    private long pageMax(int rowByPage, long nbComputer) {
-
-        long pageMax = 1;
-
-        if (rowByPage == 0) {
-
-            LOGGER.error("row by page equals 0, Impossible");
-            pageMax = 1;
-
-        } else {
-
-            if (nbComputer % rowByPage == 0) {
-
-                pageMax = nbComputer / rowByPage;
-
-            } else {
-
-                pageMax = nbComputer / rowByPage + 1;
-
-            }
-
-        }
-
-        return pageMax;
-
-    }
-
-    /**
-     * Verif num page.
-     *
-     * @param numPage
-     *            the num page
-     * @param pageMax
-     *            the page max
-     * @return the int
-     */
-    private int verifNumPage(int numPage, long pageMax) {
-
-        if (numPage >= pageMax) {
-
-            return (int) pageMax;
-
-        } else if (numPage == 0) {
-
-            return 1;
-
-        } else {
-
-            return numPage;
-
-        }
 
     }
 
