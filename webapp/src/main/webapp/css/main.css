@@ -41,3 +41,6 @@ input[type='checkbox'] {
 	padding-top: 20px;
 }
 
+.dropdown-menu {
+  width: 100%; 
+}

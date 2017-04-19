@@ -35,12 +35,10 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					Language : <a href="addComputer.htm?locale=en">English</a>|<a
-						href="addComputer.htm?locale=fr">Francais</a>
 					<h1>
 						<spring:message code="add.springmvc" text="default text" />
 					</h1>
-					<form:form action="addComputer.htm" modelAttribute="computerDto"
+					<form:form action="addComputer.html" modelAttribute="computerDto"
 						name="newComputer" method="POST">
 						<fieldset>
 							<spring:bind path="name">
@@ -119,7 +117,7 @@
 							<input type="submit" name="action" class="btn btn-primary"
 								value="<spring:message code="boutonAdd.springmvc" text="default text" />" />
 							<spring:message code="or.springmvc" text="default text" />
-							<a href="dashboard.htm" class="btn btn-default"><spring:message
+							<a href="dashboard.html" class="btn btn-default"><spring:message
 									code="cancel.springmvc" text="default text" /></a>
 						</div>
 					</form:form>
