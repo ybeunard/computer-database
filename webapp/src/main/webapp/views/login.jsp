@@ -84,10 +84,11 @@
 									name='password' class="form-control" placeholder="Password"
 									id="pass" />
 
-							</div>
+							
 							<label class="checkbox"> <input type="checkbox"
 								value="remember-me" id="remember_me"> Remember me
 							</label>
+							</div>
 						</fieldset>
 
 						<c:if test="${not empty error}">
