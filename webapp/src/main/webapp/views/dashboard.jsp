@@ -15,18 +15,18 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
-<link href="<c:url value="/css/flag.min.css"/>" rel="stylesheet"
+<link href="<c:url value="/css/languages.min.css"/>" rel="stylesheet"
 	media="screen" />
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard.html?search="> Application - Computer Database </a>
-	        <div class="language">
-	    	    <a class="align-middle" href="dashboard.html?locale=en"><i class="us flag"></i></a>
-		     	<a class="align-middle" href="dashboard.html?locale=fr"><i class="fr flag"></i></a>
-        		<a href="login?logout"><spring:message code="logoutmessage.springmvc"/></a>
-        	</div>
+	   	    <div class="language">
+	    	    <a class="align-middle" href="dashboard.html?locale=en"><span class="lang-lg" lang="en"></span></a>
+		     	<a class="align-middle" href="dashboard.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
+	       		<a href="login.html"><spring:message code="loginmessage.springmvc"/></a>
+	       	</div>
         </div>
 
     </header>
@@ -111,15 +111,16 @@
 		<div class="container text-center">
 			<ul id="pagination-demo" class="pagination"></ul>
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<a class="btn btn-default " href="dashboard.html?rowByPage=10">10</a> <a
-					class="btn btn-default " href="dashboard.html?rowByPage=50">50</a> <a
-					class="btn btn-default " href="dashboard.html?rowByPage=100">100</a>
+				<a class="btn ${currentPage.rowByPage == 10 ? 'btn-primary' : 'btn-default'}" href="dashboard.html?rowByPage=10">10</a>
+				<a class="btn ${currentPage.rowByPage == 50 ? 'btn-primary' : 'btn-default'}" href="dashboard.html?rowByPage=50">50</a>
+				<a class="btn ${currentPage.rowByPage == 100 ? 'btn-primary' : 'btn-default'}" href="dashboard.html?rowByPage=100">100</a>
 			</div>
 		</div>
 	</footer>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/notify.min.js"></script>
 <script src="<c:url value="/js/jquery/jquery.twbsPagination.min.js"/>"></script>
 <script>
 	$('#pagination-demo').twbsPagination({
@@ -131,6 +132,11 @@
 	        window.location.href = "dashboard.html?numPage=" + (page);
 	    }
 	});
+	console.log("${message}");
+	if ("${message}" != "") {
+		console.log("${message}");
+		$.notify("${message}");
+	}
 </script>
 
 </body>

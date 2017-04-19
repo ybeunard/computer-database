@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+<<<<<<< HEAD
+import com.cdb.dao.Impl.Exception.EntityNotFoundException;
+import com.cdb.model.dto.DashboardDto;
+=======
+>>>>>>> refs/remotes/origin/develop
 import com.cdb.model.dto.PageDto;
 import com.cdb.services.Impl.ComputerService;
 import com.cdb.utils.mappers.PageDtoMapper;
@@ -101,19 +106,37 @@ public class DashboardController {
      * @param model
      *            the model
      */
+<<<<<<< HEAD
+    private void recoveryDisplayDashboard(HttpServletRequest request,
+            Model model) {
+
+        DashboardDto dashboard = DashboardDtoMapper
+                    .recoveryDashboardRequestGet(request);
+            PageDto page = null;
+            try {
+            	page = computerService.findComputerByPage(
+            			dashboard.getNumPage(), dashboard.getRowByPage(),
+            			dashboard.getFilter(), dashboard.getSort(),
+            			dashboard.getDesc());
+            	model.addAttribute("page", page);
+            	request.getSession().setAttribute("page", page);
+            	
+            } catch (RuntimeException exception) {
+            	message = exception.getMessage();
+            } finally {
+            	
+            	model.addAttribute("message", message);
+            	request.getSession().setAttribute("message", message);
+            	message = "";
+            }
+=======
     private void recoveryDisplayDashboard(MultiValueMap<String, String> parameters,
             ModelAndView model, PageDto currentPage) {
 
             PageDto page = PageDtoMapper.recoveryPageDtoRequestGet(parameters, currentPage);
-            try {
-            	page = computerService.findComputerByPage(page);
-                model.addObject("currentPage", page);
-            } catch (RuntimeException exception) {
-            	message = exception.getMessage();
-            } finally {
-            	model.addObject("message", message);
-				message = "";
-			}
+            page = computerService.findComputerByPage(page);
+            model.addObject("currentPage", page);
+>>>>>>> refs/remotes/origin/develop
 
     }
 

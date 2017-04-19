@@ -28,15 +28,19 @@ input[type='checkbox'] {
     white-space: nowrap;
 }
 
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+
+}
 .language {
     position: absolute;
     right: 0px;
-    padding-right:20px;
+    padding-right: 20px;
+	padding-top: 20px;
 }
 
-.flag {
-	width: auto;
-	height: auto;
-	transform: scale(2.0, 2.0);
-	padding: 20px;
+.dropdown-menu {
+  width: 100%; 
 }
