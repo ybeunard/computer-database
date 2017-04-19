@@ -1,12 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
-<!DOCTYPE html>
-<html lang="en">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page session="true"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<html>
 <head>
+<title>Login Page</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,36 +20,108 @@
 <link href="<c:url value="/css/main.css"/>" rel="stylesheet"
 	media="screen">
 
-<title>Login</title>
-
 </head>
-<body>
-	<div class="container">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script>
+		$(function() {
+	
+			if (localStorage.chkbx && localStorage.chkbx != '') {
+				$('#remember_me').attr('checked', 'checked');
+				$('#username').val(localStorage.usrname);
+				$('#pass').val(localStorage.pass);
+			} else {
+				$('#remember_me').removeAttr('checked');
+				$('#username').val('');
+				$('#pass').val('');
+			}
+	
+			$('#remember_me').click(function() {
+	
+				if ($('#remember_me').is(':checked')) {
+					// save username and password
+					localStorage.usrname = $('#username').val();
+					localStorage.pass = $('#pass').val();
+					localStorage.chkbx = $('#remember_me').val();
+				} else {
+					localStorage.usrname = '';
+					localStorage.pass = '';
+					localStorage.chkbx = '';
+				}
+			});
+		});
+	</script>
+<body onload='document.loginForm.username.focus();'>
+	<header class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="dashboard.html?resetFilter=OK">
+				Application - Computer Database </a>
+		</div>
+	</header>
 
-		<form class="form-signin" modelAttribute="user" method="POST">
-			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputUserName" class="sr-only">UserName</label> <input name="username"
-				id="inputUserName" class="form-control" placeholder="UserName"
-				required> <label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="inputPassword" class="form-control"
-				placeholder="Password" name="username" required>
-			<div class="checkbox">
-				<label> <input type="checkbox" value="remember-me">
-					Remember me
-				</label>
+	<section id="main">
+		<div class="container">
+			<div class="row">
+
+				<div id="login-box">
+					<h1>Security Login Form</h1>
+					<h3>Login with Username and Password</h3>
+
+
+					<form class="form-signin" name='loginForm'
+						action="<c:url value='/login.html' />" method='POST'
+						style="align: center">
+						<h2 class="form-signin-heading">Please sign in</h2>
+						<fieldset>
+							<div class="form-group">
+
+
+								<label><h3>User:</h3></label> <input type='text' 
+									name='username' class="form-control" placeholder="UserName"
+									id="username" />
+
+							</div>
+							<div class="form-group">
+								<label><h3>Password :</h3></label> <input  
+									type='password' name='password' class="form-control"
+									placeholder="Password" id="pass" />
+
+							</div>
+							<label class="checkbox"> <input type="checkbox"
+								value="remember-me" id="remember_me"> Remember me
+							</label>
+						</fieldset>
+
+						<c:if test="${not empty error}">
+							<div class="error">
+								<b style="color: red">${error}</b>
+							</div>
+						</c:if>
+						<c:if test="${not empty msg}">
+							<div class="msg">
+								<b style="color: red">${msg}</b>
+							</div>
+						</c:if>
+
+						<div class="form-group">
+
+							<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
+								in</button>
+
+						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+					</form>
+
+				</div>
 			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-				in</button>
-				<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-		</form>
-		
-	</div>
-</body>
-<script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
-<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/resources/js/dashboard.js"/>"></script>
-<script src="<c:url value="/resources/js/addComputer.js"/>"></script>
-</html>
+		</div>
+	</section>
+	
 
+
+	<script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
+	<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+	<script src="<c:url value="/resources/js/dashboard.js"/>"></script>
+	<script src="<c:url value="/resources/js/addComputer.js"/>"></script>
+</body>
 </html>
