@@ -12,18 +12,24 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
+<link href="<c:url value="/css/languages.min.css"/>" rel="stylesheet"
+	media="screen" />
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
+     		<div class="language">
+	    	    <a class="align-middle" href="dashboard.htm?locale=en"><span class="lang-lg" lang="en"></span></a>
+		     	<a class="align-middle" href="dashboard.htm?locale=fr"><span class="lang-lg" lang="fr"></span></a>
+	       		<a href="login?logout"><spring:message code="logoutmessage.springmvc"/></a>
+	       	</div>
         </div>
     </header>
     <section id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                	Language : <a href="editComputer.htm?locale=en&id=${computer.id}">English</a>|<a href="editComputer.htm?locale=fr&id=${computer.id}">Francais</a>
                     <div class="label label-default pull-right">
                         id: ${computer.id}
                     </div>

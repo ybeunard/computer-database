@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.cdb.dao.Impl.Exception.EntityNotFoundException;
 import com.cdb.model.dto.DashboardDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.services.Impl.ComputerService;
@@ -22,6 +24,9 @@ import com.cdb.utils.mappers.DashboardDtoMapper;
 @RequestMapping("/dashboard.htm")
 public class DashboardController {
 
+	/** The error / information message **/
+	private String message = "";
+	
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(DashboardController.class);
@@ -95,12 +100,22 @@ public class DashboardController {
         DashboardDto dashboard = DashboardDtoMapper
                     .recoveryDashboardRequestGet(request);
             PageDto page = null;
-            page = computerService.findComputerByPage(
-                    dashboard.getNumPage(), dashboard.getRowByPage(),
-                    dashboard.getFilter(), dashboard.getSort(),
-                    dashboard.getDesc());
-            model.addAttribute("page", page);
-            request.getSession().setAttribute("page", page);
+            try {
+            	page = computerService.findComputerByPage(
+            			dashboard.getNumPage(), dashboard.getRowByPage(),
+            			dashboard.getFilter(), dashboard.getSort(),
+            			dashboard.getDesc());
+            	model.addAttribute("page", page);
+            	request.getSession().setAttribute("page", page);
+            	
+            } catch (RuntimeException exception) {
+            	message = exception.getMessage();
+            } finally {
+            	
+            	model.addAttribute("message", message);
+            	request.getSession().setAttribute("message", message);
+            	message = "";
+            }
 
     }
 
