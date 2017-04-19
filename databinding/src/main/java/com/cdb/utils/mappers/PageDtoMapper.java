@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.MultiValueMap;
 
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.dto.PageDto.PageDtoBuilder;
 import com.cdb.model.entities.Computer;
+import com.cdb.utils.Parse;
 
 /**
  * The Class PageDtoMapper.
@@ -47,102 +49,135 @@ public class PageDtoMapper {
      *            the desc
      * @return the page dto
      */
-    public static PageDto recoveryPage(List<Computer> computers,
-            long nbComputer, int numPage, int rowByPage, long pageMax,
-            String filter, String sort, boolean desc) {
+    public static PageDto recoveryPage(List<Computer> computers, PageDto page,
+            long nbComputer) {
 
         LOGGER.info("Mapping PageDto");
-        PageDtoBuilder page = new PageDto.PageDtoBuilder();
-        page.content(ComputerDtoMapper.recoveryListComputerDto(computers));
-        page.numPage(numPage);
-        page.rowByPage(rowByPage);
-        page.nbComputer(nbComputer);
-        page.paging(count(numPage, pageMax));
-
-        if (numPage <= 1) {
-
-            page.precPage(numPage);
-
-        } else {
-
-            page.precPage(numPage - 1);
-
-        }
-
-        if (numPage >= pageMax) {
-
-            page.nextPage(numPage);
-
-        } else {
-
-            page.nextPage(numPage + 1);
-
-        }
-
-        if (filter != null && !filter.equals("")) {
-
-            page.filter(filter);
-
-        }
-
-        if (sort != null && !sort.equals("")) {
-
-            page.sort(sort).desc(desc);
-
-        }
-
-        return page.build();
+        PageDtoBuilder builder = new PageDto.PageDtoBuilder();
+        builder.content(ComputerDtoMapper.recoveryListComputerDto(computers));
+        builder.numPage(page.getNumPage());
+        builder.rowByPage(page.getRowByPage());
+        builder.nbComputer(nbComputer);
+        builder.filter(page.getFilter());
+        builder.sort(page.getSort());
+        builder.desc(page.getDesc());
+        return builder.build();
 
     }
 
     /**
-     * Count.
+     * Recuperation dashboard request get.
      *
-     * @param currentPage
-     *            the current page
-     * @param pageMax
-     *            the page max
-     * @return the list
+     * @param request
+     *            the request
+     * @return the dashboard dto
      */
-    private static List<Integer> count(int currentPage, long pageMax) {
+    public static PageDto recoveryPageDtoRequestGet(
+            MultiValueMap<String, String> parameters, PageDto currentPage) {
 
-        List<Integer> entiers = new ArrayList<Integer>();
+        LOGGER.info("Mapping RequestServlet in PageDto");
+        PageDtoBuilder builder = new PageDtoBuilder();
+        int numPage = currentPage.getNumPage();
+        int rowByPage = currentPage.getRowByPage();
+        String filter = currentPage.getFilter();
+        String sort = currentPage.getSort();
+        boolean desc = currentPage.getDesc();
 
-        if (pageMax > 7 && currentPage > pageMax - 4) {
+        if (parameters.get("numPage") == null) {
 
-            for (int i = (int) (pageMax - 6); i < pageMax + 1; i++) {
-
-                entiers.add(i);
-
-            }
-
-        } else if (pageMax > 7 && currentPage > 4) {
-
-            for (int i = currentPage - 3; i < currentPage + 4; i++) {
-
-                entiers.add(i);
-
-            }
-
-        } else if (pageMax > 7) {
-
-            for (int i = 1; i < 8; i++) {
-
-                entiers.add(i);
-
-            }
+            builder.numPage(numPage);
 
         } else {
 
-            for (int i = 1; i < pageMax + 1; i++) {
+            builder.numPage(
+                    Parse.parseEntier(parameters.getFirst("numPage"), numPage));
 
-                entiers.add(i);
+        }
+
+        if (parameters.get("rowByPage") == null) {
+
+            builder.rowByPage(rowByPage);
+
+        } else {
+
+            int newRowByPage = Parse
+                    .parseEntier(parameters.getFirst("rowByPage"), rowByPage);
+            
+            if (newRowByPage != rowByPage) {
+                
+                if (newRowByPage == 10 || newRowByPage == 50 || newRowByPage == 100) {
+                    
+                    rowByPage = newRowByPage;
+                    builder.numPage(1);
+                    
+                }
+                
+            }
+                
+            builder.rowByPage(rowByPage);
+            
+        }
+
+        if (parameters.get("search") == null) {
+
+            builder.filter(filter);
+
+        } else {
+
+            builder.filter(parameters.getFirst("search"));
+            builder.numPage(1);
+
+        }
+
+        String newSort = Parse.parseString(parameters.getFirst("sort"), "");
+        Boolean newDesc = Parse.parseBoolean(parameters.getFirst("desc"), desc);
+
+        if (newSort != null && !newSort.equals("")) {
+
+            if (newSort.equals(sort) && newDesc.equals(desc)) {
+
+                desc = Boolean.logicalXor(desc, true);
+
+            }
+
+            sort = newSort;
+
+        }
+
+        builder.sort(sort);
+        builder.desc(desc);
+        return builder.build();
+
+    }
+
+    /**
+     * Recuperation list suppresion request post.
+     *
+     * @param request
+     *            the request
+     * @return the list
+     */
+    public static List<Long> recoveryListDeleteRequestPost(
+            MultiValueMap<String, String> parameters) {
+
+        String selection = parameters.getFirst("selection");
+        String[] deleted = selection.split(",");
+        List<Long> idDelete = new ArrayList<Long>();
+
+        for (String deleteStr : deleted) {
+
+            long delete = 0;
+
+            if (!deleteStr.equals("")) {
+
+                delete = Long.parseLong(deleteStr);
+                idDelete.add(delete);
 
             }
 
         }
 
-        return entiers;
+        return idDelete;
 
     }
 

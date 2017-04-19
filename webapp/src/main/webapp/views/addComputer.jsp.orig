@@ -18,18 +18,26 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
+<<<<<<< HEAD
             <a class="navbar-brand" href="dashboard.htm?resetFiltre=OK"> Application - Computer Database </a>
 	   	    <div class="language">
 	    	    <a class="align-middle" href="dashboard.htm?locale=en"><span class="lang-lg" lang="en"></span></a>
 		     	<a class="align-middle" href="dashboard.htm?locale=fr"><span class="lang-lg" lang="fr"></span></a>
 	       		<a href="login?logout"><spring:message code="logoutmessage.springmvc"/></a>
 	       	</div>
+=======
+            <a class="navbar-brand" href="dashboard.html?search="> Application - Computer Database </a>
+>>>>>>> refs/remotes/origin/develop
         </div>
     </header>
     <section id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
+<<<<<<< HEAD
+=======
+                	Language : <a href="addComputer.html?locale=en">English</a>|<a href="addComputer.html?locale=fr">Francais</a>
+>>>>>>> refs/remotes/origin/develop
                     <h1><spring:message code="add.springmvc" text="default text" /></h1>
                     <form:form action="addComputer.html" modelAttribute="computerDto" name="newComputer" method="POST">
                         <fieldset>

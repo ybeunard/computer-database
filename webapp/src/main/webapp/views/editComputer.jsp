@@ -35,7 +35,7 @@
                     </div>
                     <h1><spring:message code="edit.springmvc" text="default text" /></h1>
 
-                    <form:form action="editComputer.htm" modelAttribute="computerDto" method="POST">
+                    <form:form action="editComputer.html" modelAttribute="computerDto" method="POST">
                         <form:input path="id" type="hidden" name="computer" value="${computer.id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
@@ -71,7 +71,7 @@
                         <div class="actions pull-right">
                             <input type="submit" name="action" class="btn btn-primary" value="<spring:message code="boutonEdit.springmvc" text="default text" />"/>
                             <spring:message code="or.springmvc" text="default text" />
-                            <a href="dashboard.htm" class="btn btn-default"><spring:message code="cancel.springmvc" text="default text" /></a>
+                            <a href="dashboard.html" class="btn btn-default"><spring:message code="cancel.springmvc" text="default text" /></a>
                         </div>
                     </form:form>
                 </div>

@@ -24,7 +24,7 @@ import com.cdb.controllers.validation.ComputerDtoValidation;
  * The Class AddComputerController.
  */
 @Controller
-@RequestMapping("/addComputer.htm")
+@RequestMapping("/addComputer.html")
 public class AddComputerController {
 
     /** The Constant LOGGER. */
@@ -126,7 +126,7 @@ public class AddComputerController {
 
             computerService.createComputer(
                     ComputerMapper.recoveryComputer(computerDto));
-            return new ModelAndView("redirect:/dashboard.htm");
+            return new ModelAndView("redirect:/dashboard.html");
 
         } else {
 

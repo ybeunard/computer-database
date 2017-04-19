@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.cdb.dao.Impl.Exception.PageException;
 import com.cdb.model.entities.Company;
 import com.cdb.model.entities.Computer;
 
@@ -110,16 +111,30 @@ public class TestComputerDao extends TestCase {
     @Test
     public void testFindComputerByPageNumPageZero() {
         
-        List<Computer> computers = dao.findComputerByPage(0, 3, "", false);
-        assertTrue(computers.isEmpty());
+        try {
+            
+            dao.findComputerByPage(0, 3, "", false);
+        
+        } catch (PageException e) {
+            
+            assertTrue(e.getMessage() != null);
+            
+        }
         
     }
     
     @Test
     public void testFindComputerByPageRowByPageZero() {
         
-        List<Computer> computers = dao.findComputerByPage(1, 0, "", false);
-        assertTrue(computers.isEmpty());
+        try {
+        
+            dao.findComputerByPage(1, 0, "", false);
+            
+        } catch (PageException e) {
+            
+            assertTrue(e.getMessage() != null);
+            
+        }
         
     }
     
@@ -212,16 +227,15 @@ public class TestComputerDao extends TestCase {
     public void testFindComputerByPageSortIntroducedAsc() {
         
         List<Computer> computers = dao.findComputerByPage(1, 4, "introduced", false);
-        //assertFalse(computers.isEmpty());
-        LOGGER.info(computers.toString());
+        assertFalse(computers.isEmpty());
         
-        /*for (Computer computer : computers) {
+        for (Computer computer : computers) {
 
             assertFalse(computer.getName() == null);
             assertFalse(computer.getId() <= 0);
             assertTrue(computer.getIntroduced() == null);
             
-        }*/
+        }
         
     }
     
