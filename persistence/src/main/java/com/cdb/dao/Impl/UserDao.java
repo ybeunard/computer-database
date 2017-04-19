@@ -2,7 +2,6 @@ package com.cdb.dao.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import com.cdb.model.entities.QUser;
 import com.cdb.model.entities.User;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserDao.
  */

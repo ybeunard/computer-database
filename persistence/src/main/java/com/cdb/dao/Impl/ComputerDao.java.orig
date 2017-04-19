@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +78,7 @@ public class ComputerDao implements InterfaceComputerDao {
   @Override
   public List<Computer> findComputerByPage(int numPage, int rowByPage, String sort, boolean desc) {
 
-    if (numPage <= 0) {
+    if (numPage < 0) {
       LOGGER.error("Current page = " + numPage);
       throw new PageException("Current page can't be a negative value.");
     }
@@ -85,6 +86,7 @@ public class ComputerDao implements InterfaceComputerDao {
       LOGGER.error("Elements per page = " + rowByPage);
       throw new PageException("Elements per page can't be a negative value.");
     }
+    // TODO Sort
 
     LOGGER.info("Dao: search page of computer");
     List<Computer> computers = new ArrayList<Computer>();
@@ -98,6 +100,49 @@ public class ComputerDao implements InterfaceComputerDao {
       throw new EntityNotFoundException("No computers found for current page = " + numPage + ", "
           + "elements per page = " + rowByPage + ".");
     }
+
+<<<<<<< HEAD
+    /**
+     * Find computer by name.
+     *
+     * @param numPage
+     *            the num page
+     * @param rowByPage
+     *            the row by page
+     * @param name
+     *            the name
+     * @param sort
+     *            the sort
+     * @param desc
+     *            the desc
+     * @return the list
+     */
+    @Override
+    public List<Computer> findComputerByName(int numPage, int rowByPage,
+            String name, String sort, boolean desc) {
+
+        LOGGER.info("Dao: search page of computer sorted by name");
+        List<Computer> computers = new ArrayList<Computer>();
+        int limit = rowByPage;
+        int offset = (numPage - 1) * rowByPage;
+
+        if (offset < 0) {
+
+            return computers;
+
+        }
+
+        HibernateQuery<Computer> query = new HibernateQueryFactory(
+                sessionFactory.openSession()).select(qComputer).from(qComputer)
+                        .leftJoin(qComputer.company, qCompany).limit(limit)
+                        .offset(offset);
+        query = orderQuery(sort, desc, query);
+        computers = query.where(qComputer.name.like("%" + name + "%")
+                        .or(qCompany.name.like("%" + name + "%")))
+                .fetch();
+        return computers;
+
+=======
     return computers;
   }
 
@@ -123,7 +168,7 @@ public class ComputerDao implements InterfaceComputerDao {
     if(name == null){
       LOGGER.error("Filter seems to be null.");
       throw new FilterException("Filter seems to be null.");
-
+>>>>>>> feature/gajovski_exceptions
     }
     
     if (numPage < 0) {
@@ -278,86 +323,89 @@ public class ComputerDao implements InterfaceComputerDao {
    * Order query.
    *
    * @param trie
-   *            the trie
+   *          the trie
    * @param desc
-   *            the desc
+   *          the desc
    * @param query
-   *            the query
+   *          the query
    * @return the hibernate query
    */
   private HibernateQuery<Computer> orderQuery(String trie, boolean desc,
-          HibernateQuery<Computer> query) {
+      HibernateQuery<Computer> query) {
 
-      if (trie != null) {
+    if (trie != null) {
 
-          switch (trie) {
+      switch (trie) {
 
-          case "company_name":
+      case "company_name":
 
-              if (desc) {
+        if (desc) {
 
-                  query = query.leftJoin(qComputer.company, qCompany)
-                          .orderBy(qCompany.name.desc());
+          query = query.leftJoin(qComputer.company, qCompany).orderBy(qCompany.name.desc());
 
-              } else {
+        } else {
 
-                  query = query.leftJoin(qComputer.company, qCompany)
-                          .orderBy(qCompany.name.asc());
+<<<<<<< HEAD
+                }
+                break;
+                
+            case "introduced":
+                
+                if (desc) {
 
-              }
-              break;
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.introduced.desc());
 
-          case "introduced":
-              
-              if (desc) {
+                } else {
 
-                  query = query.leftJoin(qComputer.company, qCompany)
-                          .orderBy(qComputer.introduced.desc());
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.introduced.asc());
 
-              } else {
+                }
+                break;
+                
+            case "discontinued":
+                
+                if (desc) {
 
-                  query = query.leftJoin(qComputer.company, qCompany)
-                          .orderBy(qComputer.introduced.asc());
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.discontinued.desc());
 
-              }
-              break;
-              
-          case "discontinued":
-              
-              if (desc) {
+                } else {
 
-                  query = query.leftJoin(qComputer.company, qCompany)
-                          .orderBy(qComputer.discontinued.desc());
+                    query = query.leftJoin(qComputer.company, qCompany)
+                            .orderBy(qComputer.discontinued.asc());
 
-              } else {
+                }
+                break;
+=======
+          query = query.leftJoin(qComputer.company, qCompany).orderBy(qCompany.name.asc());
+>>>>>>> feature/gajovski_exceptions
 
-                  query = query.leftJoin(qComputer.company, qCompany)
-                          .orderBy(qComputer.discontinued.asc());
+        }
+        break;
 
-              }
-              break;
-              
-          default:
+      default:
 
-              if (desc) {
+        if (desc) {
 
-                  query = query.orderBy(qComputer.name.desc());
+          query = query.orderBy(qComputer.name.desc());
 
-              } else {
-
-                  query = query.orderBy(qComputer.name.asc());
-
-              }
-
-          }
-
-      } else {
+        } else {
 
           query = query.orderBy(qComputer.name.asc());
 
+        }
+
       }
 
-      return query;
+    } else {
+
+      query = query.orderBy(qComputer.name.asc());
+
+    }
+
+    return query;
   }
 
 }

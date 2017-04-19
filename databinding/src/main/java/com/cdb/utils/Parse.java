@@ -140,5 +140,17 @@ public class Parse {
         return null;
 
     }
+    
+    public static boolean parseBoolean(String bool, boolean defaultValue) {
+        
+        if (bool != null && !bool.equals("")) {
+            
+            return Boolean.parseBoolean(bool);
+
+        }
+        
+        return defaultValue;
+        
+    }
 
 }
