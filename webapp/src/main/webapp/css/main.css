@@ -27,3 +27,9 @@ input[type='checkbox'] {
     border-radius: 5px;
     white-space: nowrap;
 }
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}

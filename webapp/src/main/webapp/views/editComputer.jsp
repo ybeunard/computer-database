@@ -48,17 +48,26 @@
 								<form:errors path="discontinued" />
                             </div>
                             <div class="form-group">
-                                <label for="companyId"><spring:message code="company.springmvc" text="default text" /></label>
-                                <form:select path="idCompany" class="form-control" name="company" id="companyId" >
-                                    <option value="${computer.idCompany}">${computer.company}</option>
-                                    <option value="0">----</option>
-                                	<c:forEach items="${companies}" var="company">
-                                    	<option value="${company.id}">${company.name}</option>
-                                    </c:forEach>
+                                <label for="companyId"><spring:message
+                                        code="company.springmvc" text="default text" /></label> <input
+                                    onclick="onFocusDropDown()" id="companySearch" class="form-control" type="search"
+                                    onkeyup="deleteCompanies()" placeholder="${computer.company}" />
+                                <div  id="dropdown" class="dropdown close">
+                                    <ul id="companiesForEach" class="dropdown-menu scrollable-menu">
+                                    <li><a onclick="setSpring(this)" name="--" style="display: block" id="0"><span>--</span></a></li>
+                                        <c:forEach items="${companies}" var="company">
+                                            <li><a onclick="setSpring(this)" name="${company.name}" style="display: none" id="${company.id}"><span>${company.name}</span></a></li>
+
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                                <form:select style="display:none" path="idCompany" class="form-control"
+                                    name="company" id="companyId">
+                                     <option id="${computer.idCompany}" value="${computer.idCompany}" >${computer.company}</option>
                                 </form:select>
+                                
                                 <form:errors path="idCompany" />
-                            </div>            
-                        </fieldset>
+                            </div>
                         <c:if test="${not empty error}">
                         	<div class="alert alert-danger">${error}</div>
                         </c:if>
@@ -75,5 +84,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
     <script src="js/addComputer.js"></script>
+    <script src="js/dynamic_companies.js"></script>
+    
 </body>
 </html>
