@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cdb.dao.Impl.Exception.EntityNotFoundException;
-import com.cdb.model.dto.DashboardDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.services.Impl.ComputerService;
 import com.cdb.utils.mappers.PageDtoMapper;
@@ -107,8 +105,15 @@ public class DashboardController {
             ModelAndView model, PageDto currentPage) {
 
             PageDto page = PageDtoMapper.recoveryPageDtoRequestGet(parameters, currentPage);
-            page = computerService.findComputerByPage(page);
-            model.addObject("currentPage", page);
+            try {
+            	page = computerService.findComputerByPage(page);
+                model.addObject("currentPage", page);
+            } catch (RuntimeException exception) {
+            	message = exception.getMessage();
+            } finally {
+            	model.addObject("message", message);
+				message = "";
+			}
 
     }
 
