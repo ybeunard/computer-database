@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cdb.services.Impl.UserService;
 
@@ -33,14 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests().antMatchers( "/addComputer.html","/editComputer.html").access("hasRole('ROLE_ADMIN')")
+    http.authorizeRequests().antMatchers("/addComputer.html", "/editComputer.html").access("hasRole('ROLE_ADMIN')")
     .and().authorizeRequests().antMatchers(HttpMethod.POST, "/dashboard.html").access("hasRole('ROLE_ADMIN')")
-    .and().formLogin().loginPage("/login.html").failureUrl("/login.html?error")
-    .usernameParameter("username")
-    .passwordParameter("password")
-    .and().logout().logoutSuccessUrl("/login.html?logout")
+    .and().formLogin().loginPage("/login.html").failureUrl("/login.html").usernameParameter("username").passwordParameter("password")
+    .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/login.html?logout"))
+    .logoutSuccessUrl("/dashboard.html")
     .and().csrf()
-    .and().exceptionHandling().accessDeniedPage("/403");  }
+    .and().exceptionHandling().accessDeniedPage("/403.html");
+  }
 
   @Bean
   public PasswordEncoder passwordEncoder() {

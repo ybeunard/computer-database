@@ -22,11 +22,11 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard.html?search="> Application - Computer Database </a>
-	   	    <div class="language">
+	        <div class="language">
 	    	    <a class="align-middle" href="dashboard.html?locale=en"><span class="lang-lg" lang="en"></span></a>
 		     	<a class="align-middle" href="dashboard.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
-	       		<a href="login.html"><spring:message code="loginmessage.springmvc"/></a>
-	       	</div>
+        		<a id="Logout" href="login.html?logout"><button class="btn btn-primary"><spring:message code="logoutmessage.springmvc"/></button></a>
+        	</div>
         </div>
 
     </header>
@@ -138,6 +138,26 @@
 		$.notify("${message}");
 	}
 </script>
+
+	<script type="text/javascript">
+	function urlExists(url, callback){
+		  $.ajax({
+		    type: 'HEAD',
+		    url: url,
+		    success: function(){
+		      callback(true);
+		    },
+		    error: function() {
+		      callback(false);
+		    }
+		  });
+		}
+	
+	
+	$("#Logout").click(function() {
+		
+		});
+	</script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.cdb.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,9 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,11 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 public class LoginController {
   /** The Constant LOGGER. */
-  public static final Logger LOGGER = LoggerFactory
-          .getLogger(LoginController.class);
-  
-  @RequestMapping(value="/login.html",method = RequestMethod.GET)
-  public ModelAndView login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
+  public static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+
+  @RequestMapping(value = "/login.html", method = RequestMethod.GET)
+  public ModelAndView login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request, HttpServletResponse response) {
 
     ModelAndView model = new ModelAndView();
     if (error != null) {
@@ -33,6 +36,11 @@ public class LoginController {
 
     if (logout != null) {
       model.addObject("msg", "You've been logged out successfully.");
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+      new SecurityContextLogoutHandler().logout(request, response, auth);
+
+      new CookieClearingLogoutHandler(AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY).logout(request, response, null);
     }
     model.setViewName("login");
 
@@ -54,21 +62,12 @@ public class LoginController {
 
     return error;
   }
-  /*
-  @RequestMapping(method = RequestMethod.POST)
-  public String access() {
-  
-    return "redirect:/dashboard.html";
-  
-  }*/
 
-  // for 403 access denied page
-  @RequestMapping(value = "/403", method = RequestMethod.GET)
-  public ModelAndView accesssDenied() {
+  @RequestMapping(value = "/403.html", method = RequestMethod.GET)
+  public ModelAndView accesssDenied(HttpServletRequest request) {
 
     ModelAndView model = new ModelAndView();
 
-    // check if user is login
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (!(auth instanceof AnonymousAuthenticationToken)) {
       UserDetails userDetail = (UserDetails) auth.getPrincipal();
@@ -79,5 +78,7 @@ public class LoginController {
     return model;
 
   }
+
+
 
 }
