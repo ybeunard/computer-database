@@ -28,6 +28,12 @@ input[type='checkbox'] {
     white-space: nowrap;
 }
 
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+
+}
 .language {
     position: absolute;
     right: 0px;
