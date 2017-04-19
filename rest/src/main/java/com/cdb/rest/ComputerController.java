@@ -84,9 +84,9 @@ public class ComputerController {
 
             int numPage = Parse.parseEntier(numPageStr, 1);
             int rowByPage = Parse.parseEntier(rowByPageStr, 100);
-            return computerService
+            /*return computerService
                     .findComputerByPage(numPage, rowByPage, name, "", false)
-                    .getContent();
+                    .getContent();*/
 
         }
 

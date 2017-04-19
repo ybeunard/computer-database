@@ -14,12 +14,21 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
+<link href="<c:url value="/css/languages.min.css"/>" rel="stylesheet"
+	media="screen" />
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.htm?resetFiltre=OK">
+			<a class="navbar-brand" href="dashboard.html?search=">
 				Application - Computer Database </a>
+			<div class="language">
+				<a class="align-middle" href="dashboard.html?locale=en"><span
+					class="lang-lg" lang="en"></span></a> <a class="align-middle"
+					href="dashboard.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
+				<a href="login.html?logout"><spring:message
+						code="logoutmessage.springmvc" /></a>
+			</div>
 		</div>
 	</header>
 	<section id="main">
@@ -82,21 +91,24 @@
 							<div class="form-group">
 								<label for="companyId"><spring:message
 										code="company.springmvc" text="default text" /></label> <input
-									onclick="onFocusDropDown()" id="companySearch" class="form-control" type="search"
-									onkeyup="deleteCompanies()" placeholder="Search..." />
-								<div  id="dropdown" class="dropdown close">
+									onclick="onFocusDropDown()" id="companySearch"
+									class="form-control" type="search" onkeyup="deleteCompanies()"
+									placeholder="Search..." />
+								<div id="dropdown" class="dropdown close">
 									<ul id="companiesForEach" class="dropdown-menu scrollable-menu">
-									<li><a onclick="setSpring(this)" name="--" style="display: block" id="0"><span>--</span></a></li>
+										<li><a onclick="setSpring(this)" name="--"
+											style="display: block" id="0"><span>--</span></a></li>
 										<c:forEach items="${companies}" var="company">
-											<li><a onclick="setSpring(this)" name="${company.name}" style="display: none" id="${company.id}"><span>${company.name}</span></a></li>
+											<li><a onclick="setSpring(this)" name="${company.name}"
+												style="display: none" id="${company.id}"><span>${company.name}</span></a></li>
 
 										</c:forEach>
 									</ul>
 								</div>
-								<form:select style="display:none" path="idCompany" class="form-control"
-									name="company" id="companyId">
+								<form:select style="display:none" path="idCompany"
+									class="form-control" name="company" id="companyId">
 								</form:select>
-								
+
 								<form:errors path="idCompany" />
 							</div>
 						</fieldset>
@@ -120,6 +132,7 @@
 	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/addComputer.js"></script>
 	<script src="js/dynamic_companies.js"></script>
+
 
 </body>
 </html>

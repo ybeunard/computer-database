@@ -3,6 +3,7 @@ package com.cdb.services;
 import java.util.List;
 
 import com.cdb.model.dto.CompanyDto;
+import com.cdb.model.entities.Company;
 
 /**
  * The Interface InterfaceCompanyService.
@@ -46,5 +47,7 @@ public interface InterfaceCompanyService {
      *            the id
      */
     void deleteCompany(List<Long> id);
+
+    List<Company> findCompanyByFilter(String name);
 
 }

@@ -32,4 +32,12 @@ input[type='checkbox'] {
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
+
 }
+.language {
+    position: absolute;
+    right: 0px;
+    padding-right: 20px;
+	padding-top: 20px;
+}
+

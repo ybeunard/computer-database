@@ -147,27 +147,45 @@ public class CompanyDao implements InterfaceCompanyDao {
     return companies;
 
   }
+  
+    @Override
+    public List<Company> findCompanyByFilter(String name) {
 
-  /**
-   * Find company by ID.
-   *
-   * @param id
-   *          the id
-   * @return the company
-   */
-  @Override
-  public Company findCompanyByID(long id) {
+        LOGGER.info("Dao: search company sorted by name");
+        List<Company> companies = new ArrayList<Company>();
 
-    if (id <= 0) {
-      throw new IdException("Id seems to be negative or equals to zero.");
+        companies = new HibernateQueryFactory(sessionFactory.openSession())
+                .select(qCompany).from(qCompany)
+                .where(qCompany.name.like("%" + name + "%")).fetch();
+        return companies;
+
     }
 
-    LOGGER.info("Dao: search company by id");
-    HibernateQueryFactory query = new HibernateQueryFactory(sessionFactory.openSession());
-    Company company = query.select(qCompany).from(qCompany).where(qCompany.id.eq(id)).fetchOne();
+    
+    
+    /**
+     * Find company by ID.
+     *
+     * @param id
+     *            the id
+     * @return the company
+     */
+    @Override
+    public Company findCompanyByID(long id) {
+
+        LOGGER.info("Dao: search company by id");
+        if (id <= 0) {
+            throw new IdException("Id seems to be negative or equals to zero.");
+          }
+        HibernateQueryFactory query = new HibernateQueryFactory(
+                sessionFactory.openSession());
+        Company company = query.select(qCompany).from(qCompany).where(qCompany.id.eq(id))
+                .fetchOne();
 
     if (company == null) {
+
       throw new EntityNotFoundException("No company found for id " + id + ".");
+
     }
 
     return company;
