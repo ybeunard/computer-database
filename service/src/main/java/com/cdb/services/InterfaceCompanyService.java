@@ -48,6 +48,14 @@ public interface InterfaceCompanyService {
      */
     void deleteCompany(List<Long> id);
 
+    /**
+     * @param id
+     */
+    void deleteOneCompany(Long id);
+    
+    /**
+     * @param name : name
+     */
     List<Company> findCompanyByFilter(String name);
 
 }

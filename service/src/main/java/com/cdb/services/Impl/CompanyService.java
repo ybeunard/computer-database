@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cdb.dao.Impl.CompanyDao;
 import com.cdb.model.dto.CompanyDto;
@@ -119,6 +120,22 @@ public class CompanyService implements InterfaceCompanyService {
     @Override
     public void deleteCompany(List<Long> id) {
         // TODO Auto-generated method stub
+
+    }
+    
+    /**
+     * delete computers.
+     *
+     * @param id
+     *            The list of computer delete
+     */
+    @Transactional
+    @Override
+    public void deleteOneCompany(Long id) {
+
+        LOGGER.info("Service: delete company");
+
+        companyDao.deleteCompany(id);
 
     }
 

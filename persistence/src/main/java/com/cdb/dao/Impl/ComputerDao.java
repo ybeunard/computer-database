@@ -151,9 +151,9 @@ public class ComputerDao implements InterfaceComputerDao {
       throw new EntityNotFoundException("No computers found for current page = " + numPage + ", "
           + "elements per page = " + rowByPage + ", filter = " + name + ".");
     }
-
+    
     return computers;
-
+    
   }
 
   /**
