@@ -2,9 +2,6 @@ package com.cdb.ui;
 
 import java.util.Scanner;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-
 /**
  * The Class UserInterpreter.
  */
@@ -12,11 +9,9 @@ public class UserInterpreter {
 
     /** The Constant sc. */
     public static final Scanner SCANNER = new Scanner(System.in);
-
-    public static final Client CLIENT = ClientBuilder.newClient();
-
-    public static final String BASE_URL = "http://localhost:8080/rest/";
-
+    protected static String uri = "http://localhost:8080/rest/";
+    protected static String uriComputers = "computers/";
+    protected static String uriCompanies = "companies/";
     /**
      * The main method.
      *

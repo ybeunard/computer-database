@@ -181,7 +181,7 @@ public class ComputerDao implements InterfaceComputerDao {
      */
     @Override
     public void createComputer(Computer computer) {
-
+        LOGGER.info("Computer created : " + computer.toString());
         LOGGER.info("Dao: Create computer");
         LOGGER.debug("" + computer);
         Session session = this.sessionFactory.openSession();

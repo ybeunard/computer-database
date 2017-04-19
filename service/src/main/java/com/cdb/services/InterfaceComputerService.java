@@ -62,4 +62,12 @@ public interface InterfaceComputerService {
      */
     void deleteComputer(List<Long> id);
 
+    /**
+     * Suppression ordinateur by one id.
+     *
+     * @param id
+     *            the id
+     */
+    void deleteOneComputer(Long id);
+
 }

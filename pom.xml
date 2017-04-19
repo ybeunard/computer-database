@@ -37,6 +37,7 @@
 		<java.servlet.api>3.0.1</java.servlet.api>
 		<java.inject>1</java.inject>
 		<java.jstl>1.1.2</java.jstl>
+		<javax.ws.rs>1.1.1</javax.ws.rs>
 
 		<!-- test prop -->
 		<junit>4.12</junit>
@@ -64,7 +65,7 @@
 		<xml.apis>1.4.01</xml.apis>
 		<taglib>1.1.2</taglib>
 		<glassfish.jersey.client>2.22.1</glassfish.jersey.client>
-		
+
 		<!-- JSON prop -->
 		<jackson.mapper>1.9.13</jackson.mapper>
 		<jackson.databind>2.8.7</jackson.databind>
@@ -156,6 +157,12 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
 				<version>${java.jstl}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>jsr311-api</artifactId>
+				<version>${javax.ws.rs}</version>
 			</dependency>
 
 			<!-- Test -->
@@ -269,7 +276,7 @@
 				<artifactId>standard</artifactId>
 				<version>${taglib}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.glassfish.jersey.core</groupId>
 				<artifactId>jersey-client</artifactId>
@@ -331,61 +338,61 @@
 				<artifactId>spring-orm</artifactId>
 				<version>${springVersion}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.springframework.security</groupId>
-			    <artifactId>spring-security-core</artifactId>
-			    <version>${spring.security}</version>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring.security}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.springframework.security</groupId>
-			    <artifactId>spring-security-config</artifactId>
-			    <version>${spring.security}</version>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${spring.security}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.springframework.security</groupId>
-			    <artifactId>spring-security-web</artifactId>
-			    <version>${spring.security}</version>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${spring.security}</version>
 			</dependency>
-			
+
 			<!-- JSON -->
-			
+
 			<dependency>
-			    <groupId>org.codehaus.jackson</groupId>
-			    <artifactId>jackson-mapper-asl</artifactId>
-			    <version>${jackson.mapper}</version>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.mapper}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>com.fasterxml.jackson.core</groupId>
-			    <artifactId>jackson-databind</artifactId>
-			    <version>${jackson.databind}</version>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.databind}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>com.fasterxml.jackson.jaxrs</groupId>
-			    <artifactId>jackson-jaxrs-json-provider</artifactId>
-			    <version>${jackson.json.provider}</version>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-json-provider</artifactId>
+				<version>${jackson.json.provider}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.glassfish.jersey.media</groupId>
-			    <artifactId>jersey-media-json-jackson</artifactId>
-			    <version>${jackson.media.json}</version>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-json-jackson</artifactId>
+				<version>${jackson.media.json}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>com.fasterxml.jackson.core</groupId>
-			    <artifactId>jackson-annotations</artifactId>
-			    <version>${jackson.annotations}</version>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.annotations}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>com.fasterxml.jackson.datatype</groupId>
-			    <artifactId>jackson-datatype-jsr310</artifactId>
-			    <version>${jackson.datatype}</version>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-jsr310</artifactId>
+				<version>${jackson.datatype}</version>
 			</dependency>
 
 		</dependencies>

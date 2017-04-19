@@ -165,6 +165,23 @@ public class ComputerService implements InterfaceComputerService {
 
     }
 
+    
+    /**
+     * delete computers.
+     *
+     * @param id
+     *            The list of computer delete
+     */
+    @Transactional
+    @Override
+    public void deleteOneComputer(Long id) {
+
+        LOGGER.info("Service: delete computer");
+
+        computerDao.deleteComputer(id);
+
+    }
+    
     /**
      * Page max.
      *

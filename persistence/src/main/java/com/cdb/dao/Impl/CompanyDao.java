@@ -12,6 +12,7 @@ import com.cdb.dao.InterfaceCompanyDao;
 import com.cdb.dao.Impl.Exception.NoEntityException;
 import com.cdb.model.entities.Company;
 import com.cdb.model.entities.QCompany;
+import com.cdb.model.entities.QComputer;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 /**
@@ -39,6 +40,7 @@ public class CompanyDao implements InterfaceCompanyDao {
 
     /** The entreprise. */
     QCompany qCompany;
+    QComputer qComputer;
 
     /**
      * Instantiates a new entreprise dao.
@@ -46,6 +48,7 @@ public class CompanyDao implements InterfaceCompanyDao {
     CompanyDao() {
 
         qCompany = QCompany.company;
+        qComputer= QComputer.computer;
         LOGGER.info("CompanyDao Instantiated");
 
     }
@@ -149,6 +152,7 @@ public class CompanyDao implements InterfaceCompanyDao {
         LOGGER.debug("" + id);
         HibernateQueryFactory query = new HibernateQueryFactory(
                 sessionFactory.openSession());
+        query.delete(qComputer).where(qComputer.company.id.eq(id)).execute();
         query.delete(qCompany).where(qCompany.id.eq(id)).execute();
         LOGGER.info("Dao: delete company succeed");
 

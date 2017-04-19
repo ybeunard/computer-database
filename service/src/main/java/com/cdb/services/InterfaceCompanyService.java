@@ -47,4 +47,9 @@ public interface InterfaceCompanyService {
      */
     void deleteCompany(List<Long> id);
 
+    /**
+     * @param id
+     */
+    void deleteOneCompany(Long id);
+
 }
