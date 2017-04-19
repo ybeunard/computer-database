@@ -20,7 +20,7 @@ import com.cdb.utils.mappers.PageDtoMapper;
  * The Class DashboardController.
  */
 @Controller
-@RequestMapping("/dashboard.htm")
+@RequestMapping("/dashboard.html")
 @SessionAttributes("currentPage")
 public class DashboardController {
 
@@ -86,7 +86,7 @@ public class DashboardController {
         computerService.deleteComputer(PageDtoMapper
                 .recoveryListDeleteRequestPost(parameters));
         recoveryDisplayDashboard(parameters, model, currentPage);
-        return new ModelAndView("dashboard");
+        return model;
 
     }
 

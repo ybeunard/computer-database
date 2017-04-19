@@ -16,16 +16,16 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.htm?search="> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard.html?search="> Application - Computer Database </a>
         </div>
     </header>
     <section id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                	Language : <a href="addComputer.htm?locale=en">English</a>|<a href="addComputer.htm?locale=fr">Francais</a>
+                	Language : <a href="addComputer.html?locale=en">English</a>|<a href="addComputer.html?locale=fr">Francais</a>
                     <h1><spring:message code="add.springmvc" text="default text" /></h1>
-                    <form:form action="addComputer.htm" modelAttribute="computerDto" name="newComputer" method="POST">
+                    <form:form action="addComputer.html" modelAttribute="computerDto" name="newComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="name"><spring:message code="name.springmvc" text="default text" /></label>
@@ -59,7 +59,7 @@
                         <div class="actions pull-right">
                             <input type="submit" name="action" class="btn btn-primary" value="<spring:message code="boutonAdd.springmvc" text="default text" />"/>
                             <spring:message code="or.springmvc" text="default text" />
-                            <a href="dashboard.htm" class="btn btn-default"><spring:message code="cancel.springmvc" text="default text" /></a>
+                            <a href="dashboard.html" class="btn btn-default"><spring:message code="cancel.springmvc" text="default text" /></a>
                         </div>
                     </form:form>
                 </div>

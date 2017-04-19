@@ -12,7 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cdb.dao.Impl.UserDao;
 import com.cdb.model.entities.UserRole;
@@ -21,92 +23,44 @@ import com.cdb.services.InterfaceUserService;
 /**
  * The Class UserService.
  */
-public class UserService implements InterfaceUserService {
+public class UserService implements UserDetailsService, InterfaceUserService {
 
-    /** The Constant LOGGER. */
-    public static final Logger LOGGER = LoggerFactory
-            .getLogger(UserService.class);
+  /** The Constant LOGGER. */
+  public static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+  @Autowired
+  private UserDao userDao;
 
-    /** The ordinateur dao. */
-    @Autowired
-    private UserDao userDao;
+  @Transactional(readOnly = true)
+  @Override
+  public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
-    /**
-     * Gets the ordinateur dao.
-     *
-     * @return the ordinateur dao
-     */
-    public UserDao getUserDao() {
+    com.cdb.model.entities.User user = userDao.findByUserName(username);
 
-        return userDao;
+    List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
+    User user2 = buildUserForAuthentication(user, authorities);
+    LOGGER.info(user2.getPassword());
+    return buildUserForAuthentication(user, authorities);
+  }
+
+  // Converts com.mkyong.users.model.User user to
+  // org.springframework.security.core.userdetails.User
+  private  User  buildUserForAuthentication(com.cdb.model.entities.User user, List<GrantedAuthority> authorities) {
+    return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
+  }
+
+  private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+
+    Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+
+    // Build user's authorities
+    for (UserRole userRole : userRoles) {
+      setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
     }
 
-    /**
-     * Instantiates a new gestion ordinateur.
-     */
-    public UserService() {
+    List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
 
-        LOGGER.info("UserService Instantiated");
-
-    }
-
-    /**
-     * load the user.
-     *
-     * @param username
-     *            username to login
-     *
-     * @return the userDetails
-     */
-    @Override
-    public UserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException {
-
-        com.cdb.model.entities.User user = userDao.findByUserName(username);
-        List<GrantedAuthority> authorities = buildUserAuthority(
-                user.getUserRole());
-
-        return buildUserForAuthentication(user, authorities);
-
-    }
-
-    /**
-     * Builds the user for authentication.
-     *
-     * @param user
-     *            the user
-     * @param authorities
-     *            the authorities
-     * @return the user
-     */
-    private User buildUserForAuthentication(com.cdb.model.entities.User user,
-            List<GrantedAuthority> authorities) {
-
-        return new User(user.getUsername(), user.getPassword(),
-                user.isEnabled(), true, true, true, authorities);
-
-    }
-
-    /**
-     * Builds the user authority.
-     *
-     * @param userRoles
-     *            the user roles
-     * @return the list
-     */
-    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
-        Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
-        for (UserRole userRole : userRoles) {
-            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
-        }
-
-        List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(
-                setAuths);
-        return result;
-
-    }
+    return Result;
+  }
 
 }

@@ -76,8 +76,6 @@ public class PageDtoMapper {
             MultiValueMap<String, String> parameters, PageDto currentPage) {
 
         LOGGER.info("Mapping RequestServlet in PageDto");
-
-        LOGGER.info(currentPage.toString());
         PageDtoBuilder builder = new PageDtoBuilder();
         int numPage = currentPage.getNumPage();
         int rowByPage = currentPage.getRowByPage();
@@ -127,7 +125,7 @@ public class PageDtoMapper {
         } else {
 
             builder.filter(parameters.getFirst("search"));
-            builder.numPage(numPage);
+            builder.numPage(1);
 
         }
 
