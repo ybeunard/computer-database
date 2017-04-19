@@ -38,7 +38,6 @@
 		$('#remember_me').click(function() {
 
 			if ($('#remember_me').is(':checked')) {
-				// save username and password
 				localStorage.usrname = $('#username').val();
 				localStorage.pass = $('#pass').val();
 				localStorage.chkbx = $('#remember_me').val();
@@ -113,7 +112,6 @@
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
 					</form>
-					<a id="Logout">Logout</a>
 					
 				</div>
 			</div>

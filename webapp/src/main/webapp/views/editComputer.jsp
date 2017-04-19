@@ -20,9 +20,12 @@
         <div class="container">
             <a class="navbar-brand" href="dashboard.html?search="> Application - Computer Database </a>
      		<div class="language">
+     			<c:if test="${not empty username}"><button disabled>${username}</button></c:if>
 	    	    <a class="align-middle" href="editComputer.html?locale=en"><span class="lang-lg" lang="en"></span></a>
 		     	<a class="align-middle" href="editComputer.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
-	       		<a href="login.html?logout"><button class="btn btn-primary"><spring:message code="logoutmessage.springmvc"/></button></a>
+	       		<c:if test="${not empty username}"><a id="Logout" href="login.html?logout"><button>
+						<spring:message code="logoutmessage.springmvc" />
+					</button></a></c:if>
 	       	</div>
         </div>
     </header>

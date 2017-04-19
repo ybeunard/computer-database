@@ -4,8 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -22,7 +23,6 @@ import com.cdb.services.Impl.ComputerService;
 import com.cdb.utils.Parse;
 import com.cdb.utils.mappers.ComputerMapper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditComputerController.
  */
@@ -100,13 +100,13 @@ public class EditComputerController {
      * @return the model and view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView editComputerGet(HttpServletRequest request,
-            Model model) {
+    public ModelAndView editComputerGet(HttpServletRequest request) {
 
         LOGGER.info("EditComputerController: GET");
+        ModelAndView model = new ModelAndView("editComputer");
         recoveryDisplayEditComputer(request, model);
-        model.addAttribute("computerDto", new ComputerDto());
-        return new ModelAndView("editComputer");
+        model.addObject("computerDto", new ComputerDto());
+        return model;
 
     }
 
@@ -126,20 +126,23 @@ public class EditComputerController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView editComputerPost(
             @ModelAttribute("computerDto") @Validated ComputerDto computerDto,
-            BindingResult result, HttpServletRequest request, Model model) {
+            BindingResult result, HttpServletRequest request) {
 
         LOGGER.info("EditComputerController: POST");
+        ModelAndView model = new ModelAndView();
 
         if (!result.hasErrors()) {
 
             computerService.updateComputer(
                     ComputerMapper.recoveryComputer(computerDto));
-            return new ModelAndView("redirect:/dashboard.html");
+            model.setViewName("redirect:/dashboard.html");
+            return model;
 
         } else {
 
             recoveryDisplayEditComputer(request, model);
-            return new ModelAndView("editComputer");
+            model.setViewName("editComputer");
+            return model;
 
         }
 
@@ -154,11 +157,24 @@ public class EditComputerController {
      *            the model
      */
     private void recoveryDisplayEditComputer(HttpServletRequest request,
-            Model model) {
+            ModelAndView model) {
 
         long id = Parse.parseLong(request.getParameter("id"), 0);
-        model.addAttribute("computer", computerService.findComputerById(id));
-        model.addAttribute("companies", companyService.findCompanies());
+        model.addObject("computer", computerService.findComputerById(id));
+        model.addObject("companies", companyService.findCompanies());
+        Object principal = SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+
+            String username = ((UserDetails) principal).getUsername();
+            if (!username.equals("anonymousUser")) {
+
+                model.addObject("username", username);
+
+            }
+
+        }
 
     }
 

@@ -3,6 +3,8 @@ package com.cdb.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -128,6 +130,19 @@ public class DashboardController {
         } finally {
             model.addObject("message", message);
             message = "";
+            Object principal = SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal();
+
+            if (principal instanceof UserDetails) {
+
+                String username = ((UserDetails) principal).getUsername();
+                if (!username.equals("anonymousUser")) {
+
+                    model.addObject("username", username);
+
+                }
+
+            }
         }
 
     }

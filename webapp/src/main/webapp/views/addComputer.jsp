@@ -22,9 +22,12 @@
         <div class="container">
             <a class="navbar-brand" href="dashboard.html?search="> Application - Computer Database </a>
 	   	    <div class="language">
+	   	    	<c:if test="${not empty username}"><button disabled>${username}</button></c:if>
 	    	    <a class="align-middle" href="addComputer.html?locale=en"><span class="lang-lg" lang="en"></span></a>
 		     	<a class="align-middle" href="addComputer.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
-	       		<a href="login.html?logout"><button class="btn btn-primary"><spring:message code="logoutmessage.springmvc"/></button></a>
+	       		<c:if test="${not empty username}"><a id="Logout" href="login.html?logout"><button>
+						<spring:message code="logoutmessage.springmvc" />
+					</button></a></c:if>
 	       	</div>
         </div>
     </header>
@@ -127,8 +130,5 @@
 	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/addComputer.js"></script>
 	<script src="js/dynamic_companies.js"></script>
-
-
->>>>>>> 78a33fe93fb2b501a33d2f6a11a79b23934f1f93
 </body>
 </html>
