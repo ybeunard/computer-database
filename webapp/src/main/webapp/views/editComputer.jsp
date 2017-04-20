@@ -41,21 +41,50 @@
                     <form:form action="editComputer.html" modelAttribute="computerDto" method="POST">
                         <form:input path="id" type="hidden" name="computer" value="${computer.id}" id="id"/>
                         <fieldset>
-                            <div class="form-group">
-                                <label for="computerName"><spring:message code="name.springmvc" text="default text" /></label>
-                                <form:input path="name" type="text" name="computerName" class="form-control" id="computerName" value="${computer.name}" onfocus="if(this.value=='${computer.name}'){this.value=''}" onblur="if(this.value==''){this.value = '${computer.name}'}"/>
-								<form:errors path="name" />
-                            </div>
-                            <div class="form-group">
-                                <label for="introduced"><spring:message code="introduced.springmvc" text="default text" /></label>
+                        							<spring:bind path="name">
+								<div class="form-group">
+									<label for="name"><spring:message code="name.springmvc"
+											text="default text" /></label>
+	                                <form:input path="name" type="text" name="computerName" class="form-control" id="computerName" value="${computer.name}" onfocus="if(this.value=='${computer.name}'){this.value=''}" onblur="if(this.value==''){this.value = '${computer.name}'}"/>
+								</div>
+								<c:if test="${status.error}">
+									<div class="alert alert-danger fade in">
+										<form:errors path="name" />
+									</div>
+								</c:if>
+							</spring:bind>
+
+							<spring:bind path="introduced">
+
+								<div class="form-group">
+									<label for="introduced"><spring:message
+											code="introduced.springmvc" text="default text" /></label>
                                 <form:input path="introduced" type="date" name="introduced" class="form-control" id="introduced" placeholder="yyyy-mm-dd" value="${computer.introduced}"/>
-								<form:errors path="introduced" />
-                            </div>
-                            <div class="form-group">
-                                <label for="discontinued"><spring:message code="discontinued.springmvc" text="default text" /></label>
-                                <form:input path="discontinued" type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd" value="${computer.discontinued}"/>
-								<form:errors path="discontinued" />
-                            </div>
+
+								</div>
+								<c:if test="${status.error}">
+									<div class="alert alert-danger fade in">
+										<form:errors path="introduced" />
+									</div>
+								</c:if>
+							</spring:bind>
+
+
+							<spring:bind path="discontinued">
+								<div class="form-group">
+									<label for="discontinued"><spring:message
+											code="discontinued.springmvc" text="default text" /></label>
+                                	<form:input path="discontinued" type="date" name="discontinued" class="form-control" id="discontinued" placeholder="yyyy-mm-dd" value="${computer.discontinued}"/>
+
+								</div>
+								<c:if test="${status.error}">
+									<div class="alert alert-danger fade in">
+										<form:errors path="discontinued" />
+									</div>
+								</c:if>
+							</spring:bind>
+
+
                             <div class="form-group">
                                 <label for="companyId"><spring:message
                                         code="company.springmvc" text="default text" /></label> <input
@@ -74,17 +103,20 @@
                                     name="company" id="companyId">
                                      <option id="${computer.idCompany}" value="${computer.idCompany}" >${computer.company}</option>
                                 </form:select>
-                                
-                                <form:errors path="idCompany" />
-                            </div>
-                        <c:if test="${not empty error}">
-                        	<div class="alert alert-danger">${error}</div>
-                        </c:if>
-                        <div class="actions pull-right">
-                            <input type="submit" name="action" class="btn btn-primary" value="<spring:message code="boutonEdit.springmvc" text="default text" />"/>
-                            <spring:message code="or.springmvc" text="default text" />
-                            <a href="dashboard.html" class="btn btn-default"><spring:message code="cancel.springmvc" text="default text" /></a>
-                        </div>
+
+								<form:errors path="idCompany" />
+							</div>
+						</fieldset>
+						<c:if test="${not empty error}">
+							<div class="alert alert-danger">${error}</div>
+						</c:if>
+						<div class="actions pull-right">
+							<input type="submit" name="action" class="btn btn-primary"
+								value="<spring:message code="boutonAdd.springmvc" text="default text" />" />
+							<spring:message code="or.springmvc" text="default text" />
+							<a href="dashboard.html" class="btn btn-default"><spring:message
+									code="cancel.springmvc" text="default text" /></a>
+						</div>         
                     </form:form>
                 </div>
             </div>

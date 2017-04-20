@@ -83,21 +83,21 @@
 					<form class="form-signin" name='loginForm'
 						action="<c:url value='/login.html' />" method='POST'
 						style="align: center">
-						<h2 class="form-signin-heading">Please sign in</h2>
+						<h2 class="form-signin-heading"><spring:message code="please.login"/></h2>
 						<fieldset>
 							<div class="form-group">
 
 
-								<label><h3>User:</h3></label> <input type='text' name='username'
-								class="form-control" placeholder="UserName" id="username" />
+								<label><h3><spring:message code="user.login"/>:</h3></label> <input type='text' name='username'
+								class="form-control" placeholder="<spring:message code="username.login"/>" id="username" />
 
 							</div>
 							<div class="form-group">
-								<label><h3>Password :</h3></label> <input type='password'
-									name='password' class="form-control" placeholder="Password"
+								<label><h3><spring:message code="password.login"/> :</h3></label> <input type='password'
+									name='password' class="form-control" placeholder="<spring:message code="password.login"/>"
 									id="pass" /> <label class="checkbox"> <input
 									type="checkbox" value="remember-me" id="remember_me"
-									required="false"> Remember me
+									required="false"><spring:message code="remember.login"/>
 								</label>
 							</div>
 						</fieldset>
@@ -115,8 +115,7 @@
 
 						<div class="form-group">
 
-							<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-								in</button>
+							<button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="signin.login"/></button>
 
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
