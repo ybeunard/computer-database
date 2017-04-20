@@ -1,10 +1,16 @@
 package com.cdb.model.dto;
 
-// TODO: Auto-generated Javadoc
+import java.io.Serializable;
+
 /**
  * The Class CompanyDto.
  */
-public class CompanyDto {
+public class CompanyDto implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /** The id. */
     private long id;

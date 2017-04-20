@@ -1,9 +1,16 @@
 package com.cdb.model.dto;
 
+import java.io.Serializable;
+
 /**
  * The Class ComputerDto.
  */
-public class ComputerDto {
+public class ComputerDto implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /** The id. */
     private long id;
