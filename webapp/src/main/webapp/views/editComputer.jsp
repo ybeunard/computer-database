@@ -126,6 +126,13 @@
     <script src="js/jquery.validate.min.js"></script>
     <script src="js/addComputer.js"></script>
     <script src="js/dynamic_companies.js"></script>
+    <script src="js/notify.min.js"></script>
+    <script>
+	    if ("${message}" != "") {
+			console.log("${message}");
+			$.notify("${message}");
+		}
+    </script>
     
 </body>
 </html>

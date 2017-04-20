@@ -131,17 +131,23 @@ public class ComputerDtoValidation implements Validator {
             }
 
             if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
-
-                try {
-
-                    Parse.parseDate(date);
-                    return true;
-
-                } catch (DateTimeParseException e) {
-
-                    return false;
-
-                }
+            	int d = Integer.parseInt(date.substring(0, 4));
+            	if (d > 1970 && d < 2038)
+            	{
+	            	try {
+	
+	                    Parse.parseDate(date);
+	                    return true;
+	
+	                } catch (DateTimeParseException e) {
+	
+	                    return false;
+	
+	                }
+            	}
+            	else {
+            		return false;
+            	}
 
             }
 

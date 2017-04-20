@@ -30,6 +30,8 @@ import com.cdb.utils.mappers.ComputerMapper;
 @RequestMapping("/editComputer.html")
 public class EditComputerController {
 
+	private String message = "";
+	
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
             .getLogger(EditComputerController.class);
@@ -160,20 +162,24 @@ public class EditComputerController {
             ModelAndView model) {
 
         long id = Parse.parseLong(request.getParameter("id"), 0);
-        model.addObject("computer", computerService.findComputerById(id));
-        model.addObject("companies", companyService.findCompanies());
-        Object principal = SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-
-            String username = ((UserDetails) principal).getUsername();
-            if (!username.equals("anonymousUser")) {
-
-                model.addObject("username", username);
-
-            }
-
+        try {
+        	model.addObject("computer", computerService.findComputerById(id));
+        } catch (RuntimeException exception) {
+        	message = exception.getMessage();
+        } finally {
+            model.addObject("message", message);
+            message = "";
+	        model.addObject("companies", companyService.findCompanies());
+	        Object principal = SecurityContextHolder.getContext()
+	                .getAuthentication().getPrincipal();
+	
+	        if (principal instanceof UserDetails) {
+	
+	            String username = ((UserDetails) principal).getUsername();
+	            if (!username.equals("anonymousUser")) {
+	                model.addObject("username", username);
+	            }
+	        }
         }
 
     }
