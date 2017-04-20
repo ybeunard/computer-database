@@ -28,10 +28,10 @@
 				<a class="align-middle" href="dashboard.html?locale=en"><span
 					class="lang-lg" lang="en"></span></a> <a class="align-middle"
 					href="dashboard.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
-				<c:if test="${not empty username}"><a id="Logout" href="login.html?logout"><button>
+				<c:if test="${not empty username}"><a id="Logout" href="login.html?logout"><button class="btn btn-primary" style="margin-top:-10" >
 						<spring:message code="logoutmessage.springmvc" />
 					</button></a></c:if>
-					<c:if test="${empty username}"><a id="Logout" href="login.html"><button>
+					<c:if test="${empty username}"><a id="Logout" href="login.html"><button class="btn btn-primary" style="margin-top:-10" >
 						<spring:message code="loginmessage.springmvc" />
 					</button></a></c:if>
 			</div>

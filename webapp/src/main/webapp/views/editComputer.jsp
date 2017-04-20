@@ -23,7 +23,7 @@
      			<c:if test="${not empty username}"><button disabled>${username}</button></c:if>
 	    	    <a class="align-middle" href="editComputer.html?locale=en"><span class="lang-lg" lang="en"></span></a>
 		     	<a class="align-middle" href="editComputer.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
-	       		<c:if test="${not empty username}"><a id="Logout" href="login.html?logout"><button>
+	       		<c:if test="${not empty username}"><a id="Logout" href="login.html?logout"><button class="btn btn-primary" style="margin-top:-10" >
 						<spring:message code="logoutmessage.springmvc" />
 					</button></a></c:if>
 	       	</div>
