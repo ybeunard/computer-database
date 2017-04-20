@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cdb.model.dto.ComputerDto;
 import com.cdb.services.Impl.CompanyService;
@@ -141,7 +142,7 @@ public class AddComputerController {
         }
 
     }
-
+    
     /**
      * Recuperation model affichage add computer.
      *

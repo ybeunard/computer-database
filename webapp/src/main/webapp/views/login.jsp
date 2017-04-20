@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page session="true"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="page" tagdir="/WEB-INF/tags"%>
+
 <html>
 <head>
 <title>Login Page</title>
@@ -19,6 +22,8 @@
 	media="screen">
 <link href="<c:url value="/css/main.css"/>" rel="stylesheet"
 	media="screen">
+<link href="<c:url value="/css/languages.min.css"/>" rel="stylesheet"
+	media="screen" />
 
 </head>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -58,7 +63,12 @@
 		<div class="container">
 			<a class="navbar-brand" href="dashboard.html?search=">
 				Application - Computer Database </a>
+			<div class="language">
+	    	    <a class="align-middle" href="login.html?locale=en"><span class="lang-lg" lang="en"></span></a>
+		     	<a class="align-middle" href="login.html?locale=fr"><span class="lang-lg" lang="fr"></span></a>
+	       	</div>
 		</div>
+		
 	</header>
 
 	<section id="main">
@@ -66,28 +76,28 @@
 			<div class="row">
 
 				<div id="login-box">
-					<h1>Security Login Form</h1>
-					<h3>Login with Username and Password</h3>
+					<h1><spring:message code="title.login"/></h1>
+					<h3><spring:message code="subtitle.login"/></h3>
 
 
 					<form class="form-signin" name='loginForm'
 						action="<c:url value='/login.html' />" method='POST'
 						style="align: center">
-						<h2 class="form-signin-heading">Please sign in</h2>
+						<h2 class="form-signin-heading"><spring:message code="please.login"/></h2>
 						<fieldset>
 							<div class="form-group">
 
 
-								<label><h3>User:</h3></label> <input type='text' name='username'
-								class="form-control" placeholder="UserName" id="username" />
+								<label><h3><spring:message code="user.login"/>:</h3></label> <input type='text' name='username'
+								class="form-control" placeholder="<spring:message code="username.login"/>" id="username" />
 
 							</div>
 							<div class="form-group">
-								<label><h3>Password :</h3></label> <input type='password'
-									name='password' class="form-control" placeholder="Password"
+								<label><h3><spring:message code="password.login"/> :</h3></label> <input type='password'
+									name='password' class="form-control" placeholder="<spring:message code="password.login"/>"
 									id="pass" /> <label class="checkbox"> <input
 									type="checkbox" value="remember-me" id="remember_me"
-									required="false"> Remember me
+									required="false"><spring:message code="remember.login"/>
 								</label>
 							</div>
 						</fieldset>
@@ -105,8 +115,7 @@
 
 						<div class="form-group">
 
-							<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-								in</button>
+							<button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="signin.login"/></button>
 
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"

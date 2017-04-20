@@ -148,13 +148,12 @@
 	$('#pagination-demo').twbsPagination({
 	    initiateStartPageClick: false,
 	    startPage: ${currentPage.numPage},
-	    totalPages: ${currentPage.nbComputer / currentPage.rowByPage},
+	    totalPages: ${(currentPage.nbComputer / currentPage.rowByPage) + 1},
 	    visiblePages: 7,
 	    onPageClick: function (event, page) {
 	        window.location.href = "dashboard.html?numPage=" + (page);
 	    }
 	});
-	console.log("${message}");
 	if ("${message}" != "") {
 		console.log("${message}");
 		$.notify("${message}");
