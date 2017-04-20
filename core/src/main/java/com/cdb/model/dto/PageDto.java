@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * The Class PageDto.
  */
-public class PageDto implements Serializable{
+public class PageDto implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -34,9 +34,12 @@ public class PageDto implements Serializable{
 
     /** The desc. */
     private final boolean desc;
-    
+
+    /**
+     * Instantiates a new page dto.
+     */
     public PageDto() {
-        
+
         this.content = new ArrayList<ComputerDto>();
         this.numPage = 1;
         this.rowByPage = 10;
@@ -44,9 +47,9 @@ public class PageDto implements Serializable{
         this.filter = "";
         this.sort = "";
         this.desc = false;
-        
+
     }
-    
+
     /**
      * Instantiates a new page dto.
      *
@@ -410,10 +413,10 @@ public class PageDto implements Serializable{
     @Override
     public String toString() {
 
-        return "PageDto [content=" + content + ", numPage="
-                + numPage + ", rowByPage=" + rowByPage + ", nbComputer="
-                + nbComputer + ", filter=" + filter + ", sort=" + sort
-                + ", desc=" + desc + "]";
+        return "PageDto [content=" + content + ", numPage=" + numPage
+                + ", rowByPage=" + rowByPage + ", nbComputer=" + nbComputer
+                + ", filter=" + filter + ", sort=" + sort + ", desc=" + desc
+                + "]";
 
     }
 

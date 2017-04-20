@@ -1,42 +1,51 @@
 package com.cdb.dao.Impl.Exception;
 
 /**
- * @author	Gajovski Maxime
- * @date	18 avr. 2017
+ * The Class IdException.
+ *
+ * @author Gajovski Maxime
  */
 public class IdException extends IllegalArgumentException {
-  
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
- 
-  public IdException() {
-      super();
-  }
 
-  /**
-   * Constructor with message and error field.
-   * @param message : the error message.
-   * @param error : the error.
-   */
-  public IdException(String message, Throwable error) {
-      super(message, error);
-  }
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * Constructor with message field.
-   * @param message : the error message.
-   */
-  public IdException(String message) {
-      super(message);
-  }
+    /**
+     * Instantiates a new id exception.
+     */
+    public IdException() {
+        super();
+    }
 
-  /**
-   * Constructor with error field.
-   * @param error : the error.
-   */
-  public IdException(Throwable error) {
-      super(error);
-  }
+    /**
+     * Constructor with message and error field.
+     *
+     * @param message
+     *            : the error message.
+     * @param error
+     *            : the error.
+     */
+    public IdException(String message, Throwable error) {
+        super(message, error);
+    }
+
+    /**
+     * Constructor with message field.
+     *
+     * @param message
+     *            : the error message.
+     */
+    public IdException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor with error field.
+     *
+     * @param error
+     *            : the error.
+     */
+    public IdException(Throwable error) {
+        super(error);
+    }
 }

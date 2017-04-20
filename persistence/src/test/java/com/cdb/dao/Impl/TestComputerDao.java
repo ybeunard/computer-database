@@ -23,14 +23,24 @@ import com.cdb.model.entities.Computer;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TestComputerDao.
+ */
 public class TestComputerDao extends TestCase {
 
+    /** The context. */
     private ApplicationContext context;
 
+    /** The dao. */
     private ComputerDao dao;
 
+    /** The prop. */
     private Properties prop = new Properties();
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
 
@@ -47,6 +57,9 @@ public class TestComputerDao extends TestCase {
 
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     @Override
     protected void tearDown() throws Exception {
 
@@ -54,6 +67,12 @@ public class TestComputerDao extends TestCase {
 
     }
 
+    /**
+     * Cleanly insert dataset.
+     *
+     * @param dataSet the data set
+     * @throws Exception the exception
+     */
     private void cleanlyInsertDataset(IDataSet dataSet) throws Exception {
 
         IDatabaseTester databaseTester = new JdbcDatabaseTester(
@@ -67,6 +86,12 @@ public class TestComputerDao extends TestCase {
 
     }
 
+    /**
+     * Read data set 2.
+     *
+     * @return the i data set
+     * @throws Exception the exception
+     */
     private IDataSet readDataSet2() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
@@ -74,6 +99,12 @@ public class TestComputerDao extends TestCase {
 
     }
 
+    /**
+     * Read data set 1.
+     *
+     * @return the i data set
+     * @throws Exception the exception
+     */
     private IDataSet readDataSet1() throws Exception {
 
         return new FlatXmlDataSetBuilder().build(
@@ -81,6 +112,9 @@ public class TestComputerDao extends TestCase {
 
     }
     
+    /**
+     * Test find computer by page.
+     */
     @Test
     public void testFindComputerByPage() {
         
@@ -108,6 +142,9 @@ public class TestComputerDao extends TestCase {
         
     }
     
+    /**
+     * Test find computer by page num page zero.
+     */
     @Test
     public void testFindComputerByPageNumPageZero() {
         
@@ -123,6 +160,9 @@ public class TestComputerDao extends TestCase {
         
     }
     
+    /**
+     * Test find computer by page row by page zero.
+     */
     @Test
     public void testFindComputerByPageRowByPageZero() {
         
@@ -138,6 +178,9 @@ public class TestComputerDao extends TestCase {
         
     }
     
+    /**
+     * Test find computer by page sort name desc.
+     */
     @Test
     public void testFindComputerByPageSortNameDesc() {
         
@@ -163,6 +206,9 @@ public class TestComputerDao extends TestCase {
         
     }
     
+    /**
+     * Test find computer by page sort company asc.
+     */
     @Test
     public void testFindComputerByPageSortCompanyAsc() {
         
@@ -189,6 +235,9 @@ public class TestComputerDao extends TestCase {
         
     }
     
+    /**
+     * Test find computer by page sort company desc.
+     */
     @Test
     public void testFindComputerByPageSortCompanyDesc() {
         
@@ -223,6 +272,9 @@ public class TestComputerDao extends TestCase {
     /** The Constant logger. */
     public final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
     
+    /**
+     * Test find computer by page sort introduced asc.
+     */
     @Test
     public void testFindComputerByPageSortIntroducedAsc() {
         
@@ -239,6 +291,9 @@ public class TestComputerDao extends TestCase {
         
     }
     
+    /**
+     * Test find computer by page sort introduced desc.
+     */
     @Test
     public void testFindComputerByPageSortIntroducedDesc() {
         

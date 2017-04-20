@@ -3,6 +3,7 @@ package com.cdb.dao;
 import java.util.List;
 import com.cdb.model.entities.Company;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface InterfaceCompanyDao.
  */
@@ -72,6 +73,13 @@ public interface InterfaceCompanyDao {
      */
     long countCompanyByName(String filter);
 
+    /**
+     * Find company by filter.
+     *
+     * @param name
+     *            the name
+     * @return the list
+     */
     List<Company> findCompanyByFilter(String name);
 
 }

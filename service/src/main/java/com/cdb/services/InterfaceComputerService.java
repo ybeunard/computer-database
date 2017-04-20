@@ -6,6 +6,7 @@ import com.cdb.model.dto.ComputerDto;
 import com.cdb.model.dto.PageDto;
 import com.cdb.model.entities.Computer;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface InterfaceComputerService.
  */
@@ -14,16 +15,7 @@ public interface InterfaceComputerService {
     /**
      * Find ordinateur by page.
      *
-     * @param numPage
-     *            the num page
-     * @param rowByPage
-     *            the row by page
-     * @param filter
-     *            the filter
-     * @param sort
-     *            the sort
-     * @param desc
-     *            the desc
+     * @param page the page
      * @return the optional
      */
     PageDto findComputerByPage(PageDto page);
@@ -60,5 +52,13 @@ public interface InterfaceComputerService {
      *            the id
      */
     void deleteComputer(List<Long> id);
+
+    /**
+     * Suppression ordinateur by one id.
+     *
+     * @param id
+     *            the id
+     */
+    void deleteOneComputer(Long id);
 
 }

@@ -31,22 +31,9 @@ public class PageDtoMapper {
     /**
      * Recuperation page.
      *
-     * @param computers
-     *            the computers
-     * @param nbComputer
-     *            the nb computer
-     * @param numPage
-     *            the num page
-     * @param rowByPage
-     *            the row by page
-     * @param pageMax
-     *            the page max
-     * @param filter
-     *            the filter
-     * @param sort
-     *            the sort
-     * @param desc
-     *            the desc
+     * @param computers            the computers
+     * @param page the page
+     * @param nbComputer            the nb computer
      * @return the page dto
      */
     public static PageDto recoveryPage(List<Computer> computers, PageDto page,
@@ -68,8 +55,8 @@ public class PageDtoMapper {
     /**
      * Recuperation dashboard request get.
      *
-     * @param request
-     *            the request
+     * @param parameters the parameters
+     * @param currentPage the current page
      * @return the dashboard dto
      */
     public static PageDto recoveryPageDtoRequestGet(
@@ -102,20 +89,20 @@ public class PageDtoMapper {
 
             int newRowByPage = Parse
                     .parseEntier(parameters.getFirst("rowByPage"), rowByPage);
-            
+
             if (newRowByPage != rowByPage) {
-                
+
                 if (newRowByPage == 10 || newRowByPage == 50 || newRowByPage == 100) {
-                    
+
                     rowByPage = newRowByPage;
                     builder.numPage(1);
-                    
+
                 }
-                
+
             }
-                
+
             builder.rowByPage(rowByPage);
-            
+
         }
 
         if (parameters.get("search") == null) {
@@ -153,8 +140,7 @@ public class PageDtoMapper {
     /**
      * Recuperation list suppresion request post.
      *
-     * @param request
-     *            the request
+     * @param parameters the parameters
      * @return the list
      */
     public static List<Long> recoveryListDeleteRequestPost(

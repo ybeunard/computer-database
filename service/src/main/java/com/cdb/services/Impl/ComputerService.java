@@ -52,23 +52,13 @@ public class ComputerService implements InterfaceComputerService {
     /**
      * recovery PageDto.
      *
-     * @param numPage
-     *            the current page
-     * @param rowByPage
-     *            the number of row by page
-     * @param filter
-     *            filter by name
-     * @param sort
-     *            sort by name or company
-     * @param desc
-     *            sort desc or asc
-     *
+     * @param page
+     *            the page
      * @return PageDto
-     *
      */
     @Override
     public PageDto findComputerByPage(PageDto page) {
-        
+
         LOGGER.info("Service : search computer by page");
         long nbComputer = 0;
         List<Computer> computers = new ArrayList<Computer>();
@@ -76,14 +66,15 @@ public class ComputerService implements InterfaceComputerService {
         if (page.getFilter() == null || page.getFilter().equals("")) {
 
             nbComputer = computerDao.countComputer();
-            computers = computerDao.findComputerByPage(page.getNumPage(), page.getRowByPage(),
-                    page.getSort(), page.getDesc());
+            computers = computerDao.findComputerByPage(page.getNumPage(),
+                    page.getRowByPage(), page.getSort(), page.getDesc());
 
         } else {
 
             nbComputer = computerDao.countComputerByName(page.getFilter());
-            computers = computerDao.findComputerByName(page.getNumPage(), page.getRowByPage(), page.getFilter(),
-                    page.getSort(), page.getDesc());
+            computers = computerDao.findComputerByName(page.getNumPage(),
+                    page.getRowByPage(), page.getFilter(), page.getSort(),
+                    page.getDesc());
 
         }
 
@@ -154,6 +145,22 @@ public class ComputerService implements InterfaceComputerService {
             computerDao.deleteComputer(identifiant);
 
         }
+
+    }
+
+    /**
+     * delete computers.
+     *
+     * @param id
+     *            The list of computer delete
+     */
+    @Transactional
+    @Override
+    public void deleteOneComputer(Long id) {
+
+        LOGGER.info("Service: delete computer");
+
+        computerDao.deleteComputer(id);
 
     }
 

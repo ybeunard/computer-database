@@ -140,17 +140,24 @@ public class Parse {
         return null;
 
     }
-    
+
+    /**
+     * Parses the boolean.
+     *
+     * @param bool the bool
+     * @param defaultValue the default value
+     * @return true, if successful
+     */
     public static boolean parseBoolean(String bool, boolean defaultValue) {
-        
+
         if (bool != null && !bool.equals("")) {
-            
+
             return Boolean.parseBoolean(bool);
 
         }
-        
+
         return defaultValue;
-        
+
     }
 
 }

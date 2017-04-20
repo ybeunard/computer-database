@@ -25,42 +25,70 @@ import com.cdb.services.InterfaceUserService;
  */
 public class UserService implements UserDetailsService, InterfaceUserService {
 
-  /** The Constant LOGGER. */
-  public static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-  @Autowired
-  private UserDao userDao;
+    /** The Constant LOGGER. */
+    public static final Logger LOGGER = LoggerFactory
+            .getLogger(UserService.class);
 
-  @Transactional(readOnly = true)
-  @Override
-  public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+    /** The user dao. */
+    @Autowired
+    private UserDao userDao;
 
-    com.cdb.model.entities.User user = userDao.findByUserName(username);
+    /**
+     * load user by username.
+     *
+     * @param username
+     *            the username
+     * @return userdetails
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public UserDetails loadUserByUsername(final String username)
+            throws UsernameNotFoundException {
 
-    List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
+        com.cdb.model.entities.User user = userDao.findByUserName(username);
 
-    User user2 = buildUserForAuthentication(user, authorities);
-    LOGGER.info(user2.getPassword());
-    return buildUserForAuthentication(user, authorities);
-  }
+        List<GrantedAuthority> authorities = buildUserAuthority(
+                user.getUserRole());
 
-  // Converts com.mkyong.users.model.User user to
-  // org.springframework.security.core.userdetails.User
-  private  User  buildUserForAuthentication(com.cdb.model.entities.User user, List<GrantedAuthority> authorities) {
-    return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
-  }
-
-  private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
-    Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
-    // Build user's authorities
-    for (UserRole userRole : userRoles) {
-      setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+        User user2 = buildUserForAuthentication(user, authorities);
+        LOGGER.info(user2.getPassword());
+        return buildUserForAuthentication(user, authorities);
     }
 
-    List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
+    /**
+     * Builds the user for authentication.
+     *
+     * @param user
+     *            the user
+     * @param authorities
+     *            the authorities
+     * @return the user
+     */
+    private User buildUserForAuthentication(com.cdb.model.entities.User user,
+            List<GrantedAuthority> authorities) {
+        return new User(user.getUsername(), user.getPassword(),
+                user.isEnabled(), true, true, true, authorities);
+    }
 
-    return Result;
-  }
+    /**
+     * Builds the user authority.
+     *
+     * @param userRoles
+     *            the user roles
+     * @return the list
+     */
+    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+
+        Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+
+        for (UserRole userRole : userRoles) {
+            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+        }
+
+        List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(
+                setAuths);
+
+        return result;
+    }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cdb.dao.Impl.CompanyDao;
 import com.cdb.model.dto.CompanyDto;
@@ -61,15 +62,26 @@ public class CompanyService implements InterfaceCompanyService {
 
     }
 
+    /**
+     * find company by page.
+     *
+     * @param numPage
+     *            the numPage
+     * @param rowByPage
+     *            the rowByPage
+     * @param filter
+     *            the filter
+     * @return list company dto
+     */
     @Override
-  public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage, String filter) {
+    public List<CompanyDto> findCompanyByPage(int numPage, int rowByPage,
+            String filter) {
 
         List<Company> companies = new ArrayList<Company>();
         long nbComputer = 0;
         long pageMax = 1;
         LOGGER.info("Service : search company by page");
 
-        
         if (filter == null || filter.equals("")) {
 
             nbComputer = companyDao.countCompany();
@@ -90,7 +102,14 @@ public class CompanyService implements InterfaceCompanyService {
         return CompanyDtoMapper.recoveryListCompany(companies);
 
     }
-    
+
+    /**
+     * find company by filter.
+     *
+     * @param name
+     *            the name
+     * @return list company
+     */
     @Override
     public List<Company> findCompanyByFilter(String name) {
 
@@ -116,9 +135,19 @@ public class CompanyService implements InterfaceCompanyService {
 
     }
 
+    /**
+     * delete computers.
+     *
+     * @param id
+     *            The list of computer delete
+     */
+    @Transactional
     @Override
-    public void deleteCompany(List<Long> id) {
-        // TODO Auto-generated method stub
+    public void deleteOneCompany(Long id) {
+
+        LOGGER.info("Service: delete company");
+
+        companyDao.deleteCompany(id);
 
     }
 

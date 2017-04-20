@@ -10,10 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Computer.
+ */
 @Entity
 @Table(name = "computer")
 public class Computer {
 
+    /** The id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,7 +33,7 @@ public class Computer {
     private LocalDate discontinued;
 
     /** The fabricant. */
-    @ManyToOne    
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -54,12 +59,22 @@ public class Computer {
 
     }
 
+    /**
+     * Gets the introduced.
+     *
+     * @return the introduced
+     */
     public LocalDate getIntroduced() {
 
         return introduced;
 
     }
 
+    /**
+     * Gets the discontinued.
+     *
+     * @return the discontinued
+     */
     public LocalDate getDiscontinued() {
 
         return discontinued;
@@ -77,30 +92,55 @@ public class Computer {
 
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id the new id
+     */
     public void setId(long id) {
 
         this.id = id;
 
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name the new name
+     */
     public void setName(String name) {
 
         this.name = name;
 
     }
 
+    /**
+     * Sets the introduced.
+     *
+     * @param introduced the new introduced
+     */
     public void setIntroduced(LocalDate introduced) {
 
         this.introduced = introduced;
 
     }
 
+    /**
+     * Sets the discontinued.
+     *
+     * @param discontinued the new discontinued
+     */
     public void setDiscontinued(LocalDate discontinued) {
 
         this.discontinued = discontinued;
 
     }
 
+    /**
+     * Sets the company.
+     *
+     * @param company the new company
+     */
     public void setCompany(Company company) {
 
         this.company = company;

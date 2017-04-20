@@ -2,20 +2,35 @@ package com.cdb.ui;
 
 import java.util.Scanner;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-
 /**
  * The Class UserInterpreter.
  */
 public class UserInterpreter {
 
     /** The Constant sc. */
-    public static final Scanner SCANNER = new Scanner(System.in);
+    protected static final Scanner SCANNER = new Scanner(System.in);
 
-    public static final Client CLIENT = ClientBuilder.newClient();
+    /** The Constant SLASH. */
+    protected static final String SLASH = "/";
 
-    public static final String BASE_URL = "http://localhost:8080/rest/";
+    /** The ip. */
+    protected static String ip = "localhost";
+
+    /** The port. */
+    protected static String port = "8080";
+
+    /** The api. */
+    protected static String api = "rest";
+
+    /** The uri. */
+    protected static String uri = "http://" + ip + ":" + port + SLASH + api
+            + SLASH;
+
+    /** The uri computers. */
+    protected static String uriComputers = "computers/";
+
+    /** The uri companies. */
+    protected static String uriCompanies = "companies/";
 
     /**
      * The main method.

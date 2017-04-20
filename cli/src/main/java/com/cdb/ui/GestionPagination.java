@@ -2,8 +2,10 @@ package com.cdb.ui;
 
 import java.util.List;
 
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.cdb.model.dto.CompanyDto;
 import com.cdb.model.dto.ComputerDto;
@@ -14,6 +16,11 @@ import com.cdb.utils.Parse;
  */
 public class GestionPagination {
 
+    /** The rest template. */
+    private static RestTemplate restTemplate = new RestTemplate();
+
+    /** The Constant FILTER. */
+    private static final String FILTER = "filter";
     /** The numero page. */
     private int numPage;
 
@@ -45,7 +52,6 @@ public class GestionPagination {
     public void paging(String typePage) {
 
         numPage = 1;
-        WebTarget target;
 
         do {
 
@@ -53,24 +59,48 @@ public class GestionPagination {
 
             case "computer":
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
-                        .path("computer/find").queryParam("numPage", numPage)
-                        .queryParam("rowByPage", rowByPage);
-                pageComputer = target.request().get()
-                        .readEntity(new GenericType<List<ComputerDto>>() {
-                        });
+                try {
+                    ResponseEntity<List> computers = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriComputers
+                                    + numPage + UserInterpreter.SLASH
+                                    + rowByPage,
+                            List.class);
+
+                    if (computers.getStatusCode() == HttpStatus.OK) {
+                        pageComputer = computers.getBody();
+                        displayPage(typePage);
+                    }
+
+                } catch (RestClientException restClientException) {
+
+                    System.out.println(
+                            "Problem occured when getting computer with page");
+                    restClientException.getMessage();
+
+                }
                 displayPage(typePage);
                 break;
 
             case "company":
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
-                        .path("company/find").queryParam("numPage", numPage)
-                        .queryParam("rowByPage", rowByPage);
-                pageCompany = target.request().get()
-                        .readEntity(new GenericType<List<CompanyDto>>() {
-                        });
-                displayPage(typePage);
+                try {
+                    ResponseEntity<List> companies = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriCompanies
+                                    + numPage + UserInterpreter.SLASH
+                                    + rowByPage,
+                            List.class);
+                    if (companies.getStatusCode() == HttpStatus.OK) {
+                        pageCompany = companies.getBody();
+                        displayPage(typePage);
+                    }
+
+                } catch (RestClientException restClientException) {
+
+                    System.out.println(
+                            "Problem occured when getting company with page");
+                    restClientException.getMessage();
+
+                }
                 break;
 
             default:
@@ -95,39 +125,59 @@ public class GestionPagination {
     public void pagingByName(String typePage, String name) {
 
         numPage = 1;
-        WebTarget target;
 
         do {
 
             switch (typePage) {
 
             case "computer":
+                try {
+                    ResponseEntity<List> computers = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriComputers
+                                    + numPage + UserInterpreter.SLASH
+                                    + rowByPage + UserInterpreter.SLASH + name,
+                            List.class);
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
-                        .path("computer/find").queryParam("numPage", numPage)
-                        .queryParam("rowByPage", rowByPage)
-                        .queryParam("name", name);
-                pageComputer = target.request().get()
-                        .readEntity(new GenericType<List<ComputerDto>>() {
-                        });
-                displayPage(typePage);
+                    if (computers.getStatusCode() == HttpStatus.OK) {
+                        pageComputer = computers.getBody();
+                        displayPage(typePage);
+                    }
+
+                } catch (RestClientException restClientException) {
+
+                    System.out.println(
+                            "Problem occured when getting computer with page and filter");
+                    restClientException.getMessage();
+
+                }
                 break;
 
             case "company":
 
-                target = UserInterpreter.CLIENT.target(UserInterpreter.BASE_URL)
-                        .path("company/find").queryParam("numPage", numPage)
-                        .queryParam("rowByPage", rowByPage)
-                        .queryParam("name", name);
-                pageCompany = target.request().get()
-                        .readEntity(new GenericType<List<CompanyDto>>() {
-                        });
-                displayPage(typePage);
+                try {
+                    ResponseEntity<List> companies = restTemplate.getForEntity(
+                            UserInterpreter.uri + UserInterpreter.uriCompanies
+                                    + UserInterpreter.SLASH + FILTER
+                                    + UserInterpreter.SLASH + name,
+                            List.class);
+
+                    if (companies.getStatusCode() == HttpStatus.OK) {
+                        pageCompany = companies.getBody();
+                        displayPage(typePage);
+                    }
+
+                } catch (RestClientException restClientException) {
+
+                    System.out.println(
+                            "Problem occured when getting company with page and filter");
+                    restClientException.getMessage();
+
+                }
                 break;
 
             default:
 
-                System.out.println("Type de page inconnu");
+                System.out.println("Type de page inconnue");
                 return;
 
             }
@@ -164,7 +214,7 @@ public class GestionPagination {
 
         case "p":
 
-            System.out.println("Entrez le nombre de ligne souhaité :");
+            System.out.println("Entrez le nombre de lignes souhaitées :");
             entry = UserInterpreter.SCANNER.nextLine();
             rowByPage = Parse.parseEntier(entry, 100);
             return true;
@@ -189,9 +239,9 @@ public class GestionPagination {
 
         case "computer":
 
-            for (ComputerDto ordinateur : pageComputer) {
+            for (Object ordinateur : pageComputer) {
 
-                System.out.println(ordinateur);
+                System.out.println(ordinateur.toString());
 
             }
 
@@ -199,9 +249,9 @@ public class GestionPagination {
 
         case "company":
 
-            for (CompanyDto entreprise : pageCompany) {
+            for (Object entreprise : pageCompany) {
 
-                System.out.println(entreprise);
+                System.out.println(entreprise.toString());
 
             }
 
@@ -209,13 +259,13 @@ public class GestionPagination {
 
         default:
 
-            System.out.println("Type de page inconnu");
+            System.out.println("Type de page inconnue");
             return;
 
         }
 
         System.out.println("\npage numero : " + numPage + " , " + rowByPage
-                + " ligne par page \nprecedent taper b\nsuivant taper n\nchanger le nombre de ligne par page taper p\nsortir taper n'importe qu'elle autres touches");
+                + " ligne par page \nprecedent taper b\nsuivant taper n\nchanger le nombre de ligne par page tapez p\nsortir tapez n'importe quelle autre touche");
 
     }
 
