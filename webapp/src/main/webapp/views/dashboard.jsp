@@ -31,7 +31,7 @@
 				<c:if test="${not empty username}"><a id="Logout" href="login.html?logout"><button class="btn btn-primary" style="margin-top:-10" >
 						<spring:message code="logoutmessage.springmvc" />
 					</button></a></c:if>
-					<c:if test="${empty username}"><a id="Logout" href="login.html"><button class="btn btn-primary" style="margin-top:-10" >
+					<c:if test="${empty username}"><a id="Logout" href="login.html"><button id="buttonLogin" class="btn btn-primary" style="margin-top:-10" >
 						<spring:message code="loginmessage.springmvc" />
 					</button></a></c:if>
 			</div>

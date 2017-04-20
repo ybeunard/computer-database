@@ -204,9 +204,7 @@ public class ComputerDao implements InterfaceComputerDao {
     public void createComputer(Computer computer) {
 
         LOGGER.info("Dao: Create computer");
-        LOGGER.error("" + computer.toString());
         Session session = this.sessionFactory.openSession();
-
         session.persist(computer);
         session.flush();
         session.close();

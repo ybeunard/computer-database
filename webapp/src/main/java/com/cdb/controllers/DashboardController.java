@@ -128,6 +128,13 @@ public class DashboardController {
         } catch (RuntimeException exception) {
             message = exception.getMessage();
         } finally {
+            
+            if(parameters.containsKey("error")) {
+                
+                message = parameters.getFirst("error");
+                
+            }
+                
             model.addObject("message", message);
             message = "";
             Object principal = SecurityContextHolder.getContext()

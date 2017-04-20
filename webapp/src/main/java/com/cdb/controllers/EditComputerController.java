@@ -29,8 +29,6 @@ import com.cdb.utils.mappers.ComputerMapper;
 @Controller
 @RequestMapping("/editComputer.html")
 public class EditComputerController {
-
-	private String message = "";
 	
     /** The Constant LOGGER. */
     public static final Logger LOGGER = LoggerFactory
@@ -165,10 +163,8 @@ public class EditComputerController {
         try {
         	model.addObject("computer", computerService.findComputerById(id));
         } catch (RuntimeException exception) {
-        	message = exception.getMessage();
+        	model.setViewName("redirect:/dashboard.html?error="+exception.getMessage());
         } finally {
-            model.addObject("message", message);
-            message = "";
 	        model.addObject("companies", companyService.findCompanies());
 	        Object principal = SecurityContextHolder.getContext()
 	                .getAuthentication().getPrincipal();

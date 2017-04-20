@@ -115,7 +115,7 @@
 
 						<div class="form-group">
 
-							<button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="signin.login"/></button>
+							<button id="buttonConnect" class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="signin.login"/></button>
 
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
